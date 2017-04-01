@@ -1,15 +1,39 @@
-.page-wrapper {
-    height: 200px;
-    width: 400px;
-    background: #cb2d3e;
-
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -100px;
-    margin-left: -200px;
+.container{
+    border: #0b0d0f;
 }
 
-.btn-google{
-    background: #3cba54;
+.row{
+    border-color: #0b0d0f;
+}
+#image-wrapper {
+    position: absolute;
+    margin-left: 400px;
+    margin-top: 250px;
+}
+
+.btn{
+    background: #bfbfbf;
+    border: #0b0d0f;
+    width: 200px;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
+    background-color: #99ddff;
+}
+
+#btn-wrapper{
+    margin-left: 750px;
+    margin-top: 350px;
+}
+
+img{
+    height: 250px;
+    width: 300px;
+}
+
+.footer{
+    position: absolute;
+    font-color: #cccccc;
+    margin-left: 550px;
+    margin-top: 300px;
 }

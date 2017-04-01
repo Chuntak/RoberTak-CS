@@ -8,10 +8,11 @@
     <name>RoberTak-CS</name>
 
     <properties>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
         <spring.version>3.2.11.RELEASE</spring.version>
         <appengine.version>1.9.25</appengine.version>
         <appengine.maven.plugin.version>1.0.0</appengine.maven.plugin.version>
-
         <INSTANCE_CONNECTION_NAME>robertakproto-162817:us-central1:robertak-cs-01</INSTANCE_CONNECTION_NAME>
         <user>root</user>
         <password>RedRobins</password>

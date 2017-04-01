@@ -76,31 +76,38 @@ To change this template use File | Settings | File Templates.
     </script>
 
 </head>
-<body class="page-wrapper">
-
-<div>
-    <h1>Welcome to the Todo List Maker!</h1>
-    <p>The most immersive todo list maker of this century!</p>
-    <form:form id="loadPage" name="loadPage" method="GET" action="/loadPage">
-        <button hidden="hidden" class="btn btn-signout btn-warning" type="submit"></button>
-    </form:form>
-
-    <form:form method="GET" action="/login">
-
-        <div id="login_ID">
-            <div id="gSignInWrapper">
-                <div id="customBtn" class="customGPlusSignIn">
-                    <button type="button" class = "btn btn-google">Sign in with Google</button>
-                </div>
-            </div>
+<body>
+    <div class="row">
+        <div id="image-wrapper">
+            <img src="images/logo.png"/>
         </div>
-        <div id="name"></div>
+            <form:form id="loadPage" name="loadPage" method="GET" action="/loadPage">
+            <button hidden="hidden" class="btn btn-signout btn-warning" type="submit"></button>
+            </form:form>
 
-        <script>startApp();</script>
-    </form:form>
-</div>
+            <form:form method="GET" action="/login">
 
-<link rel="stylesheet" href="<c:url value="/resources/app/css/login.css" />">
+                <div id="login_ID">
+                    <div id="gSignInWrapper">
+                        <div id="customBtn" class="customGPlusSignIn">
+                            <div id="btn-wrapper">
+                            <button type="button" class = "btn btn-lg btn-primary">Sign in</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>startApp();</script>
+            </form:form>
+
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted">2017 RoberTak-CS Red Robins All Rights Reserved.</span>
+            </div>
+        </footer>
+    </div>
+
+    <link rel="stylesheet" href="<c:url value="/resources/app/css/login.css" />">
 
 <!-- JavaScripts -->
 <section>
