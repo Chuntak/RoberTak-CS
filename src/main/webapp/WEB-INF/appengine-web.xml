@@ -8,5 +8,6 @@
         <property name="ae-cloudsql.cloudsql-database-url" value="jdbc:google:mysql://robertakproto-162817:us-central1:robertak-cs-01"/>
         <property name="ae-cloudsql.local-database-url" value="jdbc:mysql://104.197.12.7:3306" />
     </system-properties>
+    <sessions-enabled>true</sessions-enabled>
 </appengine-web-app>
 

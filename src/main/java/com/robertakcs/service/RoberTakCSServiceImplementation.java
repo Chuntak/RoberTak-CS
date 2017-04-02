@@ -15,10 +15,10 @@ import static com.robertakcs.domain.ToDoList.*;
  * Created by Chuntak on 2/12/2017.
  */
 @Service
-public class ToDoListServiceImplementation implements ToDoListServiceInterface {
+public class RoberTakCSServiceImplementation implements RoberTakCSServiceInterface {
     DatastoreService datastoreService;
     @Autowired
-    public ToDoListServiceImplementation(DatastoreServiceFactoryInterface datastoreServiceFactory) {
+    public RoberTakCSServiceImplementation(DatastoreServiceFactoryInterface datastoreServiceFactory) {
         this.datastoreService = datastoreServiceFactory.getDatastoreService();
     }
 

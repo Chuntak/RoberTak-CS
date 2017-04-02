@@ -4,13 +4,16 @@ import java.util.Date;
  * Created by susanlin on 4/1/17.
  */
 public class PersonModel {
-
     private String firstName;
     private String lastName;
     private String userType;
     private Date dob;
-    private String school;
 
+
+
+    private String school;
+    private String email;
+    private int id;
 
     public PersonModel(){
         firstName = "";
@@ -18,6 +21,8 @@ public class PersonModel {
         userType = "";
         dob = new Date();
         school = "";
+        email = "";
+        id = 0;
     }
 
     public String getFirstName(){
@@ -55,5 +60,20 @@ public class PersonModel {
         school = sch;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
 }

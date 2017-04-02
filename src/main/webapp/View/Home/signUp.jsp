@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8"  %>
 
+
 <!-- ADDED BY ROBERT FROM CLANS -->
 
 <!DOCTYPE html>
@@ -32,11 +33,13 @@
 
 </head>
 <body>
+
+
 <div class="container-fluid introduction">
     <div class="jumbotron">
         <p class="header">Welcome to RoberTak-CS</p><br>
-        <p class="subheader">Sign Up</p>
-        <form:form method="GET" modelAttribute="person" action="/signup" class="form-horizontal no-margin" id="form">
+
+        <form:form method="GET" modelAttribute="person" action="/register" class="form-horizontal no-margin" id="form">
 
         <div class="form-group">
             <label class="control-label col-sm-4" for="firstName">First Name:</label>
@@ -60,24 +63,23 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-4" for="dob"> Birthday Date:</label>
-            <div class="col-xs-5">
-                <form:input path="dob" class="form-control form-control-lg" id="dob" value="" name="dob" placeholder="MM/DD/YYYY" type="text"/>
-            </div>
+            <form:input path="email" type="hidden" id="email" value='<%= session.getAttribute("email")%>'/>
         </div>
+        <%--<div class="form-group">--%>
+            <%--<label class="control-label col-sm-4" for="dob"> Birthday Date:</label>--%>
+            <%--<div class="col-xs-5">--%>
+                <%--<form:input path="dob" class="form-control form-control-lg" id="dob" value="" name="dob" placeholder="MM/DD/YYYY" type="text"/>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
-        <form path="userType">Are you a	&nbsp
-            <input type="radio" name="options" checked id="Professor" value="Professor"> Professor
-            <input type="radio" name="options" id="Student" value="Student"> Student
-            &nbsp?
-        </form>
+        <form:radiobutton path="userType" name="options" checked="true" id="Professor" value="prof"/>Professor
+        <form:radiobutton path="userType" name="options" id="Student" value="stud"/>Student
 
         <br><br>
 
         <div>
-            <button class="btn btn-primary" name="submit" type="submit">Submit</button>
+            <input class="btn btn-primary" name="submit" value="Sign Up" type="submit"></input>
         </div>
-
         </form:form>
     </div>
 </div>

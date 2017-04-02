@@ -17,7 +17,7 @@ To change this template use File | Settings | File Templates.
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>TODO LIST MAKER</title>
+    <title>RoberTak-CS</title>
 
 
 
@@ -39,50 +39,21 @@ To change this template use File | Settings | File Templates.
     <link rel="stylesheet" href="<c:url value="/resources/library-vendor/google-code-prettify/prettify.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/library-vendor/google-code-prettify/desert.css" />">
 
-    <!-- jqTree -->
-    <link rel="stylesheet" href="<c:url value="/resources/library-vendor/jqTree-master/jqtree.css" />">
-
     <!-- Pnotify - pinesframework  -->
     <link rel="stylesheet" href="<c:url value="/resources/library-vendor/pnotify/pnotify.custom.min.css" />">
-    <script>
-        var googleUser = {};
-        var startApp = function() {
-            gapi.load('auth2', function(){
-                // Retrieve the singleton for the GoogleAuth library and set up the client.
-                auth2 = gapi.auth2.init({
-                    client_id: '858023592805-rlit5sgi3a4mplhq1fgkk58522brusjo.apps.googleusercontent.com',
-                    cookiepolicy: 'single_host_origin',
-                    // Request scopes in addition to 'profile' and 'email'
-                    //scope: 'additional_scope'
-                });
-                attachSignin(document.getElementById('customBtn'));
-            });
-        };
-
-        function attachSignin(element) {
-
-            console.log(element.id);
-            auth2.attachClickHandler(element, {},
-                function(googleUser) {
-                    var userName = googleUser.getBasicProfile().getName();
-                    var userEmail = googleUser.getBasicProfile().getEmail();
-                    sessionStorage.setItem("userName", userName);
-                    sessionStorage.setItem("email", userEmail);
-                    document.forms["loadPage"].submit();
-                }, function(error) {
-                    alert(JSON.stringify(error, undefined, 2));
-                });
-        }
-    </script>
-
+    <script src="<c:url value="/resources/app/js/signIn.js" />"  type="text/javascript" ></script>
 </head>
-<body>
+
+<body ng-app="signInApp" ng-controller="signInCtrl">
     <div class="row">
         <div id="image-wrapper">
             <img src="images/logo.png"/>
         </div>
-            <form:form id="loadPage" name="loadPage" method="GET" action="/loadPage">
-            <button hidden="hidden" class="btn btn-signout btn-warning" type="submit"></button>
+            <form:form id="signUp" name="signUp" method="GET" action="/signUp">
+                <button hidden="hidden" class="btn btn-signout btn-warning" type="submit"></button>
+            </form:form>
+            <form:form id="index" name="index" method="GET" action="/index">
+                <button hidden="hidden" class="btn btn-signout btn-warning" type="submit"></button>
             </form:form>
 
             <form:form method="GET" action="/login">
@@ -97,7 +68,7 @@ To change this template use File | Settings | File Templates.
                     </div>
                 </div>
 
-                <script>startApp();</script>
+                <%--<script>startApp();</script>--%>
             </form:form>
 
         <footer class="footer">

@@ -29,18 +29,4 @@ app.controller('dbCtrl', function ($scope, $http) {
         $scope.numColumns = count;
     };
 
-    /*function() {
-        debugger;
-        var y = $http({
-            method: 'GET',
-            url: '/requestToDB',
-            params: {sqlQuery: $scope.sqlQuery}
-        }).then(function (response) {
-            debugger;
-            $scope.dbTable = response.data;
-        }, function errorCallBack(response) {
-            debugger;
-            alert("request to DB error\n");
-        });
-    };*/
 });

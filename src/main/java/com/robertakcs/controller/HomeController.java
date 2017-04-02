@@ -5,7 +5,7 @@ import com.robertakcs.databaseConnection.DBSingleton;
 import com.robertakcs.domain.Item;
 import com.robertakcs.domain.ToDoList;
 import com.robertakcs.models.PersonModel;
-import com.robertakcs.service.ToDoListServiceInterface;
+import com.robertakcs.service.RoberTakCSServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -14,14 +14,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.*;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/asdasdadd")
 public class HomeController {
-    ToDoListServiceInterface toDoListService;
+    RoberTakCSServiceInterface toDoListService;
 
     @ModelAttribute("person")
     public PersonModel getPersonModel(){
@@ -29,13 +28,13 @@ public class HomeController {
     }
 
     @Autowired
-    public HomeController(ToDoListServiceInterface todoListService){
+    public HomeController(RoberTakCSServiceInterface todoListService){
         this.toDoListService = todoListService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
-        return "Home/signup";
+        return "Home/signUp";
     }
 
 //    @RequestMapping(value = "/userModel", method = RequestMethod.GET)
@@ -64,7 +63,7 @@ public class HomeController {
     * */
     @RequestMapping(value = "/loadPage_index", method = RequestMethod.GET)
     public String loadPage_index(ModelMap map){
-        return "Home/login";
+        return "Home/signIn";
     }
 
     /*
