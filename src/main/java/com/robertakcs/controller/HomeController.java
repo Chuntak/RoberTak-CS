@@ -4,14 +4,17 @@ import com.google.appengine.api.datastore.Entity;
 import com.robertakcs.databaseConnection.DBSingleton;
 import com.robertakcs.domain.Item;
 import com.robertakcs.domain.ToDoList;
+import com.robertakcs.models.PersonModel;
 import com.robertakcs.service.ToDoListServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.*;
 
@@ -20,6 +23,11 @@ import java.util.*;
 public class HomeController {
     ToDoListServiceInterface toDoListService;
 
+    @ModelAttribute("person")
+    public PersonModel getPersonModel(){
+        return new PersonModel();
+    }
+
     @Autowired
     public HomeController(ToDoListServiceInterface todoListService){
         this.toDoListService = todoListService;
@@ -27,7 +35,7 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
-        return "Home/login";
+        return "Home/signup";
     }
 
 //    @RequestMapping(value = "/userModel", method = RequestMethod.GET)
@@ -40,6 +48,14 @@ public class HomeController {
     * */
     @RequestMapping(value = "/loadPage", method = RequestMethod.GET)
     public String loadPage(ModelMap map){
+        return "Home/index";
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public String register(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, ModelMap map){
+        //map.addAttribute(person);
+        int x=2;
+        x+=3;
         return "Home/index";
     }
 
