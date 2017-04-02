@@ -1,0 +1,39 @@
+body{
+    background-color:#fff;
+}
+
+.jumbotron{
+    margin-bottom: 0; /* Remove the default bottom margin of .jumbotron */
+}
+.form-horizontal{
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 100px;
+    margin-left: 100px;
+}
+
+.form-horizontal {
+    border-radius: 10px;
+}
+
+.introduction {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.form-control-lg{
+    height: 5%;
+}
+
+p.header{
+    font-size: 500%
+}
+
+p.subheader{
+    font-size: 300%;
+}
+
+.form{
+    padding-top: -100px;
+    margin-top: -100px;
+}
