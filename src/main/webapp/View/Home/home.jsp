@@ -19,6 +19,8 @@
     <%--Google Logout End--%>
     <%--Google Logout--%>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<c:url value="/resources/app/css/home.css" />">
+
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
     <!-- Bootst<link rel="stylesheet" media="screen" href="<c:url value="/resources/library-vendor/bootstrap/css/bootstrap.min.css" />" >
@@ -71,17 +73,27 @@ rap -->
     <title>Robertak-CS</title>
 
 </head>
-<body ng-app="homeInApp" ng-controller="homeCtrl" class="container-fluid">
 
 <!--App Content START-->
-<h1><span class="label label-default">Welcome {{userFirstName}}</span></h1>
-<div class="app-wrapper row container-fluid" id="wrapper">
+<body ng-app="homeInApp" ng-controller="homeCtrl">
+<div class="">
+    <img class="inline_header" src="images/logo.png" style="height:60px;width:75px;margin-top:10px;"/>
+    <h2 class="text">&nbspRoberTak-CS</h2>
+    <div class="text-logout">Welcome {{userFirstName}} &nbsp
+        <%--Sign Out button--%>
+        <%--<form:form id="signOut" name="signOut" method="GET" action="/signOut">--%>
+            <%--<a href="#"><input type="button" id="out"></a>--%>
+        <%--</form:form>--%>
+        <form:form id="signOut" name="signOut" method="GET" action="/signOut">
+            <img src="images/logout.png" type="button" class="logout" id="out">
+        </form:form>
+    </div>
+</div>
 
+<div class="app-wrapper row container-fluid" id="wrapper">
     <div id="coursePane" class="col-xs-2 container-fluid">
         <div id="courseLabel" class="row container-fluid">
-            <div>
-                <h4 class="container-fluid">Courses</h4>
-            </div>
+            <div><h4 class="container-fluid">Courses</h4></div>
             <div id="courseSelection" class="row container-fluid pre-scrollable">
                 <%--AngularJS to dynamically load the courses--%>
                 <ul>
@@ -89,8 +101,6 @@ rap -->
                         <a href={{course.courseName}}></a>
                     </li>
                 </ul>
-
-
             </div>
             <div id="courseAddEdit" class="row container-fluid">
                 <button id="addCourse">Add Course</button>
@@ -193,8 +203,6 @@ rap -->
 <!-- CSS START -->
 <section>
     <link rel="stylesheet" href="<c:url value="/resources/app/css/todolist_maker.css" />">
-
-    <link rel="stylesheet" href="<c:url value="/resources/app/css/main.css" />">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 

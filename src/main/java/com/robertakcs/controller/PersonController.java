@@ -72,4 +72,14 @@ public class PersonController {
         // IF USER IS IN DB
 
     }
+
+    /*
+    Signs user out by redirecting to sign in page and removes session & session storage data
+     */
+    @RequestMapping(value ="/signOut", method = RequestMethod.GET)
+    public String signOutUser(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session, ModelMap map){
+        session.invalidate();
+        return "Home/signIn";
+    }
+
 }
