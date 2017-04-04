@@ -66,10 +66,10 @@
 
 /*
     Makes the things panes extend to the bottom
- */
-#courseForm  { display: table;      }
-#courseForm p{ display: table-row;  }
-#courseForm label,#courseForm input, #courseForm select { display: table-cell; }
+ /**!*/
+/*#courseForm  { display: table;      }*/
+/*#courseForm p{ display: table-row;  }*/
+/*#courseForm label,#courseForm input, #courseForm select { display: table-cell; }*/
 #wrapper{
     height: -webkit-calc(100vh - 72px);
     height: -moz-calc(100vh - 72px);
@@ -81,4 +81,8 @@
  */
 input {
     width: 100%;
+}
+
+#public{
+    width: auto;
 }

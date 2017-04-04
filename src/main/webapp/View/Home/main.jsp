@@ -151,11 +151,10 @@ rap -->
                                 </p>
                             </div>
 
-                            <div class="formGroup">
-                                <p>
-                                    <label for="public">Make public?</label>
-                                    <input path="public" type="checkbox" name="public" id="public"/>
-                                </p>
+
+                            <div class="form-check">
+                                <label class="form-check-label" for="public">Make Course Public</label>
+                                    <input class="form-check-input" id="public" type="checkbox">
                             </div>
 
                             <br><br>
