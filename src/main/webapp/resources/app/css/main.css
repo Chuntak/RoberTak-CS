@@ -1,0 +1,84 @@
+.app-wrapper{
+    height: 100%;
+}
+
+/*CSS for Panes*/
+#tabPane{
+    border-style: solid;
+    height: 100%;
+}
+
+#coursePane{
+    border-style: solid;
+    height:100%;
+}
+
+#forumPane{
+    border-style: solid;
+    height:100%;
+}
+/*CSS for the things inside the course pane*/
+#courseSelection,#courseAddEdit,#courseRegister,#courseSearch{
+    border:1px solid black;
+    border-collapse: collapse;
+    padding-top:5px ;
+    padding-bottom: 5px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+/*END OF MODAL CSS */
+
+
+/*
+    Makes the things panes extend to the bottom
+ */
+#courseForm  { display: table;      }
+#courseForm p{ display: table-row;  }
+#courseForm label,#courseForm input, #courseForm select { display: table-cell; }
+#wrapper{
+    height: -webkit-calc(100vh - 72px);
+    height: -moz-calc(100vh - 72px);
+    height: calc(100vh - 72px);
+    padding: 0 0 0 0;
+}
+/*
+    Makes the inputs match the container it's in even when zooming in/out
+ */
+input {
+    width: 100%;
+}

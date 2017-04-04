@@ -39,7 +39,7 @@ public class PersonController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String loadIndex(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, ModelMap map){
-        return "Home/index";
+        return "Home/main";
     }
 
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
