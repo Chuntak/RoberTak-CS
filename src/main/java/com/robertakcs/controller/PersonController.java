@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
  * Created by Chuntak on 4/1/2017.
  */
 @Controller
-@RequestMapping("/")
 public class PersonController {
     RoberTakCSServiceInterface RoberTakCSService;
     @Autowired
@@ -39,7 +38,7 @@ public class PersonController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String loadIndex(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, ModelMap map){
-        return "Home/main";
+        return "Home/home";
     }
 
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
