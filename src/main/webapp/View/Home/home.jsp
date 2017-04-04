@@ -25,7 +25,6 @@
 rap -->
 
     <script src="https://apis.google.com/js/api:client.js"></script>
-
     <script>
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
@@ -58,8 +57,8 @@ rap -->
 
         <!-- App Base -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-        <script src="<c:url value="/resources/app/js/ang_test.js" />"  type="text/javascript"></script>
-
+        <script src="<c:url value="/resources/app/js/course.js" />"  type="text/javascript" ></script>
+        <script src="<c:url value="/resources/app/js/home.js" />"  type="text/javascript" ></script>
         <!--KENDO UI -->
         <!-- THE FOLLOWING SCRIPT (KENDO) REQUIRES JQUERY & ANGULARJS-->
         <!--<script src="https://kendo.cdn.telerik.com/2017.1.118/js/jquery.min.js"></script>-->
@@ -72,10 +71,10 @@ rap -->
     <title>Robertak-CS</title>
 
 </head>
-<body ng-app="myApp" ng-controller="myCtrl" class="container-fluid">
+<body ng-app="homeInApp" ng-controller="homeCtrl" class="container-fluid">
 
 <!--App Content START-->
-<h1><span class="label label-default">Welcome {{userName}}</span></h1>
+<h1><span class="label label-default">Welcome {{userFirstName}}</span></h1>
 <div class="app-wrapper row container-fluid" id="wrapper">
 
     <div id="coursePane" class="col-xs-2 container-fluid">
@@ -208,7 +207,7 @@ rap -->
 </section>
 <!-- CSS END -->
 
-<script src="<c:url value="/resources/app/js/course.js" />"  type="text/javascript" ></script>
+
 
 </body>
 </html>
