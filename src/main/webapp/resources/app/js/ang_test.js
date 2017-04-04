@@ -34,7 +34,6 @@ app.controller('myCtrl', function ($scope, $http) {
     /* USER CREDENTIALS */
     $scope.email = sessionStorage.getItem("email");
     $scope.userName = sessionStorage.getItem("userName");
-    debugger;
     /* ARRAY OF ITEMS */
     $scope.items = [];
     $scope.newItems = [];
