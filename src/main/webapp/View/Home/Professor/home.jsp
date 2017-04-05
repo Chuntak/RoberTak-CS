@@ -60,14 +60,14 @@
                 </div>
                 <div class="panel-body">
 
-                    <div id="courseSelection" class="row container-fluid pre-scrollable">
+                    <%--<div id="courseSelection" class="row container-fluid pre-scrollable">--%>
                         <%--AngularJS to dynamically load the courses--%>
-                        <ul>
-                            <li ng-repeat="course in courses">
-                                <a href={{course.courseName}}></a>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul>
+                        <li ng-repeat="course in courses">
+                            <a href={{course.courseName}}></a>
+                        </li>
+                    </ul>
+                    <%--</div>--%>
 
                     <%--ADD COURSE BUTTON--%>
                     <div id="courseAddEdit" class="row container-fluid">
@@ -153,16 +153,6 @@
                     </div>
                 </div>
 
-                <%--Enroll to CourseCOde--%>
-                <form class="form-inline">
-                <div id="courseRegister" class="row container-fluid">
-                    <div class="form-group">
-                        <input type="enroll" class="form-control" id="enroll" name="enroll" placeholder="Enter Course Code">
-                    </div>
-                        <button class="btn btn-default" ng-click="enrollCourse()"> Register Course </button>
-                </div>
-                </form>
-
                 <%--SEARCH BAR--%>
                 <form class="form-inline global-search" role="form">
                     <div class="form-group">
@@ -209,28 +199,28 @@
 
 </body>
 
-    <!-- JavaScripts -->
-    <section>
-        <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
-        <!-- Bootst<link rel="stylesheet" media="screen" href="<c:url value="/resources/library-vendor/bootstrap/css/bootstrap.min.css" />" >
+<!-- JavaScripts -->
+<section>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+    <!-- Bootst<link rel="stylesheet" media="screen" href="<c:url value="/resources/library-vendor/bootstrap/css/bootstrap.min.css" />" >
         rap -->
 
-        <script src="https://apis.google.com/js/api:client.js"></script>
-        <script>
-            function onLoad() {
-                gapi.load('auth2', function() {
-                    debugger;
-                    gapi.auth2.init();
-                });
-            }
-        </script>
-        <%--Google Logout End--%>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-       <!-- App Base -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-        <script src="<c:url value="/resources/app/js/home.js" />"  type="text/javascript" ></script>
-        <script src="<c:url value="/resources/app/js/course.js" />"  type="text/javascript" ></script>
-    </section>
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script>
+        function onLoad() {
+            gapi.load('auth2', function() {
+                debugger;
+                gapi.auth2.init();
+            });
+        }
+    </script>
+    <%--Google Logout End--%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- App Base -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="<c:url value="/resources/app/js/home.js" />"  type="text/javascript" ></script>
+    <script src="<c:url value="/resources/app/js/course.js" />"  type="text/javascript" ></script>
+</section>
 </html>

@@ -46,7 +46,11 @@ public class PersonController {
         session.setAttribute("id", person.getId());
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
-        return "Home/homeBeta";
+        if(person.getUserType().equals("stud")) {
+            return "Home/Student/home";
+        } else {
+            return "Home/Professor/home";
+        }
     }
 
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
@@ -70,7 +74,11 @@ public class PersonController {
         session.setAttribute("id", id);
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
-        return "Home/homeBeta";
+        if(person.getUserType().equals("stud")) {
+            return "Home/Student/home";
+        } else {
+            return "Home/Professor/home";
+        }
     }
 
 
