@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,11 +32,12 @@ public class CourseController {
         return new CourseModel();
     }
 
-    @RequestMapping(value="/addCourse", method = RequestMethod.GET)
-    public String addCourse(@ModelAttribute("course") CourseModel course, BindingResult bindingResult, HttpSession session, ModelMap map) {
-        int id = new CourseDAO().updateUser(course);
-        session.setAttribute("courseId", id);
-        //TODO
-        return "Home/signIn";
+    @RequestMapping(value="/addCourse", method = RequestMethod.GET, produces="text/plain")
+    public @ResponseBody String addCourse(@ModelAttribute("course") CourseModel course,  HttpSession session) {
+        int profId = (Integer) session.getAttribute("id");
+        course.setProfId(profId);
+        String courseCode = new CourseDAO().updateCourse(course);
+//        //TODO
+        return courseCode;
     }
 }

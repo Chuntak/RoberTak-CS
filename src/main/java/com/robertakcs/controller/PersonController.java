@@ -1,6 +1,7 @@
 package com.robertakcs.controller;
 
 import com.robertakcs.dao.PersonDAO;
+import com.robertakcs.models.CourseModel;
 import com.robertakcs.models.PersonModel;
 import com.robertakcs.service.RoberTakCSServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,10 +28,12 @@ public class PersonController {
     }
 
 
+
     @ModelAttribute("person")
     public PersonModel getPersonModel(){
         return new PersonModel();
     }
+
 
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
@@ -37,7 +41,11 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String loadIndex(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, ModelMap map){
+    public String loadIndex(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session, ModelMap map){
+        person = new PersonDAO().getUserByEmail((String)session.getAttribute("email"));
+        session.setAttribute("id", person.getId());
+        session.setAttribute("firstName", person.getFirstName());
+        session.setAttribute("lastName", person.getLastName());
         return "Home/home";
     }
 
@@ -47,13 +55,22 @@ public class PersonController {
     }
 
 
+    @RequestMapping(value = "/signOut", method = RequestMethod.GET)
+    public String signOut(@ModelAttribute("person") PersonModel person, HttpSession session){
+        session.invalidate();
+        return "Home/signIn";
+    }
+
+
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session,ModelMap map){
         //@todo store into database
         int id = new PersonDAO().updateUser(person);
         session.setAttribute("id", id);
-        return "Home/index";
+        session.setAttribute("firstName", person.getFirstName());
+        session.setAttribute("lastName", person.getLastName());
+        return "Home/home";
     }
 
 
@@ -72,14 +89,4 @@ public class PersonController {
         // IF USER IS IN DB
 
     }
-
-    /*
-    Signs user out by redirecting to sign in page and removes session & session storage data
-     */
-    @RequestMapping(value ="/signOut", method = RequestMethod.GET)
-    public String signOutUser(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session, ModelMap map){
-        session.invalidate();
-        return "Home/signIn";
-    }
-
 }

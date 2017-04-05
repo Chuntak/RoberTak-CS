@@ -76,6 +76,10 @@ public class CourseModel {
         return pub;
     }
 
+    public boolean getPub() {
+        return pub;
+    }
+
     public void setPub(boolean pub) {
         this.pub = pub;
     }

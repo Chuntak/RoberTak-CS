@@ -28,21 +28,9 @@ rap -->
 
     <script src="https://apis.google.com/js/api:client.js"></script>
     <script>
-        function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-//            document.getElementById('name').innerText = "Signed in: " +
-//                googleUser.getBasicProfile().getName();
-                console.log('User signed out.');
-                document.forms["loadPage_index"].submit();
-                alert("Signed Out");
-            }, function(error) {
-                alert(JSON.stringify(error, undefined, 2));
-            });
-        }
-
         function onLoad() {
             gapi.load('auth2', function() {
+                debugger;
                 gapi.auth2.init();
             });
         }
@@ -67,8 +55,11 @@ rap -->
         <!--<script src="https://kendo.cdn.telerik.com/2017.1.118/js/angular.min.js"></script>-->
         <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
         <!--KENDO UI-->
-    </section>
 
+        <!-- CSS START -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- CSS END -->
+    </section>
 
     <title>Robertak-CS</title>
 
@@ -76,16 +67,15 @@ rap -->
 
 <!--App Content START-->
 <body ng-app="homeInApp" ng-controller="homeCtrl">
-<div class="">
+
+<div>
     <img class="inline_header" src="images/logo.png" style="height:60px;width:75px;margin-top:10px;"/>
     <h2 class="text">&nbspRoberTak-CS</h2>
-    <div class="text-logout">Welcome {{userFirstName}} &nbsp
+    <div class="text-logout">Welcome <%= session.getAttribute("firstName")%> &nbsp
         <%--Sign Out button--%>
-        <%--<form:form id="signOut" name="signOut" method="GET" action="/signOut">--%>
-            <%--<a href="#"><input type="button" id="out"></a>--%>
-        <%--</form:form>--%>
-        <form:form id="signOut" name="signOut" method="GET" action="/signOut">
-            <img src="images/logout.png" type="button" class="logout" id="out">
+        <img src="images/logout.png" ng-controller="homeCtrl" ng-click="signOut()" class="btn btn-default" data-toggle="tooltip" title="Sign out" data-placement="bottom"/>
+        <form:form id="signOut" name="signOut"  method="GET" action="/signOut">
+            <button hidden="hidden" type="submit"></button>
         </form:form>
     </div>
 </div>
@@ -102,80 +92,80 @@ rap -->
                     </li>
                 </ul>
             </div>
+
+            <%--ADD COURSE BUTTON--%>
             <div id="courseAddEdit" class="row container-fluid">
                 <button id="addCourse">Add Course</button>
                 <!-- The Modal -->
                 <div id="courseModal" class="modal">
 
                     <!-- Modal content -->
-                    <div class="modal-content">
+                    <div class="modal-content" ng-controller="courseCtrl">
                         <span class="close">&times;</span>
-                        <form method="GET" id="courseForm">
+                        <div class="form-group">
+                            <p>
+                                <label for="coursePrefix">Course Prefix:</label>
+                                <input type="text" ng-model="course.prefix" id="coursePrefix" maxlength="8" placeholder="ie:CSE" />
+                            </p>
+                        </div>
 
-                            <div class="form-group">
-                                <p>
-                                    <label for="coursePrefix">Course Prefix:</label>
-                                    <input path="coursePrefix" type="text" id="coursePrefix" maxlength="8" placeholder="ie:CSE" >
-                                </p>
-                            </div>
+                        <div class="form-group">
+                            <p>
+                                <label for="courseNumber">Course Number:</label>
+                                <input type="text" ng-model="course.number" id="courseNumber" maxlength="4" placeholder="ie:308"/>
+                            </p>
+                        </div>
 
-                            <div class="form-group">
-                                <p>
-                                    <label for="courseNumber">Course Number:</label>
-                                    <input path="courseNumber" type="text" id="courseNumber" maxlength="4" placeholder="ie:308">
-                                </p>
-                            </div>
+                        <div class="form-group">
+                            <p>
+                                <label for="courseName">Course Name:</label>
+                                <input type="text" ng-model="course.name" id="courseName" maxlength="32" placeholder="ie:Intro Computer"/>
+                            </p>
+                        </div>
 
-                            <div class="form-group">
-                                <p>
-                                    <label for="courseName">Course Name:</label>
-                                    <input path="courseName" type="text" id="courseName" maxlength="32" placeholder="ie:Intro Computer">
-                                </p>
-                            </div>
+                        <div class="form-group">
+                            <p>
+                                <label for="semester">Course Semester:</label>
+                                <select id="semester" ng-model="course.semester">
+                                    <option value="sp17">Spring 2017</option>
+                                    <option value="su17">Summer 2017</option>
+                                    <option value="fa17">Fall 2017</option>
+                                    <option value="wi17">Winter 2017</option>
 
-                            <div class="form-group">
-                                <p>
-                                    <label for="semester">Course Semester:</label>
-                                    <select path="semester" form="courseForm" id="semester">
-                                        <option value="sp17">Spring 2017</option>
-                                        <option value="su17">Summer 2017</option>
-                                        <option value="fa17">Fall 2017</option>
-                                        <option value="wi17">Winter 2017</option>
+                                    <option value="sp18">Spring 2018</option>
+                                    <option value="su18">Summer 2018</option>
+                                    <option value="fa18">Fall 2018</option>
+                                    <option value="wi18">Winter 2018</option>
 
-                                        <option value="sp18">Spring 2018</option>
-                                        <option value="su18">Summer 2018</option>
-                                        <option value="fa18">Fall 2018</option>
-                                        <option value="wi18">Winter 2018</option>
+                                    <option value="sp19">Spring 2019</option>
+                                    <option value="su19">Summer 2019</option>
+                                    <option value="fa19">Fall 2019</option>
+                                    <option value="wi19">Winter 2019</option>
 
-                                        <option value="sp19">Spring 2019</option>
-                                        <option value="su19">Summer 2019</option>
-                                        <option value="fa19">Fall 2019</option>
-                                        <option value="wi19">Winter 2019</option>
+                                    <option value="sp20">Spring 2020</option>
+                                    <option value="su20">Summer 2020</option>
+                                    <option value="fa20">Fall 2020</option>
+                                    <option value="wi20">Winter 2020</option>
+                                </select>
+                            </p>
+                        </div>
 
-                                        <option value="sp20">Spring 2020</option>
-                                        <option value="su20">Summer 2020</option>
-                                        <option value="fa20">Fall 2020</option>
-                                        <option value="wi20">Winter 2020</option>
-                                    </select>
-                                </p>
-                            </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="public">Make Course Public</label>
+                            <input class="form-check-input" ng-model="course.public" id="public" type="checkbox"/>
+                        </div>
 
+                        <br><br>
 
-                            <div class="form-check">
-                                <label class="form-check-label" for="public">Make Course Public</label>
-                                    <input class="form-check-input" id="public" type="checkbox">
-                            </div>
-
-                            <br><br>
-
-                            <div>
-                                <input class="btn btn-primary" name="submit" id="courseSubmit" value="addCourse" type="submit"></input>
-                            </div>
-                        </form>
+                        <div>
+                            <input class="btn btn-primary" ng-click="addCourse()" name="submit" id="courseSubmit" value="Add Course" type="submit"/>
+                        </div>
                     </div>
 
                 </div>
             </div>
+
+
             <div id="courseRegister" class="row container-fluid">
                 <input type="text" placeholder="Enter Course Code">
                 <button> Register Course </button>
@@ -198,23 +188,7 @@ rap -->
     </div>
 
 </div>
-<!--App Content END--
-
-<!-- CSS START -->
-<section>
-    <link rel="stylesheet" href="<c:url value="/resources/app/css/todolist_maker.css" />">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!--KENDO UI -->
-    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common-material.min.css" />
-    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.min.css" />
-    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.mobile.min.css" />
-
-</section>
-<!-- CSS END -->
-
-
+<!--App Content END-->
 
 </body>
 </html>
