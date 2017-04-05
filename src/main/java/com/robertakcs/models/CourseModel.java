@@ -13,6 +13,39 @@ public class CourseModel {
     private boolean pub;
     private int id;
 
+
+    /*Professor attributes*/
+    private String profFirstName;
+    private String profLastName;
+    private String profEmail;
+
+    /*Person attributes*/
+
+    public String getProfFirstName() {
+        return profFirstName;
+    }
+
+    public void setProfFirstName(String profFirstName) {
+        this.profFirstName = profFirstName;
+    }
+
+    public String getProfLastName() {
+        return profLastName;
+    }
+
+    public void setProfLastName(String profLastName) {
+        this.profLastName = profLastName;
+    }
+
+    public String getProfEmail() {
+        return profEmail;
+    }
+
+    public void setProfEmail(String profEmail) {
+        this.profEmail = profEmail;
+    }
+
+    /*Professor attributes*/
     public CourseModel() {
         this.coursePrefix = "";
         this.courseNumber = "";
@@ -91,7 +124,6 @@ public class CourseModel {
     public void setId(int id) {
         this.id = id;
     }
-
 
 
 }

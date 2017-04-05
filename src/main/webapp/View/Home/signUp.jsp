@@ -15,22 +15,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- jQuery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
     <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
-    <!-- Bootstrap Date-Picker Plugin -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-
     <!-- Google Font -->
     <link href='//fonts.googleapis.com/css?family=Anton' rel='stylesheet'>
 
+    <link rel="stylesheet" href="<c:url value="/resources/app/css/signup.css" />">
+    <!-- Red Robbins -->
+    <link rel="icon" type="image/png" href="<c:url value="/images/logo.png"/>">
 </head>
 <body>
 
@@ -65,25 +58,23 @@
         <div class="form-group">
             <form:input path="email" type="hidden" id="email" value='<%= session.getAttribute("email")%>'/>
         </div>
-        <%--<div class="form-group">--%>
-            <%--<label class="control-label col-sm-4" for="dob"> Birthday Date:</label>--%>
-            <%--<div class="col-xs-5">--%>
-                <%--<form:input path="dob" class="form-control form-control-lg" id="dob" value="" name="dob" placeholder="MM/DD/YYYY" type="text"/>--%>
-            <%--</div>--%>
-        <%--</div>--%>
 
         <form:radiobutton path="userType" name="options" checked="true" id="Professor" value="prof"/>Professor
         <form:radiobutton path="userType" name="options" id="Student" value="stud"/>Student
 
         <br><br>
-
         <div>
             <input class="btn btn-primary" name="submit" value="Sign Up" type="submit"></input>
         </div>
         </form:form>
     </div>
 </div>
-<link rel="stylesheet" href="<c:url value="/resources/app/css/signup.css" />">
-
 </body>
+
+<section>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</section>
 </html>

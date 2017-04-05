@@ -10,4 +10,6 @@ public class DAOBase {
     public DAOBase(){
         dbs = DBSingleton.getSingleton();
     }
+
+
 }

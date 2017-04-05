@@ -46,7 +46,7 @@ public class PersonController {
         session.setAttribute("id", person.getId());
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
-        return "Home/home";
+        return "Home/homeBeta";
     }
 
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
@@ -70,22 +70,24 @@ public class PersonController {
         session.setAttribute("id", id);
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
-        return "Home/home";
+        return "Home/homeBeta";
     }
 
 
     /*WE CHECK USERS IF THEY ARE NEW/OLD IF NEW WE TRIGGER SIGNUP WHICH TRIGGERS REGISTER WHEN DONE*/
     /*IF OLD, SIMPILY TRIGGERS INDEX*/
-    @RequestMapping(value = "/checkUser", method = RequestMethod.GET, produces="text/plain")
-    public @ResponseBody String checkUser(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session, ModelMap map){
+    @RequestMapping(value = "/checkUser", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody boolean checkUser(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session, ModelMap map){
         // CHECK IF USER IS IN DB
         session.setAttribute("email", person.getEmail());
-        if(new PersonDAO().checkUser(person)) {
-            return "true";
-        }
-        else {
-            return "false";
-        }
+        return new PersonDAO().checkUser(person);
+
+//        if(new PersonDAO().checkUser(person)) {
+//            return "true";
+//        }
+//        else {
+//            return "false";
+//        }
         // IF USER IS IN DB
 
     }

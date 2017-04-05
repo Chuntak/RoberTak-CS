@@ -35,7 +35,7 @@ app.controller('signInCtrl', function ($scope, $http) {
                 }).then(function (response) {
                     debugger;
                     var isOldUser = response.data;
-                    if(isOldUser === "true"){
+                    if(isOldUser === true){
                         document.forms["index"].submit();
                     } else {
                         document.forms["signUp"].submit();
@@ -44,7 +44,6 @@ app.controller('signInCtrl', function ($scope, $http) {
                     debugger;
                     alert("print\n");
                 });
-
 
 
             }, function (error) {

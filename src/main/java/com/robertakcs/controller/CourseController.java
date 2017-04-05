@@ -2,6 +2,8 @@ package com.robertakcs.controller;
 
 import com.robertakcs.dao.CourseDAO;
 import com.robertakcs.models.CourseModel;
+import com.robertakcs.models.EnrolledModel;
+import com.robertakcs.models.PersonModel;
 import com.robertakcs.service.RoberTakCSServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  * Created by Calvin on 4/3/2017.
@@ -32,12 +35,32 @@ public class CourseController {
         return new CourseModel();
     }
 
-    @RequestMapping(value="/addCourse", method = RequestMethod.GET, produces="text/plain")
+
+
+    @RequestMapping(value="/updateCourse", method = RequestMethod.GET, produces="text/plain")
     public @ResponseBody String addCourse(@ModelAttribute("course") CourseModel course,  HttpSession session) {
         int profId = (Integer) session.getAttribute("id");
         course.setProfId(profId);
         String courseCode = new CourseDAO().updateCourse(course);
-//        //TODO
         return courseCode;
     }
+
+    /*gets the course returns the arraylist course can return professor names/email*/
+    @RequestMapping(value="/getCourse", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<CourseModel> getCourse(@ModelAttribute("person") PersonModel person, HttpSession session) {
+        return new CourseDAO().getCourse(person);
+    }
+
+    /*removes the course*/
+    @RequestMapping(value="/removeCourse", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody boolean getCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
+        return new CourseDAO().deleteCourse(course);
+    }
+
+    /*enroll in course*/
+    @RequestMapping(value="/enrollCourse", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody boolean enrollCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
+        return new CourseDAO().enrollCourse((Integer)session.getAttribute("id"),course);
+    }
+
 }
