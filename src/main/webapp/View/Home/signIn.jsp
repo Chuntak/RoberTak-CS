@@ -29,19 +29,20 @@ To change this template use File | Settings | File Templates.
 
 <body ng-app="signInApp" ng-controller="signInCtrl">
 <div class="content-wrapper">
+    <form:form id="signUp" name="signUp" method="GET" action="/signUp">
+        <button hidden="hidden" type="submit"></button>
+    </form:form>
+    <form:form id="index" name="index" method="GET" action="/index">
+        <button hidden="hidden" type="submit"></button>
+    </form:form>
+    <script type='text/javascript'>
+        /* CHECK IF USER IS LOGGED IN ALREADY */
+        if(sessionStorage.length > 0) {
+            document.forms["index"].submit();
+        }
+    </script>
     <p class="logo-wrapper"><img id="logo" src="images/logo.png"/> backpack</p>
-        <form:form id="signUp" name="signUp" method="GET" action="/signUp">
-            <button hidden="hidden" type="submit"></button>
-        </form:form>
-        <form:form id="index" name="index" method="GET" action="/index">
-            <button hidden="hidden" type="submit"></button>
-        </form:form>
-        <script type='text/javascript'>
-            /* CHECK IF USER IS LOGGED IN ALREADY */
-            if(sessionStorage.length > 0) {
-                document.forms["index"].submit();
-            }
-        </script>
+
 
         <form:form method="GET" action="/login">
             <div id="customBtn" class="customGP®lusSignIn">

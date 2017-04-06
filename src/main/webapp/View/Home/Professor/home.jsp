@@ -58,16 +58,25 @@
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
                 </div>
-                <div class="panel-body">
-
-                    <%--<div id="courseSelection" class="row container-fluid pre-scrollable">--%>
-                        <%--AngularJS to dynamically load the courses--%>
-                    <ul>
-                        <li ng-repeat="course in courseList">
-                            <a>{{course.courseName}}></a>
-                        </li>
-                    </ul>
-                    <%--</div>--%>
+                <%--Course Selection (+Modal)--%>
+                <div id="courseSelection-prof">
+                    <%--AngularJS to dynamically load the courses--%>
+                    <div class="list-grouper" ng-repeat="course in courses">
+                        <a class="list-group-item"  ng-click="selectCourse(course, $index)" ng-class="{active: $index == selected}">
+                            <h4 class="card-title row">
+                                <p class="col-sm-9">{{course.prefix}}-{{course.number}}</p>
+                                <btn class="btn-xs col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="editCourse(course)">
+                                </btn>
+                                <btn class="btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteCourse(course)"style="">
+                                </btn>
+                                <%--<p class="col-sm-1 hidden"></p>--%>
+                            </h4>
+                            <h6 class="card-subtitle mb-2 ">{{course.name}}</h6>
+                            <h6 class="card-subtitle mb-2 ">{{course.semester}}</h6>
+                            <h6 class="card-subtitle mb-2 ">{{course.profFirstName}} {{course.profLastName}}</h6>
+                            <h6 class="card-subtitle mb-2 ">Course Code: {{course.code}}</h6>
+                        </a>
+                    </div>
 
                     <%--ADD COURSE BUTTON--%>
                     <div id="courseAddEdit" class="row container-fluid">
@@ -80,13 +89,13 @@
                             <!-- Modal content -->
                             <div class="modal-content container-fluid">
                                 <span class="close">&times;</span>
-                                <h3>Course Creation</h3>
+                                <h3>Courses</h3>
 
 
                                 <%--The course prefix and number box--%>
                                 <div class="form-inline form-group" id="prefNumDiv">
                                     <input type="text" class="form-control" ng-model="course.prefix" id="coursePrefix" maxlength="8" placeholder="Course Prefix" />
-                                    <input type="text" class="form-control" id="courseNumber" placeholder="Course Number">
+                                    <input type="text" class="form-control" ng-model="course.number" id="courseNumber" placeholder="Course Number">
                                 </div>
 
                                 <%--The course name--%>
@@ -140,7 +149,7 @@
                                         <option value="Linked List">
                                         <option value="Array">
                                     </datalist>
-                                    <button class="btn" id="addTagBtn" ng-onclick="">Add Tag</button>
+                                    <button class="btn" id="addTagBtn" ng-click="">Add Tag</button>
                                 </form>
 
                                 <%--Where We add the tag chips--%>
@@ -166,7 +175,7 @@
 
                                 <%--Submit button to add the course--%>
                                  <div class="form-group" class="noFloat">
-                                     <input class="btn btn-primary noFloat" ng-click="addCourse()" name="submit" id="courseSubmit" cl value="Add Course" type="submit"/>
+                                     <input class="btn btn-primary noFloat" ng-click="updateCourse()" name="submit" id="courseSubmit" cl value="Save Course" type="submit"/>
                                  </div>
                             </div>
                         </div>

@@ -14,6 +14,11 @@ public class TagModel {
     private int taggableId;
     private String taggableType;
 
+    public TagModel(){
+        taggableType = NONE;
+    }
+
+
     public int getTaggableId() {
         return taggableId;
     }

@@ -67,22 +67,27 @@
 
 
                                 <div class="input-group">
-                                    <input type="text" class="form-ctrl course-box" id="enroll" ng-model="course.code" name="enroll" placeholder="Course Code">
+                                    <input type="text" autocomplate="off" class="form-ctrl course-box" id="enroll" ng-model="course.code" name="enroll" placeholder="Course Code">
                                     <span class="input-group-btn">
                                         <button class="btn btn-success glyphicon glyphicon-plus course-btn" ng-click="enrollCourse()" type="button"></button>
                                     </span>
                                 </div>
                         </div>
                     </form>
-                <%--<div class="">--%>
-                    <%--<div id="courseSelection" class="row container-fluid pre-scrollable">--%>
-                    <%--AngularJS to dynamically load the courses--%>
-                    <ul>
-                        <li ng-repeat="course in courses">
-                            <a href={{course.courseName}}></a>
-                        </li>
-                    </ul>
-                <%--</div>--%>
+                     <div id="courseSelection">
+                        <%--AngularJS to dynamically load the courses--%>
+                        <div class="list-grouper" ng-repeat="course in courses">
+                            <a class="list-group-item"  ng-click="selectCourse(course, $index)" ng-class="{active: $index == selected}">
+                                <h4 class="card-title row">
+                                    <p class="col-sm-9">{{course.prefix}}-{{course.number}}</p>
+                                    <%--<p class="col-sm-1 hidden"></p>--%>
+                                </h4>
+                                <h6 class="card-subtitle mb-2 ">{{course.name}}</h6>
+                                <h6 class="card-subtitle mb-2 ">{{course.semester}}</h6>
+                                <h6 class="card-subtitle mb-2 ">{{course.profFirstName}} {{course.profLastName}}</h6>
+                            </a>
+                        </div>
+                     </div>
 
             </div>
         </div>
@@ -91,7 +96,7 @@
         <div class="col-md-7 tabPane">
             <div class="panel panel-default">
                 <ul class="nav nav-tabs tab-heading" ng-controller="tabsCtrl">
-                    <li class="tabs" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
+                    <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
                 </ul>
                 <div ui-view></div>
 

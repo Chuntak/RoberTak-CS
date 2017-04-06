@@ -44,8 +44,8 @@ public class CourseController {
 
     /*gets the course returns the arraylist course can return professor names/email*/
     @RequestMapping(value="/getCourse", method = RequestMethod.GET)
-    public @ResponseBody ArrayList<CourseModel> getCourse(@ModelAttribute("person") PersonModel person, HttpSession session) {
-        return new CourseDAO().getCourse(person);
+    public @ResponseBody ArrayList<CourseModel> getCourse(HttpSession session) {
+        return new CourseDAO().getCourse((Integer)session.getAttribute("id"));
     }
 
     /*removes the course*/

@@ -21,6 +21,7 @@
 .coursePane{
     margin-top: 10px;
     margin-left: 9px;
+    max-height: 100%;
 }
 
 .tabPane{
@@ -37,6 +38,7 @@
     padding-left: 15px;
     padding-bottom: 10px;
     padding-top: 10px;
+    height: 40.8px;
 }
 
 .tab-heading{
@@ -95,6 +97,16 @@
     /*padding-bottom: 5px;*/
 }
 
+#courseSelection{
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+#courseSelection-prof{
+    max-height: 60%;
+    overflow-y: auto;
+}
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -142,6 +154,7 @@
     padding: 20px;
     width: 50%; /* Could be more or less, depending on screen size */
     height: 60%;
+    overflow: auto;
 }
 
 /* The Close Button */
@@ -214,7 +227,7 @@ img.logout{
 
 .addCourse{
     float: right;
-    height: 42px;
+    height: 40.8px;
     width: 42px;
     margin-top: -10px;
 }
@@ -240,6 +253,8 @@ img.logout{
     float: left;
     width: 50%;
     padding: 5px 5px 5px 5px;
+    overflow: auto;
+
 }
 #pubDiv label, #pubDiv input{
     float:left;
@@ -314,3 +329,28 @@ img.logout{
 }
 
 /* Chip CSS end */
+
+/*CSS for Course Cards */
+.card-title, .card-subtitle{
+    text-align: left;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.list-group-item{
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+.list-grouper{
+    padding-left: 0;
+    /*padding-right:3px;*/
+    margin-bottom: 0;
+}
+
+.list-grouper .on-show {
+    display:none;
+}
+
+.list-grouper:hover .on-show{
+    display:inline;
+}
