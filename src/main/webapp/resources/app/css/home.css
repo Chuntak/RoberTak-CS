@@ -82,8 +82,10 @@
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
+    margin-top: 10%;
     padding: 20px;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 50%; /* Could be more or less, depending on screen size */
+    height: 60%;
 }
 
 /* The Close Button */
@@ -110,16 +112,6 @@
 /*#courseForm label,#courseForm input, #courseForm select { display: table-cell; }*/
 
 
-/*
-    Makes the inputs match the container it's in even when zooming in/out
- */
-input {
-    width: 100%;
-}
-
-#public{
-    width: auto;
-}
 
 #header{
     margin-right: 10px;
@@ -151,15 +143,105 @@ img.logout{
     margin-top: -2px;
 }
 
-.panel-footer{
+.panel-footer {
     text-align: center;
-
 }
 
-/*#addCourse{*/
-/*margin-left: 10px;*/
-/*}*/
 
 
 
+/*Makes the enroll and search in course width */
+#coursePrefix, #courseNumber{
+    display: inline;
+}
 
+#courseName{
+    width: 100%;
+}
+
+/* CSS to move the Modal things to the left */
+#prefNumDiv input, #semester{
+    float: left;
+    width: 50%;
+    overflow: auto;
+}
+
+/* The Div with the public label and checkbox*/
+#pubDiv{
+    float: left;
+    width: 50%;
+    padding: 5px 5px 5px 5px;
+}
+#pubDiv label, #pubDiv input{
+    float:left;
+}
+/* The Modal's public checkbox */
+#public{
+    margin-left: 5px;
+}
+/*Class to stop the floating from messing with alignment */
+.noFloat {
+    clear:both;
+}
+#tagList{
+    width: 60%;
+    float:left;
+    overflow: auto;
+}
+
+#addTagBtn{
+    float: left;
+    overflow: auto;
+}
+/* Where our tags are put into in the modal*/
+#tagpane{
+    margin: 10px 10px auto auto;
+    width: 100%;
+    height: 30px;
+    clear: both;
+    overflow: auto;
+    border: solid black 1px;
+    background-color: #f1f1f1;
+}
+/* The Add Course button */
+#courseSubmit{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+
+/* The CSS for the chips */
+.chip {
+    display: inline-block;
+    padding: 0 25px;
+    height: 50px;
+    font-size: 18px;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+}
+
+.chip img {
+    float: left;
+    margin: 0 10px -25px -25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.closebtn {
+    padding-right: 10px;
+    color: #888;
+    font-weight: bold;
+    float: left;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.closebtn:hover {
+    color: #000;
+}
+
+/* Chip CSS end */

@@ -47,58 +47,58 @@
     </div>
 </div>
 
-<div class="content app-wrapper container-fluid">
+<div class="content container-fluid app-wrapper">
+        <%--COURSE PANE--%>
+        <div class="col-md-2 coursePane" ng-controller="courseCtrl">
+            <div class="panel panel-default">
+                <div class="panel-heading">Courses
+                    <button id="addCourse" class="btn btn-default addCourse">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
+                <div class="panel-body">
 
-    <%--COURSE PANE--%>
-    <div class="col-md-2 coursePane" ng-controller="courseCtrl">
-        <div class="panel panel-default">
-            <div class="panel-heading">Courses
-                <button id="addCourse" class="btn btn-default addCourse">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </div>
-            <div class="panel-body">
-                    <%--AngularJS to dynamically load the courses--%>
-                <ul>
-                    <li ng-repeat="course in courses">
-                        <a href={{course.courseName}}></a>
-                    </li>
-                </ul>
-                <%--</div>--%>
+                    <%--<div id="courseSelection" class="row container-fluid pre-scrollable">--%>
+                        <%--AngularJS to dynamically load the courses--%>
+                    <ul>
+                        <li ng-repeat="course in courseList">
+                            <a>{{course.courseName}}></a>
+                        </li>
+                    </ul>
+                    <%--</div>--%>
 
-                <%--ADD COURSE BUTTON--%>
-                <div id="courseAddEdit" class="row container-fluid">
-                    <!-- The Modal -->
-                    <div id="courseModal" class="modal">
+                    <%--ADD COURSE BUTTON--%>
+                    <div id="courseAddEdit" class="row container-fluid">
 
-                        <!-- Modal content -->
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <div class="form-group">
-                                <p>
-                                    <label for="coursePrefix">Course Prefix:</label>
-                                    <input type="text" ng-model="course.prefix" id="coursePrefix" maxlength="8" placeholder="Example: CSE" />
-                                </p>
-                            </div>
 
-                            <div class="form-group">
-                                <p>
-                                    <label for="courseNumber">Course Number:</label>
-                                    <input type="text" ng-model="course.number" id="courseNumber" maxlength="4" placeholder="Example: 308"/>
-                                </p>
-                            </div>
 
-                            <div class="form-group">
-                                <p>
-                                    <label for="courseName">Course Name:</label>
-                                    <input type="text" ng-model="course.name" id="courseName" maxlength="32" placeholder="Example: Software Engineering"/>
-                                </p>
-                            </div>
+                        <!-- The Modal -->
+                        <div id="courseModal" class="modal container-fluid">
 
-                            <div class="form-group">
-                                <p>
-                                    <label for="semester">Course Semester:</label>
-                                    <select id="semester" ng-model="course.semester">
+                            <!-- Modal content -->
+                            <div class="modal-content container-fluid">
+                                <span class="close">&times;</span>
+                                <h3>Course Creation</h3>
+
+
+                                <%--The course prefix and number box--%>
+                                <div class="form-inline form-group" id="prefNumDiv">
+                                    <input type="text" class="form-control" ng-model="course.prefix" id="coursePrefix" maxlength="8" placeholder="Course Prefix" />
+                                    <input type="text" class="form-control" id="courseNumber" placeholder="Course Number">
+                                </div>
+
+                                <%--The course name--%>
+                                <div class="form-group">
+                                    <input type="text" class="form-control text-left" ng-model="course.name" id="courseName" maxlength="32" placeholder="Course Name"/>
+                                </div>
+
+
+                                <%--Semester and Public checkbox--%>
+                                <div class="form-inline noFloat" id="semPubDiv">
+
+                                    <select id="semester" class="form-control" ng-model="course.semester">
+                                        <option value="" disabled selected>Course Semester</option>
+
                                         <option value="sp17">Spring 2017</option>
                                         <option value="su17">Summer 2017</option>
                                         <option value="fa17">Fall 2017</option>
@@ -119,50 +119,71 @@
                                         <option value="fa20">Fall 2020</option>
                                         <option value="wi20">Winter 2020</option>
                                     </select>
-                                </p>
+
+                                    <div class="form-check" id="pubDiv">
+                                        <label class="form-check-label" for="public">Make Course Public</label>
+                                        <input class="form-check-input" ng-model="course.public" id="public" type="checkbox"/>
+                                    </div>
+                                </div>
+
+                                <%--Tag Selection and Removal section--%>
+                            <div id="tagSection" class="noFloat">
+                                <form id="tagAdd" class="form-inline form-group">
+
+                                    <input list="tags" class="form-control" id="tagList" name="tags">
+                                    <datalist id="tags">
+                                        <option value="Java">
+                                        <option value="C">
+                                        <option value="Stack">
+                                        <option value="Linked List">
+                                        <option value="Array">
+                                    </datalist>
+                                    <button class="btn" id="addTagBtn" ng-onclick="">Add Tag</button>
+                                </form>
+
+                                <%--Where We add the tag chips--%>
+                                <div id="tagPane" class="noFloat scroll-pane">
+                                    <%--The X button should remove the tag instead of hiding it--%>
+                                    <div class="chip">
+                                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                        Java
+                                    </div>
+
+                                    <div class="chip">
+                                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                        Stack
+                                    </div>
+
+                                    <div class="chip">
+                                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                        Git
+                                    </div>
+
+                                </div>
                             </div>
 
-                            <div class="form-check">
-                                <label class="form-check-label" for="public">Make Course Public</label>
-                                <input class="form-check-input" ng-model="course.public" id="public" type="checkbox"/>
-                            </div>
-
-                            <form id="tagAdd">
-                                <input list="tags" id="tagList" name="tags">
-                                <datalist id="tags">
-                                    <option value="Java">
-                                    <option value="C">
-                                    <option value="Stack">
-                                    <option value="Linked List">
-                                    <option value="Array">
-                                </datalist>
-                                <input type="submit" value="Add Tag">
-                            </form>
-
-                            <br><br>
-
-                            <div>
-                                <input class="btn btn-primary" ng-click="addCourse()" name="submit" id="courseSubmit" value="Add Course" type="submit"/>
+                                <%--Submit button to add the course--%>
+                                 <div class="form-group" class="noFloat">
+                                     <input class="btn btn-primary noFloat" ng-click="addCourse()" name="submit" id="courseSubmit" cl value="Add Course" type="submit"/>
+                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
+
+                <%--SEARCH BAR--%>
+                <form class="form-inline global-search" role="form">
+                    <div class="form-group">
+                        <input type="search" class="form-control" id="search" name="search" placeholder="Enter search terms">
+                    </div>
+                    <button type="submit" id="search_submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-search"></span>&nbspSearch
+                    </button>
+
+                </form>
+
             </div>
-
-            <%--SEARCH BAR--%>
-            <form class="form-inline global-search" role="form">
-                <div class="form-group">
-                    <input type="search" class="form-control" id="search" name="search" placeholder="Enter search terms">
-                </div>
-                <button type="submit" id="search_submit" class="btn btn-default">
-                    <span class="glyphicon glyphicon-search"></span>&nbspSearch
-                </button>
-
-            </form>
-
         </div>
-    </div>
 
     <%--TABS PANE--%>
     <div class="col-md-7 tabPane">
