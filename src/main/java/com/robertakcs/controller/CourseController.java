@@ -35,12 +35,11 @@ public class CourseController {
         return new CourseModel();
     }
 
-    @RequestMapping(value="/updateCourse", method = RequestMethod.GET, produces="text/plain")
-    public @ResponseBody String addCourse(@ModelAttribute("course") CourseModel course,  HttpSession session) {
+    @RequestMapping(value="/updateCourse", method = RequestMethod.GET)
+    public @ResponseBody CourseModel addCourse(@ModelAttribute("course") CourseModel course,  HttpSession session) {
         int profId = (Integer) session.getAttribute("id");
         course.setProfId(profId);
-        String courseCode = new CourseDAO().updateCourse(course);
-        return courseCode;
+        return new CourseDAO().updateCourse(course);
     }
 
     /*gets the course returns the arraylist course can return professor names/email*/
@@ -50,14 +49,14 @@ public class CourseController {
     }
 
     /*removes the course*/
-    @RequestMapping(value="/removeCourse", method = RequestMethod.GET, produces="application/json")
-    public @ResponseBody boolean getCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
+    @RequestMapping(value="/deleteCourse", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody boolean deleteCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
         return new CourseDAO().deleteCourse(course);
     }
 
     /*enroll in course*/
-    @RequestMapping(value="/enrollCourse", method = RequestMethod.GET, produces="application/json")
-    public @ResponseBody boolean enrollCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
+    @RequestMapping(value="/enrollCourse", method = RequestMethod.GET)
+    public @ResponseBody CourseModel enrollCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
         return new CourseDAO().enrollCourse((Integer)session.getAttribute("id"),course);
     }
 

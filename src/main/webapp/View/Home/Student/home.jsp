@@ -68,7 +68,7 @@
                 <form class="form-inline">
                     <div id="courseRegister" class="row container-fluid">
                         <div class="form-group">
-                            <input type="enroll" class="form-control" id="enroll" name="enroll" placeholder="Enter Course Code">
+                            <input type="enroll" class="form-control" id="enroll" ng-model="course.code" name="enroll" placeholder="Enter Course Code">
                         </div>
                         <button class="btn btn-default" ng-click="enrollCourse()"> Register Course </button>
                     </div>
@@ -97,7 +97,6 @@
         <div class="col-md-3 forumPane">
             <div class="panel panel-default">
                 <div class="panel-heading">Forum</div>
-
             </div>
         </div>
     </div>

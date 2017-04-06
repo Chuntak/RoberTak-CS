@@ -12,7 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="DoListMakerWeb" target="1.6" />
-      <module name="RoberTak-CS" target="1.6" />
+      <module name="RoberTak-CS" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

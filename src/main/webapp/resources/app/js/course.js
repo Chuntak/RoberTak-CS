@@ -42,7 +42,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
                 "semester": $scope.course.semester, "pub": $scope.course.public }
         }).then(function (response) {
             debugger;
-            $scope.course.code = response.data;
+            $scope.course = response.data;
         }, function errorCallBack(response) {
             alert("add course error\n");
         });

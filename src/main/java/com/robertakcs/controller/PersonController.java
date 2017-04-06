@@ -37,7 +37,6 @@ public class PersonController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
-
         return "signIn";
     }
 
@@ -92,14 +91,6 @@ public class PersonController {
         // CHECK IF USER IS IN DB
         session.setAttribute("email", person.getEmail());
         return new PersonDAO().checkUser(person);
-
-//        if(new PersonDAO().checkUser(person)) {
-//            return "true";
-//        }
-//        else {
-//            return "false";
-//        }
-        // IF USER IS IN DB
 
     }
 }
