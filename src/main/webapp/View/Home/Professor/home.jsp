@@ -10,6 +10,8 @@
 <html>
 <head>
     <base href="/">
+    <!-- Red Robbins -->
+    <link rel="icon" type="image/png" href="<c:url value="/images/logo.png" />">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -20,24 +22,24 @@
     <%--Google Logout End--%>
     <%--Google Logout--%>
 
-    <title>Robertak-CS</title>
+    <title>backpack</title>
     <!-- CSS START -->
     <section>
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="<c:url value="/resources/app/css/home.css" />">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     </section>
     <!-- CSS END -->
-    <!-- Red Robbins -->
-    <link rel="icon" type="image/png" href="<c:url value="/images/logo.png"/>">
+
 </head>
 
 <!--App Content START-->
 <body ng-app="homeApp">
 
 <div id="toolbar" ng-controller="homeCtrl">
-    <img class="inline_header" src="images/logo.png" style="height:40px;width:55px;margin-top:-5px;"/>
-    <h1 class="text">&nbspRoberTak-CS</h1>
+    <img class="inline_header" src="images/logo_top.png"/>
+    <h1 class="text">&nbspbackpack</h1>
     <div class="text-logout">Welcome <%= session.getAttribute("firstName")%> &nbsp
         <%--Sign Out button--%>
         <img src="images/logout.png" ng-controller="homeCtrl" ng-click="signOut()" class="logout clickable" data-toggle="tooltip" title="Sign out" data-placement="bottom"/>
@@ -51,7 +53,7 @@
         <%--COURSE PANE--%>
         <div class="col-md-2 coursePane" ng-controller="courseCtrl">
             <div class="panel panel-default">
-                <div class="panel-heading">Courses
+                <div class="course-heading">Courses
                     <button id="addCourse" class="btn btn-default addCourse">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
@@ -188,8 +190,8 @@
     <%--TABS PANE--%>
     <div class="col-md-7 tabPane">
         <div class="panel panel-default">
-            <ul class="nav nav-tabs" ng-controller="tabsCtrl">
-                <li class="tabs" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
+            <ul class="nav nav-tabs tab-heading" ng-controller="tabsCtrl">
+                <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
             </ul>
             <div ui-view></div>
 
@@ -203,14 +205,14 @@
     <%--FORUM PANE--%>
     <div class="col-md-3 forumPane">
         <div class="panel panel-default">
-            <div class="panel-heading">Forum</div>
-            <div class="panel-body">CONTENT</div>
+            <div class="forum-heading">Forum</div>
         </div>
     </div>
 
     <%--FOOTER--%>
-    <div class="container-fluid panel-footer">
-        <span class="text-muted">&copy 2017 RoberTak-CS Red Robins All Rights Reserved.</span>
+    <div class="footer-content">
+        <img src="images/logo_footer.png"> &nbsp
+        <span class="text-muted">Copyright &copy 2017 backpack Red Robins. All Rights Reserved.</span>
     </div>
 </div>
 <!--App Content END-->

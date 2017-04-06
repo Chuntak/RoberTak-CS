@@ -30,44 +30,52 @@
 
 <div class="container-fluid introduction">
     <div class="jumbotron">
-        <p class="header">Welcome to RoberTak-CS</p><br>
+        <p class="header">Welcome to backpack</p><br>
 
         <form:form method="GET" modelAttribute="person" action="/register" class="form-horizontal no-margin" id="form">
 
         <div class="form-group">
-            <label class="control-label col-sm-4" for="firstName">First Name:</label>
-            <div class="col-xs-5">
-                <form:input path="firstName" class="form-control form-control-lg" type="text" id="firstName" placeholder="First Name"/>
-            </div>
+            <label class="control-label col-sm-4" for="firstName"></label>
+            <%--<div class="col-xs-5">--%>
+                <form:input path="firstName" class="form-control form-control-lg input-lg" type="text" id="firstName" placeholder="First Name"/>
+            <%--</div>--%>
         </div>
 
         <div class="form-group">
-            <Label class="control-label col-sm-4" for="lastName">Last Name:</Label>
-            <div class="col-xs-5">
-                <form:input path="lastName" class="form-control form-control-lg" type="text" id="lastName" placeholder="Last Name"/>
-            </div>
+            <Label class="control-label col-sm-4" for="lastName"></Label>
+            <%--<div class="col-xs-5">--%>
+                <form:input path="lastName" class="form-control form-control-lg input-lg" type="text" id="lastName" placeholder="Last Name"/>
+            <%--</div>--%>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-4" for="school">School:</label>
-            <div class="col-xs-5">
-                <form:input path="school" class="form-control form-control-lg" type="text" id="school" placeholder="School Name"/>
-            </div>
+            <label class="control-label col-sm-4" for="school"></label>
+            <%--<div class="col-xs-5">--%>
+                <form:input path="school" class="form-control form-control-lg input-lg" type="text" id="school" placeholder="School Name"/>
+            <%--</div>--%>
         </div>
 
         <div class="form-group">
             <form:input path="email" type="hidden" id="email" value='<%= session.getAttribute("email")%>'/>
         </div>
 
-        <form:radiobutton path="userType" name="options" checked="true" id="Professor" value="prof"/>Professor
-        <form:radiobutton path="userType" name="options" id="Student" value="stud"/>Student
+        <div class="bottom-form">
+        <form:radiobutton path="userType" name="options" checked="true" id="Professor" value="prof"/>&nbspProfessor
+            &nbsp&nbsp
+        <form:radiobutton path="userType" name="options" id="Student" value="stud"/>&nbspStudent
 
-        <br><br>
+        <br><br><br>
         <div>
-            <input class="btn btn-primary" name="submit" value="Sign Up" type="submit"></input>
+            <input class="btn btn-lg btn-primary" name="submit" value="Sign Up" type="submit"></input>
         </div>
         </form:form>
+        </div>
     </div>
+</div>
+
+<div id="footer">
+    <img src="images/logo_footer.png"> &nbsp
+    <span class="text-muted">Copyright &copy 2017 backpack Red Robins. All Rights Reserved.</span>
 </div>
 </body>
 

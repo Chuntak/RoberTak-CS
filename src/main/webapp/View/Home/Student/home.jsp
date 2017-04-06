@@ -30,17 +30,19 @@
     <!-- CSS END -->
     <!-- Red Robbins -->
     <link rel="icon" type="image/png" href="<c:url value="/images/logo.png"/>">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
 </head>
 
 <!--App Content START-->
 <body ng-app="homeApp">
 
 <div id="toolbar" ng-controller="homeCtrl">
-    <img class="inline_header" src="images/logo.png" style="height:40px;width:55px;margin-top:-5px;"/>
-    <h1 class="text">&nbspRoberTak-CS</h1>
+    <img class="inline_header" src="images/logo_top.png"/>
+    <h1 class="text">&nbspbackpack</h1>
     <div class="text-logout">Welcome <%= session.getAttribute("firstName")%> &nbsp
         <%--Sign Out button--%>
-        <img src="images/logout.png" ng-controller="homeCtrl" ng-click="signOut()" class="logout" data-toggle="tooltip" title="Sign out" data-placement="bottom"/>
+        <img src="images/logout.png" ng-controller="homeCtrl" ng-click="signOut()" class="logout clickable" data-toggle="tooltip" title="Sign out" data-placement="bottom"/>
         <form:form id="signOut" name="signOut"  method="GET" action="/signOut">
             <button hidden="hidden" type="submit"></button>
         </form:form>
@@ -52,9 +54,27 @@
         <%--COURSE PANE--%>
         <div class="col-md-2 coursePane" ng-controller="courseCtrl">
             <div class="panel panel-default">
-                <div class="panel-heading">Courses
-                </div>
-                <div class="panel-body">
+                    <%--Enroll to CourseCode--%>
+                    <form class="form-inline">
+                        <div id="courseRegister" class="row container-fluid">
+
+                            <%--<div class="form-group">--%>
+                                <%--<input type="enroll" class="form-control" id="enroll" ng-model="course.code" name="enroll" placeholder="Enter Course Code">--%>
+                            <%--</div>--%>
+                            <%--<button class="btn btn-default" ng-click="enrollCourse()">--%>
+                                <%--<span class="glyphicon glyphicon-plus"></span>--%>
+                            <%--</button>--%>
+
+
+                                <div class="input-group">
+                                    <input type="text" class="form-ctrl course-box" id="enroll" ng-model="course.code" name="enroll" placeholder="Course Code">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success glyphicon glyphicon-plus course-btn" ng-click="enrollCourse()" type="button"></button>
+                                    </span>
+                                </div>
+                        </div>
+                    </form>
+                <%--<div class="">--%>
                     <%--<div id="courseSelection" class="row container-fluid pre-scrollable">--%>
                     <%--AngularJS to dynamically load the courses--%>
                     <ul>
@@ -62,18 +82,7 @@
                             <a href={{course.courseName}}></a>
                         </li>
                     </ul>
-                </div>
-
-                <%--Enroll to CourseCOde--%>
-                <form class="form-inline">
-                    <div id="courseRegister" class="row container-fluid">
-                        <div class="form-group">
-                            <input type="enroll" class="form-control" id="enroll" ng-model="course.code" name="enroll" placeholder="Enter Course Code">
-                        </div>
-                        <button class="btn btn-default" ng-click="enrollCourse()"> Register Course </button>
-                    </div>
-                </form>
-
+                <%--</div>--%>
 
             </div>
         </div>
@@ -81,7 +90,7 @@
         <%--TABS PANE--%>
         <div class="col-md-7 tabPane">
             <div class="panel panel-default">
-                <ul class="nav nav-tabs" ng-controller="tabsCtrl">
+                <ul class="nav nav-tabs tab-heading" ng-controller="tabsCtrl">
                     <li class="tabs" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
                 </ul>
                 <div ui-view></div>
@@ -96,13 +105,14 @@
         <%--FORUM PANE--%>
         <div class="col-md-3 forumPane">
             <div class="panel panel-default">
-                <div class="panel-heading">Forum</div>
+                <div class="forum-heading">Forum</div>
             </div>
         </div>
     </div>
     <%--FOOTER--%>
-    <div class="container-fluid panel-footer">
-        <span class="text-muted">&copy 2017 RoberTak-CS Red Robins All Rights Reserved.</span>
+    <div class="footer-content">
+        <img src="images/logo_footer.png"> &nbsp
+        <span class="text-muted">Copyright &copy 2017 backpack Red Robins. All Rights Reserved.</span>
     </div>
 </div>
 <!--App Content END-->

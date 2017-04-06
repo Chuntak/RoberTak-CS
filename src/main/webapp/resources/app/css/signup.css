@@ -4,25 +4,24 @@ body{
 
 .jumbotron{
     margin-bottom: 0; /* Remove the default bottom margin of .jumbotron */
-}
-.form-horizontal{
-    margin-top: 100px;
-    margin-bottom: 100px;
-    margin-right: 100px;
-    margin-left: 100px;
+    /*padding-top: 1*/
+    font-size: medium;
+    height: 600px;
 }
 
 .form-horizontal {
     border-radius: 10px;
+    margin-right: 14%;
 }
 
 .introduction {
     text-align: center;
     vertical-align: middle;
+    padding-top: 5%;
 }
 
 .form-control-lg{
-    height: 5%;
+    width: 50%;
 }
 
 p.header{
@@ -36,4 +35,21 @@ p.subheader{
 .form{
     padding-top: -100px;
     margin-top: -100px;
+}
+
+#form{
+    margin-top: 30px;
+}
+
+#footer{
+    padding-top: 1.5cm;
+    text-align: center;
+}
+
+.inline{
+    display: inline;
+}
+
+.bottom-form{
+    margin-left: 15%;
 }

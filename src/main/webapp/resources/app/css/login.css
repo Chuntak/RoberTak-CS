@@ -1,39 +1,58 @@
-.container{
-    border: #0b0d0f;
+body{
+    /*background-color: #e6e6e6;*/
+    background: red; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, red , #00bce1); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, red, #00bce1); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, red, #00bce1); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, red , #00bce1); /* Standard syntax (must be last) */
 }
 
-.row{
-    border-color: #0b0d0f;
-}
-#image-wrapper {
-    position: absolute;
-    margin-left: 400px;
-    margin-top: 250px;
+.content-wrapper{
+    height: 90%;
+    width: 100%;
+    margin-top: 0%;
+    background-color: #ffffff;
+    font-size: 120px;
 }
 
 .btn{
-    background: #bfbfbf;
+    background: #00bce1;
     border: #0b0d0f;
     width: 200px;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
-    background-color: #99ddff;
+    background-color: #0099cc;
 }
 
-#btn-wrapper{
-    margin-left: 750px;
-    margin-top: 350px;
+#customBtn {
+    /*padding-top: 3cm;*/
+    padding-left: 10cm;
+    margin-top: -160px;
 }
 
-img{
-    height: 250px;
-    width: 300px;
+#footer{
+    padding-top: .65cm;
+    text-align: center;
 }
 
-.footer{
-    position: absolute;
-    font-color: #cccccc;
-    margin-left: 550px;
-    margin-top: 300px;
+#logo{
+    vertical-align: text-top;
 }
+
+.logo-wrapper{
+    padding-top: 11%;
+    padding-left: 20%;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#customBtn{
+    /*padding-top: -2%;*/
+    padding-left: 53%;
+    margin-top: -12%;
+}
+
+.footer-text{
+    color: #ffffff;
+}
+

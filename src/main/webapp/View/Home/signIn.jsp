@@ -23,11 +23,13 @@ To change this template use File | Settings | File Templates.
     <link rel="stylesheet" href="<c:url value="/resources/app/css/login.css" />">
     <!-- Red Robbins -->
     <link rel="icon" type="image/png" href="<c:url value="/images/logo.png" />">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
 </head>
 
 <body ng-app="signInApp" ng-controller="signInCtrl">
-    <div class="row">
-
+<div class="content-wrapper">
+    <p class="logo-wrapper"><img id="logo" src="images/logo.png"/> backpack</p>
         <form:form id="signUp" name="signUp" method="GET" action="/signUp">
             <button hidden="hidden" type="submit"></button>
         </form:form>
@@ -40,28 +42,18 @@ To change this template use File | Settings | File Templates.
                 document.forms["index"].submit();
             }
         </script>
-        <div id="image-wrapper">
-            <img src="images/logo.png"/>
-        </div>
 
-            <form:form method="GET" action="/login">
-                <div id="login_ID">
-                    <div id="gSignInWrapper">
-                        <div id="customBtn" class="customGPlusSignIn">
-                            <div id="btn-wrapper">
-                            <button type="button" class = "btn btn-lg btn-primary">Sign in</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form:form>
-
-        <footer class="footer">
-            <div class="container">
-                <span class="text-muted">2017 RoberTak-CS Red Robins All Rights Reserved.</span>
+        <form:form method="GET" action="/login">
+            <div id="customBtn" class="customGP®lusSignIn">
+                <button type="button" class = "btn btn-lg btn-primary">Sign Up with Google</button>
             </div>
-        </footer>
-    </div>
+        </form:form>
+</div>
+
+<div id="footer">
+    <img src="images/logo_footer.png"> &nbsp
+    <span class="footer-text">Copyright &copy 2017 RoberTak-CS Red Robins. All Rights Reserved.</span>
+</div>
 
 <!-- JavaScripts -->
 <section>
