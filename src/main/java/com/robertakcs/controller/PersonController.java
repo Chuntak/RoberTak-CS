@@ -37,7 +37,8 @@ public class PersonController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
-        return "Home/signIn";
+
+        return "signIn";
     }
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -46,23 +47,24 @@ public class PersonController {
         session.setAttribute("id", person.getId());
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
+        session.setAttribute("userType", person.getUserType());
         if(person.getUserType().equals("stud")) {
-            return "Home/Student/home";
+            return "Student/home";
         } else {
-            return "Home/Professor/home";
+            return "Professor/home";
         }
     }
 
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
     public String signUp(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, ModelMap map){
-        return "Home/signUp";
+        return "signUp";
     }
 
 
     @RequestMapping(value = "/signOut", method = RequestMethod.GET)
     public String signOut(@ModelAttribute("person") PersonModel person, HttpSession session){
         session.invalidate();
-        return "Home/signIn";
+        return "signIn";
     }
 
 
@@ -74,10 +76,11 @@ public class PersonController {
         session.setAttribute("id", id);
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
+        session.setAttribute("userType", person.getUserType());
         if(person.getUserType().equals("stud")) {
-            return "Home/Student/home";
+            return "Student/home";
         } else {
-            return "Home/Professor/home";
+            return "Professor/home";
         }
     }
 

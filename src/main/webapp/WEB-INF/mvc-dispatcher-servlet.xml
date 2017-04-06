@@ -9,9 +9,11 @@
     <context:component-scan base-package="com.robertakcs"/>
 
     <mvc:annotation-driven />
+    <!-- the mvc resources tag does the magic -->
+    <!--<mvc:resources mapping="/tabs/**" location="/View/Home/tabs/" />-->
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/View/"/>
+        <property name="prefix" value="/View/Home/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 

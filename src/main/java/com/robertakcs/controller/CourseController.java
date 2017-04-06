@@ -35,8 +35,6 @@ public class CourseController {
         return new CourseModel();
     }
 
-
-
     @RequestMapping(value="/updateCourse", method = RequestMethod.GET, produces="text/plain")
     public @ResponseBody String addCourse(@ModelAttribute("course") CourseModel course,  HttpSession session) {
         int profId = (Integer) session.getAttribute("id");

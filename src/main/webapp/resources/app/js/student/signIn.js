@@ -43,13 +43,14 @@ app.controller('signInCtrl', function ($scope, $http) {
                         document.forms["signUp"].submit();
                     }
                 }, function errorCallBack(response) {
-                    //alert("error checking user account http request\n");
+                    debugger;
+                    alert("print\n");
                 });
 
 
             }, function (error) {
-                //alert(JSON.stringify(error, undefined, 2));
-                //alert("Sign in error");
+                alert(JSON.stringify(error, undefined, 2));
+                alert("Sign in error");
             });
     }
     startApp();

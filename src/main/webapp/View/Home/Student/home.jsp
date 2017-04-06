@@ -9,8 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-
+    <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -82,10 +81,10 @@
         <%--TABS PANE--%>
         <div class="col-md-7 tabPane">
             <div class="panel panel-default">
-                <div class="panel-heading">Tabs
-
-                    <%--TAB SWITCHING HERE--%>
-                    <ui-view></ui-view> </div>
+                <ul class="nav nav-tabs" ng-controller="tabsCtrl">
+                    <li class="tabs" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
+                </ul>
+                <div ui-view></div>
 
                 <div class="panel-body">
                     CONTENT
@@ -98,7 +97,7 @@
         <div class="col-md-3 forumPane">
             <div class="panel panel-default">
                 <div class="panel-heading">Forum</div>
-                <div class="panel-body">CONTENT</div>
+
             </div>
         </div>
     </div>
@@ -132,7 +131,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- App Base -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="<c:url value="/resources/app/js/home.js" />"  type="text/javascript" ></script>
-    <script src="<c:url value="/resources/app/js/course.js" />"  type="text/javascript" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+    <script src="<c:url value="/resources/app/js/student/home.js" />"  type="text/javascript" ></script>
+    <script src="<c:url value="/resources/app/js/student/course.js" />"  type="text/javascript" ></script>
+    <script src="<c:url value="/resources/app/js/student/tabRoute.js" />"  type="text/javascript" ></script>
+
 </section>
 </html>
