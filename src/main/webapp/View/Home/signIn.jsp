@@ -41,19 +41,19 @@ To change this template use File | Settings | File Templates.
             document.forms["index"].submit();
         }
     </script>
-    <p class="logo-wrapper"><img id="logo" src="images/logo.png"/> backpack</p>
-
-
-        <form:form method="GET" action="/login">
-            <div id="customBtn" class="customGP®lusSignIn">
-                <button type="button" class = "btn btn-lg btn-primary">Sign Up with Google</button>
-            </div>
-        </form:form>
+    <p class="logo-wrapper">
+        <img id="logo" src="images/logo.png"/> backpack
+    </p>
+    <form:form method="GET" action="/login">
+        <div id="customBtn" class="customGPlusSignIn">
+            <button type="button" class = "btn btn-lg btn-primary">Sign Up with Google</button>
+        </div>
+    </form:form>
 </div>
 
 <div id="footer">
-    <img src="images/logo_footer.png"> &nbsp
-    <span class="footer-text">Copyright &copy 2017 RoberTak-CS Red Robins. All Rights Reserved.</span>
+    <img src="images/logo_footer.png"/> &nbsp
+    <span class="footer-text">Copyright &copy 2017 backpack Red Robins. All Rights Reserved.</span>
 </div>
 
 <!-- JavaScripts -->

@@ -94,19 +94,25 @@
 
                                 <%--The course prefix and number box--%>
                                 <div class="form-inline form-group" id="prefNumDiv">
-                                    <input type="text" class="form-control" ng-model="course.prefix" id="coursePrefix" maxlength="8" placeholder="Course Prefix" />
-                                    <input type="text" class="form-control" ng-model="course.number" id="courseNumber" placeholder="Course Number">
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" ng-model="course.prefix" id="coursePrefix" maxlength="8" placeholder="Course Prefix" />
+                                    </div>
+                                    <div class="col-lg-6">
+                                       <input type="text" class="form-control" ng-model="course.number" id="courseNumber" placeholder="Course Number">
+                                    </div>
                                 </div>
 
                                 <%--The course name--%>
-                                <div class="form-group">
-                                    <input type="text" class="form-control text-left" ng-model="course.name" id="courseName" maxlength="32" placeholder="Course Name"/>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control text-left" ng-model="course.name" id="courseName" maxlength="32" placeholder="Course Name"/>
+                                    </div>
                                 </div>
 
 
                                 <%--Semester and Public checkbox--%>
                                 <div class="form-inline noFloat" id="semPubDiv">
-
+                                    <div class="col-lg-6">
                                     <select id="semester" class="form-control" ng-model="course.semester">
                                         <option value="" disabled selected>Course Semester</option>
 
@@ -130,46 +136,55 @@
                                         <option value="fa20">Fall 2020</option>
                                         <option value="wi20">Winter 2020</option>
                                     </select>
+                                    </div>
 
-                                    <div class="form-check" id="pubDiv">
-                                        <label class="form-check-label" for="public">Make Course Public</label>
-                                        <input class="form-check-input" ng-model="course.public" id="public" type="checkbox"/>
+                                    <div class="col-lg-6">
+                                        <div class="form-check" id="pubDiv">
+                                            <%--<div class="col-xs-11">--%>
+                                            <label class="form-check-label" for="public">Make Course Public</label>
+                                            <%--</div>--%>
+                                            <%--<div class="col-xs-1">--%>
+                                            <input class="form-check-input" ng-model="course.public" id="public" type="checkbox"/>
+                                            <%--</div>--%>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <%--Tag Selection and Removal section--%>
                             <div id="tagSection" class="noFloat">
-                                <form id="tagAdd" class="form-inline form-group">
+                                <div class="col-lg-10">
+                                    <form id="tagAdd" class="form-inline form-group">
 
-                                    <input list="tags" class="form-control" id="tagList" name="tags">
-                                    <datalist id="tags">
-                                        <option value="Java">
-                                        <option value="C">
-                                        <option value="Stack">
-                                        <option value="Linked List">
-                                        <option value="Array">
-                                    </datalist>
-                                    <button class="btn" id="addTagBtn" ng-click="">Add Tag</button>
-                                </form>
+                                        <input list="tags" class="form-control" id="tagList" name="tags">
+                                        <datalist id="tags">
+                                            <option value="Java">
+                                            <option value="C">
+                                            <option value="Stack">
+                                            <option value="Linked List">
+                                            <option value="Array">
+                                        </datalist>
+                                        <button class="btn" id="addTagBtn" ng-click="">Add Tag</button>
+                                    </form>
 
-                                <%--Where We add the tag chips--%>
-                                <div id="tagPane" class="noFloat scroll-pane">
-                                    <%--The X button should remove the tag instead of hiding it--%>
-                                    <div class="chip">
-                                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
-                                        Java
+                                    <%--Where We add the tag chips--%>
+                                    <div id="tagPane" class="noFloat scroll-pane">
+                                        <%--The X button should remove the tag instead of hiding it--%>
+                                        <div class="chip">
+                                            <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                            Java
+                                        </div>
+
+                                        <div class="chip">
+                                            <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                            Stack
+                                        </div>
+
+                                        <div class="chip">
+                                            <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                            Git
+                                        </div>
+
                                     </div>
-
-                                    <div class="chip">
-                                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
-                                        Stack
-                                    </div>
-
-                                    <div class="chip">
-                                        <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
-                                        Git
-                                    </div>
-
                                 </div>
                             </div>
 

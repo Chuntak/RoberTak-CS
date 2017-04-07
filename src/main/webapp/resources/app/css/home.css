@@ -1,12 +1,11 @@
 #toolbar{
     padding-top: .4cm;
     padding-left: 1cm;
+    background-color: #00bce1;
 }
 
 .app-wrapper{
     height: 78%;
-    border-top-style: inset;
-
 }
 
 .content{
@@ -90,12 +89,6 @@
 
 
 /*CSS for the things inside the course pane*/
-#courseSelection,#courseAddEdit,#courseRegister,#courseSearch{
-    /*border:1px solid black;*/
-    /*border-collapse: collapse;*/
-    /*padding-top:5px ;*/
-    /*padding-bottom: 5px;*/
-}
 
 #courseSelection{
     max-height: 90%;
@@ -180,8 +173,6 @@
 /*#courseForm p{ display: table-row;  }*/
 /*#courseForm label,#courseForm input, #courseForm select { display: table-cell; }*/
 
-
-
 #header{
     margin-right: 10px;
     font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
@@ -198,6 +189,9 @@ img.inline_header{
     font-family: 'Ubuntu', sans-serif;
 }
 
+h3{
+    padding-left: .35cm;
+}
 .text-logout{
     text-align: right;
     margin-top: -40px;
@@ -221,8 +215,12 @@ img.logout{
 }
 .footer-content{
     text-align: center;
-    /*margin-top: -10px;*/
-    /*background-color: #e6e6e6;*/
+}
+
+.footer-content img, .footer-content span{
+    text-align: center;
+    font-size: 12px;
+    height: 15px;
 }
 
 .addCourse{
@@ -239,28 +237,28 @@ img.logout{
 
 #courseName{
     width: 100%;
+    margin-top: 15px;
 }
 
 /* CSS to move the Modal things to the left */
 #prefNumDiv input, #semester{
     float: left;
-    width: 50%;
+    width: 100%;
     overflow: auto;
 }
 
 /* The Div with the public label and checkbox*/
 #pubDiv{
     float: left;
-    width: 50%;
+    width: 100%;
     padding: 5px 5px 5px 5px;
     overflow: auto;
 
 }
-#pubDiv label, #pubDiv input{
-    float:left;
-}
+
 /* The Modal's public checkbox */
 #public{
+    margin-top: -5px;
     margin-left: 5px;
 }
 /*Class to stop the floating from messing with alignment */
@@ -271,11 +269,14 @@ img.logout{
     width: 60%;
     float:left;
     overflow: auto;
+    margin-top: 15px;
 }
 
 #addTagBtn{
     float: left;
     overflow: auto;
+    margin-top: 15px;
+    margin-left: 10px;
 }
 /* Where our tags are put into in the modal*/
 #tagpane{
@@ -287,6 +288,7 @@ img.logout{
     border: solid black 1px;
     background-color: #f1f1f1;
 }
+
 /* The Add Course button */
 #courseSubmit{
     width: 100%;
