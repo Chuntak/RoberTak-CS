@@ -5,6 +5,10 @@
 
 var app = angular.module('signInApp', []);
 app.controller('signInCtrl', function ($scope, $http) {
+    /* CHECK IF USER IS LOGGED IN ALREADY */
+    if(sessionStorage.length > 0) {
+        document.forms["index"].submit();
+    }
     var googleUser = {};
     var startApp = function () {
         gapi.load('auth2', function () {

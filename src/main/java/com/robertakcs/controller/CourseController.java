@@ -4,7 +4,7 @@ import com.robertakcs.dao.CourseDAO;
 import com.robertakcs.models.CourseModel;
 import com.robertakcs.models.EnrolledModel;
 import com.robertakcs.models.PersonModel;
-import com.robertakcs.service.RoberTakCSServiceInterface;
+import com.robertakcs.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,17 +24,14 @@ import java.util.ArrayList;
 
 @Controller
 public class CourseController {
-    RoberTakCSServiceInterface RoberTakCSService;
+    /*for datastore*/
+    BackpackServiceImplementation BackpackService;
     @Autowired
-    public CourseController(RoberTakCSServiceInterface todoListService){
-        this.RoberTakCSService = todoListService;
+    public CourseController(BackpackServiceImplementation BackpackService){
+        this.BackpackService = BackpackService;
     }
 
-    @ModelAttribute("course")
-    public CourseModel getCourseModel(){
-        return new CourseModel();
-    }
-
+    /*add/update a course*/
     @RequestMapping(value="/updateCourse", method = RequestMethod.GET)
     public @ResponseBody CourseModel addCourse(@ModelAttribute("course") CourseModel course,  HttpSession session) {
         int profId = (Integer) session.getAttribute("id");

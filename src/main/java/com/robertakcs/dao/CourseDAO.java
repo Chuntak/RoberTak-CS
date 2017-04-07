@@ -15,8 +15,8 @@ import java.util.Map;
  * Created by Chuntak on 4/3/2017.
  */
 public class CourseDAO extends DAOBase {
-    //    Query to getCourse
 
+    /*calls to the database to update course*/
     public CourseModel updateCourse(CourseModel cm) {
         String query = "call update_course(?,?,?,?,?,?,?)";
         ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[]{cm.getId(), cm.getName(),
@@ -24,24 +24,27 @@ public class CourseDAO extends DAOBase {
         return cml.size() > 0 ? cml.get(0) : null;
     }
 
+    /*calls to the database and retrieve course the id can be a student and professor*/
     public ArrayList<CourseModel> getCourse(int id) {
         String query = "call get_course(?)";
         ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[]{id}, new CourseModelExtractor());
         return cml;
     }
 
+    /*calls to the database to delete course*/
     public boolean deleteCourse(CourseModel cm) {
         String query = "call delete_course(?)";
         return dbs.getJdbcTemplate().update(query, cm.getId()) == 1; /*check if 1 row affected*/
     }
 
+    /*calls to the database to enroll course*/
     public CourseModel enrollCourse(int studId,CourseModel cm) {
         String query = "call update_enrolled(?, ?)";
         ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[] {studId, cm.getCode()}, new CourseModelExtractor());
         return cml.size() > 0 ? cml.get(0) : null;/*check if 1 row affected*/
     }
 
-
+    /*private class to retrieve a list of coursemodel from the resultset returned from the database*/
     private static class CourseModelExtractor implements ResultSetExtractor<ArrayList<CourseModel>> {
         @Override
         public ArrayList<CourseModel> extractData(ResultSet rs) throws SQLException, DataAccessException {

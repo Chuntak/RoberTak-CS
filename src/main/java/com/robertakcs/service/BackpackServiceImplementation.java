@@ -11,10 +11,10 @@ import java.util.Date;
  * Created by Chuntak on 2/12/2017.
  */
 @Service
-public class RoberTakCSServiceImplementation implements RoberTakCSServiceInterface {
+public class BackpackServiceImplementation implements BackpackServiceInterface {
     DatastoreService datastoreService;
     @Autowired
-    public RoberTakCSServiceImplementation(DatastoreServiceFactoryInterface datastoreServiceFactory) {
+    public BackpackServiceImplementation(DatastoreServiceFactoryInterface datastoreServiceFactory) {
         this.datastoreService = datastoreServiceFactory.getDatastoreService();
     }
 

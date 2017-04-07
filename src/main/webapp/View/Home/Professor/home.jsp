@@ -4,8 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8"  %>
 
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,7 +70,6 @@
                                 <%--<p class="col-sm-1 hidden"></p>--%>
                             </h4>
                             <h6 class="card-subtitle mb-2 ">{{course.name}}</h6>
-                            <h6 class="card-subtitle mb-2 ">{{course.semester}}</h6>
                             <h6 class="card-subtitle mb-2 ">{{course.profFirstName}} {{course.profLastName}}</h6>
                             <h6 class="card-subtitle mb-2 ">Course Code: {{course.code}}</h6>
                         </a>
@@ -81,8 +78,6 @@
                     <%--ADD COURSE BUTTON--%>
                     <div id="courseAddEdit" class="row container-fluid">
 
-
-
                         <!-- The Modal -->
                         <div id="courseModal" class="modal container-fluid">
 
@@ -90,7 +85,6 @@
                             <div class="modal-content container-fluid">
                                 <span class="close">&times;</span>
                                 <h3>Courses</h3>
-
 
                                 <%--The course prefix and number box--%>
                                 <div class="form-inline form-group" id="prefNumDiv">
@@ -108,7 +102,6 @@
                                         <input type="text" class="form-control text-left" ng-model="course.name" id="courseName" maxlength="32" placeholder="Course Name"/>
                                     </div>
                                 </div>
-
 
                                 <%--Semester and Public checkbox--%>
                                 <div class="form-inline noFloat" id="semPubDiv">
@@ -150,7 +143,7 @@
                                     </div>
                                 </div>
 
-                                <%--Tag Selection and Removal section--%>
+                            <%--Tag Selection and Removal section--%>
                             <div id="tagSection" class="noFloat">
                                 <div class="col-lg-10">
                                     <form id="tagAdd" class="form-inline form-group">
@@ -188,7 +181,7 @@
                                 </div>
                             </div>
 
-                                <%--Submit button to add the course--%>
+                                 <%--Submit button to add the course--%>
                                  <div class="form-group" class="noFloat">
                                      <input class="btn btn-primary noFloat" ng-click="updateCourse()" name="submit" id="courseSubmit" cl value="Save Course" type="submit"/>
                                  </div>
@@ -205,9 +198,7 @@
                     <button type="submit" id="search_submit" class="btn btn-default">
                         <span class="glyphicon glyphicon-search"></span>&nbspSearch
                     </button>
-
                 </form>
-
             </div>
         </div>
 
@@ -218,7 +209,6 @@
                 <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
             </ul>
             <div ui-view></div>
-
             <div class="panel-body">
                 CONTENT
                 <%--TAB CONTENT HERE--%>

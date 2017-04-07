@@ -1,3 +1,4 @@
+/*Header Pane*/
 #toolbar{
     padding-top: .4cm;
     padding-left: 1cm;
@@ -9,14 +10,12 @@
 }
 
 .content{
-    /*background-color: #737373;*/
-
     padding-bottom: .7cm;
     padding-left: .1cm;
     padding-right: .1cm;
 }
 
-/*CSS for Panes*/
+/*CSS for Panes INIT/Header*/
 .coursePane{
     margin-top: 10px;
     margin-left: 9px;
@@ -26,6 +25,12 @@
 .tabPane{
     margin-top: 10px;
     margin-left: -10px;
+}
+
+.forumPane{
+    margin-top: 10px;
+    margin-left: -9px;
+    width: 100%;
 }
 
 .course-heading{
@@ -54,6 +59,10 @@
     border-bottom: solid 1px #d9d9d9;
 }
 
+/*END OF CSS FOR PANE HEADERS*/
+
+
+/*CSS FOR TABS*/
 .nav-tabs > li, .nav-pills > li {
     float:none;
     display:inline-block;
@@ -69,11 +78,8 @@
     cursor:pointer;
 }
 
-.forumPane{
-    margin-top: 10px;
-    margin-left: -9px;
-    width: 100%;
-}
+/*CSS END FOR TAGS*/
+
 
 .panel-default{
     height: calc(100vh - 145px);
@@ -90,15 +96,20 @@
 
 /*CSS for the things inside the course pane*/
 
+/*FOR STUDENT*/
 #courseSelection{
-    max-height: 90%;
+    max-height: 93%;
     overflow-y: auto;
 }
 
+/*FOR PROFESSOR*/
 #courseSelection-prof{
     max-height: 60%;
     overflow-y: auto;
 }
+
+/*END OF CSS FOR COURSE PANE*/
+
 
 /* The Modal (background) */
 .modal {
@@ -165,12 +176,7 @@
 /*END OF MODAL CSS */
 
 
-/*
-    Makes the things panes extend to the bottom
- /**!*/
-/*#courseForm  { display: table;      }*/
-/*#courseForm p{ display: table-row;  }*/
-/*#courseForm label,#courseForm input, #courseForm select { display: table-cell; }*/
+/*Makes the things panes extend to the bottom*/
 
 #header{
     margin-right: 10px;
@@ -228,6 +234,12 @@ img.logout{
     width: 42px;
     margin-top: -10px;
 }
+
+
+
+/****************************
+*******MODAL ADD COURSE******
+****************************/
 
 /*Makes the enroll and search in course width */
 #coursePrefix, #courseNumber{

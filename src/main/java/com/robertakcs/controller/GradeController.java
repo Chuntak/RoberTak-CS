@@ -5,7 +5,7 @@ import com.robertakcs.models.AnnouncementModel;
 import com.robertakcs.models.CourseModel;
 import com.robertakcs.models.EnrolledModel;
 import com.robertakcs.models.PersonModel;
-import com.robertakcs.service.RoberTakCSServiceInterface;
+import com.robertakcs.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,12 +25,14 @@ import java.util.ArrayList;
 
 @Controller
 public class GradeController {
-    RoberTakCSServiceInterface RoberTakCSService;
+    /*for datastore*/
+    BackpackServiceImplementation BackpackService;
     @Autowired
-    public GradeController(RoberTakCSServiceInterface robertakcsService){
-        this.RoberTakCSService = robertakcsService;
+    public GradeController(BackpackServiceImplementation BackpackService){
+        this.BackpackService = BackpackService;
     }
 
+    /*returns the corrent grades page*/
     @RequestMapping(value="/grades", method = RequestMethod.GET)
     public String loadGrades(HttpSession session) {
 

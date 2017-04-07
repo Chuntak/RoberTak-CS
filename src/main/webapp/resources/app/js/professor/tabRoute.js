@@ -62,15 +62,15 @@ homeApp.controller('tabsCtrl', function($scope, $state) {
         $scope.selectedTab = tab;
         /* REFRESH TAB DATA (CONTROLLER REFRESHES)*/
         reloadData();
-    }
+    };
     /* SET CSS FOR TAB TO SHOW SELECTED TAB */
     $scope.tabClass = function(tab) {
-        if ($scope.selectedTab == tab) {
+        if ($scope.selectedTab === tab) {
             return "active";
         } else {
             return "";
         }
-    }
+    };
     /* RELOAD TAB DATA */
     var reloadData = function(){
         $state.reload();

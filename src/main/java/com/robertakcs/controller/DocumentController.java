@@ -2,7 +2,7 @@ package com.robertakcs.controller;
 
 import com.robertakcs.dao.CourseDAO;
 import com.robertakcs.models.*;
-import com.robertakcs.service.RoberTakCSServiceInterface;
+import com.robertakcs.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,20 +22,21 @@ import java.util.ArrayList;
 
 @Controller
 public class DocumentController {
-    RoberTakCSServiceInterface RoberTakCSService;
-
+    /*for datastore*/
+    BackpackServiceImplementation BackpackService;
     @Autowired
-    public DocumentController(RoberTakCSServiceInterface robertakcsService){
-        this.RoberTakCSService = robertakcsService;
+    public DocumentController(BackpackServiceImplementation BackpackService){
+        this.BackpackService = BackpackService;
     }
 
+    /*document model*/
     @ModelAttribute("document")
     public AssignmentModel getCourseModel(){
         return new AssignmentModel();
     }
 
 
-
+    /*returns the corrent document page*/
     @RequestMapping(value="/documents", method = RequestMethod.GET)
     public String loadDocuments(HttpSession session) {
         if(session.getAttribute("userType").equals("stud")) {

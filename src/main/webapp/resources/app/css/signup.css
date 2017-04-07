@@ -3,8 +3,7 @@ body{
 }
 
 .jumbotron{
-    margin-bottom: 0; /* Remove the default bottom margin of .jumbotron */
-    /*padding-top: 1*/
+    margin-bottom: 0;
     font-size: medium;
     height: 600px;
 }
@@ -42,7 +41,7 @@ p.subheader{
 }
 
 #footer{
-    padding-top: 1.5cm;
+    padding-top: .5cm;
     text-align: center;
 }
 

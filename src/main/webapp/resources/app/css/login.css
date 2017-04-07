@@ -1,5 +1,4 @@
 body{
-    /*background-color: #e6e6e6;*/
     background: red; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(left, red , #00bce1); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(right, red, #00bce1); /* For Opera 11.1 to 12.0 */
@@ -18,27 +17,24 @@ body{
     font-size: 120px;
 }
 
+/*BUTTON*/
 .btn{
     background: #00bce1;
     border: #0b0d0f;
     width: 200px;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary{
     background-color: #0099cc;
 }
 
-/*#customBtn {*/
-    /*!*padding-top: 3cm;*!*/
-    /*padding-left: 10cm;*/
-    /*margin-top: -160px;*/
-/*}*/
-
-#footer{
-    padding-top: .5cm;
-    text-align: center;
+#customBtn{
+    padding-left: 20cm;
+    padding-bottom: 10cm;
 }
+/*END OF BUTTON CSS*/
 
+/*LOGO*/
 #logo{
     vertical-align: text-top;
 }
@@ -50,14 +46,15 @@ body{
     height: 460px;
     width: 100%;
 }
+/*END OF CSS FOR LOGO*/
 
-#customBtn{
-    /*padding-top: -2%;*/
-    padding-left: 20cm;
-    padding-bottom: 10cm;
-}
-
+/*FOOTER*/
 .footer-text{
     color: #ffffff;
 }
 
+#footer{
+    padding-top: .5cm;
+    text-align: center;
+}
+/*END OF CSS FOR FOOTER*/

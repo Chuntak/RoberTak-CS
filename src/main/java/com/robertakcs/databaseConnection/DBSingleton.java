@@ -7,13 +7,12 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import java.sql.*;
 
 /**
- * THIS IS A SINGLETON THAT ALLOWS YOU TO ACCESS DATABASE
+ * THIS IS A SINGLETON THAT ALLOWS YOU TO ACCESS DATABASE/OTHER DATASOURCE
  * @author Chuntak
  */
 public class DBSingleton {
 
-    final String DB_URL;// = "jdbc:mysql://clans.cwvpbqqn2dyf.us-east-1.rds.amazonaws.com:3306";
-
+    final String DB_URL;
     final String DRIVER;
     final String USER = "root";
     final String PASS = "RedRobins";
@@ -32,7 +31,7 @@ public class DBSingleton {
             DRIVER = "com.mysql.jdbc.Driver";
         }
         /*Getting the class depending whether we are on web or local*/
-        Class c = Class.forName(DRIVER); /*APPRECIATE THIS I SPENT LIKE 3 HOURS JUST TO FIGURE THIS OUT*/
+        Class c = Class.forName(DRIVER);
 
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource(); /*setting up the dataSource so we can make our JDBCTemplate*/
         dataSource.setDriver((Driver) c.newInstance());  /* JDBCTemplate is how we are gonna connect to our database*/

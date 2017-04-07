@@ -17,7 +17,7 @@ To change this template use File | Settings | File Templates.
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>RoberTak-CS</title>
+    <title>backpack</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="<c:url value="/resources/app/css/login.css" />">
@@ -29,21 +29,19 @@ To change this template use File | Settings | File Templates.
 
 <body ng-app="signInApp" ng-controller="signInCtrl">
 <div class="content-wrapper">
+    <%--HIDDEN BUTTON FOR SIGN UP/REGISTER--%>
     <form:form id="signUp" name="signUp" method="GET" action="/signUp">
         <button hidden="hidden" type="submit"></button>
     </form:form>
+
+    <%--HIDDEN BUTTON FOR SIGN IN--%>
     <form:form id="index" name="index" method="GET" action="/index">
         <button hidden="hidden" type="submit"></button>
     </form:form>
-    <script type='text/javascript'>
-        /* CHECK IF USER IS LOGGED IN ALREADY */
-        if(sessionStorage.length > 0) {
-            document.forms["index"].submit();
-        }
-    </script>
-    <p class="logo-wrapper">
-        <img id="logo" src="images/logo.png"/> backpack
-    </p>
+
+    <p class="logo-wrapper"><img id="logo" src="images/logo.png"/> backpack</p>
+
+    <%--SIGN IN BUTTON--%>
     <form:form method="GET" action="/login">
         <div id="customBtn" class="customGPlusSignIn">
             <button type="button" class = "btn btn-lg btn-primary">Sign Up with Google</button>
@@ -51,8 +49,9 @@ To change this template use File | Settings | File Templates.
     </form:form>
 </div>
 
+<%--FOOTER--%>
 <div id="footer">
-    <img src="images/logo_footer.png"/> &nbsp
+    <img src="images/logo_footer.png"> &nbsp
     <span class="footer-text">Copyright &copy 2017 backpack Red Robins. All Rights Reserved.</span>
 </div>
 
@@ -64,8 +63,5 @@ To change this template use File | Settings | File Templates.
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="<c:url value="/resources/app/js/signIn.js" />"  type="text/javascript" ></script>
 </section>
-
-
 </body>
-
 </html>

@@ -46,6 +46,7 @@ public class TagDAO  extends DAOBase{
         dbs.getJdbcTemplate().update(query, tm.getTagName());
     }
 
+    /*private class to extract a list of tags via the resultset returned from the database*/
     private static class TagModelExtractor implements ResultSetExtractor<ArrayList<TagModel>> {
         @Override
         public ArrayList<TagModel> extractData(ResultSet rs) throws SQLException, DataAccessException {

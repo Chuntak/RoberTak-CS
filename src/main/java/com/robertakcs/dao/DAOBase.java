@@ -15,6 +15,7 @@ public class DAOBase {
         dbs = DBSingleton.getSingleton();
     }
 
+    /*checks if the columnexists*/
     protected static boolean columnExists(ResultSet rs, String columnName){
         try {
             ResultSetMetaData rsmd = rs.getMetaData();

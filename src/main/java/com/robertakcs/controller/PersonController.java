@@ -3,7 +3,7 @@ package com.robertakcs.controller;
 import com.robertakcs.dao.PersonDAO;
 import com.robertakcs.models.CourseModel;
 import com.robertakcs.models.PersonModel;
-import com.robertakcs.service.RoberTakCSServiceInterface;
+import com.robertakcs.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,25 +21,27 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class PersonController {
-    RoberTakCSServiceInterface RoberTakCSService;
+    /*for datastore*/
+    BackpackServiceImplementation BackpackService;
     @Autowired
-    public PersonController(RoberTakCSServiceInterface todoListService){
-        this.RoberTakCSService = todoListService;
+    public PersonController(BackpackServiceImplementation BackpackService){
+        this.BackpackService = BackpackService;
     }
 
-
-
+    /*person model*/
     @ModelAttribute("person")
     public PersonModel getPersonModel(){
         return new PersonModel();
     }
 
 
+    /*returns the signin page*/
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
         return "signIn";
     }
 
+    /*returns the right home page*/
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String loadIndex(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session, ModelMap map){
         person = new PersonDAO().getUserByEmail((String)session.getAttribute("email"));
@@ -54,12 +56,13 @@ public class PersonController {
         }
     }
 
+    /*returns the signup page*/
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
     public String signUp(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, ModelMap map){
         return "signUp";
     }
 
-
+    /*returns to signin page*/
     @RequestMapping(value = "/signOut", method = RequestMethod.GET)
     public String signOut(@ModelAttribute("person") PersonModel person, HttpSession session){
         session.invalidate();
@@ -67,7 +70,7 @@ public class PersonController {
     }
 
 
-
+    /*registers the person and returns the home page*/
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session,ModelMap map){
         //@todo store into database

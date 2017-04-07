@@ -4,12 +4,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8"  %>
 
-<!-- ADDED BY ROBERT FROM CLANS -->
-
 <!DOCTYPE html>
 <html>
 <head>
     <base href="/">
+    <!-- Red Robbins -->
+    <link rel="icon" type="image/png" href="<c:url value="/images/logo.png"/>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -18,25 +18,23 @@
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="858023592805-rlit5sgi3a4mplhq1fgkk58522brusjo.apps.googleusercontent.com">
     <%--Google Logout End--%>
-    <%--Google Logout--%>
 
-    <title>Robertak-CS</title>
+    <title>backpack</title>
     <!-- CSS START -->
     <section>
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="<c:url value="/resources/app/css/home.css" />">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </section>
-    <!-- CSS END -->
-    <!-- Red Robbins -->
-    <link rel="icon" type="image/png" href="<c:url value="/images/logo.png"/>">
+
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <!-- CSS END -->
 
 </head>
 
 <!--App Content START-->
 <body ng-app="homeApp">
-
+<%--TOOLBAR--%>
 <div id="toolbar" ng-controller="homeCtrl">
     <img class="inline_header" src="images/logo_top.png"/>
     <h1 class="text">&nbspbackpack</h1>
@@ -49,46 +47,41 @@
     </div>
 </div>
 
+<%--COURSE PANE--%>
 <div class="content app-wrapper">
     <div class="container-fluid">
         <%--COURSE PANE--%>
         <div class="col-md-2 coursePane" ng-controller="courseCtrl">
             <div class="panel panel-default">
-                    <%--Enroll to CourseCode--%>
-                    <form class="form-inline">
-                        <div id="courseRegister" class="row container-fluid">
+                <%--Enroll to CourseCode--%>
+                <form class="form-inline">
+                    <div id="courseRegister" class="row container-fluid">
+                        <div class="input-group">
 
-                            <%--<div class="form-group">--%>
-                                <%--<input type="enroll" class="form-control" id="enroll" ng-model="course.code" name="enroll" placeholder="Enter Course Code">--%>
-                            <%--</div>--%>
-                            <%--<button class="btn btn-default" ng-click="enrollCourse()">--%>
-                                <%--<span class="glyphicon glyphicon-plus"></span>--%>
-                            <%--</button>--%>
-
-
-                                <div class="input-group">
-                                    <input type="text" autocomplate="off" class="form-ctrl course-box" id="enroll" ng-model="course.code" name="enroll" placeholder="Course Code">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-success glyphicon glyphicon-plus course-btn" ng-click="enrollCourse()" type="button"></button>
-                                    </span>
-                                </div>
+                            <%--ENROLL TO COURSE BTN--%>
+                            <input type="text" autocomplate="off" class="form-ctrl course-box" id="enroll" ng-model="course.code" name="enroll" placeholder="Course Code">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success glyphicon glyphicon-plus course-btn" ng-click="enrollCourse()" type="button"></button>
+                            </span>
                         </div>
-                    </form>
-                     <div id="courseSelection">
-                        <%--AngularJS to dynamically load the courses--%>
-                        <div class="list-grouper" ng-repeat="course in courses">
-                            <a class="list-group-item"  ng-click="selectCourse(course, $index)" ng-class="{active: $index == selected}">
-                                <h4 class="card-title row">
-                                    <p class="col-sm-9">{{course.prefix}}-{{course.number}}</p>
-                                    <%--<p class="col-sm-1 hidden"></p>--%>
-                                </h4>
-                                <h6 class="card-subtitle mb-2 ">{{course.name}}</h6>
-                                <h6 class="card-subtitle mb-2 ">{{course.semester}}</h6>
-                                <h6 class="card-subtitle mb-2 ">{{course.profFirstName}} {{course.profLastName}}</h6>
-                            </a>
-                        </div>
-                     </div>
+                    </div>
+                </form>
 
+                <%--COURSE SELECTION--%>
+                 <div id="courseSelection">
+                    <%--AngularJS to dynamically load the courses--%>
+                    <div class="list-grouper" ng-repeat="course in courses">
+                        <a class="list-group-item"  ng-click="selectCourse(course, $index)" ng-class="{active: $index == selected}">
+                            <h4 class="card-title row">
+                                <p class="col-sm-9">{{course.prefix}}-{{course.number}}</p>
+                                <%--<p class="col-sm-1 hidden"></p>--%>
+                            </h4>
+                            <h6 class="card-subtitle mb-2 ">{{course.name}}</h6>
+                            <h6 class="card-subtitle mb-2 ">{{course.semester}}</h6>
+                            <h6 class="card-subtitle mb-2 ">{{course.profFirstName}} {{course.profLastName}}</h6>
+                        </a>
+                    </div>
+                 </div>
             </div>
         </div>
 
@@ -99,7 +92,6 @@
                     <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
                 </ul>
                 <div ui-view></div>
-
                 <div class="panel-body">
                     CONTENT
                     <%--TAB CONTENT HERE--%>
@@ -114,6 +106,7 @@
             </div>
         </div>
     </div>
+
     <%--FOOTER--%>
     <div class="footer-content">
         <img src="images/logo_footer.png"> &nbsp

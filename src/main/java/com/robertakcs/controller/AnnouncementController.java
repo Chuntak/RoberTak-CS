@@ -5,7 +5,7 @@ import com.robertakcs.models.AnnouncementModel;
 import com.robertakcs.models.CourseModel;
 import com.robertakcs.models.EnrolledModel;
 import com.robertakcs.models.PersonModel;
-import com.robertakcs.service.RoberTakCSServiceInterface;
+import com.robertakcs.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,19 +25,21 @@ import java.util.ArrayList;
 
 @Controller
 public class AnnouncementController {
-    RoberTakCSServiceInterface RoberTakCSService;
+    /*for datastore*/
+    BackpackServiceImplementation BackpackService;
     @Autowired
-    public AnnouncementController(RoberTakCSServiceInterface robertakcsService){
-        this.RoberTakCSService = robertakcsService;
+    public AnnouncementController(BackpackServiceImplementation BackpackService){
+        this.BackpackService = BackpackService;
     }
 
+    /*model*/
     @ModelAttribute("announcement")
     public AnnouncementModel getCourseModel(){
         return new AnnouncementModel();
     }
 
 
-
+    /*returns the announcements page*/
     @RequestMapping(value="/announcements", method = RequestMethod.GET)
     public String loadAnnouncements(HttpSession session) {
         if(session.getAttribute("userType").equals("stud")) {
