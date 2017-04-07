@@ -54,7 +54,7 @@
         <div class="col-md-2 coursePane" ng-controller="courseCtrl">
             <div class="panel panel-default">
                 <div class="course-heading">Courses
-                    <button id="addCourse" class="btn btn-default addCourse">
+                    <button id="addCourse" class="btn-success btn btn-default addCourse">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
                 </div>
