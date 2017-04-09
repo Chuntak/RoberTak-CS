@@ -18,6 +18,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
     var span = document.getElementsByClassName("close")[0];
 // When the user clicks on the button, open the modal
     btn.onclick = function() {
+        $scope.getTag();
         $scope.course = {};
         $scope.$apply();
         modal.style.display = "block";
@@ -38,6 +39,25 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
     };
     $scope.course = {};
     $scope.lastEditedCourse = {};
+    $scope.tagList = {};
+    $scope.selectedTag = "";
+    $scope.courseTaggedList = [];
+
+    $scope.getTag = function() {
+        $http.get("/getTag").then(function (response){
+            debugger;
+            $scope.tagList = response.data;
+        }, function(error) { console.log(error.data); });
+    };
+
+    $scope.addTag = function(){
+        //todo http request
+        if($scope.courseTaggedList.indexOf($scope.courseTaggedList) === -1){
+            $scope.courseTaggedList.push($scope.selectedTag);
+            $scope.selectedTag = "";
+        }
+    };
+
 
     $scope.updateCourse = function(){
         var y = $http({
@@ -73,6 +93,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
             alert("add course error\n");
         });
     };
+
     $scope.selected = 0;
     $scope.selectCourse = function(course, index){
         debugger;
@@ -83,7 +104,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
     $http.get('/getCourse').then(function(response) {
         var courseList = response.data;
         $scope.courses = [];
-
         for(i = 0; i < courseList.length; i++) {
             var course = courseList[i];
             var courseJson = {"id": course.id ,"prefix":course.prefix, "number":course.number, "name":course.name, "semester":course.semester,
@@ -97,8 +117,8 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
 
 
     $scope.editCourse = function(course){
+        $scope.getTag();
         $scope.lastEditedCourse = course; /*saves when returned we change*/
-        debugger;
         $scope.course = {};
         $scope.course.id = course.id;
         $scope.course.prefix = course.prefix;
@@ -112,10 +132,9 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
 
         var modal = document.getElementById('courseModal');
         modal.style.display = "block";
-    }
+    };
 
     $scope.deleteCourse = function(course){
-        debugger;
         var y = $http({
             method: 'GET',
             url: '/deleteCourse',
@@ -132,6 +151,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
         }, function errorCallBack(response) {
             alert("delete course error\n");
         });
-    }
+    };
 });
 

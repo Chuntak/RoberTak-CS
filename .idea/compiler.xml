@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="backpack" />
         <module name="DoListMakerWeb" />
         <module name="RoberTak-CS" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="backpack" target="1.7" />
       <module name="DoListMakerWeb" target="1.6" />
       <module name="RoberTak-CS" target="1.7" />
     </bytecodeTargetLevel>

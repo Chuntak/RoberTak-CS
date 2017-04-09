@@ -14,7 +14,7 @@ app.controller('signInCtrl', function ($scope, $http) {
         gapi.load('auth2', function () {
             // Retrieve the singleton for the GoogleAuth library and set up the client.
             auth2 = gapi.auth2.init({
-                client_id: '858023592805-rlit5sgi3a4mplhq1fgkk58522brusjo.apps.googleusercontent.com',
+                client_id: '1035281966309-b4borhbj8b2i8vljn1q1sndtqg3rpvnq.apps.googleusercontent.com',
                 cookiepolicy: 'single_host_origin',
                 // Request scopes in addition to 'profile' and 'email'
                 //scope: 'additional_scope'

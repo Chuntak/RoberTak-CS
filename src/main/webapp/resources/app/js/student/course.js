@@ -49,14 +49,12 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
         var lastName = sessionStorage.getItem("userLastName");
         var courseList = response.data;
         $scope.courses = [];
-
         for(i = 0; i < courseList.length; i++) {
             var course = courseList[i];
             var courseJson = {"id": course.id, "prefix":course.prefix, "number":course.number, "name":course.name, "semester":course.semester,
                 "profFirstName":course.profFirstName, "profLastName":course.profLastName};
             $scope.courses.push(courseJson);
         }
-        debugger;
     }, function(response) { /*error*/
     });
 

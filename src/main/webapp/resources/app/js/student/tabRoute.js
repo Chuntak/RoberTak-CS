@@ -54,15 +54,15 @@ homeApp.controller('tabsCtrl', function($scope, $state) {
     $scope.setSelectedTab = function(tab) {
         $scope.selectedTab = tab;
         reloadData();
-    }
+    };
 
     $scope.tabClass = function(tab) {
-        if ($scope.selectedTab == tab) {
+        if ($scope.selectedTab === tab) {
             return "active";
         } else {
             return "";
         }
-    }
+    };
     var reloadData = function(){
         $state.reload();
     }

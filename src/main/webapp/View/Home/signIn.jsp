@@ -29,24 +29,18 @@ To change this template use File | Settings | File Templates.
 
 <body ng-app="signInApp" ng-controller="signInCtrl">
 <div class="content-wrapper">
-    <%--HIDDEN BUTTON FOR SIGN UP/REGISTER--%>
-    <form:form id="signUp" name="signUp" method="GET" action="/signUp">
-        <button hidden="hidden" type="submit"></button>
-    </form:form>
+    <%--HIDDEN FORM FOR SIGN UP/REGISTER--%>
+    <form:form id="signUp" name="signUp" method="GET" action="/signUp"/>
 
-    <%--HIDDEN BUTTON FOR SIGN IN--%>
-    <form:form id="index" name="index" method="GET" action="/index">
-        <button hidden="hidden" type="submit"></button>
-    </form:form>
+    <%--HIDDEN FORM FOR SIGN IN--%>
+    <form:form id="index" name="index" method="GET" action="/index"/>
 
     <p class="logo-wrapper"><img id="logo" src="images/logo.png"/> backpack</p>
 
     <%--SIGN IN BUTTON--%>
-    <form:form method="GET" action="/login">
-        <div id="customBtn" class="customGPlusSignIn">
-            <button type="button" class = "btn btn-lg btn-primary">Sign Up with Google</button>
-        </div>
-    </form:form>
+    <div class="customGPlusSignIn">
+        <button id="customBtn" type="submit" class ="btn btn-lg btn-primary">Sign Up with Google</button>
+    </div>
 </div>
 
 <%--FOOTER--%>

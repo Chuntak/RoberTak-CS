@@ -16,7 +16,7 @@
     <meta name="author" content="">
     <%--Google Logout--%>
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="858023592805-rlit5sgi3a4mplhq1fgkk58522brusjo.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="1035281966309-b4borhbj8b2i8vljn1q1sndtqg3rpvnq.apps.googleusercontent.com">
     <%--Google Logout End--%>
     <%--Google Logout--%>
 
@@ -147,34 +147,19 @@
                             <div id="tagSection" class="noFloat">
                                 <div class="col-lg-10">
                                     <form id="tagAdd" class="form-inline form-group">
-
-                                        <input list="tags" class="form-control" id="tagList" name="tags">
+                                        <input list="tags"  ng-model="selectedTag" class="form-control" id="tagList" name="tags">
                                         <datalist id="tags">
-                                            <option value="Java">
-                                            <option value="C">
-                                            <option value="Stack">
-                                            <option value="Linked List">
-                                            <option value="Array">
+                                            <option ng-repeat="tag in tagList" value="{{tag.tagName}}">{{tag.tagName}}</option>
                                         </datalist>
-                                        <button class="btn" id="addTagBtn" ng-click="">Add Tag</button>
+                                        <button class="btn" id="addTagBtn" ng-click="addTag()">Add Tag</button>
                                     </form>
 
                                     <%--Where We add the tag chips--%>
                                     <div id="tagPane" class="noFloat scroll-pane">
                                         <%--The X button should remove the tag instead of hiding it--%>
-                                        <div class="chip">
+                                        <div class="chip" ng-repeat="courseTagged in courseTaggedList">
                                             <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
-                                            Java
-                                        </div>
-
-                                        <div class="chip">
-                                            <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
-                                            Stack
-                                        </div>
-
-                                        <div class="chip">
-                                            <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
-                                            Git
+                                            {{courseTagged}}
                                         </div>
 
                                     </div>
@@ -256,5 +241,6 @@
     <script src="<c:url value="/resources/app/js/professor/home.js" />"  type="text/javascript" ></script>
     <script src="<c:url value="/resources/app/js/professor/course.js" />"  type="text/javascript" ></script>
     <script src="<c:url value="/resources/app/js/professor/tabRoute.js" />"  type="text/javascript" ></script>
+    <script src="<c:url value="/resources/app/js/professor/syllabus.js"/>"  type="text/javascript" ></script>
 </section>
 </html>

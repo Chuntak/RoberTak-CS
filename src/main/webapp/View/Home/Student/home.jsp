@@ -16,7 +16,7 @@
     <meta name="author" content="">
     <%--Google Logout--%>
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="858023592805-rlit5sgi3a4mplhq1fgkk58522brusjo.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="1035281966309-b4borhbj8b2i8vljn1q1sndtqg3rpvnq.apps.googleusercontent.com">
     <%--Google Logout End--%>
 
     <title>backpack</title>

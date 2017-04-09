@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.springapp</groupId>
-    <artifactId>RoberTakCS</artifactId>
+    <artifactId>backpack</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>RoberTak-CS</name>
+    <name>backpack</name>
 
     <properties>
         <maven.compiler.target>1.7</maven.compiler.target>
@@ -20,6 +20,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>gmultipart</groupId>
+            <artifactId>gmultipart</artifactId>
+            <version>0.4</version>
+        </dependency>
 
         <dependency> <!-- ONLY USED LOCALY -->
             <groupId>mysql</groupId>
@@ -175,11 +181,30 @@
         </dependency>
         <!-- Hibernate library dependecy end -->
 
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <!-- Apache Commons FileUpload -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
+        <!-- Apache Commons IO -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
 
     </dependencies>
 
     <build>
-        <finalName>RoberTak-CS</finalName>
+        <finalName>backpack</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

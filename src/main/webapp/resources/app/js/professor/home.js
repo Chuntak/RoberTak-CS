@@ -6,7 +6,7 @@
 angular.module('homeApp', ["ui.router"]);
 
 /*Home Controller*/
-angular.module('homeApp').controller('homeCtrl', function ($scope, $http) {
+angular.module('homeApp').controller('homeCtrl',function ($scope, $http) {
     $scope.userFirstName = sessionStorage.getItem("userFirstName");
     $scope.signOut = function() {
         console.log('User signed out.');
