@@ -50,10 +50,10 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http) {
             params : {
                 "title" : "hi"
             }
-        }).success(function() {
+        }).success(function(response) {
             debugger;
             console.log('success');
-        }).error(function() {
+        }).error(function(response) {
             console.log('error');
         });
     }

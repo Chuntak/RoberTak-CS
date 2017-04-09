@@ -1,5 +1,6 @@
 package com.backpack.controller;
 
+import com.backpack.databaseConnection.DBSingleton;
 import com.backpack.models.SyllabusModel;
 import com.backpack.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,12 @@ public class SyllabusController {
     }
 
     /*gets the tag returns the arraylist tag */
-    @RequestMapping(value="/uploadSyllabus", method = RequestMethod.POST, consumes = {"multipart/form-data"},produces="application/json")
+    @RequestMapping(value="/uploadSyllabus", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="text/plain")
     public @ResponseBody
-    String uploadSyllabus(@RequestParam(value = "file") MultipartFile file, @ModelAttribute("syllabus") SyllabusModel syllabus, HttpSession session) {
-        return "";
+    String uploadSyllabus(@ModelAttribute("syllabus") SyllabusModel syllabus, HttpSession session) {
+//        syllabus.getFile();
+        String url = DBSingleton.getSingleton().uploadFile(syllabus.getFile());
+
+        return url;
     }
 }

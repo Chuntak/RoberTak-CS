@@ -15,6 +15,14 @@ public class SyllabusModel {
     private String description;
     private MultipartFile file;
 
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
     public int getId() {
         return id;
     }

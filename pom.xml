@@ -19,10 +19,17 @@
         <database>RedRobins</database>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
 
         <dependency>
-            <groupId>gmultipart</groupId>
+            <groupId>com.github.kernel164</groupId>
             <artifactId>gmultipart</artifactId>
             <version>0.4</version>
         </dependency>
@@ -125,6 +132,18 @@
             <groupId>com.googlecode.objectify</groupId>
             <artifactId>objectify</artifactId>
             <version>5.1.15</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-storage</artifactId>
+            <version>0.11.0-beta</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.appengine.tools</groupId>
+            <artifactId>appengine-gcs-client</artifactId>
+            <version>RELEASE</version>
         </dependency>
 
         <!--&lt;!&ndash; MySQL database driver &ndash;&gt;-->
