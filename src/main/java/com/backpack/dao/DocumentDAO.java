@@ -1,0 +1,8 @@
+package com.backpack.dao;
+
+/**
+ * Created by Chuntak on 4/12/2017.
+ */
+public class DocumentDAO extends DAOBase{
+
+}

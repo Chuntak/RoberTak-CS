@@ -223,14 +223,6 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
     <script src="https://apis.google.com/js/api:client.js"></script>
-    <script>
-        function onLoad() {
-            gapi.load('auth2', function() {
-                debugger;
-                gapi.auth2.init();
-            });
-        }
-    </script>
     <%--Google Logout End--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

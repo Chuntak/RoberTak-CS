@@ -1,5 +1,6 @@
 package com.backpack.controller;
 
+import com.backpack.dao.SyllabusDAO;
 import com.backpack.databaseConnection.DBSingleton;
 import com.backpack.models.SyllabusModel;
 import com.backpack.service.BackpackServiceImplementation;
@@ -46,8 +47,7 @@ public class SyllabusController {
     public @ResponseBody
     String uploadSyllabus(@ModelAttribute("syllabus") SyllabusModel syllabus, HttpSession session) {
 //        syllabus.getFile();
-        String url = DBSingleton.getSingleton().uploadFile(syllabus.getFile());
-
+        String url = new SyllabusDAO().uploadSyllabus(syllabus);
         return url;
     }
 }

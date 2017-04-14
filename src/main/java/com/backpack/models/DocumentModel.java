@@ -1,5 +1,7 @@
 package com.backpack.models;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.sql.Date;
 
 /**
@@ -12,6 +14,17 @@ public class DocumentModel {
     private Date dateCreated;
     private String title;
     private String description;
+    private MultipartFile file;
+    private String downloadLink;
+    private String blobName;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public DocumentModel() {
         this.id = 0;
@@ -68,4 +81,22 @@ public class DocumentModel {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+
+    public String getDownloadLink() {
+        return downloadLink;
+    }
+
+    public void setDownloadLink(String downloadLink) {
+        this.downloadLink = downloadLink;
+    }
+
+    public String getBlobName() {
+        return blobName;
+    }
+
+    public void setBlobName(String blobName) {
+        this.blobName = blobName;
+    }
 }
+

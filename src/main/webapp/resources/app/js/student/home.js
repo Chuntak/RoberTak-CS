@@ -14,3 +14,10 @@ angular.module('homeApp').controller('homeCtrl', function ($scope, $http) {
         document.forms["signOut"].submit();
     };
 });
+
+function onLoad() {
+    gapi.load('auth2', function() {
+        debugger;
+        gapi.auth2.init();
+    });
+}

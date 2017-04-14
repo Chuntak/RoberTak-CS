@@ -2,24 +2,16 @@ package com.backpack.databaseConnection;
 
 
 
-
-import com.google.auth.Credentials;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Acl;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
+import com.google.cloud.storage.Blob;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import com.google.cloud.storage.Blob;
 
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -36,7 +28,7 @@ public class DBSingleton {
     private static DBSingleton dbs;
     private JdbcTemplate jdbcTemplate;
 
-    private static final String BUCKET_NAME = "backpackbucket";
+    private static final String BUCKET_NAME = "backpack-164101.appspot.com";
     private static Storage storage = null;
 
     private DBSingleton() throws SQLException, IllegalAccessException, InstantiationException, ClassNotFoundException {
@@ -85,18 +77,16 @@ public class DBSingleton {
         return jdbcTemplate;
     }
 
-    public String uploadFile(MultipartFile file) {
+    public Blob uploadFile(MultipartFile file) {
         List<Acl> acls = new ArrayList<>();
         acls.add(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
         try {
-            Blob blob = storage.create( BlobInfo.newBuilder(BUCKET_NAME, file.getOriginalFilename()).setAcl(acls).build(),
+            Blob blob = storage.create(BlobInfo.newBuilder(BUCKET_NAME, file.getOriginalFilename()).setAcl(acls).build(),
                     file.getInputStream());
-            return blob.getMediaLink();
+            return blob;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return null;
     }
-
-
 }
