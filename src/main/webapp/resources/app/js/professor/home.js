@@ -21,3 +21,9 @@ function onLoad() {
         gapi.auth2.init();
     });
 }
+
+/*sharing scope variable*/
+angular.module('homeApp').factory('global', function() {
+    var global = {};
+    return global;
+});

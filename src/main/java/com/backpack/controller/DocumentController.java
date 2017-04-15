@@ -28,26 +28,26 @@ public class DocumentController {
 
     /*document model*/
     @ModelAttribute("document")
-    public AssignmentModel getCourseModel(){
-        return new AssignmentModel();
+    public DocumentModel getDocumentModel(){
+        return new DocumentModel();
     }
 
 
-    /*returns the corrent document page*/
+    /*returns the co rrent document page*/
     @RequestMapping(value="/documents", method = RequestMethod.GET)
     public String loadDocuments(HttpSession session) {
         return "tabs/documents";
     }
 
     /*Upload DOCUMENT*/
-    @RequestMapping(value="/uploadDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="text/plain")
+    @RequestMapping(value="/uploadDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public @ResponseBody
     DocumentModel uploadDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
         return new DocumentDAO().uploadDocument(document);
     }
 
     /*update DOCUMENT*/
-    @RequestMapping(value="/updateDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="text/plain")
+    @RequestMapping(value="/updateDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="application/json")
     public @ResponseBody
     boolean updateDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
         DocumentModel dm = new DocumentDAO().updateDocument(document);

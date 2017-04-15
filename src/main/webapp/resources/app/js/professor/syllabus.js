@@ -2,7 +2,6 @@
  * Created by Chuntak on 4/9/2017.
  */
 
-
 angular.module('homeApp').directive('fileModel', ['$parse', function ($parse) {
     return {
         restrict: 'A',
@@ -29,7 +28,6 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http) {
         var file = $scope.myFile;
         var fd = new FormData();
         fd.append('file', file);
-        // fd.append('filetype', 'csv');
         fd.append('f', 'json');
         $http.post("/uploadSyllabus", fd, {
             transformRequest : angular.identity,

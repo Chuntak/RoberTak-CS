@@ -25,7 +25,7 @@ public class AssignmentController {
 
     /*assignment model*/
     @ModelAttribute("assignment")
-    public AssignmentModel getCourseModel(){
+    public AssignmentModel getAssignmentModel(){
         return new AssignmentModel();
     }
 

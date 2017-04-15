@@ -69,6 +69,7 @@ homeApp.controller('tabsCtrl', function($scope, $state) {
 
 });
 
+
 // create the controller and inject Angular's $scope
 homeApp.controller('announcementsCtrl', function($scope, $state) {
     // create a message to display in our view

@@ -25,7 +25,7 @@ public class AnnouncementController {
 
     /*model*/
     @ModelAttribute("announcement")
-    public AnnouncementModel getCourseModel(){
+    public AnnouncementModel getAnnouncementModel(){
         return new AnnouncementModel();
     }
 
