@@ -1,6 +1,6 @@
 package com.backpack.models;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by rvtru on 4/5/2017.

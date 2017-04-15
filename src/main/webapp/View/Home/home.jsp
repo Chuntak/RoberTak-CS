@@ -222,7 +222,6 @@
             </c:choose>
         </div>
     </div>
-
     <%--TABS PANE--%>
     <div class="col-md-7 tabPane">
         <div class="panel panel-default">
@@ -236,14 +235,12 @@
             </div>
         </div>
     </div>
-
     <%--FORUM PANE--%>
     <div class="col-md-3 forumPane">
         <div class="panel panel-default">
             <div class="forum-heading">Forum</div>
         </div>
     </div>
-
     <%--FOOTER--%>
     <div class="footer-content">
         <img src="images/logo_footer.png"> &nbsp

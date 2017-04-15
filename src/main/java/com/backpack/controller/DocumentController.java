@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  * Created by Robert on 4/5/2017.
@@ -28,8 +29,8 @@ public class DocumentController {
 
     /*document model*/
     @ModelAttribute("document")
-    public AssignmentModel getCourseModel(){
-        return new AssignmentModel();
+    public DocumentModel getDocumentModel(){
+        return new DocumentModel();
     }
 
 
@@ -47,18 +48,25 @@ public class DocumentController {
     }
 
     /*update DOCUMENT*/
-    @RequestMapping(value="/updateDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="text/plain")
+    @RequestMapping(value="/updateDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="application/json")
     public @ResponseBody
     boolean updateDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
         DocumentModel dm = new DocumentDAO().updateDocument(document);
         return dm != null;
     }
-//
-//    /*Delete DOCUMENT*/
-//    @RequestMapping(value="/deleteDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="text/plain")
-//    public @ResponseBody
-//    boolean deleteDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
-//        return new DocumentDAO().;
-//    }
+
+    /*Delete DOCUMENT*/
+    @RequestMapping(value="/deleteDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="application/json")
+    public @ResponseBody
+    boolean deleteDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
+        return new DocumentDAO().deleteDocument(document);
+    }
+
+    /*GET DOCUMENT*/
+    @RequestMapping(value="/getDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+    public @ResponseBody
+    ArrayList<DocumentModel> getDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
+        return new DocumentDAO().getDocument(document);
+    }
 
 }

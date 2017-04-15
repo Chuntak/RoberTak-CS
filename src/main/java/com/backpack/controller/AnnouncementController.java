@@ -1,5 +1,6 @@
 package com.backpack.controller;
 
+import com.backpack.dao.AnnouncementDAO;
 import com.backpack.models.AnnouncementModel;
 import com.backpack.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  * Created by Robert on 4/5/2017.
@@ -25,7 +28,7 @@ public class AnnouncementController {
 
     /*model*/
     @ModelAttribute("announcement")
-    public AnnouncementModel getCourseModel(){
+    public AnnouncementModel getAnnouncementModel(){
         return new AnnouncementModel();
     }
 
@@ -36,5 +39,27 @@ public class AnnouncementController {
         return "tabs/announcements";
     }
 
+
+    /*update DOCUMENT*/
+    @RequestMapping(value="/updateAnnouncement", method = RequestMethod.POST)
+    public @ResponseBody
+    AnnouncementModel updateAnnouncement(@ModelAttribute("announcement") AnnouncementModel announcement, HttpSession session) {
+        AnnouncementModel am = new AnnouncementDAO().updateAnnouncement(announcement);
+        return am;
+    }
+
+    /*Delete DOCUMENT*/
+    @RequestMapping(value="/deleteAnnouncement", method = RequestMethod.POST, produces="application/json")
+    public @ResponseBody
+    boolean deleteAnnouncement(@ModelAttribute("announcement") AnnouncementModel announcement, HttpSession session) {
+        return new AnnouncementDAO().deleteAnnouncement(announcement);
+    }
+
+    /*GET DOCUMENT*/
+    @RequestMapping(value="/getAnnouncement", method = RequestMethod.POST)
+    public @ResponseBody
+    ArrayList<AnnouncementModel> getAnnouncement(@ModelAttribute("announcement") AnnouncementModel announcement, HttpSession session) {
+        return new AnnouncementDAO().getAnnouncement(announcement);
+    }
 
 }

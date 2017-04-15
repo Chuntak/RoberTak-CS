@@ -39,6 +39,17 @@ public class DocumentDAO extends DAOBase{
         return dml.size() > 0 ? dml.get(0) : null;
     }
 
+    public boolean deleteDocument(DocumentModel dm) {
+        String query = "call delete_document(?)";
+        return dbs.getJdbcTemplate().update(query, dm.getId()) == 1;
+    }
+
+    public ArrayList<DocumentModel> getDocument(DocumentModel dm) {
+        String query = "call get_document(?)";
+        return dbs.getJdbcTemplate().query(query, new Object[] { dm.getCourseId() }, new DocumentModelExtractor());
+    }
+
+
     /*private class to retrieve a list of person from the resultset returned from the database*/
     private static class DocumentModelExtractor implements ResultSetExtractor<ArrayList<DocumentModel>> {
         @Override
