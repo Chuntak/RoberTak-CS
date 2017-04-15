@@ -48,11 +48,7 @@ public class PersonController {
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
         session.setAttribute("userType", person.getUserType());
-        if(person.getUserType().equals("stud")) {
-            return "Student/home";
-        } else {
-            return "Professor/home";
-        }
+        return "home";
     }
 
     /*returns the signup page*/
@@ -78,11 +74,7 @@ public class PersonController {
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
         session.setAttribute("userType", person.getUserType());
-        if(person.getUserType().equals("stud")) {
-            return "Student/home";
-        } else {
-            return "Professor/home";
-        }
+        return "home";
     }
 
 

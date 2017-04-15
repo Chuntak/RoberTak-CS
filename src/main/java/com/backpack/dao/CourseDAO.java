@@ -14,9 +14,9 @@ public class CourseDAO extends DAOBase {
 
     /*calls to the database to update course*/
     public CourseModel updateCourse(CourseModel cm) {
-        String query = "call update_course(?,?,?,?,?,?,?)";
+        String query = "call update_course(?,?,?,?,?,?,?,?)";
         ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[]{cm.getId(), cm.getName(),
-                cm.getPrefix(), cm.getNumber(), cm.getProfId(), cm.getPub(), cm.getSemester()}, new CourseModelExtractor());
+                cm.getPrefix(), cm.getNumber(), cm.getProfId(), cm.getPub(), cm.getSemester(), cm.getAno()}, new CourseModelExtractor());
         return cml.size() > 0 ? cml.get(0) : null;
     }
 
@@ -56,6 +56,7 @@ public class CourseDAO extends DAOBase {
                     if (columnExists(rs, "profId")) cm.setProfId(rs.getInt("profId"));
                     if (columnExists(rs, "public")) cm.setPub(rs.getBoolean("public"));
                     if (columnExists(rs, "semester")) cm.setSemester(rs.getString("semester"));
+                    if (columnExists(rs, "ano")) cm.setAno(rs.getString("ano"));
                     if (columnExists(rs, "firstName")) cm.setProfFirstName(rs.getString("firstName"));
                     if (columnExists(rs, "lastName")) cm.setProfLastName(rs.getString("lastName"));
                     if (columnExists(rs, "email")) cm.setProfEmail(rs.getString("email"));

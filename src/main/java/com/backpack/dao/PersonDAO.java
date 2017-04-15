@@ -46,12 +46,12 @@ public class PersonDAO extends DAOBase {
             if(rs.getMetaData().getColumnCount() > 0) {
                 while (rs.next()) {
                     PersonModel pm = new PersonModel();
-                    pm.setId(rs.getInt("id"));
-                    pm.setEmail(rs.getString("email"));
-                    pm.setFirstName(rs.getString("firstName"));
-                    pm.setLastName(rs.getString("lastName"));
-                    pm.setUserType(rs.getString("userType"));
-                    pm.setSchool(rs.getString("school"));
+                    if (columnExists(rs, "id")) pm.setId(rs.getInt("id"));
+                    if (columnExists(rs, "email")) pm.setEmail(rs.getString("email"));
+                    if (columnExists(rs, "firstName")) pm.setFirstName(rs.getString("firstName"));
+                    if (columnExists(rs, "lastName")) pm.setLastName(rs.getString("lastName"));
+                    if (columnExists(rs, "userType")) pm.setUserType(rs.getString("userType"));
+                    if (columnExists(rs, "school")) pm.setSchool(rs.getString("school"));
                     pml.add(pm);
                 }
             }

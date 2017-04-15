@@ -10,18 +10,20 @@ public class CourseModel {
     private String code;
     private int profId;
     private String semester;
+
+    private String ano;
+
     private boolean pub;
-
-
-
     private int id;
+
 
 
     /*Professor attributes*/
     private String profFirstName;
+
+
     private String profLastName;
     private String profEmail;
-
     /*Person attributes*/
 
     public String getProfFirstName() {
@@ -60,10 +62,10 @@ public class CourseModel {
         this.id = 0;
     }
 
-
     public int getProfId(){
         return this.profId;
     }
+
 
     public void setProfId(int profId){
         this.profId = profId;
@@ -127,5 +129,13 @@ public class CourseModel {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getAno() {
+        return ano;
+    }
+
+    public void setAno(String ano) {
+        this.ano = ano;
     }
 }

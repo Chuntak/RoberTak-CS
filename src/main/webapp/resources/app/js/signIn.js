@@ -1,8 +1,6 @@
 /**
  * Created by Chuntak on 4/2/2017.
  */
-
-
 var app = angular.module('signInApp', []);
 app.controller('signInCtrl', function ($scope, $http) {
     /* CHECK IF USER IS LOGGED IN ALREADY */

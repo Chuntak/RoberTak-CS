@@ -20,7 +20,7 @@ To change this template use File | Settings | File Templates.
     <title>backpack</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<c:url value="/resources/app/css/login.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/app/css/signIn.css" />">
     <!-- Red Robbins -->
     <link rel="icon" type="image/png" href="<c:url value="/images/logo.png" />">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
@@ -39,7 +39,7 @@ To change this template use File | Settings | File Templates.
 
     <%--SIGN IN BUTTON--%>
     <div class="customGPlusSignIn">
-        <button id="customBtn" type="submit" class ="btn btn-lg btn-primary">Sign Up with Google</button>
+        <button id="customBtn" type="submit" class ="btn btn-lg btn-primary">Sign In with Google</button>
     </div>
 </div>
 

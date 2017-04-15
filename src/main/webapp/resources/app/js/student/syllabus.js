@@ -24,26 +24,4 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http) {
     $scope.myFile = null;
     $scope.message = "syllabus.js file ctrl";
 
-    $scope.uploadSyllabus = function() {
-        debugger;
-        var file = $scope.myFile;
-        var fd = new FormData();
-        fd.append('file', file);
-        // fd.append('filetype', 'csv');
-        fd.append('f', 'json');
-        $http.post("/uploadSyllabus", fd, {
-            transformRequest : angular.identity,
-            headers : {
-                'Content-Type' : undefined
-            },
-            params : {
-                "title" : "hi"
-            }
-        }).success(function(response) {
-            debugger;
-            console.log('success');
-        }).error(function(response) {
-            console.log('error');
-        });
-    }
 });

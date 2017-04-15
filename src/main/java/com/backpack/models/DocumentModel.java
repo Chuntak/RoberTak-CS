@@ -2,7 +2,7 @@ package com.backpack.models;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by rvtru on 4/5/2017.
@@ -17,6 +17,7 @@ public class DocumentModel {
     private MultipartFile file;
     private String downloadLink;
     private String blobName;
+    private String section;
 
     public MultipartFile getFile() {
         return file;
@@ -27,19 +28,6 @@ public class DocumentModel {
     }
 
     public DocumentModel() {
-        this.id = 0;
-        this.courseId = 0;
-        title = "";
-        description = "";
-        dateCreated = new Date(10000000);
-    }
-
-    public DocumentModel(int id, int courseId, String title, String description, Date dateCreated) {
-        this.id = id;
-        this.courseId = courseId;
-        this.title = title;
-        this.description = description;
-        this.dateCreated = dateCreated;
     }
 
     public int getCourseId() {
@@ -97,6 +85,14 @@ public class DocumentModel {
 
     public void setBlobName(String blobName) {
         this.blobName = blobName;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 }
 

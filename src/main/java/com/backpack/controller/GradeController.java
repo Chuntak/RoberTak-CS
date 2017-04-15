@@ -24,11 +24,6 @@ public class GradeController {
     /*returns the corrent grades page*/
     @RequestMapping(value="/grades", method = RequestMethod.GET)
     public String loadGrades(HttpSession session) {
-
-        if(session.getAttribute("userType").equals("stud")) {
-            return "Student/tabs/grades";
-        } else {
-            return "Professor/tabs/grades";
-        }
+        return "tabs/grades";
     }
 }

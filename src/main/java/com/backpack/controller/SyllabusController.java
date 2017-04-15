@@ -35,14 +35,10 @@ public class SyllabusController {
     /*returns the syllabus page*/
     @RequestMapping(value="/syllabus", method = RequestMethod.GET)
     public String loadSyllabus(HttpSession session) {
-        if(session.getAttribute("userType").equals("stud")) {
-            return "Student/tabs/syllabus";
-        } else {
-            return "Professor/tabs/syllabus";
-        }
+        return "tabs/syllabus";
     }
 
-    /*gets the tag returns the arraylist tag */
+
     @RequestMapping(value="/uploadSyllabus", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="text/plain")
     public @ResponseBody
     String uploadSyllabus(@ModelAttribute("syllabus") SyllabusModel syllabus, HttpSession session) {

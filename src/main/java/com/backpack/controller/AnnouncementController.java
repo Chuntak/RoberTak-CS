@@ -33,11 +33,7 @@ public class AnnouncementController {
     /*returns the announcements page*/
     @RequestMapping(value="/announcements", method = RequestMethod.GET)
     public String loadAnnouncements(HttpSession session) {
-        if(session.getAttribute("userType").equals("stud")) {
-            return "Student/tabs/announcements";
-        } else {
-            return "Professor/tabs/announcements";
-        }
+        return "tabs/announcements";
     }
 
 

@@ -33,11 +33,7 @@ public class AssignmentController {
     /*returns the right assignment page*/
     @RequestMapping(value="/assignments", method = RequestMethod.GET)
     public String loadAssignments(HttpSession session) {
-        if(session.getAttribute("userType").equals("stud")) {
-            return "Student/tabs/assignments";
-        } else {
-            return "Professor/tabs/assignments";
-        }
+        return "tabs/assignments";
     }
 
 

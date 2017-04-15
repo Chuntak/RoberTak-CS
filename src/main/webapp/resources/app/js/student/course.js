@@ -1,22 +1,10 @@
 /**
  * Created by Calvin on 4/1/2017.
  */
-
-$(document).ready(function() {
-    // Get the modal
-    var modal = document.getElementById('courseModal');
-// Get the button that opens the modal
-    var btn = document.getElementById("addCourse");
-    var submit = document.getElementById("courseSubmit");
-// Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-});
-
-
 /*Course Controller*/
 angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
     $scope.course = "";
+    /*enrolling in a course*/
     $scope.enrollCourse = function() {
         var y = $http({
             method: 'GET',
@@ -27,7 +15,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
             if(course !== "") {
                 $scope.courses.push({
                     "id": course.id,"prefix": course.prefix, "number": course.number, "name": course.name, "semester": course.semester,
-                    "profFirstName": course.profFirstName, "profLastName": course.profLastName
+                    "ano":course.ano,"profFirstName": course.profFirstName, "profLastName": course.profLastName
                 });
                 debugger;
             } else {
@@ -44,6 +32,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
         $scope.selected = index;
     };
 
+    /*gets the course to display*/
     $http.get('/getCourse').then(function(response) {
         var firstName = sessionStorage.getItem("userFirstName");
         var lastName = sessionStorage.getItem("userLastName");
@@ -52,7 +41,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
         for(i = 0; i < courseList.length; i++) {
             var course = courseList[i];
             var courseJson = {"id": course.id, "prefix":course.prefix, "number":course.number, "name":course.name, "semester":course.semester,
-                "profFirstName":course.profFirstName, "profLastName":course.profLastName};
+                "ano":course.ano ,"profFirstName":course.profFirstName, "profLastName":course.profLastName};
             $scope.courses.push(courseJson);
         }
     }, function(response) { /*error*/

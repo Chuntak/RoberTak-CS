@@ -11,8 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 /**
  * THIS IS A SINGLETON THAT ALLOWS YOU TO ACCESS DATABASE/OTHER DATASOURCE
@@ -80,13 +82,18 @@ public class DBSingleton {
     public Blob uploadFile(MultipartFile file) {
         List<Acl> acls = new ArrayList<>();
         acls.add(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
+        String fileName = file.getOriginalFilename() + "|" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         try {
-            Blob blob = storage.create(BlobInfo.newBuilder(BUCKET_NAME, file.getOriginalFilename()).setAcl(acls).build(),
+            Blob blob = storage.create(BlobInfo.newBuilder(BUCKET_NAME, fileName).setAcl(acls).build(),
                     file.getInputStream());
             return blob;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean deleteFile(String blobName){
+        return storage.delete(BlobId.of(BUCKET_NAME, blobName));
     }
 }
