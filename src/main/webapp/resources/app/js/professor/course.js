@@ -2,7 +2,9 @@
  * Created by Calvin on 4/1/2017.
  */
 /*Course Controller*/
-angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
+
+
+angular.module('homeApp').controller('courseCtrl', function ($scope, $http, global) {
 
 /******************************************INITALIZING THE MODAL************************************************/
     // Get the modal
@@ -49,6 +51,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
     // }
 
 /***************************************************************************************************************/
+    $scope.global = global;
     $scope.course = {};
     $scope.lastEditedCourse = {};
     $scope.tagList = {};
@@ -82,6 +85,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
                 "semester": $scope.course.semester, "ano":$scope.course.ano,"pub": $scope.course.public }
         }).then(function (response) {
             if(response.data !== "") {  /*add to the pane*/
+                debugger;
                 var code = response.data.code;
                 var id = response.data.id;
                 var firstName = response.data.profFirstName;
@@ -116,6 +120,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
     $scope.selectCourse = function(course, index){
         debugger;
         $scope.selected = index;
+        $scope.global.course = course;
     };
 
     $http.get('/getCourse').then(function(response) {
@@ -127,6 +132,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http) {
                 "ano":course.ano ,"profFirstName":course.profFirstName, "profLastName":course.profLastName, "code":course.code, "public":course.public};
             $scope.courses.push(courseJson);
         }
+        $scope.global.course = $scope.courses[0];
         debugger;
     }, function(response) { /*error*/
     });

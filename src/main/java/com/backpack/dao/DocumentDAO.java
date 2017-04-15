@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -34,7 +35,7 @@ public class DocumentDAO extends DAOBase{
     public DocumentModel updateDocument(DocumentModel dm){
         /*UPDATES THE DATABASE*/
         String query = "call update_document(?,?,?,?,?,?,?,?)";
-        ArrayList<DocumentModel> dml =  dbs.getJdbcTemplate().query(query, new Object[] { dm.getId(), dm.getCourseId(), dm.getDateCreated(), dm.getTitle(),
+        ArrayList<DocumentModel> dml =  dbs.getJdbcTemplate().query(query, new Object[] { dm.getId(), dm.getCourseId(), new SimpleDateFormat("yyyy-MM-dd").format(dm.getDateCreated()), dm.getTitle(),
                 dm.getDescription(), dm.getSection(), dm.getDownloadLink(), dm.getBlobName() }, new DocumentModelExtractor());
         return dml.size() > 0 ? dml.get(0) : null;
     }
@@ -65,7 +66,10 @@ public class DocumentDAO extends DAOBase{
                     if (columnExists(rs, "description")) dm.setDescription(rs.getString("description"));
                     if (columnExists(rs, "section")) dm.setSection(rs.getString("section"));
                     if (columnExists(rs, "downloadLink")) dm.setDownloadLink(rs.getString("downloadLink"));
-                    if (columnExists(rs, "blobName")) dm.setBlobName(rs.getString("blobName"));
+                    if (columnExists(rs, "blobName")) {
+                        dm.setBlobName(rs.getString("blobName"));
+                        dm.setFileName(dm.getBlobName().split("|")[0]);
+                    }
                     dml.add(dm);
                 }
             }

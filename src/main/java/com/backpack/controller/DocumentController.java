@@ -34,14 +34,14 @@ public class DocumentController {
     }
 
 
-    /*returns the corrent document page*/
+    /*returns the co rrent document page*/
     @RequestMapping(value="/documents", method = RequestMethod.GET)
     public String loadDocuments(HttpSession session) {
         return "tabs/documents";
     }
 
     /*Upload DOCUMENT*/
-    @RequestMapping(value="/uploadDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="text/plain")
+    @RequestMapping(value="/uploadDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public @ResponseBody
     DocumentModel uploadDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
         return new DocumentDAO().uploadDocument(document);

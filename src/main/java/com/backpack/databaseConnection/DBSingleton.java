@@ -82,7 +82,7 @@ public class DBSingleton {
     public Blob uploadFile(MultipartFile file) {
         List<Acl> acls = new ArrayList<>();
         acls.add(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
-        String fileName = file.getOriginalFilename() + "|" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        String fileName = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "|" +  file.getOriginalFilename();
         try {
             Blob blob = storage.create(BlobInfo.newBuilder(BUCKET_NAME, fileName).setAcl(acls).build(),
                     file.getInputStream());

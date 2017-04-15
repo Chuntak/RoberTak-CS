@@ -230,8 +230,7 @@
             </ul>
             <div ui-view></div>
             <div class="panel-body">
-                CONTENT
-                <%--TAB CONTENT HERE--%>
+
             </div>
         </div>
     </div>
@@ -267,6 +266,7 @@
             <script src="<c:url value="/resources/app/js/professor/home.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/course.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/syllabus.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/professor/documents.js" />"  type="text/javascript" ></script>
         </c:when>
         <c:when test="${userType eq 'stud'}">
             <script src="<c:url value="/resources/app/js/student/home.js" />"  type="text/javascript" ></script>

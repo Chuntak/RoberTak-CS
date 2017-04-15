@@ -17,15 +17,10 @@ public class DocumentModel {
     private MultipartFile file;
     private String downloadLink;
     private String blobName;
+    private String fileName;
     private String section;
 
-    public MultipartFile getFile() {
-        return file;
-    }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
 
     public DocumentModel() {
     }
@@ -94,5 +89,21 @@ public class DocumentModel {
     public void setSection(String section) {
         this.section = section;
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
 }
 
