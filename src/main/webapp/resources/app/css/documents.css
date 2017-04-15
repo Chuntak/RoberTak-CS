@@ -1,0 +1,12 @@
+.addDoc-body{
+    height: 120px;
+    border-bottom: 1px solid #000000;
+    padding-top: .5cm;
+    padding-left: .5cm;
+    /*border-radius: 30px;*/
+}
+
+textarea{
+    resize: none;
+    overflow: auto;
+}
