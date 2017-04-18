@@ -51,7 +51,7 @@ public class TagDAO  extends DAOBase{
         @Override
         public ArrayList<TagModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
             ArrayList<TagModel> tml = new ArrayList<TagModel>();
-            if(rs.getMetaData().getColumnCount() > 0) {
+            if(rs != null && rs.getMetaData().getColumnCount() > 0) {
                 while (rs.next()) {
                     TagModel tm = new TagModel();
                     tm.setId(rs.getInt("id"));

@@ -41,7 +41,7 @@ public class AnnouncementDAO extends DAOBase{
         @Override
         public ArrayList<AnnouncementModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
             ArrayList<AnnouncementModel> aml = new ArrayList<AnnouncementModel>();
-            if(rs.getMetaData().getColumnCount() > 0) {
+            if(rs != null && rs.getMetaData().getColumnCount() > 0) {
                 while (rs.next()) {
                     AnnouncementModel am = new AnnouncementModel();
                     if (columnExists(rs, "id")) am.setId(rs.getInt("id"));

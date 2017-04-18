@@ -43,7 +43,7 @@ public class PersonDAO extends DAOBase {
         @Override
         public ArrayList<PersonModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
             ArrayList<PersonModel> pml = new ArrayList<PersonModel>();
-            if(rs.getMetaData().getColumnCount() > 0) {
+            if(rs != null && rs.getMetaData().getColumnCount() > 0) {
                 while (rs.next()) {
                     PersonModel pm = new PersonModel();
                     if (columnExists(rs, "id")) pm.setId(rs.getInt("id"));

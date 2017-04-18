@@ -8,12 +8,17 @@ import java.sql.Date;
  * Created by Chuntak on 4/9/2017.
  */
 public class SyllabusModel {
-    private int id;
     private int courseId;
     private Date dateCreated;
     private String title;
     private String description;
     private MultipartFile file;
+
+
+    private String blobName;
+    private String fileName;
+    private String downloadLink;
+    private String viewLink;
 
     public MultipartFile getFile() {
         return file;
@@ -21,14 +26,6 @@ public class SyllabusModel {
 
     public void setFile(MultipartFile file) {
         this.file = file;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getCourseId() {
@@ -64,4 +61,35 @@ public class SyllabusModel {
     }
 
 
+    public String getBlobName() {
+        return blobName;
+    }
+
+    public void setBlobName(String blobName) {
+        this.blobName = blobName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getDownloadLink() {
+        return downloadLink;
+    }
+
+    public void setDownloadLink(String downloadLink) {
+        this.downloadLink = downloadLink;
+    }
+
+    public String getViewLink() {
+        return viewLink;
+    }
+
+    public void setViewLink(String viewLink) {
+        this.viewLink = viewLink;
+    }
 }

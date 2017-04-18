@@ -30,20 +30,25 @@ public class SyllabusController {
         return new SyllabusModel();
     }
 
-
-
     /*returns the syllabus page*/
     @RequestMapping(value="/syllabus", method = RequestMethod.GET)
     public String loadSyllabus(HttpSession session) {
         return "tabs/syllabus";
     }
 
-
-    @RequestMapping(value="/uploadSyllabus", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="text/plain")
+    @RequestMapping(value="/uploadSyllabus", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public @ResponseBody
-    String uploadSyllabus(@ModelAttribute("syllabus") SyllabusModel syllabus, HttpSession session) {
-//        syllabus.getFile();
-        String url = new SyllabusDAO().uploadSyllabus(syllabus);
-        return url;
+    SyllabusModel uploadSyllabus(@ModelAttribute("syllabus") SyllabusModel syllabus, HttpSession session) {
+        return new SyllabusDAO().uploadSyllabus(syllabus);
+    }
+
+    @RequestMapping(value="/getSyllabus", method = RequestMethod.GET)
+    public @ResponseBody SyllabusModel getSyllabus(@ModelAttribute("syllabus") SyllabusModel syllabus, HttpSession session) {
+        return new SyllabusDAO().getSyllabus(syllabus);
+    }
+
+    @RequestMapping(value="/deleteSyllabus", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody boolean deleteSyllabus(@ModelAttribute("syllabus") SyllabusModel syllabus, HttpSession session) {
+        return new SyllabusDAO().deleteSyllabus(syllabus);
     }
 }

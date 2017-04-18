@@ -63,7 +63,7 @@ public class DocumentController {
     }
 
     /*GET DOCUMENT*/
-    @RequestMapping(value="/getDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+    @RequestMapping(value="/getDocument", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<DocumentModel> getDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
         return new DocumentDAO().getDocument(document);

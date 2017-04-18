@@ -45,7 +45,7 @@ public class CourseDAO extends DAOBase {
         @Override
         public ArrayList<CourseModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
             ArrayList<CourseModel> cml = new ArrayList<CourseModel>();
-            if(rs.getMetaData().getColumnCount() > 0) {
+            if(rs != null && rs.getMetaData().getColumnCount() > 0) {
                 while (rs.next()) {
                     CourseModel cm = new CourseModel();
                     if (columnExists(rs, "id")) cm.setId(rs.getInt("id"));

@@ -96,4 +96,9 @@ public class DBSingleton {
     public boolean deleteFile(String blobName){
         return storage.delete(BlobId.of(BUCKET_NAME, blobName));
     }
+
+    /*creates a link to view file on webpage*/
+    public String getFileViewLink(String blobName) {
+        return "https://docs.google.com/gview?url=https://storage.googleapis.com/" + BUCKET_NAME + "/" + blobName + "&embedded=true";
+    }
 }

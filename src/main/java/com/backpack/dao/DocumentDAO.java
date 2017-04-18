@@ -56,7 +56,7 @@ public class DocumentDAO extends DAOBase{
         @Override
         public ArrayList<DocumentModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
             ArrayList<DocumentModel> dml = new ArrayList<DocumentModel>();
-            if(rs.getMetaData().getColumnCount() > 0) {
+            if(rs != null && rs.getMetaData().getColumnCount() > 0) {
                 while (rs.next()) {
                     DocumentModel dm = new DocumentModel();
                     if (columnExists(rs, "id")) dm.setId(rs.getInt("id"));

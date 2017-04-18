@@ -19,13 +19,48 @@ angular.module('homeApp').directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 
-angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http) {
-    $scope.myFile = null;
+angular.module('homeApp')
+    .filter('trustUrl', function ($sce) {
+        return function(url) {
+            return $sce.trustAsResourceUrl(url);
+        };
+});
+
+
+angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http, global) {
+    $scope.global = global;
     $scope.message = "syllabus.js file ctrl";
 
-    $scope.uploadSyllabus = function() {
+    $scope.syllabus = {};
+
+    $http.get("/getSyllabus", {
+        params : {
+                "courseId" : $scope.global.course.id
+        }
+    }).success(function(response){
+        $scope.syllabus = response;
         debugger;
-        var file = $scope.myFile;
+    }).error(function(response){
+        debugger;
+    });
+
+    $scope.deleteSyllabus = function() {
+        $http.get("/deleteSyllabus", {
+            params : {
+                "courseId" : $scope.global.course.id
+            }
+        }).success(function(response){
+            if(response === true) console.log("Success delete");
+            $scope.syllabus = {};
+            $scope.syllabus.viewLink = "none";
+            debugger;
+        }).error(function(response){
+            debugger;
+        });
+    };
+
+    $scope.uploadSyllabus = function() {
+        var file = $scope.syllabus.myFile;
         var fd = new FormData();
         fd.append('file', file);
         fd.append('f', 'json');
@@ -35,10 +70,12 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http) {
                 'Content-Type' : undefined
             },
             params : {
-                "title" : "hi"
+                "title" : "hi",
+                "courseId" : $scope.global.course.id
             }
         }).success(function(response) {
             debugger;
+            $scope.syllabus = response;
             console.log('success');
         }).error(function(response) {
             console.log('error');

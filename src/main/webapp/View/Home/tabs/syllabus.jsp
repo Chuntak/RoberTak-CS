@@ -17,15 +17,14 @@
     <c:choose>
         <c:when test="${userType eq 'prof'}">
             <form ng-submit="uploadSyllabus()">
-                <input type="file" file-model="myFile"/>
+                <input type="file" file-model="syllabus.myFile"/>
                 <button type="submit">Submit</button>
             </form>
+            <button ng-click="deleteSyllabus()">Delete</button>
         </c:when>
     </c:choose>
 
-    {{message}}
-    lolol
-    <iframe src="http://docs.google.com/gview?url=https://storage.googleapis.com/backpack-164101.appspot.com/Practice_Problems_Cache.pdf&embedded=true" frameborder="1"></iframe>
+    <iframe ng-src="{{syllabus.viewLink | trustUrl}}" frameborder="1"></iframe>
 </div>
 
 
