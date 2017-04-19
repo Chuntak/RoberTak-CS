@@ -43,7 +43,7 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
             params : {
                 "title" : $scope.doc.title,
                 "description": $scope.doc.description,
-                "courseId" : $scope.global.course.id
+                "courseId" : global.getCourseId()
             }
         }).success(function(response){
             console.log('success')

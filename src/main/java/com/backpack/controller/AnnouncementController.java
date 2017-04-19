@@ -49,14 +49,14 @@ public class AnnouncementController {
     }
 
     /*Delete DOCUMENT*/
-    @RequestMapping(value="/deleteAnnouncement", method = RequestMethod.POST, produces="application/json")
+    @RequestMapping(value="/deleteAnnouncement", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
     boolean deleteAnnouncement(@ModelAttribute("announcement") AnnouncementModel announcement, HttpSession session) {
         return new AnnouncementDAO().deleteAnnouncement(announcement);
     }
 
     /*GET DOCUMENT*/
-    @RequestMapping(value="/getAnnouncement", method = RequestMethod.POST)
+    @RequestMapping(value="/getAnnouncement", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<AnnouncementModel> getAnnouncement(@ModelAttribute("announcement") AnnouncementModel announcement, HttpSession session) {
         return new AnnouncementDAO().getAnnouncement(announcement);

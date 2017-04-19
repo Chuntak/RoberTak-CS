@@ -4,7 +4,7 @@
 /*Course Controller*/
 
 
-angular.module('homeApp').controller('courseCtrl', function ($scope, $http, global) {
+angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $state, global) {
 
 /******************************************INITALIZING THE MODAL************************************************/
     // Get the modal
@@ -51,7 +51,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, glob
     // }
 
 /***************************************************************************************************************/
-    $scope.global = global;
     $scope.course = {};
     $scope.lastEditedCourse = {};
     $scope.tagList = {};
@@ -120,7 +119,12 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, glob
     $scope.selectCourse = function(course, index){
         debugger;
         $scope.selected = index;
-        $scope.global.course = course;
+        global.setCourseId(course.id);
+        /* RELOAD TAB DATA */
+        var reloadData = function(){
+            $state.reload();
+        }
+        reloadData();
     };
 
     $http.get('/getCourse').then(function(response) {
@@ -132,7 +136,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, glob
                 "ano":course.ano ,"profFirstName":course.profFirstName, "profLastName":course.profLastName, "code":course.code, "public":course.public};
             $scope.courses.push(courseJson);
         }
-        $scope.global.course = $scope.courses[0];
+        global.setCourseId($scope.courses[0].id);
         debugger;
     }, function(response) { /*error*/
     });

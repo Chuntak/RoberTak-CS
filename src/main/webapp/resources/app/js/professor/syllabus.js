@@ -28,14 +28,13 @@ angular.module('homeApp')
 
 
 angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http, global) {
-    $scope.global = global;
     $scope.message = "syllabus.js file ctrl";
 
     $scope.syllabus = {};
 
     $http.get("/getSyllabus", {
         params : {
-                "courseId" : $scope.global.course.id
+                "courseId" : global.getCourseId()
         }
     }).success(function(response){
         $scope.syllabus = response;
@@ -47,7 +46,7 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http, gl
     $scope.deleteSyllabus = function() {
         $http.get("/deleteSyllabus", {
             params : {
-                "courseId" : $scope.global.course.id
+                "courseId" : global.getCourseId()
             }
         }).success(function(response){
             if(response === true) console.log("Success delete");
@@ -71,7 +70,7 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http, gl
             },
             params : {
                 "title" : "hi",
-                "courseId" : $scope.global.course.id
+                "courseId" : global.getCourseId()
             }
         }).success(function(response) {
             debugger;

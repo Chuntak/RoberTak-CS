@@ -24,6 +24,15 @@ function onLoad() {
 
 /*sharing scope variable*/
 angular.module('homeApp').factory('global', function() {
-    var global = {};
-    return global;
+    var properties = { courseId : 0 };
+    function getCourseId() {
+        return properties.courseId;
+    }
+    function setCourseId(crsId) {
+        properties.courseId = crsId;
+    }
+    return {
+        getCourseId : getCourseId,
+        setCourseId : setCourseId
+    };
 });
