@@ -98,7 +98,13 @@ public class DBSingleton {
     }
 
     /*creates a link to view file on webpage*/
-    public String getFileViewLink(String blobName) {
-        return "https://docs.google.com/gview?url=https://storage.googleapis.com/" + BUCKET_NAME + "/" + blobName + "&embedded=true";
+    public String getFileViewLink(String blobName, boolean embedded) {
+        return "https://docs.google.com/gview?url=https://storage.googleapis.com/" + BUCKET_NAME + "/" + blobName +
+                (embedded ? "&embedded=true" : "");
+    }
+
+    public BlobInfo getBlobInfo(String blobName){
+        BlobInfo b = Blob.newBuilder(BUCKET_NAME, blobName).build();
+        return b;
     }
 }

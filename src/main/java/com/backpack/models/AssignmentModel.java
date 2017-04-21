@@ -1,7 +1,10 @@
 package com.backpack.models;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 
 /**
  * Created by rvtru on 4/5/2017.
@@ -18,16 +21,17 @@ public class AssignmentModel {
     private Time dueTime;
     private String difficulty;
 
+    private MultipartFile hwFile;
+    private String hwBlobName;
+    private String hwFileName;
+    private String hwDownloadLink;
+    private String hwViewLink;
+    private int hwId;
+
+
+    private ArrayList<HWFileModel> hwFileModelList;
+
     public AssignmentModel() {
-        id = 0;
-        courseId = 0;
-        title = "";
-        description = "";
-        gradableType = "";
-        maxGrade = 0;
-        dueDate = new Date(100000);
-        dueTime = new Time(100000);
-        difficulty = "";
     }
 
     public AssignmentModel(int id, int courseId, String title, String description, String gradableType, double maxGrade, Date dueDate, Time dueTime, String difficulty) {
@@ -112,5 +116,72 @@ public class AssignmentModel {
 
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
+    }
+
+
+    public ArrayList<HWFileModel> getHWFileModelList() {
+        return hwFileModelList;
+    }
+
+    public void setHWFileModelList(ArrayList<HWFileModel> hwFileModelList) {
+        this.hwFileModelList = hwFileModelList;
+    }
+
+
+
+    public MultipartFile getHwFile() {
+        return hwFile;
+    }
+
+    public void setHwFile(MultipartFile hwFile) {
+        this.hwFile = hwFile;
+    }
+
+    public String getHwBlobName() {
+        return hwBlobName;
+    }
+
+    public void setHwBlobName(String hwBlobName) {
+        this.hwBlobName = hwBlobName;
+    }
+
+    public String getHwFileName() {
+        return hwFileName;
+    }
+
+    public void setHwFileName(String hwFileName) {
+        this.hwFileName = hwFileName;
+    }
+
+    public String getHwDownloadLink() {
+        return hwDownloadLink;
+    }
+
+    public void setHwDownloadLink(String hwDownloadLink) {
+        this.hwDownloadLink = hwDownloadLink;
+    }
+
+    public String getHwViewLink() {
+        return hwViewLink;
+    }
+
+    public void setHwViewLink(String hwViewLink) {
+        this.hwViewLink = hwViewLink;
+    }
+
+    public int getHwId() {
+        return hwId;
+    }
+
+    public void setHwId(int hwId) {
+        this.hwId = hwId;
+    }
+
+    public ArrayList<HWFileModel> getHwFileModelList() {
+        return hwFileModelList;
+    }
+
+    public void setHwFileModelList(ArrayList<HWFileModel> hwFileModelList) {
+        this.hwFileModelList = hwFileModelList;
     }
 }

@@ -19,6 +19,7 @@ angular.module('homeApp').directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 
+/*make it a trusted url*/
 angular.module('homeApp')
     .filter('trustUrl', function ($sce) {
         return function(url) {
@@ -62,15 +63,14 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http, gl
         var file = $scope.syllabus.myFile;
         var fd = new FormData();
         fd.append('file', file);
+        fd.append('title', "title");
+        fd.append("courseId", global.getCourseId());
         fd.append('f', 'json');
+
         $http.post("/uploadSyllabus", fd, {
             transformRequest : angular.identity,
             headers : {
                 'Content-Type' : undefined
-            },
-            params : {
-                "title" : "hi",
-                "courseId" : global.getCourseId()
             }
         }).success(function(response) {
             debugger;

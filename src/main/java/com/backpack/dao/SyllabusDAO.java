@@ -14,6 +14,8 @@ import java.util.ArrayList;
  * Created by Chuntak on 4/12/2017.
  */
 public class SyllabusDAO extends DAOBase {
+
+    /*uploads and stores syllabus into the database*/
     public SyllabusModel uploadSyllabus(SyllabusModel sm){
         if(sm.getFile() != null) {
             Blob blob = dbs.uploadFile(sm.getFile()); /*uploads to store*/
@@ -26,7 +28,7 @@ public class SyllabusDAO extends DAOBase {
             if(smTemp != null && (smTemp.getBlobName() != null || !smTemp.getBlobName().equals(""))){ /*check if theres previous syllabus, if there is delete it from stoarge*/
                 dbs.deleteFile(smTemp.getBlobName());
             }
-            sm.setViewLink(dbs.getFileViewLink(sm.getBlobName()));
+            sm.setViewLink(dbs.getFileViewLink(sm.getBlobName(), true));
             sm.setFile(null); /*CLEAR THIS OUT SO WE DONT RETURN IT*/
             return sm;
         }
@@ -36,7 +38,7 @@ public class SyllabusDAO extends DAOBase {
     public SyllabusModel getSyllabus(SyllabusModel sm) {
         String query = "call get_syllabus(?)";
         sm = dbs.getJdbcTemplate().query(query, new Object[] {sm.getCourseId()}, new SyllabusModelExtractor());
-        if(sm != null) sm.setViewLink(dbs.getFileViewLink(sm.getBlobName()));
+        if(sm != null) sm.setViewLink(dbs.getFileViewLink(sm.getBlobName(),true));
         return sm;
     }
 
@@ -61,7 +63,7 @@ public class SyllabusDAO extends DAOBase {
                     sm = new SyllabusModel();
                     if (columnExists(rs, "sylBlobName")) {
                         sm.setBlobName(rs.getString("sylBlobName"));
-                        sm.setFileName(sm.getBlobName().split("|")[0]);
+                        sm.setFileName(sm.getBlobName().split("\\|")[1]);
                     }
                     if (columnExists(rs, "sylLink")) sm.setDownloadLink(rs.getString("sylLink"));
 

@@ -52,7 +52,7 @@
             <script type="text/ng-template" id="display">
                     <div class="text-content">
                         <h3>{{document.title}}</h3>Download Link:
-                        <a href="{{document.downloadLink}}">{{document.fileName}}</a>
+                        <a href="{{document.viewLink}}">{{document.fileName}}</a>
                         <p>{{document.description}}</p>
                     </div>
                     <c:choose>
@@ -84,31 +84,5 @@
 
 </div>
 </body>
-
-<section>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
-    <script src="https://apis.google.com/js/api:client.js"></script>
-    <%--Google Logout End--%>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- App Base -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
-    <c:choose>
-        <c:when test="${userType eq 'prof'}">
-            <script src="<c:url value="/resources/app/js/professor/home.js" />"  type="text/javascript" ></script>
-            <script src="<c:url value="/resources/app/js/professor/course.js" />"  type="text/javascript" ></script>
-            <script src="<c:url value="/resources/app/js/professor/syllabus.js" />"  type="text/javascript" ></script>
-            <script src="<c:url value="/resources/app/js/professor/documents.js" />"  type="text/javascript" ></script>
-        </c:when>
-        <c:when test="${userType eq 'stud'}">
-            <script src="<c:url value="/resources/app/js/student/home.js" />"  type="text/javascript" ></script>
-            <script src="<c:url value="/resources/app/js/student/course.js" />"  type="text/javascript" ></script>
-        </c:when>
-    </c:choose>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 
 </html>

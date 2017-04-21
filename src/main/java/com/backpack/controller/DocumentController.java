@@ -48,7 +48,7 @@ public class DocumentController {
     }
 
     /*update DOCUMENT*/
-    @RequestMapping(value="/updateDocument", method = RequestMethod.GET, produces="application/json")
+    @RequestMapping(value="/updateDocument", method = RequestMethod.GET , produces="application/json")
     public @ResponseBody
     boolean updateDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
         DocumentModel dm = new DocumentDAO().updateDocument(document);

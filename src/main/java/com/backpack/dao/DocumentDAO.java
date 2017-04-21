@@ -78,7 +78,7 @@ public class DocumentDAO extends DAOBase{
                     if (columnExists(rs, "downloadLink")) dm.setDownloadLink(rs.getString("downloadLink"));
                     if (columnExists(rs, "blobName")) {
                         dm.setBlobName(rs.getString("blobName"));
-                        if(dm.getBlobName() != null) dm.setFileName(dm.getBlobName().split("\\|")[1]);
+                        if(dm.getBlobName() != null && !dm.getBlobName().equals("")) dm.setFileName(dm.getBlobName().split("\\|")[1]);
                     }
                     dml.add(dm);
                 }

@@ -123,7 +123,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         /* RELOAD TAB DATA */
         var reloadData = function(){
             $state.reload();
-        }
+        };
         reloadData();
     };
 
