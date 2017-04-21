@@ -1,3 +1,7 @@
+body{
+    overflow: hidden;
+}
+
 /*Header Pane*/
 #toolbar{
     padding-top: .4cm;

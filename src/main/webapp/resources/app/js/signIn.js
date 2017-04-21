@@ -37,7 +37,6 @@ app.controller('signInCtrl', function ($scope, $http) {
                     url: '/checkUser',
                     params: {"email" : userEmail}
                 }).then(function (response) {
-                    debugger;
                     var isOldUser = response.data;
                     if(isOldUser === true){
                         document.forms["index"].submit();

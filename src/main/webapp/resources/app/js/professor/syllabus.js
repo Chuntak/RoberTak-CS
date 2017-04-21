@@ -39,9 +39,7 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http, gl
         }
     }).success(function(response){
         $scope.syllabus = response;
-        debugger;
     }).error(function(response){
-        debugger;
     });
 
     $scope.deleteSyllabus = function() {
@@ -53,9 +51,7 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http, gl
             if(response === true) console.log("Success delete");
             $scope.syllabus = {};
             $scope.syllabus.viewLink = "none";
-            debugger;
         }).error(function(response){
-            debugger;
         });
     };
 

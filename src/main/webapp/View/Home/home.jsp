@@ -25,6 +25,7 @@
     <section>
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="<c:url value="/resources/app/css/home.css" />">
+        <link rel="stylesheet" href="<c:url value="/resources/app/css/forum.css" />">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
         <c:choose>
@@ -87,7 +88,7 @@
                 <div class="list-grouper" ng-repeat="course in courses">
                     <a class="list-group-item"  ng-click="selectCourse(course, $index)" ng-class="{active: $index == selected}">
                         <h4 class="card-title row">
-                            <p class="col-sm-9">{{course.prefix}}-{{course.number}}</p>
+                            <p class="col-sm-9" ng-bind="(course.prefix)+-+(course.number)"></p>
                             <c:choose>
                                 <c:when test="${userType eq 'prof'}">
                                     <btn class="btn-xs col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="editCourse(course)">
@@ -99,15 +100,15 @@
                             <%--<p class="col-sm-1 hidden"></p>--%>
                         </h4>
 
-                        <h6 class="card-subtitle mb-2 ">{{course.name}}</h6>
+                        <h6 class="card-subtitle mb-2" ng-bind="course.name"></h6>
 
-                        <h6 class="card-subtitle mb-2 ">{{course.semester}} {{course.ano}}</h6>
+                        <h6 class="card-subtitle mb-2" ng-bind="(course.semester)+' '+(course.ano)"></h6>
                         <c:choose>
                             <c:when test="${userType eq 'prof'}">
-                                <h6 class="card-subtitle mb-2 ">Course Code: {{course.code}}</h6>
+                                <h6 class="card-subtitle mb-2" ng-bind="'Course Code: '+ (course.code)"></h6>
                             </c:when>
                             <c:when test="${userType eq 'stud'}">
-                                <h6 class="card-subtitle mb-2 ">{{course.profFirstName}} {{course.profLastName}}</h6>
+                                <h6 class="card-subtitle mb-2" ng-bind="(course.profFirstName)+' '+(course.profLastName)"></h6>
                             </c:when>
                         </c:choose>
                     </a>
@@ -180,7 +181,7 @@
                                         <form id="tagAdd" class="form-inline form-group">
                                             <input list="tags"  ng-model="selectedTag" class="form-control" id="tagList" name="tags">
                                             <datalist id="tags">
-                                                <option ng-repeat="tag in tagList" value="{{tag.tagName}}">{{tag.tagName}}</option>
+                                                <option ng-repeat="tag in tagList" ng-bind="tag.tagName" value="{{tag.tagName}}"></option>
                                             </datalist>
                                             <button class="btn" id="addTagBtn" ng-click="addTag()">Add Tag</button>
                                         </form>
@@ -226,7 +227,7 @@
     <div class="col-md-7 tabPane">
         <div class="panel panel-default">
             <ul class="nav nav-tabs tab-heading" ng-controller="tabsCtrl">
-                <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
+                <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)" ng-bind="tab.label"></a></li>
             </ul>
             <div ui-view></div>
             <div class="panel-body">
@@ -235,9 +236,32 @@
         </div>
     </div>
     <%--FORUM PANE--%>
-    <div class="col-md-3 forumPane">
+    <div class="col-md-3 forumPane" ng-controller="forumCtrl">
         <div class="panel panel-default">
-            <div class="forum-heading">Forum</div>
+            <div class="panel-group" id="accordion">
+                <div class="panel">
+                    <input class="panel-heading write-post" ng-model="newPost.header" data-toggle="collapse" data-parent="#accordion" href="#new-post" placeholder="Write a post"></input>
+                    <div id="new-post" class="panel-collapse collapse">
+                        <input type="text" autocomplate="off" ng-model="newPost.content" class="panel-body form-ctrl course-box" placeholder="Write the body here">
+                        <button ng-click="updatePost(newPost)" class="panel-footer form-ctrl btn" ng-disabled="newPost.header==''||newPost.content==''">Create Post</button>
+                    </div>
+                </div>
+                <div ng-repeat="post in posts" class="panel post-header panel-primary">
+                    <div class="panel-heading panel-primary">
+                        <h4 class="panel-title">
+                            <a ng-click="getPosts(post, 0)" data-toggle="collapse" ng-bind="post.header" data-parent="#accordion" href="{{'#collapse' + $index}}"></a>
+                        </h4>
+                    </div>
+                    <div id="{{ 'collapse' + $index }}" class="panel-collapse collapse">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-info" ng-bind="post.content"></li>
+                            <li ng-repeat="comment in post.comments" ng-bind="comment.content" class="list-group-item"></li>
+                            <input ng-keyup="$event.keyCode == 13 && updateComment(post, newComment)" ng-model="newComment.content" type="text" autocomplate="off" class="form-ctrl course-box list-group-item"  placeholder="Write new comment">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <%--FOOTER--%>
@@ -271,18 +295,21 @@
     <c:choose>
         <c:when test="${userType eq 'prof'}">
             <script src="<c:url value="/resources/app/js/professor/home.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/shared/directives.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/course.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/professor/announcement.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/syllabus.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/documents.js" />"  type="text/javascript" ></script>
-            <script src="<c:url value="/resources/app/js/professor/announcement.js" />"  type="text/javascript" ></script>
-
+            <script src="<c:url value="/resources/app/js/forum.js" />"  type="text/javascript" ></script>
         </c:when>
         <c:when test="${userType eq 'stud'}">
             <script src="<c:url value="/resources/app/js/student/home.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/shared/directives.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/course.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/announcement.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/documents.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/syllabus.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/forum.js" />"  type="text/javascript" ></script>
         </c:when>
     </c:choose>
     <script src="<c:url value="/resources/app/js/tabRoute.js" />"  type="text/javascript" ></script>

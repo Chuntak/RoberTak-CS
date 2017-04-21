@@ -74,7 +74,5 @@ app.directive('testdirective', function() {
                 }
             }
         });
-
-
     };
 })

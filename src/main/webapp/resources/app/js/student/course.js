@@ -17,7 +17,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                     "id": course.id,"prefix": course.prefix, "number": course.number, "name": course.name, "semester": course.semester,
                     "ano":course.ano,"profFirstName": course.profFirstName, "profLastName": course.profLastName
                 });
-                debugger;
             } else {
                 console.log("Course already added or incorrect course code");
             }
@@ -50,6 +49,9 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                 "ano":course.ano ,"profFirstName":course.profFirstName, "profLastName":course.profLastName};
             $scope.courses.push(courseJson);
         }
+
+        global.setCourseId($scope.courses[0].id);
+
     }, function(response) { /*error*/
     });
 

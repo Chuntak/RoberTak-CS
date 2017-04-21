@@ -9,13 +9,13 @@ homeApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     /* REMOVE HASH SYMBOL FROM URL THAT IS DEFAULT IN ANGULAR */
     $locationProvider.html5Mode(true);
     /* SET DEFAULT ROUTE */
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise("/annc");
     /* BEGIN DEFINING STATES (TAB ROUTES) */
     $stateProvider
         /* NAME THE STATE */
         .state("announcements", {
             /* VISIBLE URL TO USER. MUST BE DIFFERENT THAN SPRING CONTROLLER MAPPING */
-            url: "/",
+            url: "/annc",
             /* WHERE TO FIND JSP TEMPLATE */
             templateUrl: '/announcements',
             /* SPECIFY ANGULAR CONTROLLER */
@@ -24,21 +24,25 @@ homeApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             controllerAs: 'annCtrl'
         })
         .state('syllabus', {
+            url: "/syll",
             templateUrl: '/syllabus',
             controller:  'syllabusCtrl',
             controllerAs:  'syllCtrl'
         })
         .state('assignments', {
+            url: "/assignmts",
             templateUrl: '/assignments',
             controller:  'assignmentsCtrl',
             controllerAs:  'assmtCtrl'
         })
         .state('documents', {
+            url: "/docs",
             templateUrl: '/documents',
             controller:  'documentsCtrl',
             controllerAs:  'docsCtrl'
         })
         .state('grades', {
+            url: "/grds",
             templateUrl: '/grades',
             controller:  'gradesCtrl',
             controllerAs:  'gradeCtrl'
@@ -73,6 +77,7 @@ homeApp.controller('tabsCtrl', function($scope, $state) {
     };
     /* RELOAD TAB DATA */
     var reloadData = function(){
+        debugger;
         $state.reload();
     }
 

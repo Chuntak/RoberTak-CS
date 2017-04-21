@@ -117,7 +117,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     /*SELECT COURSE TODO change course*/
     $scope.selected = 0;
     $scope.selectCourse = function(course, index){
-        debugger;
         $scope.selected = index;
         global.setCourseId(course.id);
         /* RELOAD TAB DATA */
