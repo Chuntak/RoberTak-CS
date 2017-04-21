@@ -6,8 +6,19 @@
 var app = angular.module('homeApp');
 var initLoad = true;
 /*Announcement Controller*/
-app.controller('announcementsCtrl', function ($scope, $http, global) {
-    $scope.global = global;
+app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
+
+    $scope.$watch(function(){
+        return global.getCourseId();
+    }, function(newValue, oldValue){
+        /* check if courseId has really changed */
+        if(newValue !== undefined && newValue != 0 && newValue !== oldValue){
+            reloadData();
+        }
+    });
+    var reloadData = function(){
+        $state.reload();
+    }
     <!-- Initialize Quill editor -->
 
     var addQuill = new Quill('#editor', {
@@ -19,27 +30,25 @@ app.controller('announcementsCtrl', function ($scope, $http, global) {
     $scope.announcementList = {};
 
     //Get Announcements on load
-    $http.get("/getAnnouncement", {
-        params : {
-            "courseId" : global.getCourseId()
-        }
-    }).success(function(response){
-        debugger;
-        initLoad = true;
-        $('#addAnnouncementDiv').fadeToggle('fast');
-        $scope.announcementList = response;
-    }).error(function(response){
-        debugger;
-    });
+
+        $http.get("/getAnnouncement", {
+            params : {
+                "courseId" : global.getCourseId()
+            }
+        }).success(function(response){
+            debugger;
+            initLoad = true;
+            $scope.announcementList = response;
+        }).error(function(response){
+        });
+
 
 
 
     //Clicks on edit button.
     $scope.editAnnouncement = function(announcement,index){
-        debugger;
+
         var id = "#announcementDescription-"+index;
-        var loadQuill = new Quill(id, {
-        });
         //Shows the announcement toolbar, editor border, and enables editing
         $(id).prev().show();
 
@@ -50,27 +59,26 @@ app.controller('announcementsCtrl', function ($scope, $http, global) {
         $(cancelId).show();
 
         $(id).css({'border': '1px solid #ccc','border-top' :' 0px'});
-        loadQuill.enable(true);
+        announcement.quill.enable(true);
+
+        var announcementTitle = "#announcementTitle-"+index;
+        $(announcementTitle).removeAttr("disabled");
     }
 
 
 
 
     $scope.updateAnnouncement = function(announcement,index){
-        debugger;
+
         var id = "#announcementDescription-"+index;
-        var loadQuill = new Quill(id, {});
         var title = "#announcementTitle-"+index;
         var y = $http({
             method: 'GET',
             url: '/updateAnnouncement',
-            params: {"id" : announcement.id, "title": $(title).val(), "description" : JSON.stringify(loadQuill.getContents())}
+            params: {"id" : announcement.id, "title": $(title).val(), "description" : JSON.stringify(announcement.quill.getContents())}
         }).then(function (response) {
             console.log(response)
-            debugger;
-            if(response.data !== "") {
                 $scope.announcementList.push(response.data)
-                debugger;
 
 
 
@@ -87,18 +95,15 @@ app.controller('announcementsCtrl', function ($scope, $http, global) {
                 //Hide the borders
                 $(id).css({'border': 'none'});
                 //Disable the quill
-                loadQuill.enable(false);
+                announcement.quill.enable(false);
 
+                var announcementTitle = "#announcementTitle-"+index;
+                $(announcementTitle).attr("disabled", "disabled");
 
                 //Go to Back End with the data
-                var data = JSON.stringify(loadQuill.getContents());
+                var data = JSON.stringify(announcement.quill.getContents());
                 //Update the Title and Quill
-            }else{
-                console.log(response)
-                debugger;
-            }
         }, function errorCallBack(response) {
-            debugger;
             alert("Edit announcement error\n");
         });
 
@@ -106,8 +111,6 @@ app.controller('announcementsCtrl', function ($scope, $http, global) {
 
     $scope.cancelEdit = function(announcement,index){
         var id = "#announcementDescription-"+index;
-        var loadQuill = new Quill(id, {
-        });
         //Hide the edit options
         $(id).prev().hide();
         var buttonId = "#updateButton-"+index;
@@ -117,15 +120,18 @@ app.controller('announcementsCtrl', function ($scope, $http, global) {
         $(cancelId).hide();
 
         $(id).css({'border': 'none'});
-        loadQuill.enable(false);
+        announcement.quill.enable(false);
+
+        var announcementTitle = "#announcementTitle-"+index;
+        $(announcementTitle).attr("disabled", "disabled");
+
         //Reload the data of the title and quill
         //We did not use ng-model for title so we save the title if they select cancel edit
         var titleId = "#announcementTitle-"+index;
         $(titleId).val(announcement.title);
 
 
-        loadQuill.setContents(JSON.parse(announcement.description));
-        //TODO USE DELTA OBJECTS
+        announcement.quill.setContents(JSON.parse(announcement.description));
     }
 
     $scope.toggleAdd = function(){
@@ -136,26 +142,25 @@ app.controller('announcementsCtrl', function ($scope, $http, global) {
 
 
     $scope.addAnnouncement = function(){
-        debugger;
+
         var y = $http({
             method: 'GET',
             url: '/updateAnnouncement',
             params: {"courseId" : global.getCourseId(), "title": $('#addAnnouncementTitle').val(), "description" : JSON.stringify(addQuill.getContents())}
         }).then(function (response) {
             console.log(response)
-            debugger;
             if(response.data !== "") {
                 $scope.announcementList.push(response.data)
                 //Clear the things
                 $("#addAnnouncementForm")[0].reset();
                 //Clears the add quill
                 addQuill.clipboard.dangerouslyPasteHTML("");
+                //Closes the add div
+                $('#addAnnouncementDiv').fadeToggle('fast');
             }else{
                 console.log(response)
-                debugger;
             }
         }, function errorCallBack(response) {
-            debugger;
             alert("add announcement error\n");
         });
     };
@@ -188,14 +193,12 @@ app.controller('announcementsCtrl', function ($scope, $http, global) {
 //Directive to initiate all the quills as they load
 app.directive('testdirective', function() {
     return function(scope, element, attrs) {
-        debugger;
         scope.$watch('$last',function(v){
             if (v == true) {
                 if((initLoad)){
                     initLoad = false;
-                    debugger;
                     for(var i = 0; i < scope.announcementList.length; i++) {
-                        debugger;
+                        ;
                         var id = "#announcementDescription-" + i;
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',
@@ -206,11 +209,16 @@ app.directive('testdirective', function() {
                         loadQuill.enable(false);
 
                         loadQuill.setContents(JSON.parse(scope.announcementList[i].description));
-                    }
 
+                        scope.announcementList[i].quill = loadQuill;
+
+                    }
+                    //TODO Use CSS to do this instead. Do this as now not enough time
                     //Hide the announcement toolbars
                     $(".annnouncementEditors").prev().hide();
 
+                    //
+                    $(".announcementTitle").attr("disabled", "disabled");
                     //Hide the button
                     $(".updateAnnouncement").hide();
                     $(".cancelEdit").hide();
@@ -224,14 +232,13 @@ app.directive('testdirective', function() {
                     //Check if has toolbar
                     var id = "#announcementDescription-" + (scope.announcementList.length - 1);
                     if((!$(id).prev().hasClass("ql-toolbar"))){
-                        debugger;
+
                         //Init the quill
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',
                             theme: 'snow'
                         });
                         loadQuill.setContents(JSON.parse(scope.announcementList[scope.announcementList.length - 1].description));
-
                         //Hide the announcement toolbars
                         $(id).prev().hide();
 
@@ -246,11 +253,15 @@ app.directive('testdirective', function() {
                         $(id).css({'border': 'none'});
                         //Disable the quill
                         loadQuill.enable(false);
+
+                        var announcementTitle = "#announcementTitle-"+(scope.announcementList.length - 1);
+                        $(announcementTitle).attr("disabled", "disabled");
+
+
+                        scope.announcementList[scope.announcementList.length - 1].quill = loadQuill;
                     }
-                    debugger;
                 }
             }else{
-                debugger;
             }
         });
 

@@ -17,7 +17,6 @@ angular.module('homeApp').controller('homeCtrl',function ($scope, $http) {
 
 function onLoad() {
     gapi.load('auth2', function() {
-        debugger;
         gapi.auth2.init();
     });
 }

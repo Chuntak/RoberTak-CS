@@ -13,10 +13,8 @@ body{
     height: 78%;
 }
 
-.content{
-    padding-bottom: .7cm;
-    padding-left: .1cm;
-    padding-right: .1cm;
+.content.container-fluid{
+   padding: 0 0 0 0;
 }
 
 /*CSS for Panes INIT/Header*/

@@ -46,7 +46,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     //     var option = document.createElement("option");
     //     option.value = i.toString();
     //     option.text = i.toString();
-    //     debugger;
     //     x.add(option);
     // }
 
@@ -60,7 +59,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     /*GETS THE TAGS FROM DATABASE FOR SELECTION*/
     $scope.getTag = function() {
         $http.get("/getTag").then(function (response){
-            debugger;
             $scope.tagList = response.data;
         }, function(error) { console.log(error.data); });
     };
@@ -84,7 +82,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                 "semester": $scope.course.semester, "ano":$scope.course.ano,"pub": $scope.course.public }
         }).then(function (response) {
             if(response.data !== "") {  /*add to the pane*/
-                debugger;
                 var code = response.data.code;
                 var id = response.data.id;
                 var firstName = response.data.profFirstName;
@@ -136,7 +133,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
             $scope.courses.push(courseJson);
         }
         global.setCourseId($scope.courses[0].id);
-        debugger;
     }, function(response) { /*error*/
     });
 

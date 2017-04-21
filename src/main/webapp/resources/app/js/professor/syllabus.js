@@ -19,7 +19,6 @@ angular.module('homeApp').directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 
-/*make it a trusted url*/
 angular.module('homeApp')
     .filter('trustUrl', function ($sce) {
         return function(url) {

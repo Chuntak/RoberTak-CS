@@ -39,16 +39,17 @@
                 <c:choose>
                     <c:when test="${userType eq 'prof'}">
                         <%--Do not use ng-model for title so we save the title if they select cancel edit--%>
-                        <input type="text" class="col-xs-10" placeholder="Announcement Title" id="announcementTitle-{{$index}}" value="{{announcement.title}}">
-                        <btn class="btn-sm col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="editAnnouncement(announcement,$index)">
+                        <h4><input type="text" class="col-xs-10 announcementTitle" placeholder="Announcement Title" id="announcementTitle-{{$index}}" value="{{announcement.title}}">
+                        </h4>
+                        <btn class="btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="editAnnouncement(announcement,$index)">
                         </btn>
-                        <btn class="btn-sm col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteAnnouncement(announcement)">
+                        <btn class="btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteAnnouncement(announcement)">
                         </btn>
 
                     </c:when>
                     <c:when test="${userType eq 'stud'}">
                         <%--Do not use ng-model for title so we save the title if they select cancel edit--%>
-                        <h4 id="announcementTitle-{{$index}}">{{announcement.title}}</h4>
+                        <h4 class="announcementTitle" id="announcementTitle-{{$index}}">{{announcement.title}}</h4>
                     </c:when>
                 </c:choose>
             </div>
