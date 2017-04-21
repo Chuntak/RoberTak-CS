@@ -40,21 +40,27 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         var fd = new FormData();
         fd.append('file', file);
         fd.append('f', 'json');
-        $http.post("/uploadDocument", fd, {
-            transformRequest : angular.identity,
-            headers : {
-                'Content-Type' : undefined
-            },
-            params : {
-                "title" : $scope.doc.title,
-                "description": $scope.doc.description,
-                "courseId" : global.getCourseId()
-            }
-        }).success(function(response){
-            console.log('success')
-        }).error(function(response) {
-            console.log('error');
-        });
+
+        if($scope.doc.fileName!=undefined) {
+            $http.post("/uploadDocument", fd, {
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined
+                },
+                params: {
+                    "title": $scope.doc.title,
+                    "description": $scope.doc.description,
+                    "courseId": global.getCourseId()
+                }
+            }).success(function (response) {
+                console.log('success')
+            }).error(function (response) {
+                console.log('error');
+            });
+        }
+        else {
+            $scope.doc.fileName = "Not Available"
+        }
         debugger;
     };
 
