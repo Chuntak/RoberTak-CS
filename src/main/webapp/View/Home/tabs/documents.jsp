@@ -10,19 +10,7 @@
     <title>Documents</title>
 
     <section>
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="<c:url value="/resources/app/css/home.css" />">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
         <link rel="stylesheet" href="<c:url value="/resources/app/css/documents.css" />">
-        <c:choose>
-            <c:when test="$(userType eq 'prof')">
-                <link rel="stylesheet" href="<c:url value="/resources/app/css/professor.css" />">
-            </c:when>
-            <c:when test="$(userType eq 'stud')">
-                <link rel="stylesheet" href="<c:url value="/resources/app/css/student.css" />">
-            </c:when>
-        </c:choose>
     </section>
 
 </head>

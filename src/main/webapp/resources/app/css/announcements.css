@@ -15,4 +15,5 @@
 /*Make the tabs scrollable */
 .panel.panel-default{
     overflow-y: auto;
+    overflow-x: hidden;
 }

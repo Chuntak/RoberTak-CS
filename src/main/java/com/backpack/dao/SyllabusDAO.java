@@ -63,7 +63,8 @@ public class SyllabusDAO extends DAOBase {
                     sm = new SyllabusModel();
                     if (columnExists(rs, "sylBlobName")) {
                         sm.setBlobName(rs.getString("sylBlobName"));
-                        sm.setFileName(sm.getBlobName().split("\\|")[1]);
+                        try{ sm.setFileName(sm.getBlobName().split("\\|")[1]); }
+                        catch (IndexOutOfBoundsException e) { System.err.println("Filename not formated correctly."); }
                     }
                     if (columnExists(rs, "sylLink")) sm.setDownloadLink(rs.getString("sylLink"));
 

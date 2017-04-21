@@ -18,7 +18,7 @@ import java.util.Date;
 public class DocumentDAO extends DAOBase{
     public DocumentModel uploadDocument(DocumentModel dm){
         /*UPLOAD TO CLOUD STORAGE*/
-        if(dm.getBlobName() != null || !dm.getBlobName().equals("")) {
+        if(dm.getBlobName() != null && !dm.getBlobName().equals("")) {
             dbs.deleteFile(dm.getBlobName());
         }
 
@@ -79,7 +79,8 @@ public class DocumentDAO extends DAOBase{
                     if (columnExists(rs, "blobName")) {
                         dm.setBlobName(rs.getString("blobName"));
                         if(dm.getBlobName() != null && !dm.getBlobName().equals("")) {
-                            dm.setFileName(dm.getBlobName().split("\\|")[1]);
+                            try{ dm.setFileName(dm.getBlobName().split("\\|")[1]); }
+                            catch (IndexOutOfBoundsException e) { System.err.println("Filename not formated correctly."); }
                             dm.setViewLink(dbs.getFileViewLink(dm.getBlobName(), false));
                         }
                     }
