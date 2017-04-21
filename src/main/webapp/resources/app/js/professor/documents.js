@@ -70,8 +70,7 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         for(i = 0; i < documentList.length; i++) {
             var document = documentList[i];
             var documentJson = {"title": document.title ,"description": document.description,
-                "downloadLink": document.downloadLink, "fileName": document.fileName, "id": document.id};
-
+                "downloadLink": document.downloadLink, "viewLink" : document.viewLink, "fileName": document.fileName, "id": document.id};
             $scope.documents.push(documentJson);
         }
         // $scope.global.document = $scope.documents[0];

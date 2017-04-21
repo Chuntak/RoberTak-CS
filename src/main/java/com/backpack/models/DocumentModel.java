@@ -19,7 +19,7 @@ public class DocumentModel {
     private String blobName;
     private String fileName;
     private String section;
-
+    private String viewLink;
 
 
     public DocumentModel() {
@@ -105,5 +105,12 @@ public class DocumentModel {
         this.file = file;
     }
 
+    public String getViewLink() {
+        return viewLink;
+    }
+
+    public void setViewLink(String viewLink) {
+        this.viewLink = viewLink;
+    }
 }
 

@@ -62,7 +62,7 @@ public class DocumentDAO extends DAOBase{
 
 
     /*private class to retrieve a list of person from the resultset returned from the database*/
-    private static class DocumentModelExtractor implements ResultSetExtractor<ArrayList<DocumentModel>> {
+    private class DocumentModelExtractor implements ResultSetExtractor<ArrayList<DocumentModel>> {
         @Override
         public ArrayList<DocumentModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
             ArrayList<DocumentModel> dml = new ArrayList<DocumentModel>();
@@ -78,7 +78,10 @@ public class DocumentDAO extends DAOBase{
                     if (columnExists(rs, "downloadLink")) dm.setDownloadLink(rs.getString("downloadLink"));
                     if (columnExists(rs, "blobName")) {
                         dm.setBlobName(rs.getString("blobName"));
-                        if(dm.getBlobName() != null && !dm.getBlobName().equals("")) dm.setFileName(dm.getBlobName().split("\\|")[1]);
+                        if(dm.getBlobName() != null && !dm.getBlobName().equals("")) {
+                            dm.setFileName(dm.getBlobName().split("\\|")[1]);
+                            dm.setViewLink(dbs.getFileViewLink(dm.getBlobName(), false));
+                        }
                     }
                     dml.add(dm);
                 }

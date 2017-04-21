@@ -52,7 +52,7 @@
             <script type="text/ng-template" id="display">
                     <div class="text-content">
                         <h3>{{document.title}}</h3>Download Link:
-                        <a href="{{document.viewLink}}">{{document.fileName}}</a>
+                        <a href="{{document.downloadLink}}">{{document.fileName}}</a>
                         <p>{{document.description}}</p>
                     </div>
                     <c:choose>
