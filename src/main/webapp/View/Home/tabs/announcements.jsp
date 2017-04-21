@@ -7,13 +7,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- Include stylesheet -->
+    <link href="https://cdn.quilljs.com/1.2.3/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value="/resources/app/css/announcements.css" />">
+
     <title>Announcements</title>
 </head>
-<body>
-<p>This is announcements</p>
+<body ng-controller="announcementsCtrl" id="announcementBody" class="container-fluid">
+    <div class="container-fluid" id="announcementDiv">
+        <c:choose>
+            <c:when test="${userType eq 'prof'}">
+            <%--Adding an announcement--%>
+            <div id="addAnnouncementDiv">
+                <form id="addAnnouncementForm">
+                    <div class="row">
+                        <input id="addAnnouncementTitle"type="text" class="col-xs-12" placeholder="Announcement Title" >
+                    </div>
+                    <!-- The Adding Editor-->
+                    <div id="editor"></div>
+                </form>
+                <button class="btn-md btn-primary" ng-click="addAnnouncement()">Add Announcement</button>
+            </div>
+                <button class="btn-info btn-block" ng-click="toggleAdd()">Show/Hide Announcement Form</button>
+            </c:when>
+        </c:choose>
+
+        <%--AnnoucementContainer contains each announcement--%>
+        <div class="announcementContainer" id="announcement-{{$index}}" ng-repeat="announcement in announcementList" testdirective="">
+            <div class="row">
+                <c:choose>
+                    <c:when test="${userType eq 'prof'}">
+                        <%--Do not use ng-model for title so we save the title if they select cancel edit--%>
+                        <input type="text" class="col-xs-10" placeholder="Announcement Title" id="announcementTitle-{{$index}}" value="{{announcement.title}}">
+                        <btn class="btn-sm col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="editAnnouncement(announcement,$index)">
+                        </btn>
+                        <btn class="btn-sm col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteAnnouncement(announcement)">
+                        </btn>
+
+                    </c:when>
+                    <c:when test="${userType eq 'stud'}">
+                        <%--Do not use ng-model for title so we save the title if they select cancel edit--%>
+                        <h4 id="announcementTitle-{{$index}}">{{announcement.title}}</h4>
+                    </c:when>
+                </c:choose>
+            </div>
+            <div>{{announcement.dateCreated}}</div>
+            <%--Announcement Description [Div that gets turned into a quill editor]--%>
+            <div class="annnouncementEditors" id="announcementDescription-{{$index}}"></div>
+            <c:choose>
+                <c:when test="${userType eq 'prof'}">
+                <button class="updateAnnouncement btn-md btn-primary" id="updateButton-{{$index}}" ng-click="updateAnnouncement(announcement, $index)">Update Announcement</button>
+                <button class="cancelEdit btn-md btn-primary" id="cancelEdit-{{$index}}" ng-click="cancelEdit(announcement, $index)">Cancel Edit</button>
+                </c:when>
+        </c:choose>
+    </div>
+    </div>
 </body>
-
-
-
-
 </html>

@@ -1,0 +1,18 @@
+
+/*Containers that surround the announcement */
+/*.announcementContainer{border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;}*/
+
+/*Toolbar*/
+.ql-toolbar.ql-snow{border-bottom: solid lightgray 1px;}
+
+/*The Add Editor*/
+#editor{border: 1px solid #ccc; height: 150px;}
+
+/*The divs that get turned into announcement*/
+.annnouncementEditors.ql-container.ql-snow{border: none; height: 100px;}
+/* Use javascript to change css to .annnouncementEditors{border: 1px solid #ccc; border-top: 0px;} during edit mode*/
+
+/*Make the tabs scrollable */
+.panel.panel-default{
+    overflow-y: auto;
+}

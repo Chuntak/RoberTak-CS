@@ -261,16 +261,26 @@
     <!-- App Base -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+
+    <%--Tab Slide out--%>
+    <script src="https://use.fontawesome.com/2be9406092.js"></script>
+    <script src="https://rawgit.com/hawk-ip/jquery.tabSlideOut.js/master/jquery.tabSlideOut.js"></script>
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.quilljs.com/1.2.3/quill.js"></script>
     <c:choose>
         <c:when test="${userType eq 'prof'}">
             <script src="<c:url value="/resources/app/js/professor/home.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/course.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/syllabus.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/documents.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/professor/announcement.js" />"  type="text/javascript" ></script>
+
         </c:when>
         <c:when test="${userType eq 'stud'}">
             <script src="<c:url value="/resources/app/js/student/home.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/course.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/student/announcement.js" />"  type="text/javascript" ></script>
         </c:when>
     </c:choose>
     <script src="<c:url value="/resources/app/js/tabRoute.js" />"  type="text/javascript" ></script>
