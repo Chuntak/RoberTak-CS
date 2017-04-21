@@ -18,7 +18,7 @@ public class AnnouncementModel {
         this.courseId = 0;
         title = "";
         description = "";
-        dateCreated = new Date(10000000);
+        dateCreated = new Date();
     }
 
     public AnnouncementModel(int id, int courseId, String title, String description, Date dateCreated) {

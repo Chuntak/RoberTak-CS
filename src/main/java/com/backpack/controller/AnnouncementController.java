@@ -40,26 +40,29 @@ public class AnnouncementController {
     }
 
 
-    /*update DOCUMENT*/
-    @RequestMapping(value="/updateAnnouncement", method = RequestMethod.POST)
+    /*update Announcement*/
+    @RequestMapping(value="/updateAnnouncement", method = RequestMethod.GET)
     public @ResponseBody
     AnnouncementModel updateAnnouncement(@ModelAttribute("announcement") AnnouncementModel announcement, HttpSession session) {
         AnnouncementModel am = new AnnouncementDAO().updateAnnouncement(announcement);
         return am;
     }
 
-    /*Delete DOCUMENT*/
+    /*Delete Announcement*/
     @RequestMapping(value="/deleteAnnouncement", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
     boolean deleteAnnouncement(@ModelAttribute("announcement") AnnouncementModel announcement, HttpSession session) {
         return new AnnouncementDAO().deleteAnnouncement(announcement);
     }
 
-    /*GET DOCUMENT*/
+    /*GET Announcement*/
     @RequestMapping(value="/getAnnouncement", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<AnnouncementModel> getAnnouncement(@ModelAttribute("announcement") AnnouncementModel announcement, HttpSession session) {
         return new AnnouncementDAO().getAnnouncement(announcement);
     }
+
+
+
 
 }
