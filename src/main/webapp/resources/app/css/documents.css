@@ -28,7 +28,16 @@ textarea {
 .pickFileBtn{
     padding-top: .33cm;
     border: 0px;
-    padding-left: 2cm;
+    padding-left: .5cm;
+}
+
+.replaceFileBtn{
+    margin-top: -38px;
+    margin-bottom: 40px;
+}
+
+.addFuncBtn{
+    margin-top: 24px;
 }
 
 .glyphicon{
