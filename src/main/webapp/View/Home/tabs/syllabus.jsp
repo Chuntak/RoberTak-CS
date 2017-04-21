@@ -8,19 +8,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Syllabus</title>
+
+    <section>
+        <link rel="stylesheet" href="<c:url value="/resources/app/css/syllabus.css" />">
+    </section>
 </head>
 <body>
-<p>This is syllabus</p>
+<h2>Syllabus</h2>
 
-<p>Select a file to upload to your Google Cloud Storage bucket.</p>
 <div ng-controller="syllabusCtrl">
     <c:choose>
         <c:when test="${userType eq 'prof'}">
             <form ng-submit="uploadSyllabus()">
-                <input type="file" file-model="syllabus.myFile"/>
-                <button type="submit">Submit</button>
+                <h5>Upload New Syllabus:</h5>
+                <input class="file-selection" type="file" file-model="syllabus.myFile"/>
+                <button type="submit" class="btn btn-primary submitBtn">Submit</button>
             </form>
-            <button ng-click="deleteSyllabus()">Delete</button>
         </c:when>
     </c:choose>
 

@@ -18,6 +18,10 @@ import java.util.Date;
 public class DocumentDAO extends DAOBase{
     public DocumentModel uploadDocument(DocumentModel dm){
         /*UPLOAD TO CLOUD STORAGE*/
+        if(dm.getBlobName() != null || !dm.getBlobName().equals("")) {
+            dbs.deleteFile(dm.getBlobName());
+        }
+
         Blob b = null;
         if(dm.getFile() != null) {
             b = dbs.uploadFile(dm.getFile());
@@ -33,6 +37,7 @@ public class DocumentDAO extends DAOBase{
     }
 
     public DocumentModel updateDocument(DocumentModel dm){
+        dm.setDateCreated(new Date()); //temp
         /*UPDATES THE DATABASE*/
         String query = "call update_document(?,?,?,?,?,?,?,?)";
         ArrayList<DocumentModel> dml =  dbs.getJdbcTemplate().query(query, new Object[] { dm.getId(), dm.getCourseId(), new SimpleDateFormat("yyyy-MM-dd").format(dm.getDateCreated()), dm.getTitle(),
@@ -42,7 +47,12 @@ public class DocumentDAO extends DAOBase{
 
     public boolean deleteDocument(DocumentModel dm) {
         String query = "call delete_document(?)";
-        return dbs.getJdbcTemplate().update(query, dm.getId()) == 1;
+        dm = dbs.getJdbcTemplate().query(query, new Object[]{dm.getId()}, new DocumentModelExtractor()).get(0);
+//        if(dm.getBlobName() != null || !dm.getBlobName().equals("")) {
+//            dbs.deleteFile(dm.getBlobName());
+//            return true;
+//        }
+        return true;
     }
 
     public ArrayList<DocumentModel> getDocument(DocumentModel dm) {
@@ -68,7 +78,7 @@ public class DocumentDAO extends DAOBase{
                     if (columnExists(rs, "downloadLink")) dm.setDownloadLink(rs.getString("downloadLink"));
                     if (columnExists(rs, "blobName")) {
                         dm.setBlobName(rs.getString("blobName"));
-                        dm.setFileName(dm.getBlobName().split("|")[0]);
+                        if(dm.getBlobName() != null) dm.setFileName(dm.getBlobName().split("\\|")[1]);
                     }
                     dml.add(dm);
                 }

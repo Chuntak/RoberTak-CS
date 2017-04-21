@@ -27,26 +27,88 @@
 
 </head>
 <body>
-<c:choose>
-    <c:when test="${userType eq 'prof'}">
-        <div ng-controller="docCtrl">
-            <div class="col-lg-6">
-                <input type="text" class="form-control" ng-model="doc.title" placeholder="Title" />
-                <textarea rows="2" cols="53" placeholder="Descriptions" ng-model="doc.description"></textarea>
+<div ng-controller="docCtrl">
+    <c:choose>
+        <c:when test="${userType eq 'prof'}">
+            <div id="add-content">
+                <button type="button" class="btn btn-primary addDocBtn" id="addBtn">Add New Document</button>
+                <div id="collapse-content">
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" ng-model="doc.title" placeholder="Title" />
+                        <textarea placeholder="Description" ng-model="doc.description" class="description-text"></textarea>
+                    </div>
+
+                    <%--FILE UPLOAD--%>
+                    <input type="file" file-model="doc.file" class="pickFileBtn"/>
+
+                    <button id="docSubmit" type="button" ng-click="uploadDocument()" class="btn btn-primary">Upload Document</button>
+                    <input id="clearBtn" type="button" value="Cancel" ng-click="clearTextBox()"/>
+                </div>
             </div>
+        </c:when>
+    </c:choose>
+    <div id="doc-content">
+        <div class="docCard" ng-repeat="document in documents" ng-include="getTemplate(document)"></div>
+            <script type="text/ng-template" id="display">
+                    <div class="text-content">
+                        <h3>{{document.title}}</h3>Download Link:
+                        <a href="{{document.downloadLink}}">{{document.fileName}}</a>
+                        <p>{{document.description}}</p>
+                    </div>
+                    <c:choose>
+                        <c:when test="${userType eq 'prof'}">
+                            <div class="toolBtn">
+                                <btn class="btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteDocument(document)"></btn>
+                                <btn class="btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="editDocument(document)"></btn>
+                            </div>
+                        </c:when>
+                    </c:choose>
+            </script>
 
-            <form ng-submit="uploadDoc()">
-                <input type="file" file-model="docFile"/>
-            </form>
+            <c:choose>
+                <c:when test="${userType eq 'prof'}">
+                    <script type="text/ng-template" id="edit">
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control editInput" ng-model="document.title"/>
+                            <textarea type="text" ng-model="document.description" class="description-edit"></textarea>
+                        </div>
+                        <div class="editBtn">
+                            <input type="file" file-model="doc.file" class="replaceFileBtn"/>
+                            <button ng-click="saveDocument($index,document)" class="btn btn-primary">Save</button>
+                            <button ng-click="reset()" class="btn btn-primary">Cancel</button>
+                        </div>
+                    </script>
+                </c:when>
+            </c:choose>
+    </div>
 
-            <button id="docSubmit" type="button" ng-click="uploadDocument()">Upload Document</button>
-            <input id="clearBtn" type="button" value="Cancel" ng-click="clearTextBox()"></input>
-        </div>
-    </c:when>
-</c:choose>
-
+</div>
 </body>
 
+<section>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <%--Google Logout End--%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- App Base -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+    <c:choose>
+        <c:when test="${userType eq 'prof'}">
+            <script src="<c:url value="/resources/app/js/professor/home.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/professor/course.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/professor/syllabus.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/professor/documents.js" />"  type="text/javascript" ></script>
+        </c:when>
+        <c:when test="${userType eq 'stud'}">
+            <script src="<c:url value="/resources/app/js/student/home.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/student/course.js" />"  type="text/javascript" ></script>
+        </c:when>
+    </c:choose>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
 </html>

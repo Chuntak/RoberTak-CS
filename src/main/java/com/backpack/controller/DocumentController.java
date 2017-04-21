@@ -48,7 +48,7 @@ public class DocumentController {
     }
 
     /*update DOCUMENT*/
-    @RequestMapping(value="/updateDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="application/json")
+    @RequestMapping(value="/updateDocument", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
     boolean updateDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
         DocumentModel dm = new DocumentDAO().updateDocument(document);
@@ -56,7 +56,7 @@ public class DocumentController {
     }
 
     /*Delete DOCUMENT*/
-    @RequestMapping(value="/deleteDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"}, produces="application/json")
+    @RequestMapping(value="/deleteDocument", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
     boolean deleteDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
         return new DocumentDAO().deleteDocument(document);
