@@ -10,11 +10,17 @@
     <title>Syllabus</title>
 
     <section>
-        <link rel="stylesheet" href="<c:url value="/resources/app/css/syllabus.css" />">
+        <c:choose>
+            <c:when test="${userType eq 'prof'}">
+                <link rel="stylesheet" href="<c:url value="/resources/app/css/professor.css" />">
+            </c:when>
+            <c:when test="${userType eq 'stud'}">
+                <link rel="stylesheet" href="<c:url value="/resources/app/css/student.css" />">
+            </c:when>
+        </c:choose>
     </section>
 </head>
 <body>
-<h2>Syllabus</h2>
 
 <div ng-controller="syllabusCtrl">
     <c:choose>

@@ -53,6 +53,11 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
                     "courseId": global.getCourseId()
                 }
             }).success(function (response) {
+                var document = response;
+                var documentJson = {"title": document.title ,"description": document.description,
+                    "downloadLink": document.downloadLink, "viewLink" : document.viewLink, "fileName": document.fileName, "id": document.id};
+                $scope.documents.push(documentJson);
+
                 console.log('success')
             }).error(function (response) {
                 console.log('error');

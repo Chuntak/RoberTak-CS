@@ -4,3 +4,14 @@
     max-height: 93%;
     overflow-y: auto;
 }
+
+h2{
+    padding-left: .3cm;
+    padding-bottom: .2cm;
+}
+
+iframe{
+    margin-top: 10px;
+    height: 562px;
+    width: 100%;
+}

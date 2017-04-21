@@ -38,8 +38,12 @@ public class SyllabusDAO extends DAOBase {
     public SyllabusModel getSyllabus(SyllabusModel sm) {
         String query = "call get_syllabus(?)";
         sm = dbs.getJdbcTemplate().query(query, new Object[] {sm.getCourseId()}, new SyllabusModelExtractor());
-        if(sm != null) sm.setViewLink(dbs.getFileViewLink(sm.getBlobName(),true));
-        return sm;
+        if(sm != null) {
+            sm.setViewLink(dbs.getFileViewLink(sm.getBlobName(), true));
+            return sm;
+        } else {
+            return null;
+        }
     }
 
     public boolean deleteSyllabus(SyllabusModel sm) {
@@ -63,8 +67,13 @@ public class SyllabusDAO extends DAOBase {
                     sm = new SyllabusModel();
                     if (columnExists(rs, "sylBlobName")) {
                         sm.setBlobName(rs.getString("sylBlobName"));
-                        try{ sm.setFileName(sm.getBlobName().split("\\|")[1]); }
-                        catch (IndexOutOfBoundsException e) { System.err.println("Filename not formated correctly."); }
+                        if(sm.getBlobName() != null) {
+                            try {
+                                sm.setFileName(sm.getBlobName().split("\\|")[1]);
+                            } catch (IndexOutOfBoundsException e) {
+                                System.err.println("Filename not formated correctly.");
+                            }
+                        }
                     }
                     if (columnExists(rs, "sylLink")) sm.setDownloadLink(rs.getString("sylLink"));
 

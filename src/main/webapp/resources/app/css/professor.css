@@ -4,3 +4,27 @@
     max-height: 60%;
     overflow-y: auto;
 }
+
+/*CSS FOR SYLLABUS*/
+h5{
+    margin-left: 20px;
+}
+
+iframe{
+    margin-top: 10px;
+    height: 522px;
+    width: 100%;
+}
+
+.file-selection{
+    padding-left: 4.8cm;
+    margin-top: -26px;
+}
+
+.submitBtn{
+    margin-right: 340px;
+    float: right;
+    margin-top: -27px;
+}
+
+/*************************/
