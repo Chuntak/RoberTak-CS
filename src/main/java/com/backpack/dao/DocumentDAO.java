@@ -36,6 +36,7 @@ public class DocumentDAO extends DAOBase{
         return docModel;
     }
 
+    /*upate Documemnts*/
     public DocumentModel updateDocument(DocumentModel dm){
         dm.setDateCreated(new Date()); //temp
         /*UPDATES THE DATABASE*/

@@ -10,7 +10,6 @@ public class CourseModel {
     private String code;
     private int profId;
     private String semester;
-
     private String ano;
 
     private boolean pub;

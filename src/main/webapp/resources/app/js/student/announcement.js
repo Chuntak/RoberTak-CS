@@ -1,3 +1,4 @@
+
 /**
  * Created by Calvin on 4/21/2017.
  */
@@ -18,14 +19,6 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
     var reloadData = function(){
         $state.reload();
     }
-    <!-- Initialize Quill editor -->
-
-    var addQuill = new Quill('#editor', {
-        placeholder: 'Announcement Description',
-        theme: 'snow'
-
-    });
-
     $scope.announcementList = {};
 
     //Get Announcements on load
@@ -40,6 +33,8 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
     }).error(function(response){
     });
 });
+
+//Directive to initiate all the quills as they load
 
 //Directive to initiate all the quills as they load
 app.directive('testdirective', function() {
@@ -61,11 +56,12 @@ app.directive('testdirective', function() {
 
                         loadQuill.setContents(JSON.parse(scope.announcementList[i].description));
 
-                        announcement.quill.setContents(JSON.parse(announcement.description));
+                        scope.announcementList[i].quill = loadQuill;
+
                     }
 
-                    //Hide the borders
-                    $(".annnouncementEditors.ql-container.ql-snow").css({'border': 'none'});
+                    //Hide the announcement toolbars
+                    $(".annnouncementEditors").prev().hide();
 
                 }else{
                     //Only do stuff to the last announcement
@@ -73,7 +69,7 @@ app.directive('testdirective', function() {
                     //Check if has toolbar
                     var id = "#announcementDescription-" + (scope.announcementList.length - 1);
                     if((!$(id).prev().hasClass("ql-toolbar"))){
-
+                        debugger;
                         //Init the quill
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',
@@ -83,10 +79,21 @@ app.directive('testdirective', function() {
                         //Hide the announcement toolbars
                         $(id).prev().hide();
 
+                        //Hide the button
+                        var buttonId = "#updateButton-"+(scope.announcementList.length - 1);
+                        var cancelId = '#cancelEdit-'+(scope.announcementList.length - 1);
+
+                        $(buttonId).hide();
+                        $(cancelId).hide();
+
                         //Hide the borders
                         $(id).css({'border': 'none'});
                         //Disable the quill
                         loadQuill.enable(false);
+
+                        var announcementTitle = "#announcementTitle-"+(scope.announcementList.length - 1);
+                        $(announcementTitle).attr("disabled", "disabled");
+
 
                         scope.announcementList[scope.announcementList.length - 1].quill = loadQuill;
                     }

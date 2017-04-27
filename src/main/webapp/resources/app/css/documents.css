@@ -1,9 +1,19 @@
+
+/******Wrapper for Adding new Documents*******/
+
 #add-content{
     height: 53px;
     width: 100%;
     /*border: solid 2px #000000;*/
 }
-/* TEXTBOX */
+
+.addDocBtn{
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+/*Textbox for Description*/
 textarea {
     width: 100%;
     min-height: 50px;
@@ -24,6 +34,10 @@ textarea {
     border-radius: 4px;
     min-height: 90px;
 }
+/******************************/
+
+
+/******File selector******/
 
 .pickFileBtn{
     padding-top: .33cm;
@@ -36,15 +50,23 @@ textarea {
     margin-bottom: 40px;
 }
 
+.editBtn{
+    margin-top: 55px;
+    margin-left: 50px;
+}
+
 .addFuncBtn{
     margin-top: 24px;
 }
 
-.addDocBtn{
-    float: right;
-    margin-top: 10px;
-    margin-right: 10px;
+.docSubmit{
+    margin-top: 17px;
+    margin-left: 65px;
 }
+/*******************************/
+
+
+/******Documents display******/
 
 #doc-content{
     height: 500px;
@@ -53,11 +75,6 @@ textarea {
 
 .form-control{
     margin-top: 55px;
-}
-
-.docSubmit{
-    margin-top: 17px;
-    margin-left: 65px;
 }
 
 .docCard{
@@ -83,11 +100,7 @@ textarea {
     margin-top: 10px;
 }
 
-.editBtn{
-    margin-top: 55px;
-    margin-left: 50px;
-}
-
 h3{
     margin-left: -15px;
 }
+/***********************************/

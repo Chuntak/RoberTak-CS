@@ -80,6 +80,12 @@ body{
     cursor:pointer;
 }
 
+/*Make the tabs scrollable */
+.tabScroll.panel.panel-default{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 /*CSS END FOR TAGS*/
 
 

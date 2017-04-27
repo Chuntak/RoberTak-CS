@@ -12,13 +12,13 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
         return global.getCourseId();
     }, function(newValue, oldValue){
         /* check if courseId has really changed */
-        if(newValue !== undefined && newValue != 0 && newValue !== oldValue){
+        if(newValue !== undefined && newValue !== 0 && newValue !== oldValue){
             reloadData();
         }
     });
     var reloadData = function(){
         $state.reload();
-    }
+    };
     <!-- Initialize Quill editor -->
 
     var addQuill = new Quill('#editor', {
@@ -63,7 +63,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
         var announcementTitle = "#announcementTitle-"+index;
         $(announcementTitle).removeAttr("disabled");
-    }
+    };
 
 
 
@@ -77,13 +77,9 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
             url: '/updateAnnouncement',
             params: {"id" : announcement.id, "title": $(title).val(), "description" : JSON.stringify(announcement.quill.getContents())}
         }).then(function (response) {
-            console.log(response)
-                $scope.announcementList.push(response.data)
-
-
-
-
-                //Hide the announcement toolbars
+            console.log(response);
+                // $scope.announcementList.push(response.data);
+                            //Hide the announcement toolbars
                 $(id).prev().hide();
                 //Hide the button
                 var buttonId = "#updateButton-"+index;
@@ -107,7 +103,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
             alert("Edit announcement error\n");
         });
 
-    }
+    };
 
     $scope.cancelEdit = function(announcement,index){
         var id = "#announcementDescription-"+index;
@@ -132,12 +128,12 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
 
         announcement.quill.setContents(JSON.parse(announcement.description));
-    }
+    };
 
     $scope.toggleAdd = function(){
         $('#addAnnouncementDiv').fadeToggle('fast');
 
-    }
+    };
 
 
 
@@ -148,9 +144,9 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
             url: '/updateAnnouncement',
             params: {"courseId" : global.getCourseId(), "title": $('#addAnnouncementTitle').val(), "description" : JSON.stringify(addQuill.getContents())}
         }).then(function (response) {
-            console.log(response)
+            console.log(response);
             if(response.data !== "") {
-                $scope.announcementList.push(response.data)
+                $scope.announcementList.push(response.data);
                 //Clear the things
                 $("#addAnnouncementForm")[0].reset();
                 //Clears the add quill
@@ -194,11 +190,10 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 app.directive('testdirective', function() {
     return function(scope, element, attrs) {
         scope.$watch('$last',function(v){
-            if (v == true) {
+            if (v === true) {
                 if((initLoad)){
                     initLoad = false;
                     for(var i = 0; i < scope.announcementList.length; i++) {
-                        ;
                         var id = "#announcementDescription-" + i;
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',

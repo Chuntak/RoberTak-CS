@@ -51,9 +51,7 @@ public class DBSingleton {
         dataSource.setUsername(USER);
         dataSource.setPassword(PASS);
         jdbcTemplate = new JdbcTemplate(dataSource);
-    ; //Builder().build()//.Builder().setServiceAccountId("backpack-164101@appspot.gserviceaccount.com").build();
         storage = StorageOptions.getDefaultInstance().getService();
-//        StorageOptions.newBuilder().setCredentials(credential).build().getService();//
     }
 
     /*RETURNS THE SINGLETON*/

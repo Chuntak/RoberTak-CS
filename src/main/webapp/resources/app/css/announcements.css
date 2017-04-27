@@ -12,13 +12,10 @@
 .annnouncementEditors.ql-container.ql-snow{border: none; height: 100px;}
 /* Use javascript to change css to .annnouncementEditors{border: 1px solid #ccc; border-top: 0px;} during edit mode*/
 
-/*Make the tabs scrollable */
-.tab.panel.panel-default{
-    overflow-y: auto;
-    overflow-x: hidden;
-}
 
 /*Hide the Add Announcement on Startup*/
 #addAnnouncementDiv{display: none;}
 
 .announcementContainer{border-bottom: solid black 1px;}
+.updateAnnouncement{display: none;}
+.cancelEdit{display: none;}

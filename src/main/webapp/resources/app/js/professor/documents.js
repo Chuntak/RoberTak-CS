@@ -40,8 +40,7 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         var fd = new FormData();
         fd.append('file', file);
         fd.append('f', 'json');
-
-        if($scope.doc.fileName!=undefined) {
+        if($scope.doc.file!==undefined) {
             $http.post("/uploadDocument", fd, {
                 transformRequest: angular.identity,
                 headers: {

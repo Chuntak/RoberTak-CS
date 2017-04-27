@@ -225,7 +225,7 @@
     </div>
     <%--TABS PANE--%>
     <div class="col-md-7 tabPane">
-        <div class="panel panel-default">
+        <div class="tabScroll panel panel-default">
             <ul class="nav nav-tabs tab-heading" ng-controller="tabsCtrl">
                 <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)" ng-bind="tab.label"></a></li>
             </ul>
