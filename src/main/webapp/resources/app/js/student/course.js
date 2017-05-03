@@ -17,6 +17,12 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                     "id": course.id,"prefix": course.prefix, "number": course.number, "name": course.name, "semester": course.semester,
                     "ano":course.ano,"profFirstName": course.profFirstName, "profLastName": course.profLastName
                 });
+                /* DETERMINE IF ADDING NEW COURSE TO SET SELECTED COURSE PROPERLY*/
+                if(!global.setCourseId(course.id) || course.id != global.setCourseId(course.id)){
+                    /* SET SELECTED COURSE TO NEWLY ADDED COURSE */
+                    $scope.selectCourse($scope.courses[$scope.courses.length-1], $scope.courses.length-1);
+                }
+
             } else {
                 console.log("Course already added or incorrect course code");
             }
@@ -49,8 +55,11 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                 "ano":course.ano ,"profFirstName":course.profFirstName, "profLastName":course.profLastName};
             $scope.courses.push(courseJson);
         }
+        if($scope.courses[0]){
+            global.setCourseId($scope.courses[0].id);
+            $scope.selectCourse($scope.courses[0], 0);
+        }
 
-        global.setCourseId($scope.courses[0].id);
 
     }, function(response) { /*error*/
     });

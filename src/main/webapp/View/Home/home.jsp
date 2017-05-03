@@ -239,26 +239,27 @@
     <div class="col-md-3 forumPane" ng-controller="forumCtrl">
         <div class="panel panel-default">
             <div class="panel-group" id="accordion">
-                <div class="panel">
-                    <input class="panel-heading write-post" ng-model="newPost.header" data-toggle="collapse" data-parent="#accordion" href="#new-post" placeholder="Write a post"></input>
+                <form ng-submit="updatePost(newPost)" class="panel">
+                    <input required id="postHeader" class="form-control panel-heading write-post" ng-model="newPost.header" data-toggle="collapse" data-parent="#accordion" href="#new-post" placeholder="Write a post"></input>
                     <div id="new-post" class="panel-collapse collapse">
-                        <input type="text" autocomplate="off" ng-model="newPost.content" class="panel-body form-ctrl course-box" placeholder="Write the body here">
-                        <button ng-click="updatePost(newPost)" class="panel-footer form-ctrl btn" ng-disabled="newPost.header==''||newPost.content==''">Create Post</button>
+                        <input required id="postContent" type="text" autocomplate="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here">
+                        <button type="submit" class="panel-footer form-ctrl btn" ng-disabled="courseId==0">Create Post</button>
                     </div>
-                </div>
+                </form>
+                <p ng-if="!posts.length">There are no posts.</p>
                 <div ng-repeat="post in posts" class="panel post-header panel-primary">
                     <div class="panel-heading panel-primary">
                         <h4 class="panel-title">
                             <a ng-click="getPosts(post, 0)" data-toggle="collapse" ng-bind="post.header" data-parent="#accordion" href="{{'#collapse' + $index}}"></a>
                         </h4>
                     </div>
-                    <div id="{{ 'collapse' + $index }}" class="panel-collapse collapse">
+                    <form ng-submit="updateComment(post, newComment)" id="{{ 'collapse' + $index }}" class="panel-collapse collapse">
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-info" ng-bind="post.content"></li>
                             <li ng-repeat="comment in post.comments" ng-bind="comment.content" class="list-group-item"></li>
-                            <input ng-keyup="$event.keyCode == 13 && updateComment(post, newComment)" ng-model="newComment.content" type="text" autocomplate="off" class="form-ctrl course-box list-group-item"  placeholder="Write new comment">
+                            <input required type="text" ng-keyup="newComment.content!=='' && $event.keyCode == 13 && updateComment(post, newComment)" ng-model="newComment.content" type="text" autocomplate="off" class="form-control form-ctrl course-box list-group-item"  placeholder="Write new comment">
                         </ul>
-                    </div>
+                    </form>
                 </div>
             </div>
 

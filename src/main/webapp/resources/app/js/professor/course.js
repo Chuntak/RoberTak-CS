@@ -50,7 +50,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     // }
 
 /***************************************************************************************************************/
-    $scope.course = {};
+    $scope.course = {id:0};
     $scope.lastEditedCourse = {};
     $scope.tagList = {};
     $scope.selectedTag = "";
@@ -82,6 +82,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                 "semester": $scope.course.semester, "ano":$scope.course.ano,"pub": $scope.course.public }
         }).then(function (response) {
             if(response.data !== "") {  /*add to the pane*/
+
                 var code = response.data.code;
                 var id = response.data.id;
                 var firstName = response.data.profFirstName;
@@ -98,6 +99,12 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                     "code": code,
                     "public": $scope.course.public
                 });
+                /* DETERMINE IF ADDING NEW COURSE TO SET SELECTED COURSE PROPERLY*/
+                if(!$scope.course.id){
+                    /* SET SELECTED COURSE TO NEWLY ADDED COURSE */
+                    $scope.selectCourse($scope.courses[$scope.courses.length-1], $scope.courses.length-1);
+                }
+
             } else { /*edit the pane*/
                 $scope.lastEditedCourse.prefix = $scope.course.prefix;
                 $scope.lastEditedCourse.number = $scope.course.number;

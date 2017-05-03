@@ -14,6 +14,7 @@ app.controller("forumCtrl", function ($scope, $http, global){
     /* keep track of a new post being made */
     $scope.newPost = {"header":"", "content":""};
     $scope.newComment = {"content":""};
+    $scope.courseId = 0;
     /* watch the factory to receive the posts from db */
     $scope.$watch(function(){
         return global.courseId;
@@ -21,10 +22,12 @@ app.controller("forumCtrl", function ($scope, $http, global){
         /* set new value of posts */
         if(newValue !== undefined && newValue != 0 && newValue !== oldValue ){
             $scope.getPosts({"id":0}, newValue);
+            $scope.courseId = newValue;
         }
     });
 
     $scope.updatePost = function(post){
+
         $http.get("/updatePost", {
             params : {
                 "id": post.id,
@@ -87,5 +90,14 @@ app.controller("forumCtrl", function ($scope, $http, global){
 
     var reloadData = function(){
         $state.reload();
+    }
+
+    function formValidate(post){
+        if(post.header === ""){
+
+        }
+        if(post.content === ""){
+
+        }
     }
 });
