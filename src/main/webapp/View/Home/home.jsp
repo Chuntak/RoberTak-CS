@@ -123,29 +123,30 @@
                             <!-- Modal content -->
                             <div class="modal-content">
                                 <span class="close">&times;</span>
-                                <h3>Courses</h3>
+                                <h3 class="modalLabel">Courses</h3>
 
+                                <form ng-submit="updateCourse()">
                                     <%--The course prefix and number box--%>
-                                <div class="form-inline form-group" id="prefNumDiv">
+                                <div class="form-inline form-group">
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" ng-model="course.prefix" id="coursePrefix" maxlength="8" placeholder="Course Prefix" />
+                                        <input required type="text" class="form-control wide coursePrefix" ng-model="course.prefix" maxlength="8" autocomplete="off" placeholder="Course Prefix" />
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" ng-model="course.number" id="courseNumber" placeholder="Course Number">
+                                        <input required type="text" class="form-control wide courseNumber" ng-model="course.number" maxlength="3" autocomplete="off" placeholder="Course Number">
                                     </div>
                                 </div>
 
                                     <%--The course name--%>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control text-left" ng-model="course.name" id="courseName" maxlength="32" placeholder="Course Name"/>
+                                        <input required type="text" class="form-control text-left courseName" ng-model="course.name" maxlength="32" autocomplete="off" placeholder="Course Name"/>
                                     </div>
                                 </div>
 
                                     <%--Semester and Public checkbox--%>
-                                <div class="form-inline noFloat" id="semPubDiv">
+                                <div class="form-inline">
                                     <div class="col-lg-3">
-                                        <select id="semester" class="form-control" ng-model="course.semester">
+                                        <select name="semester_chooser" class="form-control wide" ng-model="course.semester">
                                             <option value="" disabled selected>Semester</option>
                                             <option value="Spring">Spring</option>
                                             <option value="Summer">Summer</option>
@@ -154,7 +155,7 @@
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <select id="ano" class="form-control" ng-model="course.ano">
+                                        <select name="year_chooser" class="form-control" ng-model="course.ano">
                                             <option value="" disabled selected>Year</option>
                                             <option value="2017">2017</option>
                                             <option value="2018">2018</option>
@@ -164,30 +165,25 @@
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <div class="form-check" id="pubDiv">
-                                                <%--<div class="col-xs-11">--%>
-                                            <label class="form-check-label" for="public">Make Course Public</label>
-                                                <%--</div>--%>
-                                                <%--<div class="col-xs-1">--%>
-                                            <input class="form-check-input" ng-model="course.public" id="public" type="checkbox"/>
-                                                <%--</div>--%>
+                                        <div class="form-check pubDiv">
+                                            <label class="form-check-label">Make Course Public</label>
+                                            <input class="form-check-input public" ng-model="course.public" type="checkbox"/>
                                         </div>
                                     </div>
                                 </div>
-
                                     <%--Tag Selection and Removal section--%>
-                                <div id="tagSection" class="noFloat">
+                                <div>
                                     <div class="col-lg-12">
-                                        <form id="tagAdd" class="form-inline form-group">
-                                            <input list="tags"  ng-model="selectedTag" class="form-control" id="tagList" name="tags">
+                                        <div class="form-inline">
+                                            <input list="tags"  ng-model="selectedTag" class="form-control tagList" name="tags">
                                             <datalist id="tags">
                                                 <option ng-repeat="tag in tagList" ng-bind="tag.tagName" value="{{tag.tagName}}"></option>
                                             </datalist>
-                                            <button class="btn" id="addTagBtn" ng-click="addTag()">Add Tag</button>
-                                        </form>
+                                            <button class="btn addTagBtn" ng-click="addTag()">Add Tag</button>
+                                        </div>
 
                                             <%--Where We add the tag chips--%>
-                                        <div id="tagPane" class="noFloat">
+                                        <div class="tagPane">
                                                 <%--The X button should remove the tag instead of hiding it--%>
                                             <div class="chip" ng-repeat="courseTagged in courseTaggedList">
                                                 <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
@@ -197,10 +193,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <%--Submit button to add the course--%>
-                                    <%--<div class="form-group" class="noFloat">--%>
-                                <input class="btn btn-primary" ng-click="updateCourse()" name="submit" id="courseSubmit" value="Save Course" type="submit"/>
-                                    <%--</div>--%>
+                                        <div class="wrapper">
+                                <input class="btn btn-primary btn-block" type="submit" value="Save Course">
+                                        </div>
+                                </form>
                             </div>
                         </div>
                     </c:when>
@@ -242,7 +238,7 @@
                 <form ng-submit="updatePost(newPost)" class="panel">
                     <input required id="postHeader" class="form-control panel-heading write-post" ng-model="newPost.header" data-toggle="collapse" data-parent="#accordion" href="#new-post" placeholder="Write a post"></input>
                     <div id="new-post" class="panel-collapse collapse">
-                        <input required id="postContent" type="text" autocomplate="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here">
+                        <input required id="postContent" type="text" autocomplete="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here">
                         <button type="submit" class="panel-footer form-ctrl btn" ng-disabled="courseId==0">Create Post</button>
                     </div>
                 </form>

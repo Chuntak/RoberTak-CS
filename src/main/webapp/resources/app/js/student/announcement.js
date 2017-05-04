@@ -35,8 +35,6 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 });
 
 //Directive to initiate all the quills as they load
-
-//Directive to initiate all the quills as they load
 app.directive('testdirective', function() {
     return function(scope, element, attrs) {
         scope.$watch('$last',function(v){

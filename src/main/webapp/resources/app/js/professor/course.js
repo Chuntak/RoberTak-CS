@@ -22,9 +22,9 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         modal.style.display = "block";
     };
     // When the user clicks on the submit button, close the modal
-    submit.onclick = function() {
-        modal.style.display = "none";
-    };
+    // submit.onclick = function() {
+    //     modal.style.display = "none";
+    // };
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
         modal.style.display = "none";
@@ -75,14 +75,15 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
 
     /*ADDS OR EDITS */
     $scope.updateCourse = function(){
+        debugger;
         var y = $http({
             method: 'GET',
             url: '/updateCourse',
             params: {"id": $scope.course.id, "prefix": $scope.course.prefix, "number":$scope.course.number, "name":$scope.course.name,
                 "semester": $scope.course.semester, "ano":$scope.course.ano,"pub": $scope.course.public }
         }).then(function (response) {
+            modal.style.display = "none";
             if(response.data !== "") {  /*add to the pane*/
-
                 var code = response.data.code;
                 var id = response.data.id;
                 var firstName = response.data.profFirstName;

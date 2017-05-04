@@ -19,3 +19,6 @@
 .announcementContainer{border-bottom: solid black 1px;}
 .updateAnnouncement{display: none;}
 .cancelEdit{display: none;}
+
+/*Styles the errors to red*/
+.error{color: red; display: none;}

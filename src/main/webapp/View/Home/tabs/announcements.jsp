@@ -24,8 +24,11 @@
                     <div class="row">
                         <input id="addAnnouncementTitle"type="text" class="col-xs-12" placeholder="Announcement Title" maxlength="30">
                     </div>
+                    <span class="error" id="addAnnouncementTitleEmpty">Announcement Title is required!</span>
+                    <span class="error" id="addAnnouncementTitleLength">Announcement Title is too long!</span>
                     <!-- The Adding Editor-->
                     <div id="editor"></div>
+                    <span class="error" id="addAnnouncementQuillError">Announcement Description is Empty!</span>
                 </form>
                 <button class="btn-md btn-primary" ng-click="addAnnouncement()">Add Announcement</button>
             </div>
@@ -45,7 +48,6 @@
                     </btn>
                     <btn class="btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteAnnouncement(announcement)">
                     </btn>
-
                 </c:when>
                 <c:when test="${userType eq 'stud'}">
                     <%--Do not use ng-model for title so we save the title if they select cancel edit--%>
@@ -53,11 +55,17 @@
                 </c:when>
             </c:choose>
         </div>
+
+        <span class="error" id="announcementTitleEmpty-{{$index}}">Announcement Title is required!</span>
+        <span class="error" id="announcementTitleLength-{{$index}}">Announcement Title is too long!</span>
+
         <div>{{announcement.dateCreated}}</div>
         <%--Announcement Description [Div that gets turned into a quill editor]--%>
         <div class="annnouncementEditors" id="announcementDescription-{{$index}}"></div>
         <c:choose>
             <c:when test="${userType eq 'prof'}">
+                <span class="error" id="announcementQuillError-{{$index}}">Announcement Description is Empty!</span>
+                <br>
                 <button class="updateAnnouncement btn-md btn-primary" id="updateButton-{{$index}}" ng-click="updateAnnouncement(announcement, $index)">Update Announcement</button>
                 <button class="cancelEdit btn-md btn-primary" id="cancelEdit-{{$index}}" ng-click="cancelEdit(announcement, $index)">Cancel Edit</button>
             </c:when>
