@@ -74,7 +74,7 @@
                     <div id="courseRegister" class="row container-fluid">
                         <div class="input-group">
                                 <%--ENROLL TO COURSE BTN--%>
-                            <input type="text" autocomplate="off" class="form-ctrl course-box" id="enroll" ng-model="course.code" name="enroll" placeholder="Course Code">
+                            <input type="text" autocomplete="off" class="form-ctrl course-box" id="enroll" ng-model="course.code" name="enroll" placeholder="Course Code">
                             <span class="input-group-btn">
                                     <button class="btn btn-success glyphicon glyphicon-plus course-btn" ng-click="enrollCourse()" type="button"></button>
                                 </span>
@@ -192,9 +192,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                        <%--SUBMIT BUTTON TO ADD THE COURSE--%>
                                         <div class="text-center">
-                                <input class="btn btn-primary" type="submit" value="Save Course">
-                                        </div>
+                                        <input class="btn btn-primary" type="submit" value="Save Course">
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -334,7 +335,7 @@
                 <form ng-submit="updatePost(newPost)" class="panel">
                     <input required id="postHeader" class="form-control panel-heading write-post" ng-model="newPost.header" data-toggle="collapse" data-parent="#accordion" href="#new-post" placeholder="Write a post"></input>
                     <div id="new-post" class="panel-collapse collapse">
-                        <textarea required id="postContent" type="text" autocomplate="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here"></textarea>
+                        <textarea required id="postContent" type="text" autocomplete="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here"></textarea>
                         <button type="submit" class="panel-footer form-ctrl btn" ng-disabled="courseId==0">Create Post</button>
                     </div>
                 </form>
@@ -349,7 +350,7 @@
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-info" ng-bind="post.content"></li>
                             <li ng-repeat="comment in post.comments" ng-bind="comment.content" class="list-group-item"></li>
-                            <textarea required type="text" ng-keyup="newComment.content!=='' && $event.keyCode == 13 && updateComment(post, newComment)" ng-model="newComment.content" type="text" autocomplate="off" class="form-control form-ctrl course-box list-group-item"  placeholder="Write new comment"></textarea>
+                            <textarea required type="text" ng-keyup="newComment.content!=='' && $event.keyCode == 13 && updateComment(post, newComment)" ng-model="newComment.content" type="text" autocomplete="off" class="form-control form-ctrl course-box list-group-item"  placeholder="Write new comment"></textarea>
                         </ul>
                     </form>
                 </div>

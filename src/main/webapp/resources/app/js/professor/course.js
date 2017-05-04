@@ -56,7 +56,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     };
 
     $scope.removeTag = function(courseTagged) {
-        debugger;
         for(var i = 0; i < $scope.courseTaggedList.length; i++){
             if($scope.courseTaggedList[i] === courseTagged){
                 $scope.courseTaggedList.splice(i,1);
@@ -163,7 +162,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         $scope.course.ano = course.ano;
 
         $http.get("/getTag", { params: {"taggableId" : global.getCourseId() , "taggableType" : "course"} }).then(function (response){
-            debugger;
             $scope.courseTaggedList = response.data;
             /*DISPLAY THE MODAL*/
             $scope.getTag();

@@ -73,9 +73,10 @@ textarea {
     overflow: auto;
 }
 
-.form-control{
-    margin-top: 55px;
-}
+/*YOU DONT DO THIS*/
+/*.form-control{*/
+/*margin-top: 55px;*/
+/*}*/
 
 .docCard{
     height: 150px;
