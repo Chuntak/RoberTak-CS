@@ -124,7 +124,7 @@
                                 <span class="close">&times;</span>
                                 <h3 class="modalLabel">Courses</h3>
 
-                                <form ng-submit="updateCourse()">
+                                <form name="addCourse" ng-submit="updateCourse()">
                                     <%--The course prefix and number box--%>
                                 <div class="form-inline form-group">
                                     <div class="col-lg-6">
@@ -192,10 +192,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <%--SUBMIT BUTTON TO ADD THE COURSE--%>
-                                    <div class="wrapper">
-                                        <input class="btn btn-primary btn-block" type="submit" value="Save Course">
-                                    </div>
+                                        <div class="text-center">
+                                <input class="btn btn-primary" type="submit" value="Save Course">
+                                        </div>
                                 </form>
                             </div>
                         </div>
@@ -376,7 +375,7 @@
     <%--Google Logout End--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="<c:url value="/resources/app/js/imported/bootstrap-datepicker.js" />"  type="text/javascript" ></script>
+    <script src="<c:url value="/resources/app/js/imported/bootstrap-datepicker.min.js" />"  type="text/javascript" ></script>
     <script src="<c:url value="/resources/app/js/imported/bootstrap-timepicker.js" />"  type="text/javascript" ></script>
     <!-- App Base -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -397,6 +396,7 @@
             <script src="<c:url value="/resources/app/js/professor/assignment.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/syllabus.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/documents.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/professor/grades.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/forum.js" />"  type="text/javascript" ></script>
         </c:when>
         <c:when test="${userType eq 'stud'}">
@@ -406,6 +406,7 @@
             <script src="<c:url value="/resources/app/js/student/announcement.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/documents.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/syllabus.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/student/grades.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/forum.js" />"  type="text/javascript" ></script>
         </c:when>
     </c:choose>

@@ -122,12 +122,12 @@ homeApp.controller('documentsCtrl', function($scope, $state) {
     }
 });
 
-homeApp.controller('gradesCtrl', function($scope, $state) {
-    // create a message to display in our view
-    $scope.message = 'this is the grades page!';
-    var vm = this;
-    // SET NGCLICK WHEN YOU WANT TO RELOAD
-    vm.reloadData = function(){
-        $state.reload();
-    }
-});
+// homeApp.controller('gradesCtrl', function($scope, $state) {
+//     // create a message to display in our view
+//     $scope.message = 'this is the grades page!';
+//     var vm = this;
+//     // SET NGCLICK WHEN YOU WANT TO RELOAD
+//     vm.reloadData = function(){
+//         $state.reload();
+//     }
+// });

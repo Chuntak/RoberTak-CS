@@ -11,7 +11,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     var modal = document.getElementById('courseModal');
     // Get the button that opens the modal
     var btn = document.getElementById("addCourse");
-    var submit = document.getElementById("courseSubmit");
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     // When the user clicks on the button, open the modal
@@ -22,10 +21,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         $scope.$apply();
         modal.style.display = "block";
     };
-    // When the user clicks on the submit button, close the modal
-    // submit.onclick = function() {
-    //     modal.style.display = "none";
-    // };
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
         modal.style.display = "none";

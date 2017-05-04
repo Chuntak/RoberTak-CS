@@ -12,13 +12,13 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
         return global.getCourseId();
     }, function(newValue, oldValue){
         /* check if courseId has really changed */
-        if(newValue !== undefined && newValue != 0 && newValue !== oldValue){
+        if(newValue !== undefined && newValue !== 0 && newValue !== oldValue){
             reloadData();
         }
     });
     var reloadData = function(){
         $state.reload();
-    }
+    };
     //Pre-emtively hide the add announcement pullout
     $('#addAnnouncementDiv').hide();
     //Initialize Quill editor
