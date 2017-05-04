@@ -31,13 +31,10 @@ public class TagController {
         return new TagModel();
     }
 
-
-
     /*gets the tag returns the arraylist tag */
     @RequestMapping(value="/getTag", method = RequestMethod.GET)
     public @ResponseBody
-    ArrayList<TagModel> getTag(@ModelAttribute("tag") TagModel tag, HttpSession session) {
+    ArrayList<String> getTag(@ModelAttribute("tag") TagModel tag, HttpSession session) {
         return new TagDAO().getTag(tag);
     }
-
 }

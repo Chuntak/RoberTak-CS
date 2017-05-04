@@ -63,7 +63,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
         var announcementTitle = "#announcementTitle-"+index;
         $(announcementTitle).removeAttr("disabled");
-    }
+    };
 
 
 
@@ -125,7 +125,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
             alert("Edit announcement error\n");
         });
 
-    }
+    };
 
     $scope.cancelEdit = function(announcement,index){
         var id = "#announcementDescription-"+index;
@@ -159,7 +159,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
 
         announcement.quill.setContents(JSON.parse(announcement.description));
-    }
+    };
 
     /*HIDES THE ADD ANNOUNCEMENT PULL OUT AND THE ERRORS */
     $scope.toggleAdd = function(){
@@ -167,7 +167,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
         $('#addAnnouncementTitleEmpty').hide();
         $('#addAnnoucnementTitleLength').hide();
         $('#addAnnouncementQuillError').hide();
-    }
+    };
 
 
 
@@ -198,9 +198,9 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
             url: '/updateAnnouncement',
             params: {"courseId" : global.getCourseId(), "title": $('#addAnnouncementTitle').val(), "description" : JSON.stringify(addQuill.getContents())}
         }).then(function (response) {
-            console.log(response)
+            console.log(response);
             if(response.data !== "") {
-                $scope.announcementList.push(response.data)
+                $scope.announcementList.push(response.data);
                 //Clear the things
                 $("#addAnnouncementForm")[0].reset();
                 //Clears the add quill
@@ -244,7 +244,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 app.directive('testdirective', function() {
     return function(scope, element, attrs) {
         scope.$watch('$last',function(v){
-            if (v == true) {
+            if (v === true) {
                 if((initLoad)){
                     initLoad = false;
                     for(var i = 0; i < scope.announcementList.length; i++) {
@@ -305,4 +305,4 @@ app.directive('testdirective', function() {
 
 
     };
-})
+});

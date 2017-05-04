@@ -17,12 +17,13 @@ import java.util.Date;
  */
 public class DocumentDAO extends DAOBase{
     public DocumentModel uploadDocument(DocumentModel dm){
-        /*UPLOAD TO CLOUD STORAGE*/
+
         if(dm.getBlobName() != null && !dm.getBlobName().equals("")) {
             dbs.deleteFile(dm.getBlobName());
         }
 
         Blob b = null;
+        /*UPLOAD TO CLOUD STORAGE*/
         if(dm.getFile() != null) {
             b = dbs.uploadFile(dm.getFile());
             dm.setBlobName(b.getName());

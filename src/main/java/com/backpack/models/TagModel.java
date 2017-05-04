@@ -11,6 +11,7 @@ public class TagModel {
 
     private int id;
     private String tagName;
+    /*taggableId IS THE ID OF WHAT IS GETTING THE TAG, IT CAN BE A COURSE, QUIZE OR QUESTION */
     private int taggableId;
     private String taggableType;
 

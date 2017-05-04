@@ -5,8 +5,13 @@
     <threadsafe>true</threadsafe>
     <use-google-connector-j>true</use-google-connector-j>
     <system-properties>
-        <property name="ae-cloudsql.cloudsql-database-url" value="jdbc:google:mysql://robertakproto-162817:us-central1:robertak-cs-01"/>
-        <property name="ae-cloudsql.local-database-url" value="jdbc:mysql://104.197.12.7:3306" />
+        <property name="ae-cloudsql.cloudsql-database-url" value="jdbc:google:mysql://robertakproto-162817:us-central1:robertak-cs-01/RedRobins"/>
+        <property name="ae-cloudsql.local-database-url" value="jdbc:mysql://104.197.12.7:3306/RedRobins" />
+        <property name="dbUser" value="root"></property>
+        <property name="dbPass" value="dlEoHJDcgccbaVqXPBgQ3g=="></property>
+        <property name="encrpyPass" value="Robertak_CS"></property>
+        <property name="bucketName" value="backpack-164101.appspot.com"></property>
+        <property name="dbPropertyFile" value="dbKey.properties"></property>
     </system-properties>
     <sessions-enabled>true</sessions-enabled>
 </appengine-web-app>

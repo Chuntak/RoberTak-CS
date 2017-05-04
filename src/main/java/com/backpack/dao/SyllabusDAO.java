@@ -76,7 +76,6 @@ public class SyllabusDAO extends DAOBase {
                         }
                     }
                     if (columnExists(rs, "sylLink")) sm.setDownloadLink(rs.getString("sylLink"));
-
                 }
                 return sm;
             }

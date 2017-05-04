@@ -119,7 +119,6 @@
                     <c:when test="${userType eq 'prof'}">
                         <!-- The Modal -->
                         <div id="courseModal" class="modal container-fluid">
-
                             <!-- Modal content -->
                             <div class="modal-content">
                                 <span class="close">&times;</span>
@@ -167,7 +166,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-check pubDiv">
                                             <label class="form-check-label">Make Course Public</label>
-                                            <input class="form-check-input public" ng-model="course.public" type="checkbox"/>
+                                            <input class="form-check-input public" ng-model="course.pub" type="checkbox"/>
                                         </div>
                                     </div>
                                 </div>
@@ -177,25 +176,26 @@
                                         <div class="form-inline">
                                             <input list="tags"  ng-model="selectedTag" class="form-control tagList" name="tags">
                                             <datalist id="tags">
-                                                <option ng-repeat="tag in tagList" ng-bind="tag.tagName" value="{{tag.tagName}}"></option>
+                                                <option ng-repeat="tag in tagList">{{tag}}</option>
                                             </datalist>
-                                            <button class="btn addTagBtn" ng-click="addTag()">Add Tag</button>
+                                            <button type="button" class="btn addTagBtn" ng-click="addTag()">Add Tag</button>
                                         </div>
 
                                             <%--Where We add the tag chips--%>
                                         <div class="tagPane">
                                                 <%--The X button should remove the tag instead of hiding it--%>
                                             <div class="chip" ng-repeat="courseTagged in courseTaggedList">
-                                                <span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                                <span class="closebtn" ng-click="removeTag(courseTagged)">&times;</span>
                                                 {{courseTagged}}
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
-                                        <div class="wrapper">
-                                <input class="btn btn-primary btn-block" type="submit" value="Save Course">
-                                        </div>
+                                    <%--SUBMIT BUTTON TO ADD THE COURSE--%>
+                                    <div class="wrapper">
+                                        <input class="btn btn-primary btn-block" type="submit" value="Save Course">
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -207,14 +207,111 @@
             <%--SEARCH BAR--%>
             <c:choose>
                 <c:when test="${userType eq 'prof'}">
-                    <form class="form-inline global-search" role="form">
-                        <div class="form-group">
-                            <input type="search" class="form-control" id="search" name="search" placeholder="Enter search terms">
+                    <div class="input-group">
+                    <%--SEARCH COURSE LABEL--%>
+                        <input type="text" placeholder="Search other courses" autocomplete="off" class="form-control course-box" id="searchInput" ng-model="search.input" aria-label="Text input with dropdown button">
+                        <%--SEARCH COURSE BUTTON--%>
+                        <span class="input-group-btn">
+                            <button ng-click="searchCourse()" type="submit" id="searchSubmit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <%--ADVANCED SEARCH--%>
+                    <a class="" ng-click="showSearchModel()" href="#" class="advSearch">Advanced Search</a>
+                    <!-- ADVANCED SEARCH MODAL -->
+                    <div id="searchModal" class="modal container-fluid">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h3 class="modalLabel">Advanced Search</h3>
+
+                            <form ng-submit="advanceSearchCourse()">
+                                    <%--The course professor and course name--%>
+                                <div class="form-inline form-group">
+                                    <div class="col-lg-6">
+                                        <input required type="text" class="form-control wide" ng-model="search.profName" maxlength="100" autocomplete="off" placeholder="Course Professor" />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input required type="text" class="form-control wide" ng-model="search.name" maxlength="32" autocomplete="off" placeholder="Course Name"/>
+                                    </div>
+                                </div>
+
+
+                                    <%--The course prefix and number box--%>
+                                <div class="form-inline form-group">
+                                    <div class="col-lg-6">
+                                        <input required type="text" class="form-control wide" ng-model="search.prefix" maxlength="8" autocomplete="off" placeholder="Course Prefix" />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input required type="text" class="form-control wide" ng-model="search.number" maxlength="4" autocomplete="off" placeholder="Course Number"/>
+                                    </div>
+                                </div>
+
+                                    <%--The course school--%>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input required type="text" class="form-control text-left courseName" ng-model="search.school" maxlength="32" autocomplete="off" placeholder="Course Name"/>
+                                    </div>
+                                </div>
+
+                                    <%--Semester and Public checkbox--%>
+                                <div class="form-inline">
+                                    <div class="col-lg-3">
+                                        <select name="semester_chooser" class="form-control wide" ng-model="course.semester">
+                                            <option value="" disabled selected>Semester</option>
+                                            <option value="Spring">Spring</option>
+                                            <option value="Summer">Summer</option>
+                                            <option value="Fall">Fall</option>
+                                            <option value="Winter">Winter</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <select name="year_chooser" class="form-control" ng-model="course.ano">
+                                            <option value="" disabled selected>Year</option>
+                                            <option value="2017">2017</option>
+                                            <option value="2018">2018</option>
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-check pubDiv">
+                                            <label class="form-check-label">Make Course Public</label>
+                                            <input class="form-check-input public" ng-model="course.pub" type="checkbox"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <%--Tag Selection and Removal section--%>
+                                <div>
+                                    <div class="col-lg-12">
+                                        <div class="form-inline">
+                                            <input list="tags"  ng-model="selectedTag" class="form-control tagList" name="tags">
+                                            <datalist id="tags">
+                                                <option ng-repeat="tag in tagList">{{tag}}</option>
+                                            </datalist>
+                                            <button type="button" class="btn addTagBtn" ng-click="addTag()">Add Tag</button>
+                                        </div>
+
+                                            <%--Where We add the tag chips--%>
+                                        <div class="tagPane">
+                                                <%--The X button should remove the tag instead of hiding it--%>
+                                            <div class="chip" ng-repeat="courseTagged in courseTaggedList">
+                                                <span class="closebtn" ng-click="removeTag(courseTagged)">&times;</span>
+                                                {{courseTagged}}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                    <%--SUBMIT BUTTON TO ADD THE COURSE--%>
+                                <div class="wrapper">
+                                    <input class="btn btn-primary btn-block" type="submit" value="Save Course">
+                                </div>
+                            </form>
                         </div>
-                        <button type="submit" id="search_submit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-search"></span>&nbspSearch
-                        </button>
-                    </form>
+                    </div>
                 </c:when>
             </c:choose>
         </div>

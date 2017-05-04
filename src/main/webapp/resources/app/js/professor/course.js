@@ -18,6 +18,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     btn.onclick = function() {
         $scope.getTag();
         $scope.course = {};
+        $scope.courseTaggedList = [];
         $scope.$apply();
         modal.style.display = "block";
     };
@@ -36,18 +37,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         }
     };
 
-    // /*INITALIZE THE SEMESTER YEAR FOR THE NEXT FOUR YEAR*/
-    // /*Gets the select element*/
-    // var x = document.getElementById("ano");
-    // var date = new Date();
-    // var year = date.getFullYear();
-    // /*makes the year options*/
-    // for(var i = year; i < year+4; i++) {
-    //     var option = document.createElement("option");
-    //     option.value = i.toString();
-    //     option.text = i.toString();
-    //     x.add(option);
-    // }
 
 /***************************************************************************************************************/
     $scope.course = {id:0};
@@ -63,27 +52,36 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         }, function(error) { console.log(error.data); });
     };
     $scope.getTag();
-    /*ADD TAG TO DATABASE TO COURSE TODO NEEDS TO DO MORE*/
-    $scope.addTag = function(){
-        //todo http request
-        if($scope.courseTaggedList.indexOf($scope.selectedTag) === -1){
+    /*ADD TAG */
+    $scope.addTag = function(tag){
+        if($scope.courseTaggedList.indexOf($scope.selectedTag) === -1 && $scope.selectedTag !== ""){
             $scope.courseTaggedList.push($scope.selectedTag);
-            $scope.selectedTag = "";
+        }
+        $scope.selectedTag = "";
+    };
+
+    $scope.removeTag = function(courseTagged) {
+        debugger;
+        for(var i = 0; i < $scope.courseTaggedList.length; i++){
+            if($scope.courseTaggedList[i] === courseTagged){
+                $scope.courseTaggedList.splice(i,1);
+                break;
+            }
         }
     };
 
 
     /*ADDS OR EDITS */
     $scope.updateCourse = function(){
-        debugger;
+        var crsid = $scope.course.id;
         var y = $http({
             method: 'GET',
             url: '/updateCourse',
             params: {"id": $scope.course.id, "prefix": $scope.course.prefix, "number":$scope.course.number, "name":$scope.course.name,
-                "semester": $scope.course.semester, "ano":$scope.course.ano,"pub": $scope.course.public }
+                "semester": $scope.course.semester, "ano":$scope.course.ano,"pub": $scope.course.pub, "tagNames" : $scope.courseTaggedList  }
         }).then(function (response) {
             modal.style.display = "none";
-            if(response.data !== "") {  /*add to the pane*/
+            if(response.data.id !== crsid) {  /*add to the pane*/
                 var code = response.data.code;
                 var id = response.data.id;
                 var firstName = response.data.profFirstName;
@@ -98,21 +96,24 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                     "profFirstName": firstName,
                     "profLastName": lastName,
                     "code": code,
-                    "public": $scope.course.public
+                    "pub": $scope.course.pub
                 });
                 /* DETERMINE IF ADDING NEW COURSE TO SET SELECTED COURSE PROPERLY*/
                 if(!$scope.course.id){
                     /* SET SELECTED COURSE TO NEWLY ADDED COURSE */
                     $scope.selectCourse($scope.courses[$scope.courses.length-1], $scope.courses.length-1);
                 }
-
+                /*clear the courseTaggedList since modal is closed*/
+                $scope.courseTaggedList = [];
             } else { /*edit the pane*/
                 $scope.lastEditedCourse.prefix = $scope.course.prefix;
                 $scope.lastEditedCourse.number = $scope.course.number;
                 $scope.lastEditedCourse.name = $scope.course.name;
                 $scope.lastEditedCourse.semester = $scope.course.semester;
                 $scope.lastEditedCourse.ano = $scope.course.ano;
-                $scope.lastEditedCourse.public = $scope.course.public;
+                $scope.lastEditedCourse.pub = $scope.course.pub;
+                /*clear the courseTaggedList since the modal is closed*/
+                $scope.courseTaggedList = [];
             }
         }, function errorCallBack(response) {
             alert("add course error\n");
@@ -122,8 +123,13 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     /*SELECT COURSE TODO change course*/
     $scope.selected = 0;
     $scope.selectCourse = function(course, index){
-        $scope.selected = index;
-        global.setCourseId(course.id);
+        if(course) /*IF COURSE IS NOT NULL THEN ITS TRUE*/ {
+            $scope.selected = index;
+            global.setCourseId(course.id);
+        } else {
+            $scope.selected = -1;
+            global.setCourseId(-1);
+        }
         /* RELOAD TAB DATA */
         var reloadData = function(){
             $state.reload();
@@ -137,7 +143,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         for(i = 0; i < courseList.length; i++) {
             var course = courseList[i];
             var courseJson = {"id": course.id ,"prefix":course.prefix, "number":course.number, "name":course.name, "semester":course.semester,
-                "ano":course.ano ,"profFirstName":course.profFirstName, "profLastName":course.profLastName, "code":course.code, "public":course.public};
+                "ano":course.ano ,"profFirstName":course.profFirstName, "profLastName":course.profLastName, "code":course.code, "pub":course.pub};
             $scope.courses.push(courseJson);
         }
         global.setCourseId($scope.courses[0].id);
@@ -146,6 +152,8 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
 
     /*EDITS A COURSE*/
     $scope.editCourse = function(course){
+        global.setCourseId(course.id);
+        $state.reload();
         $scope.lastEditedCourse = course; /*saves when returned we change*/
         $scope.course = {};
         $scope.course.id = course.id;
@@ -156,19 +164,17 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         $scope.course.profFirstName = course.profFirstName;
         $scope.course.profLastName = course.profLastName;
         $scope.course.code = course.code;
-        $scope.course.public = course.public;
+        $scope.course.pub = course.pub;
         $scope.course.ano = course.ano;
-        /*DISPLAY THE MODAL*/
-        var modal = document.getElementById('courseModal');
-        modal.style.display = "block";
 
-        var x = document.getElementById("ano");
-        for(var i = 0; i < x.childElementCount; i++){
-            if( x.getElementsByTagName("option")[i].value === course.ano){
-                x.getElementsByTagName("option")[i].selected = true;
-                break;
-            }
-        }
+        $http.get("/getTag", { params: {"taggableId" : global.getCourseId() , "taggableType" : "course"} }).then(function (response){
+            debugger;
+            $scope.courseTaggedList = response.data;
+            /*DISPLAY THE MODAL*/
+            $scope.getTag();
+            var modal = document.getElementById('courseModal');
+            modal.style.display = "block";
+        }, function(error) { console.log(error.data); });
     };
 
     /*DELETES A COURSE*/
@@ -185,6 +191,10 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                         break;
                     }
                 }
+                /*SETS THE SELECTED COURSE TO THE FIRST ONE*/
+                /*@TODO fix the blinking selectCourse gets called before this*/
+                $scope.selectCourse($scope.courses[0], 0);
+
             }
         }, function errorCallBack(response) {
             alert("delete course error\n");

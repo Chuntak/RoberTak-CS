@@ -1,14 +1,13 @@
 package com.backpack.controller;
 
 import com.backpack.dao.CourseDAO;
+import com.backpack.dao.TagDAO;
 import com.backpack.models.CourseModel;
+import com.backpack.models.TagModel;
 import com.backpack.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -26,12 +25,26 @@ public class CourseController {
         this.BackpackService = BackpackService;
     }
 
-    /*add/update a course*/
+    @ModelAttribute("course")
+    public CourseModel getAssignmentModel(){
+        return new CourseModel();
+    }
+
+    /**
+     * This is an http get request that will save a course into the database and its tag relationships
+     * @param course the course model that gets mapped
+     * @param tagNames the list of tags that will be saved as relation to the course
+     * @param session the http session that this server is on
+     * @return the course model with its generated ID and course code from the database
+     */
     @RequestMapping(value="/updateCourse", method = RequestMethod.GET)
-    public @ResponseBody CourseModel addCourse(@ModelAttribute("course") CourseModel course,  HttpSession session) {
+    public @ResponseBody CourseModel addCourse(@ModelAttribute("course") CourseModel course,
+                                               @RequestParam(value = "tagNames", required = false) ArrayList<String> tagNames, HttpSession session) {
         int profId = (Integer) session.getAttribute("id");
         course.setProfId(profId);
-        return new CourseDAO().updateCourse(course);
+        CourseModel tmp = new CourseDAO().updateCourse(course);
+        if(tagNames != null) new TagDAO().updateTaggedCourse(tagNames, tmp.getId());
+        return tmp;
     }
 
     /*gets the course returns the arraylist course can return professor names/email*/

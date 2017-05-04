@@ -17,7 +17,7 @@ public class CourseDAO extends DAOBase {
         String query = "call update_course(?,?,?,?,?,?,?,?)";
         ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[]{cm.getId(), cm.getName(),
                 cm.getPrefix(), cm.getNumber(), cm.getProfId(), cm.getPub(), cm.getSemester(), cm.getAno()}, new CourseModelExtractor());
-        return cml.size() > 0 ? cml.get(0) : null;
+        return cml.size() > 0 ? cml.get(0) : cm;
     }
 
     /*calls to the database and retrieve course the id can be a student and professor*/
@@ -40,6 +40,14 @@ public class CourseDAO extends DAOBase {
         return cml.size() > 0 ? cml.get(0) : null;/*check if 1 row affected*/
     }
 
+    public ArrayList<CourseModel> searchCourse(CourseModel cm, ArrayList<String> tags) {
+        String query = "call search_course(?,?,?,?,?,?,?,?,?)";
+        int startIndex = cm.getPageNum() * (CourseModel.PAGESIZE - 1);
+        int endIndex = (cm.getPageNum() + 1) * (CourseModel.PAGESIZE - 1);
+        ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[] {cm.getSchool(), cm.getProfName(),
+                cm.getNumber(), cm.getPrefix(), cm.getName(), cm.getSemester(), cm.getAno(), startIndex, endIndex} , new CourseModelExtractor());
+        return cml;
+    }
     /*private class to retrieve a list of coursemodel from the resultset returned from the database*/
     private static class CourseModelExtractor implements ResultSetExtractor<ArrayList<CourseModel>> {
         @Override
@@ -60,6 +68,7 @@ public class CourseDAO extends DAOBase {
                     if (columnExists(rs, "firstName")) cm.setProfFirstName(rs.getString("firstName"));
                     if (columnExists(rs, "lastName")) cm.setProfLastName(rs.getString("lastName"));
                     if (columnExists(rs, "email")) cm.setProfEmail(rs.getString("email"));
+                    if (columnExists(rs, "school")) cm.setSchool(rs.getString("school"));
                     cml.add(cm);
                 }
             }
