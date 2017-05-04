@@ -15,15 +15,53 @@ import java.util.ArrayList;
  * Created by Chuntak on 4/21/2017.
  */
 public class AssignmentDAO extends DAOBase {
-    public AssignmentModel updateAssignment(AssignmentModel am){
-        /*update the database to*/
-        String query = "call update_gradable(?,?,?,?,?,?,?,?,?)";
-        ArrayList<AssignmentModel> aml = dbs.getJdbcTemplate().query(query ,new Object[] { am.getId(), am.getCourseId(), am.getTitle(), am.getDescription(),
-                am.getGradableType(), am.getMaxGrade(), am.getDueDate(), am.getDueTime(), am.getDifficulty()}, new AssignmentModelExtractor());
 
-        /*upload all the hw files*/
-        uploadHWFileModels(am.getHWFileModelList());
-        return aml.get(0);
+    /**
+     * uploadAssignment - upload a file if exists before updating in db to get file info
+     * @param am - assignment model sent from front end to update
+     * @return assignment model with new data such as blob name and id
+     */
+    public AssignmentModel uploadAssignment(AssignmentModel am){
+        /* CHECK IF THERE IS NO FILE TO UPLOAD */
+        if(am.getHwFile() == null){
+            /* RETURN NEW ID TO CONTROLLER */
+            return updateAssignment(am);
+        }
+        /* CHECK IF DELETING OLD FILE - DOESN'T ALLOW REPLACEMENT */
+        if(am.getHwFile() == null && am.getHwBlobName() != null && !am.getHwBlobName().equals("")) {
+            dbs.deleteFile(am.getHwBlobName());
+        }
+        Blob b = null;
+        /* CHECK IF FILE TO UPLOAD */
+        if(am.getHwFile() != null) {
+            b = dbs.uploadFile(am.getHwFile());
+            am.setHwBlobName(b.getName());
+            am.setHwDownloadLink(b.getMediaLink());
+        }
+        /* UPDATE DB WITH FILE INFO */
+        AssignmentModel asgmtModel = updateAssignment(am);
+        /* CHECK THAT UPDATE WORKED */
+        if(asgmtModel == null){
+            dbs.deleteFile(am.getHwBlobName());
+        }
+        /* RETURN NEW DATA TO CONTROLLER */
+        return asgmtModel;
+    }
+
+    /**
+     * updateAssignment - updates Assignment in DB
+     * @param am - assignment to add/update
+     * @return assignment with ID and possible file info
+     */
+    public AssignmentModel updateAssignment(AssignmentModel am){
+        /* DATABASE QUERY */
+        String query = "call update_gradable(?,?,?,?,?,?,?,?)";
+        /* EXECUTE QUERY AND RETURN LIST OF ASSIGNMENT OBJECTS */
+        ArrayList<AssignmentModel> aml = dbs.getJdbcTemplate().query(query ,new Object[] { am.getId(), am.getCourseId(), am.getTitle(), am.getDescription(),
+                am.getGradableType(), am.getMaxGrade(), am.getDueDate(), am.getDifficulty()}, new AssignmentModelExtractor());
+
+        /* RETURN NEWLY CREATED ASSIGNMENT WITH ID */
+        return aml.size() > 0 ? aml.get(0) : null;
     }
 
     /*gets assignment for course*/
@@ -31,9 +69,6 @@ public class AssignmentDAO extends DAOBase {
         /*gets the assignments for the course*/
         String query = "call get_gradable(?)";
         ArrayList<AssignmentModel> aml = dbs.getJdbcTemplate().query(query, new Object[] { am.getCourseId() }, new AssignmentModelExtractor());
-//        for(AssignmentModel amTmp : aml){ /*gets their corresponding files*/
-//            amTmp.setHWFileModelList(getHWFileModels(amTmp.getId()));
-//        }
         return aml;
     }
 
@@ -107,8 +142,7 @@ public class AssignmentDAO extends DAOBase {
                     if (columnExists(rs, "description")) am.setDescription(rs.getString("description"));
                     if (columnExists(rs, "gradableType")) am.setGradableType(rs.getString("gradableType"));
                     if (columnExists(rs, "maxGrade")) am.setMaxGrade(rs.getInt("maxGrade"));
-                    if (columnExists(rs, "dueDate")) am.setDueDate(rs.getDate("dueDate"));
-                    if (columnExists(rs, "dueTime")) am.setDueTime(rs.getTime("dueTime"));
+                    if (columnExists(rs, "dueDate")) am.setDate(rs.getDate("dueDate"));
                     if (columnExists(rs, "difficulty")) am.setDifficulty(rs.getString("difficulty"));
                     aml.add(am);
                 }

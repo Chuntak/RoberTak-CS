@@ -27,7 +27,6 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
             "courseId" : global.getCourseId()
         }
     }).success(function(response){
-        debugger;
         initLoad = true;
         $scope.announcementList = response;
     }).error(function(response){
@@ -67,7 +66,6 @@ app.directive('testdirective', function() {
                     //Check if has toolbar
                     var id = "#announcementDescription-" + (scope.announcementList.length - 1);
                     if((!$(id).prev().hasClass("ql-toolbar"))){
-                        debugger;
                         //Init the quill
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',

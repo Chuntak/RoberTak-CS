@@ -1,0 +1,41 @@
+.asgmt-create{
+    border: 1px limegreen;
+}
+
+/* HIDE EDIT/DELETE ICONS NORMALLY */
+.assignment .on-show {
+    display:none;
+}
+
+/* DISPLAY EDIT/DELETE ICONS ON HOVER */
+.assignment:hover .on-show{
+    display:inline;
+}
+
+/* STYLE THE ASSIGNMENT FORMS */
+#assignmentForm{
+    padding: 10px 15px;
+}
+
+/* POSITION THE ASGMT FORM BUTTONS */
+#assignmentForm button{
+    margin-left: 7px;
+}
+.asgmt-btns{
+    margin-left: 70%;
+}
+
+/* PADDING FOR DROP DOWN FORM */
+.list-group-item-success{
+    padding: 15px 15px;
+}
+
+/* HIDE ELEMENTS */
+.hidden{
+    display: none !important;
+}
+
+/* SEPARATE ELEMENTS A LITTLE */
+.asgmt-form{
+    margin-top: 3px;
+}

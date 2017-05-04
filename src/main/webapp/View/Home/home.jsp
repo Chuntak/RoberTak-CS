@@ -335,7 +335,7 @@
                 <form ng-submit="updatePost(newPost)" class="panel">
                     <input required id="postHeader" class="form-control panel-heading write-post" ng-model="newPost.header" data-toggle="collapse" data-parent="#accordion" href="#new-post" placeholder="Write a post"></input>
                     <div id="new-post" class="panel-collapse collapse">
-                        <input required id="postContent" type="text" autocomplete="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here">
+                        <textarea required id="postContent" type="text" autocomplate="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here"></textarea>
                         <button type="submit" class="panel-footer form-ctrl btn" ng-disabled="courseId==0">Create Post</button>
                     </div>
                 </form>
@@ -350,7 +350,7 @@
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-info" ng-bind="post.content"></li>
                             <li ng-repeat="comment in post.comments" ng-bind="comment.content" class="list-group-item"></li>
-                            <input required type="text" ng-keyup="newComment.content!=='' && $event.keyCode == 13 && updateComment(post, newComment)" ng-model="newComment.content" type="text" autocomplate="off" class="form-control form-ctrl course-box list-group-item"  placeholder="Write new comment">
+                            <textarea required type="text" ng-keyup="newComment.content!=='' && $event.keyCode == 13 && updateComment(post, newComment)" ng-model="newComment.content" type="text" autocomplate="off" class="form-control form-ctrl course-box list-group-item"  placeholder="Write new comment"></textarea>
                         </ul>
                     </form>
                 </div>
@@ -376,6 +376,8 @@
     <%--Google Logout End--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="<c:url value="/resources/app/js/imported/bootstrap-datepicker.js" />"  type="text/javascript" ></script>
+    <script src="<c:url value="/resources/app/js/imported/bootstrap-timepicker.js" />"  type="text/javascript" ></script>
     <!-- App Base -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
@@ -392,6 +394,7 @@
             <script src="<c:url value="/resources/app/js/shared/directives.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/course.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/announcement.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/professor/assignment.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/syllabus.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/documents.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/forum.js" />"  type="text/javascript" ></script>

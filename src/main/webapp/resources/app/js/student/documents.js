@@ -40,7 +40,6 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
             "courseId":global.getCourseId()
         }
     }).then(function(response) {
-        debugger;
         var documentList = response.data;
         $scope.documents = [];
         for(i = 0; i < documentList.length; i++) {
@@ -51,7 +50,6 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
             $scope.documents.push(documentJson);
         }
         // $scope.global.document = $scope.documents[0];
-        debugger;
     }, function(response) { /*error*/
     });
 

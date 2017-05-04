@@ -68,7 +68,6 @@ angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http, gl
                 'Content-Type' : undefined
             }
         }).success(function(response) {
-            debugger;
             $scope.syllabus = response;
             console.log('success');
         }).error(function(response) {

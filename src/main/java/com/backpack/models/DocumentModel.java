@@ -65,7 +65,6 @@ public class DocumentModel {
         this.dateCreated = dateCreated;
     }
 
-
     public String getDownloadLink() {
         return downloadLink;
     }

@@ -35,7 +35,6 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
 
         var file = $scope.doc.file;
 
-        debugger;
 
         var fd = new FormData();
         fd.append('file', file);
@@ -65,7 +64,6 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         else {
             $scope.doc.fileName = "Not Available"
         }
-        debugger;
     };
 
     /* FROM CONTROLLER */
@@ -74,7 +72,6 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
             "courseId":global.getCourseId()
         }
     }).then(function(response) {
-        debugger;
         var documentList = response.data;
         $scope.documents = [];
         for(i = 0; i < documentList.length; i++) {
@@ -84,14 +81,13 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
             $scope.documents.push(documentJson);
         }
         // $scope.global.document = $scope.documents[0];
-        debugger;
+
     }, function(response) { /*error*/
     });
 
 
     /*DELETES A DOCUMENT*/
     $scope.deleteDocument = function(document){
-        debugger;
         var y = $http({
             method: 'GET',
             url: '/deleteDocument',
@@ -146,20 +142,16 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
     $(document).ready(function(){
         var count = 0;
         $("#collapse-content").hide();
-        debugger;
 
         $("#addBtn").click(function(){
-            debugger;
             count++;
             if(count % 2 != 0){
-                debugger;
                 $("#collapse-content").show();
                 document.getElementById("doc-content").style.marginTop = "50px";
                 document.getElementById("add-content").style.height = "150px";
                 document.getElementById("doc-content").style.height = "430px";
 
             }else{
-                debugger;
                 $("#collapse-content").hide();
                 document.getElementById("doc-content").style.marginTop = "0px";
                 document.getElementById("add-content").style.height = "60px";
@@ -168,6 +160,5 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
             }
         })
     })
-
 });
 

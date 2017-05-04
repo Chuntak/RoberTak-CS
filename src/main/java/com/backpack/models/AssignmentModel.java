@@ -2,8 +2,7 @@ package com.backpack.models;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -11,14 +10,15 @@ import java.util.ArrayList;
  */
 public class AssignmentModel {
 
+    /* ID IN DB */
     private int id;
+    /* ID OF COURSE THAT THIS ASSIGNMENT BELONGS TO */
     private int courseId;
     private String title;
     private String description;
     private String gradableType;
     private double maxGrade;
     private Date dueDate;
-    private Time dueTime;
     private String difficulty;
 
     private MultipartFile hwFile;
@@ -34,7 +34,7 @@ public class AssignmentModel {
     public AssignmentModel() {
     }
 
-    public AssignmentModel(int id, int courseId, String title, String description, String gradableType, double maxGrade, Date dueDate, Time dueTime, String difficulty) {
+    public AssignmentModel(int id, int courseId, String title, String description, String gradableType, double maxGrade, Date dueDate,  String difficulty) {
         this.id = id;
         this.courseId = courseId;
         this.title = title;
@@ -42,7 +42,6 @@ public class AssignmentModel {
         this.gradableType = gradableType;
         this.maxGrade = maxGrade;
         this.dueDate = dueDate;
-        this.dueTime = dueTime;
         this.difficulty = difficulty;
     }
 
@@ -98,16 +97,14 @@ public class AssignmentModel {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    /* SETTER USED BY MAPPING FROM CLIENT SIDE */
+    public void setDueDate(long dueDate) {
+        this.dueDate = new Date(dueDate);
+    }
+
+    /* SETTER WHEN USED TO MAPPING TO/FROM DB */
+    public void setDate(Date dueDate) {
         this.dueDate = dueDate;
-    }
-
-    public Time getDueTime() {
-        return dueTime;
-    }
-
-    public void setDueTime(Time dueTime) {
-        this.dueTime = dueTime;
     }
 
     public String getDifficulty() {
@@ -118,7 +115,6 @@ public class AssignmentModel {
         this.difficulty = difficulty;
     }
 
-
     public ArrayList<HWFileModel> getHWFileModelList() {
         return hwFileModelList;
     }
@@ -126,8 +122,6 @@ public class AssignmentModel {
     public void setHWFileModelList(ArrayList<HWFileModel> hwFileModelList) {
         this.hwFileModelList = hwFileModelList;
     }
-
-
 
     public MultipartFile getHwFile() {
         return hwFile;

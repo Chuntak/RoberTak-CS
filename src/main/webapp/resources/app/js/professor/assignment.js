@@ -1,8 +1,50 @@
 /**
  * Created by Chuntak on 4/21/2017.
  */
+var app = angular.module('homeApp');
 
-angular.module('homeApp').directive('fileModel', ['$parse', function ($parse) {
+/* FACTORY TO HANDLE HTTP REQUEST LOGIC */
+app.factory('httpFactory', function($http, global) {
+    /* SET SINGLETON LIKE OBJECT */
+    var properties = this;
+
+    /* updateAssignment - adds or updates an assignment */
+    properties.updateAssignment = function(newAsgmt) {
+        /* CONVERT TIME TO PROPER FORMAT HH:MM:SS */
+        var tmpDate = new Date("1/1/1111 " + newAsgmt.time);
+        var time = tmpDate.getHours() + ":" + tmpDate.getMinutes() + ":" + "00";
+        newAsgmt.time = time;
+        /* CREATE PARAMETERS FOR HTTP REQUEST */
+        var params = {
+            "id" : newAsgmt.id,
+            "title" : newAsgmt.title,
+            "description" : newAsgmt.descr,
+            "courseId" : global.getCourseId(),
+            "gradableType" : "hw",
+            "maxGrade" : newAsgmt.maxGrade,
+            "dueDate" : new Date(newAsgmt.date + " " + time).getTime(),
+            "difficulty" : "hard"
+        };
+        /* MAKE THE FILE STUFF */
+        var fd = new FormData();
+        fd.append('hwFile', newAsgmt.file);
+        fd.append('f', 'json');
+        /* RETURN THE HTTP REQUEST TO ANGULAR CONTROLLER */
+        return $http.post("/updateAssignment", fd, {
+            transformRequest : angular.identity,
+            headers : {
+                'Content-Type' : undefined
+            },
+            params : params
+        });
+    }
+
+
+    return properties;
+});
+
+/* DIRECTIVE FOR FILES */
+app.directive('fileModel', ['$parse', function ($parse) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -18,41 +60,35 @@ angular.module('homeApp').directive('fileModel', ['$parse', function ($parse) {
     };
 }]);
 
+/* CONTROLLER FOR ASSIGNMENTS TAB */
+app.controller('assignmentsCtrl', function ($scope, $http, global, httpFactory) {
 
-angular.module('homeApp').controller('assignmentsCtrl', function ($scope, $http, global) {
     $scope.assignment = {};
-    $scope.assignment.hwFilesList = [{}];
+    /* KEEP TRACK OF NEW ASSIGNMENT */
+    $scope.newAsgmt = {};
+    //$scope.assignment.hwFilesList = [{}];
+    //$scope.hws = [];
 
-    $scope.uploadAssignments = function() {
-        var file = $scope.assignment.hwFilesList[0].file;
-        var fd = new FormData();
-        fd.append('file', file);
-        fd.append('f', 'json');
-        $http.post("/uploadSyllabus", fd, {
-            transformRequest : angular.identity,
-            headers : {
-                'Content-Type' : undefined
-            },
-            params : {
-                "id" : $scope.assignment.id,
-                "courseId" : global.getCourseId(),
-                "title" : $scope.assignment.title,
-                "description" : $scope.assignment.description,
-                "gradableType" : $scope.assignment.gradableType,
-                "maxGrade" : $scope.assignment.maxGrade,
-                "dueDate" : $scope.assignment.dueDate,
-                "dueTime" : $scope.assignment.dueTime,
-                "difficulty" : $scope.assignment.difficulty,
-                "hwBlobName" : $scope.assignment.hwFilesList[0].hwBlobName,
-                "hwId" : $scope.assignment.hwFilesList[0].hwId
-            }
-        }).success(function(response) {
-            debugger;
-            $scope.syllabus = response;
+    /* INIT THE DATEPICKER */
+    $('#datepicker').datepicker({
+        format: "mm-dd-yy"
+    });
+    /* INIT THE TIME */
+    $('#timepicker1').timepicker();
+
+    $scope.updateAssignment = function (newAsgmt) {
+        debugger;
+        httpFactory.updateAssignment(newAsgmt).success(function(response) {
+
             console.log('success');
         }).error(function(response) {
             console.log('error');
-        });
+        })
+        $("#createAsgmt").click();
+
+    }
+    $scope.uploadAssignment = function() {
+
     }
 });
 

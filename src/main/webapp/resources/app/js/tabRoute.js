@@ -30,7 +30,7 @@ homeApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             controllerAs:  'syllCtrl'
         })
         .state('assignments', {
-            url: "/assignmts",
+            url: "/asgmts",
             templateUrl: '/assignments',
             controller:  'assignmentsCtrl',
             controllerAs:  'assmtCtrl'
@@ -77,7 +77,6 @@ homeApp.controller('tabsCtrl', function($scope, $state) {
     };
     /* RELOAD TAB DATA */
     var reloadData = function(){
-        debugger;
         $state.reload();
     }
 
@@ -103,15 +102,15 @@ homeApp.controller('tabsCtrl', function($scope, $state) {
 //     }
 // });
 
-homeApp.controller('assignmentsCtrl', function($scope, $state) {
-    // create a message to display in our view
-    $scope.message = 'this is the assignments page!';
-    var vm = this;
-    // SET NGCLICK WHEN YOU WANT TO RELOAD
-    vm.reloadData = function(){
-        $state.reload();
-    }
-});
+// homeApp.controller('assignmentsCtrl', function($scope, $state) {
+//     // create a message to display in our view
+//     $scope.message = 'this is the assignments page!';
+//     var vm = this;
+//     // SET NGCLICK WHEN YOU WANT TO RELOAD
+//     vm.reloadData = function(){
+//         $state.reload();
+//     }
+// });
 
 homeApp.controller('documentsCtrl', function($scope, $state) {
     // create a message to display in our view

@@ -46,13 +46,7 @@ public class AssignmentController {
     @RequestMapping(value="/updateAssignment", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public @ResponseBody
     AssignmentModel updateAssignment(@ModelAttribute("assignment") AssignmentModel assignment, HttpSession session) {
-        ArrayList<HWFileModel> hwl = new ArrayList<HWFileModel>();
-        HWFileModel hwfm = new HWFileModel();
-        hwfm.setFile(assignment.getHwFile());
-        hwfm.setId(assignment.getHwId());
-        hwfm.setBlobName(assignment.getHwBlobName());
-        hwfm.setAssignmentId(assignment.getId());
-        return new AssignmentDAO().updateAssignment(assignment);
+        return new AssignmentDAO().uploadAssignment(assignment);
     }
 
     @RequestMapping(value="/getAssignment", method = RequestMethod.GET)

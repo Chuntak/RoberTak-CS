@@ -346,10 +346,13 @@ img.logout{
     margin-bottom: 0;
 }
 
+/* HIDE EDIT/DELETE ICONS NORMALLY */
 .list-grouper .on-show {
     display:none;
 }
 
+/* DISPLAY EDIT/DELETE ICONS ON HOVER */
 .list-grouper:hover .on-show{
     display:inline;
 }
+

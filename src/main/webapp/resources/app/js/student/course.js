@@ -55,10 +55,9 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                 "ano":course.ano ,"profFirstName":course.profFirstName, "profLastName":course.profLastName};
             $scope.courses.push(courseJson);
         }
-        if($scope.courses[0]){
-            global.setCourseId($scope.courses[0].id);
-            $scope.selectCourse($scope.courses[0], 0);
-        }
+
+        global.setCourseId($scope.courses[0].id);
+
 
 
     }, function(response) { /*error*/

@@ -48,7 +48,7 @@ app.controller("forumCtrl", function ($scope, $http, global){
     }
 
     $scope.updateComment = function (parent, comment) {
-        debugger;
+
         $http.get("/updatePost", {
             params : {
                 "id": comment.id,

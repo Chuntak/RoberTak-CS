@@ -17,18 +17,7 @@ angular.module('homeApp').factory('global', function($http) {
     properties.setCourseId = function(crsId) {
         properties.courseId = crsId;
     }
-    // properties.getPosts = function(postId){
-    //     $http.get("/getPost", {
-    //         params : {
-    //             "crsId" : properties.courseId,
-    //             "id": 0
-    //         }
-    //     }).success(function(response){
-    //         properties.posts = response;
-    //         debugger;
-    //     }).error(function(response){
-    //         debugger;
-    //     });
-    // }
+
     return properties;
 });
+
