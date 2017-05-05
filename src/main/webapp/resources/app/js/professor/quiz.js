@@ -6,6 +6,13 @@ var app = angular.module('homeApp');
 app.controller('quizCtrl', function ($scope, $http, $state, global) {
     $scope.quizList = [];
 
+    /* INIT THE DATEPICKER */
+    $('#datepicker').datepicker({
+        format: "mm-dd-yy"
+    });
+    /* INIT THE TIME */
+    $('#timepicker1').timepicker();
+
     /*Get all quizzes in the course*/
 
     /* Quiz is a list of questions wtih Quiz Title and Questions
@@ -15,19 +22,14 @@ app.controller('quizCtrl', function ($scope, $http, $state, global) {
 
      */
 
-    /*Adds a quiz to the quizList*/
-    $scope.addQuiz = function(quiz){
-        $scope.quizList.push(quiz)
-    };
-
-    $scope.quiz = {};
     $scope.addQuestion = function (quiz, question) {
-        $scope.quiz.push(question);
+        $scope.addQuiz.push(question);
     };
 
     $scope.makeQuiz = function (){
-        debugger;
-        $scope.quizList.push({title:"Untitled",courseTaggedList:[],selectedTag : "", questionList:[]});
+        $('#addQuizBtn').attr("disabled", true);
+        $('#quizCreation').fadeToggle('fast');
+        $scope.addQuiz = {title:"Untitled",courseTaggedList:[],selectedTag : "", questionList:[]};
     };
 
     /*ADD TAG */
@@ -50,8 +52,14 @@ app.controller('quizCtrl', function ($scope, $http, $state, global) {
     };
 
     $scope.addQuestion = function (quiz) {
-        debugger;
-        quiz.questionList.push({title:"",description:"",choices:["","","",""],answer:""});
+        quiz.questionList.push({title:"Question "+(quiz.questionList.length+1),description:"",choices:["","","",""],answer:""});
     }
 
+    $scope.saveQuiz = function (quiz) {
+        debugger;
+        $('#addQuizBtn').attr("disabled", false);
+        $('#quizCreation').fadeToggle('fast');
+        $scope.quizList.push(quiz);
+
+    }
 });
