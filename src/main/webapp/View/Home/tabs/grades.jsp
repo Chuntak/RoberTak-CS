@@ -11,7 +11,18 @@
     <!-- Include stylesheet -->
     <link rel="stylesheet" href="<c:url value="/resources/app/css/grades.css" />">
     <link rel="stylesheet" href="<c:url value="/resources/app/css/assignments.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/app/css/imported/bootstrap-datepicker.css" />">
+    <link rel="stylesheet/less" href="<c:url value="/resources/app/css/imported/timepicker.less" />">
 
+    <!--KENDO UI -->
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.mobile.min.css" />
+
+    <%--<link href="https://cdn.datatables.net/1.10.14/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">--%>
+    <%--<link href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">--%>
+    <%--<link href="https://cdn.datatables.net/select/1.2.2/css/select.dataTables.min.css" rel="stylesheet" type="text/css">--%>
+    <%--<link rel="stylesheet/less" href="<c:url value="/resources/app/css/imported/editor.dataTables.min.css" />">--%>
 
     <title>Grades</title>
 </head>
@@ -74,20 +85,32 @@
     </c:choose>
 
     <%-- Load the Grade Titles and descriptions --%>
-    <div class="gradeContainer" ng-repeat="gradable in gradables" ng-include="setIndex()" ></div>
+    <div class="gradeContainer" data-toggle="collapse" href="#items" ng-repeat="gradable in gradables" ng-include="setIndex()" ></div>
     <script type="text/ng-template" id="display" >
         <div class="list-group-item assignment">
             <%--<span ng-click="deleteAssignment(gradable)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show"></span>--%>
             <%--<span class="badge btn-xs col-sm-1 glyphicon glyphicon-pencil clickable on-show"></span>--%>
-
             <h4 ng-bind="gradable.title"></h4>
             <h5 ng-bind="'Maximum Grade: ' + gradable.maxGrade"></h5>
             <h6 ng-bind="'Due: ' + gradable.dueDate"></h6>
         </div>
     </script>
+    <div id="items" class="panel-collapse collapse">
+        <h3>Items</h3>
 
+        <kendo-grid id="grid" options="mainGridOptions">
+
+        </kendo-grid>
+
+    </div>
 </div>
+
 </body>
 
+<%-- NEEDED FOR GRADING TABLE --%>
+<%--<script src="https://cdn.datatables.net/1.10.14/js/jquery.dataTables.min.js"></script>--%>
+<%--<script src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>--%>
+<%--<script src="https://cdn.datatables.net/select/1.2.2/js/dataTables.select.min.js"></script>--%>
+<%--<script src="<c:url value="/resources/app/js/imported/dataTables.editor.min.js" />"  type="text/javascript" ></script>--%>
 
 </html>

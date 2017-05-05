@@ -3,6 +3,7 @@ package com.backpack.controller;
 import com.backpack.dao.CourseDAO;
 import com.backpack.dao.TagDAO;
 import com.backpack.models.CourseModel;
+import com.backpack.models.PersonModel;
 import com.backpack.models.TagModel;
 import com.backpack.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,7 @@ public class CourseController {
     public @ResponseBody CourseModel enrollCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
         return new CourseDAO().enrollCourse((Integer)session.getAttribute("id"),course);
     }
+
 
     @RequestMapping(value="/searchCourse", method = RequestMethod.GET)
     public @ResponseBody ArrayList<CourseModel> searchCourse(@ModelAttribute("course") CourseModel course,

@@ -2,6 +2,7 @@ package com.backpack.controller;
 
 import com.backpack.dao.PersonDAO;
 import com.backpack.databaseConnection.DBSingleton;
+import com.backpack.models.CourseModel;
 import com.backpack.models.PersonModel;
 import com.backpack.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  * Created by Chuntak on 4/1/2017.
@@ -90,5 +92,10 @@ public class PersonController {
 
     }
 
-
+    /*gets the course returns the arraylist course can return professor names/email*/
+    @RequestMapping(value="/getEnrolled", method = RequestMethod.GET)
+    public @ResponseBody
+    ArrayList<PersonModel> getCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
+        return new PersonDAO().getEnrolled(course.getId());
+    }
 }

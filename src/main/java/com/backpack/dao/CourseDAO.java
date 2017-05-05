@@ -1,5 +1,6 @@
 package com.backpack.dao;
 import com.backpack.models.CourseModel;
+import com.backpack.models.PersonModel;
 import com.backpack.models.TagModel;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -27,6 +28,7 @@ public class CourseDAO extends DAOBase {
         ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[]{id}, new CourseModelExtractor());
         return cml;
     }
+
 
     /*calls to the database to delete course*/
     public boolean deleteCourse(CourseModel cm) {

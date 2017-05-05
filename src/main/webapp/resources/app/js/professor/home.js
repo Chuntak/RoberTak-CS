@@ -3,7 +3,7 @@
  */
 
 /*Angular*/
-angular.module('homeApp', ["ui.router"]);
+angular.module('homeApp', ["ui.router", "kendo.directives"]);
 
 /*Home Controller*/
 angular.module('homeApp').controller('homeCtrl',function ($scope, $http) {
