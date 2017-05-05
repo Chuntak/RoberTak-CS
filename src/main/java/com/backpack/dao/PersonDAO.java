@@ -38,6 +38,14 @@ public class PersonDAO extends DAOBase {
         return al.get(0);
     }
 
+
+    /* calls to the database and retrieve enrolled students in course */
+    public ArrayList<PersonModel> getEnrolled(Integer crsId) {
+        String query = "call get_enrolled(0, ?)";
+        ArrayList<PersonModel> pml = dbs.getJdbcTemplate().query(query, new Object[]{crsId}, new PersonModelExtractor());
+        return pml;
+    }
+
     /*private class to retrieve a list of person from the resultset returned from the database*/
     private static class PersonModelExtractor implements ResultSetExtractor<ArrayList<PersonModel>> {
         @Override

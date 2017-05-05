@@ -4,13 +4,11 @@ import java.util.Date;
  * Created by susanlin on 4/1/17.
  */
 public class PersonModel {
+
     private String firstName;
     private String lastName;
     private String userType;
     private Date dob;
-
-
-
     private String school;
     private String email;
     private int id;

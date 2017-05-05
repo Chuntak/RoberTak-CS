@@ -2,7 +2,7 @@ package com.backpack.models;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Timestamp;
+
 import java.util.Date;
 import java.util.ArrayList;
 
