@@ -83,7 +83,7 @@
             <h4 ng-bind="asgmt.title"></h4>
             <h6 ng-bind="'Due ' + asgmt.dueDate"></h6>
             <p ng-bind="asgmt.description"></p>
-            <a href="'#' + asgmt.hwDownloadLink" ng-bind="asgmt.hwBlobName">Download Me :-)</a>
+            <a href="{{asgmt.hwDownloadLink}}" ng-bind="asgmt.hwFileName">Download Me :-)</a>
             <%--<p ng-if="asgmt."></p>--%>
             <c:choose>
                 <%-- ONLY STUDENTS CAN SUBMIT HW --%>

@@ -427,6 +427,7 @@
             <script src="<c:url value="/resources/app/js/shared/directives.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/course.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/announcement.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/student/assignment.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/quiz.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/documents.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/syllabus.js" />"  type="text/javascript" ></script>

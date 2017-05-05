@@ -69,7 +69,7 @@
                     <div class="editBtn">
                         <input type="file" file-model="selectedDocument.file" class="replaceFileBtn"/>
                         <button ng-click="saveDocument($index,document)" class="btn btn-primary">Save</button>
-                        <button ng-click="reset()" class="btn btn-primary">Cancel</button>
+                        <button ng-click="clearChanges($index,document)" class="btn btn-primary">Cancel</button>
                     </div>
                 </script>
             </c:when>

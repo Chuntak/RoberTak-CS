@@ -25,7 +25,7 @@ public class SyllabusDAO extends DAOBase {
             String query = "call update_syllabus(?,?,?)";
             SyllabusModel smTemp  = dbs.getJdbcTemplate().query(query, new Object[] {sm.getCourseId(), sm.getDownloadLink(), sm.getBlobName()},
                     new SyllabusModelExtractor()); /*sends it to the database*/
-            if(smTemp != null && (smTemp.getBlobName() != null || !smTemp.getBlobName().equals(""))){ /*check if theres previous syllabus, if there is delete it from stoarge*/
+            if(smTemp != null && (smTemp.getBlobName() != null || (smTemp.getBlobName() != null && !smTemp.getBlobName().equals("")))){ /*check if theres previous syllabus, if there is delete it from stoarge*/
                 dbs.deleteFile(smTemp.getBlobName());
             }
             sm.setViewLink(dbs.getFileViewLink(sm.getBlobName(), true));

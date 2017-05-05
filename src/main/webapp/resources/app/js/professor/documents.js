@@ -26,15 +26,12 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
     $scope.document = {};
     $scope.documents = [];
     $scope.editorEnabled = false;
-    $scope.lastEditedDocument = {};
+    $scope.oldDocument = {};
     $scope.selectedDocument = {};
 
 
     $scope.uploadDocument = function() {
-
         var file = $scope.document.file;
-
-
         var fd = new FormData();
         fd.append('file', file);
         fd.append('f', 'json');
@@ -50,11 +47,10 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
                     "courseId": global.getCourseId()
                 }
             }).success(function (response) {
-                var document = response;
-                var documentJson = {"title": document.title ,"description": document.description,
-                    "downloadLink": document.downloadLink, "viewLink" : document.viewLink, "fileName": document.fileName, "id": document.id};
+                debugger;
+                var documentJson = response;
                 $scope.documents.push(documentJson);
-
+                document.getElementById("collapse-content").className = "display-off";
                 console.log('success')
             }).error(function (response) {
                 console.log('error');
@@ -113,21 +109,64 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
 
     /*EDIT DOCUMENT*/
     $scope.editDocument = function (document) {
-        $scope.selectedDocument = jQuery.extend(true, {}, document);
+        $scope.oldDocument = {};
+        $scope.oldDocument.description = document.description;
+        $scope.oldDocument.downloadLink = document.downloadLink;
+        $scope.oldDocument.fileName = document.fileName;
+        $scope.oldDocument.id = document.id;
+        $scope.oldDocument.title = document.title;
+        $scope.oldDocument.viewLink = document.viewLink;
+
+        $scope.selectedDocument = document; //jQuery.extend(true, {}, document);
+        debugger;
     };
 
     /*SAVES FROM EDIT DOCUMENT*/
     $scope.saveDocument = function (index, document) {
-        var x = $http({
-            method: 'GET',
-            url: '/updateDocument',
-            params: {"title": $scope.selectedDocument.title, "description": $scope.selectedDocument.description, "courseId": $scope.global.getCourseId(), "id": $scope.selectedDocument.id}
-        }).then(function (response) {
-        //    empty
-        }, function errorCallBack(response){
-            alert("Edit Document Error\n");
-        });
-
+        var file = $scope.selectedDocument.file;
+        if(file) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('f', 'json');
+            var x = $http.post("/uploadDocument", fd,
+                {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }, params: {
+                    "title": $scope.selectedDocument.title,
+                    "blobName": $scope.selectedDocument.blobName,
+                    "description": $scope.selectedDocument.description,
+                    "courseId": $scope.global.getCourseId(),
+                    "id": $scope.selectedDocument.id
+                }
+                }
+            ).then(function (response) {
+                document.downloadLink = response.data.downloadLink;
+                document.fileName = response.data.fileName;
+                document.blobName = response.data.blobName;
+                debugger;
+                //    empty
+            }, function errorCallBack(response) {
+                alert("Edit Document Error\n");
+            });
+        } else {
+            var y = $http.get("/updateDocument",
+                {
+                     params: {
+                        "title": $scope.selectedDocument.title,
+                        "blobName": $scope.selectedDocument.blobName,
+                        "description": $scope.selectedDocument.description,
+                        "courseId": $scope.global.getCourseId(),
+                        "id": $scope.selectedDocument.id
+                    }
+                }
+            ).then(function (response) {
+                debugger;
+            }, function errorCallBack(response) {
+                alert("Edit Document Error\n");
+            });
+        }
         $scope.reset();
     };
 
@@ -136,38 +175,29 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         $scope.selectedDocument = {};
     };
 
+    /*THIS IS THE CLEAR BTN*/
+    $scope.clearChanges = function(index, document) {
+        $scope.reset();
+        document.description = $scope.oldDocument.description;
+        document.downloadLink = $scope.oldDocument.downloadLink;
+        document.fileName = $scope.oldDocument.fileName;
+        document.id = $scope.oldDocument.id;
+        document.title = $scope.oldDocument.title;
+        document.viewLink = $scope.oldDocument.viewLink;
+        $scope.oldDocument = {};
+    };
+
     /* Add New Document Collapse */
-    // $(document).ready(function(){
-    //     var count = 0;
-    //     $("#collapse-content").hide();
-    //
-    //     $("#addBtn").click(function(){
-    //         count++;
-    //         if(count % 2 !== 0){
-    //             $("#collapse-content").show();
-    //             document.getElementById("doc-content").style.marginTop = "50px";
-    //             document.getElementById("add-content").style.height = "150px";
-    //             document.getElementById("doc-content").style.height = "430px";
-    //
-    //         }else{
-    //             $("#collapse-content").hide();
-    //             document.getElementById("doc-content").style.marginTop = "0px";
-    //             document.getElementById("add-content").style.height = "60px";
-    //             document.getElementById("doc-content").style.height = "500px";
-    //
-    //         }
-    //     })
-    // });
     var docAddBtn = document.getElementById("addBtn");
     docAddBtn.onclick = function() {
         var collapseContent = document.getElementById("collapse-content");
-        if (collapseContent.style.display === 'none') {
-            collapseContent.style.display = 'block';
+        if (collapseContent.className === 'display-off') {
+            collapseContent.className = 'display-on';
             document.getElementById("doc-content").style.marginTop = "50px";
             document.getElementById("add-content").style.height = "150px";
             document.getElementById("doc-content").style.height = "430px";
         } else {
-            collapseContent.style.display = 'none';
+            collapseContent.className = 'display-off';
             document.getElementById("doc-content").style.marginTop = "0px";
             document.getElementById("add-content").style.height = "60px";
             document.getElementById("doc-content").style.height = "500px";

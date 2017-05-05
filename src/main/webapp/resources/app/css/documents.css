@@ -81,6 +81,10 @@ textarea {
     display: none;
 }
 
+.display-on{
+    display: initial;
+}
+
 .docCard{
     height: 150px;
     border: solid 1px #f2f2f2;
