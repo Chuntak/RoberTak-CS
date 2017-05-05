@@ -35,6 +35,12 @@ homeApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             controller:  'assignmentsCtrl',
             controllerAs:  'assmtCtrl'
         })
+        .state('quiz', {
+            url: "/quizzes",
+            templateUrl: '/quiz',
+            controller:  'quizCtrl',
+            controllerAs:  'qzCtrl'
+        })
         .state('documents', {
             url: "/docs",
             templateUrl: '/documents',
@@ -56,6 +62,7 @@ homeApp.controller('tabsCtrl', function($scope, $state) {
         { state : 'announcements', label : 'Announcements' },
         { state : 'syllabus', label : 'Syllabus' },
         { state : 'assignments', label : 'Assignments' },
+        { state : 'quiz', label : 'Quiz' },
         { state : 'documents', label : 'Documents' },
         { state : 'grades', label : 'Grades' }
     ];

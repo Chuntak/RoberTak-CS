@@ -299,8 +299,8 @@
                                     </div>
                                 </div>
                                     <%--SUBMIT BUTTON TO SEARCH--%>
-                                <div class="wrapper">
-                                    <input class="btn btn-primary btn-block" type="submit" value="Search Course">
+                                <div class="text-center">
+                                    <input class="btn btn-primary" type="submit" value="Search Course">
                                 </div>
                             </form>
                         </div>
@@ -416,6 +416,7 @@
             <script src="<c:url value="/resources/app/js/professor/course.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/announcement.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/assignment.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/professor/quiz.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/syllabus.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/documents.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/professor/grades.js" />"  type="text/javascript" ></script>
@@ -426,7 +427,7 @@
             <script src="<c:url value="/resources/app/js/shared/directives.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/course.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/announcement.js" />"  type="text/javascript" ></script>
-            <script src="<c:url value="/resources/app/js/student/assignment.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/student/quiz.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/documents.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/syllabus.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/grades.js" />"  type="text/javascript" ></script>
