@@ -30,7 +30,7 @@ homeApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             controllerAs:  'syllCtrl'
         })
         .state('assignments', {
-            url: "/asgmts",
+            url: "/assgmts",
             templateUrl: '/assignments',
             controller:  'assignmentsCtrl',
             controllerAs:  'assmtCtrl'

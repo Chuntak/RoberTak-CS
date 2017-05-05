@@ -43,16 +43,46 @@ public class AssignmentController {
         return "tabs/assignments";
     }
 
-    @RequestMapping(value="/updateAssignment", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+    /**
+     * uploadAssignment - called when updating an assignment that contains a file
+     * @param assignment - assignment to be added to db
+     * @param session - current session of user
+     * @return AssignmentModel with any new info needed
+     */
+    @RequestMapping(value="/uploadAssignment", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public @ResponseBody
-    AssignmentModel updateAssignment(@ModelAttribute("assignment") AssignmentModel assignment, HttpSession session) {
+    AssignmentModel uploadAssignment(@ModelAttribute("assignment") AssignmentModel assignment, HttpSession session) {
         return new AssignmentDAO().uploadAssignment(assignment);
     }
 
-    @RequestMapping(value="/getAssignment", method = RequestMethod.GET)
+    /**
+     * uploadSubmission - called when uploading a student's submission for an assignment
+     * @param assignment - submission to be added to db
+     * @param session - current session of user
+     * @return AssignmentModel with any new info needed
+     */
+    @RequestMapping(value="/uploadSubmission", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public @ResponseBody
-    ArrayList<AssignmentModel> getAssignments(@ModelAttribute("assignment") AssignmentModel assignment, HttpSession session) {
-        return new AssignmentDAO().getAssignments(assignment);
+    AssignmentModel uploadSubmission(@ModelAttribute("assignment") AssignmentModel assignment, HttpSession session) {
+        return new AssignmentDAO().uploadSubmission(assignment, (int)session.getAttribute("id"));
+    }
+
+    /**
+     * updateAssignment - called when updating an assignment w/o a file
+     * @param assignment - assignment to be added to db
+     * @param session - current session of user
+     * @return AssignmentModel with any new info needed
+     */
+    @RequestMapping(value="/updateAssignment", method = RequestMethod.POST)
+    public @ResponseBody
+    AssignmentModel updateAssignment(@RequestBody AssignmentModel assignment, HttpSession session) {
+        return new AssignmentDAO().updateAssignment(assignment);
+    }
+
+    @RequestMapping(value="/getAssignments", method = RequestMethod.GET)
+    public @ResponseBody
+    ArrayList<AssignmentModel> getAssignments(Integer crsId, String gradableType, HttpSession session) {
+        return new AssignmentDAO().getAssignments(crsId, gradableType, (int)session.getAttribute("id"));
     }
 
     @RequestMapping(value="/deleteAssignment", method = RequestMethod.GET, produces="application/json")

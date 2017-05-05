@@ -82,7 +82,7 @@ public class DocumentDAO extends DAOBase{
                         dm.setBlobName(rs.getString("blobName"));
                         if(dm.getBlobName() != null && !dm.getBlobName().equals("")) {
                             try{ dm.setFileName(dm.getBlobName().split("\\|")[1]); }
-                            catch (IndexOutOfBoundsException e) { System.err.println("Filename not formated correctly."); }
+                            catch (IndexOutOfBoundsException e) { System.err.println("Filename not formatted correctly."); }
                             dm.setViewLink(dbs.getFileViewLink(dm.getBlobName(), false));
                         }
                     }

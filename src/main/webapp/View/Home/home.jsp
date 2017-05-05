@@ -376,7 +376,7 @@
     <%--Google Logout End--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="<c:url value="/resources/app/js/imported/bootstrap-datepicker.js" />"  type="text/javascript" ></script>
+    <script src="<c:url value="/resources/app/js/imported/bootstrap-datepicker.min.js" />"  type="text/javascript" ></script>
     <script src="<c:url value="/resources/app/js/imported/bootstrap-timepicker.js" />"  type="text/javascript" ></script>
     <!-- App Base -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -404,6 +404,7 @@
             <script src="<c:url value="/resources/app/js/shared/directives.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/course.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/announcement.js" />"  type="text/javascript" ></script>
+            <script src="<c:url value="/resources/app/js/student/assignment.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/documents.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/student/syllabus.js" />"  type="text/javascript" ></script>
             <script src="<c:url value="/resources/app/js/forum.js" />"  type="text/javascript" ></script>
