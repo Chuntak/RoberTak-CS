@@ -96,9 +96,8 @@ public class DBSingleton {
                 (embedded ? "&embedded=true" : "");
     }
 
-    public BlobInfo getBlobInfo(String blobName){
-        BlobInfo b = Blob.newBuilder(BUCKET_NAME, blobName).build();
-        return b;
+    public Blob getBlob(String blobName){
+       return storage.get(BlobId.of(BUCKET_NAME, blobName));
     }
 
     private void setDBProperties(){

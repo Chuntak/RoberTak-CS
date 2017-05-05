@@ -2,8 +2,10 @@ package com.backpack.models;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Timestamp;
 import java.util.Date;
 import java.util.ArrayList;
+
 
 /**
  * Created by rvtru on 4/5/2017.
@@ -20,21 +22,34 @@ public class AssignmentModel {
     private double maxGrade;
     private Date dueDate;
     private String difficulty;
+    private boolean submittable;
 
+    /* FILE OBJECT TO BE SAVED - EITHER ATTACHED FILE BY PROF OR STUDENT SUBMISSION */
     private MultipartFile hwFile;
+
+    /* FILE INFO FOR ATTACHED ASSIGNMENT FILE */
     private String hwBlobName;
     private String hwFileName;
     private String hwDownloadLink;
     private String hwViewLink;
+    /* ID FOR WHEN MULTIPLE FILES ARE SUPPORTED */
     private int hwId;
+
+    /* FILE INFO FOR STUDENT SUBMSSIONS - ONLY USED FROM BACKEND -> FRONTEND */
+    private String submissionBlobName;
+    private String submissionDownloadLink;
+    private String submissionFileName;
+    private String submissionViewLink;
 
 
     private ArrayList<HWFileModel> hwFileModelList;
 
+
+
     public AssignmentModel() {
     }
 
-    public AssignmentModel(int id, int courseId, String title, String description, String gradableType, double maxGrade, Date dueDate,  String difficulty) {
+    public AssignmentModel(int id, int courseId, String title, String description, String gradableType, double maxGrade, Date dueDate,  String difficulty, boolean submittable) {
         this.id = id;
         this.courseId = courseId;
         this.title = title;
@@ -43,6 +58,7 @@ public class AssignmentModel {
         this.maxGrade = maxGrade;
         this.dueDate = dueDate;
         this.difficulty = difficulty;
+        this.submittable = submittable;
     }
 
     public int getId() {
@@ -103,8 +119,9 @@ public class AssignmentModel {
     }
 
     /* SETTER WHEN USED TO MAPPING TO/FROM DB */
-    public void setDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setDate(java.sql.Timestamp dueDate) {
+        /* SEND DUEDATE TO CONTROLLER AS LONG */
+        this.dueDate = new Date(dueDate.getTime());
     }
 
     public String getDifficulty() {
@@ -177,5 +194,45 @@ public class AssignmentModel {
 
     public void setHwFileModelList(ArrayList<HWFileModel> hwFileModelList) {
         this.hwFileModelList = hwFileModelList;
+    }
+
+    public boolean isSubmittable() {
+        return submittable;
+    }
+
+    public void setSubmittable(boolean submittable) {
+        this.submittable = submittable;
+    }
+
+    public String getSubmissionBlobName() {
+        return submissionBlobName;
+    }
+
+    public void setSubmissionBlobName(String submissionBlobName) {
+        this.submissionBlobName = submissionBlobName;
+    }
+
+    public String getSubmissionDownloadLink() {
+        return submissionDownloadLink;
+    }
+
+    public void setSubmissionDownloadLink(String submissionDownloadLink) {
+        this.submissionDownloadLink = submissionDownloadLink;
+    }
+
+    public String getSubmissionFileName() {
+        return submissionFileName;
+    }
+
+    public void setSubmissionFileName(String submissionFileName) {
+        this.submissionFileName = submissionFileName;
+    }
+
+    public String getSubmissionViewLink() {
+        return submissionViewLink;
+    }
+
+    public void setSubmissionViewLink(String submissionViewLink) {
+        this.submissionViewLink = submissionViewLink;
     }
 }

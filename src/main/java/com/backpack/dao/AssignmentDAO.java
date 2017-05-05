@@ -44,8 +44,56 @@ public class AssignmentDAO extends DAOBase {
         if(asgmtModel == null){
             dbs.deleteFile(am.getHwBlobName());
         }
+        /* DON'T FORGET TO RETURN DOWNLOAD LINK */
+        asgmtModel.setHwDownloadLink(am.getHwDownloadLink());
         /* RETURN NEW DATA TO CONTROLLER */
         return asgmtModel;
+    }
+
+    public AssignmentModel uploadSubmission(AssignmentModel am, int userId){
+        /* CHECK IF THERE IS NO FILE TO UPLOAD */
+        if(am.getHwFile() == null){
+            /* RETURN NULL ? */
+            return null;
+        }
+        /* CHECK IF DELETING OLD FILE */
+        if(am.getSubmissionBlobName() != null && !am.getSubmissionBlobName().equals("")) {
+            dbs.deleteFile(am.getSubmissionBlobName());
+        }
+        Blob b = null;
+        /* CHECK IF FILE TO UPLOAD */
+        if(am.getHwFile() != null) {
+            b = dbs.uploadFile(am.getHwFile());
+            am.setHwBlobName(b.getName());
+            am.setHwDownloadLink(b.getMediaLink());
+        }
+        /* UPDATE DB WITH FILE INFO */
+        AssignmentModel asgmtModel = updateSubmission(am, userId);
+        /* CHECK THAT UPDATE WORKED */
+        if(asgmtModel == null){
+            dbs.deleteFile(am.getHwBlobName());
+        }
+        /* DON'T FORGET TO RETURN DOWNLOAD LINK */
+        //asgmtModel.setHwDownloadLink(am.getHwDownloadLink());
+        /* RETURN NEW DATA TO CONTROLLER */
+        return asgmtModel;
+    }
+
+    /**
+     * updateSubmission - updates Submission in DB
+     * @param am - submission to add/update
+     *           - may need to delete old submission from storage
+     *             if query returns a blobName of old submission
+     * @return boolean if successful
+     */
+    public AssignmentModel updateSubmission(AssignmentModel am, int userId){
+        /* DATABASE QUERY */
+        String query = "call update_submission(?,?,?,?)";
+        /* EXECUTE QUERY AND RETURN LIST OF ASSIGNMENT OBJECTS */
+        ArrayList<AssignmentModel> aml = dbs.getJdbcTemplate().query(query ,new Object[] { 0, am.getId(), userId, am.getHwBlobName()}, new AssignmentModelExtractor());
+
+        /* RETURN NEWLY CREATED ASSIGNMENT WITH ID */
+        return aml.size() > 0 ? aml.get(0) : null;
     }
 
     /**
@@ -55,20 +103,20 @@ public class AssignmentDAO extends DAOBase {
      */
     public AssignmentModel updateAssignment(AssignmentModel am){
         /* DATABASE QUERY */
-        String query = "call update_gradable(?,?,?,?,?,?,?,?)";
+        String query = "call update_gradable(?,?,?,?,?,?,?,?,?)";
         /* EXECUTE QUERY AND RETURN LIST OF ASSIGNMENT OBJECTS */
         ArrayList<AssignmentModel> aml = dbs.getJdbcTemplate().query(query ,new Object[] { am.getId(), am.getCourseId(), am.getTitle(), am.getDescription(),
-                am.getGradableType(), am.getMaxGrade(), am.getDueDate(), am.getDifficulty()}, new AssignmentModelExtractor());
+                am.getGradableType(), am.getMaxGrade(), am.getDueDate(), am.getDifficulty(), am.getHwBlobName()}, new AssignmentModelExtractor());
 
         /* RETURN NEWLY CREATED ASSIGNMENT WITH ID */
         return aml.size() > 0 ? aml.get(0) : null;
     }
 
     /*gets assignment for course*/
-    public ArrayList<AssignmentModel> getAssignments(AssignmentModel am) {
+    public ArrayList<AssignmentModel> getAssignments(Integer crsId, String gradableType, int userId) {
         /*gets the assignments for the course*/
-        String query = "call get_gradable(?)";
-        ArrayList<AssignmentModel> aml = dbs.getJdbcTemplate().query(query, new Object[] { am.getCourseId() }, new AssignmentModelExtractor());
+        String query = "call get_gradable(?, ?, ?)";
+        ArrayList<AssignmentModel> aml = dbs.getJdbcTemplate().query(query, new Object[] { crsId, gradableType, userId }, new AssignmentModelExtractor());
         return aml;
     }
 
@@ -76,7 +124,13 @@ public class AssignmentDAO extends DAOBase {
     public boolean deleteAssignment(AssignmentModel am) {
         String query = "call delete_gradable(?)";
         int rowsAffected = dbs.getJdbcTemplate().update(query, am.getId());
-        return deleteHWFileModel(0, am.getId());
+
+        /* DELETE FILE FROM STORAGE IF ANY */
+        if(am.getHwBlobName() == null || am.getHwBlobName().equals("")){
+            return true;
+        }
+        return dbs.deleteFile(am.getHwBlobName());
+        //return deleteHWFileModel(0, am.getId());
     }
 
     /*upload hw files to database*/
@@ -142,8 +196,18 @@ public class AssignmentDAO extends DAOBase {
                     if (columnExists(rs, "description")) am.setDescription(rs.getString("description"));
                     if (columnExists(rs, "gradableType")) am.setGradableType(rs.getString("gradableType"));
                     if (columnExists(rs, "maxGrade")) am.setMaxGrade(rs.getInt("maxGrade"));
-                    if (columnExists(rs, "dueDate")) am.setDate(rs.getDate("dueDate"));
+                    if (columnExists(rs, "dueDate")) am.setDate(rs.getTimestamp("dueDate"));
                     if (columnExists(rs, "difficulty")) am.setDifficulty(rs.getString("difficulty"));
+                    if (columnExists(rs, "submittable")) am.setSubmittable(rs.getBoolean("submittable"));
+                    if (columnExists(rs, "submission"))
+                        am.setSubmissionBlobName(rs.getString("submission"));
+                    if (columnExists(rs, "blobName")) am.setHwBlobName(rs.getString("blobName"));
+                    if (am.getHwBlobName() != null && !am.getHwBlobName().equals("")) {
+                        /* IF THERE IS A BLOB NAME, GET THE DOWNLOAD LINK */
+//                        Blob b = dbs.getBlob(am.getHwBlobName());
+//                        String link = b.getMediaLink();
+                        am.setHwDownloadLink(dbs.getFileViewLink(am.getHwBlobName(), false));
+                    }
                     aml.add(am);
                 }
             }
@@ -163,7 +227,7 @@ public class AssignmentDAO extends DAOBase {
                     if (columnExists(rs, "gradableId")) hwfm.setAssignmentId(rs.getInt("gradableId"));
                     if (columnExists(rs, "blobName")) {
                         hwfm.setBlobName(rs.getString("blobName"));
-                        BlobInfo bi = dbs.getBlobInfo(hwfm.getBlobName());
+                        Blob bi = dbs.getBlob(hwfm.getBlobName());
                         hwfm.setDownloadLink(bi.getMediaLink());
                         hwfm.setFileName(hwfm.getBlobName().split("|")[0]);
                         hwfm.setViewLink(dbs.getFileViewLink(hwfm.getBlobName(), false));

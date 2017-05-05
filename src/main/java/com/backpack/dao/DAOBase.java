@@ -20,7 +20,7 @@ public class DAOBase {
         try {
             ResultSetMetaData rsmd = rs.getMetaData();
             for(int i = 1;i <= rsmd.getColumnCount(); i++){
-                if(rsmd.getColumnName(i).equals(columnName))
+                if(rsmd.getColumnLabel(i).equals(columnName))
                     return true;
             }
             return false;
