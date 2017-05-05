@@ -1,34 +1,57 @@
 /**
- * Created by Calvin on 4/1/2017.
+ * Created by Calvin, Chuntak, Rob, Susan on 4/1/2017.
  */
+/* FACTORY TO HANDLE HTTP REQUEST LOGIC */
+angular.module('homeApp').factory('httpCourseFactory', function($http, global) {
+    /* SET SINGLETON LIKE OBJECT */
+    var properties = this;
+
+    /* updateAssignment - ADDS OR UPDATES AN ASSIGNMENT */
+    properties.searchCourse = function (searchModel) {
+        return $http.get("/searchCourse", { params : searchModel } );
+    };
+
+    /* TELLS THE SERVER WHAT TYPE OF OWNER OF THE SELECTED COURSE IS */
+    properties.selectCourse = function (isOwner) {
+        return $http.get("/updateIsOwner", { params : { isOwner : isOwner } });
+    };
+    return properties;
+});
+
 /*Course Controller*/
-
-
-angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $state, global) {
+angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $state, $templateCache, global, httpCourseFactory) {
 
 /******************************************INITALIZING THE MODAL************************************************/
     // Get the modal
-    var modal = document.getElementById('courseModal');
+    var courseModal = document.getElementById('courseModal');
+    var searchModal = document.getElementById('searchModal');
     // Get the button that opens the modal
-    var btn = document.getElementById("addCourse");
+    var courseModalAddBtn = document.getElementById("addCourse");
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var courseModelCloseBtn = document.getElementById("courseModelCloseBtn");
+    var searchModalCloseBtn = document.getElementById("searchModalCloseBtn");
     // When the user clicks on the button, open the modal
-    btn.onclick = function() {
+    courseModalAddBtn.onclick = function() {
         $scope.getTag();
         $scope.course = {};
         $scope.courseTaggedList = [];
         $scope.$apply();
-        modal.style.display = "block";
+        courseModal.style.display = "block";
     };
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
+    courseModelCloseBtn.onclick = function() {
+        courseModal.style.display = "none";
+    };
+    searchModalCloseBtn.onclick = function() {
+        searchModal.style.display = "none";
     };
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
+        if (event.target === courseModal) {
+            courseModal.style.display = "none";
+        }
+        if (event.target === searchModal) {
+            searchModal.style.display = "none";
         }
     };
 
@@ -74,7 +97,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
             params: {"id": $scope.course.id, "prefix": $scope.course.prefix, "number":$scope.course.number, "name":$scope.course.name,
                 "semester": $scope.course.semester, "ano":$scope.course.ano,"pub": $scope.course.pub, "tagNames" : $scope.courseTaggedList  }
         }).then(function (response) {
-            modal.style.display = "none";
+            courseModal.style.display = "none";
             if(response.data.id !== crsid) {  /*add to the pane*/
                 var code = response.data.code;
                 var id = response.data.id;
@@ -114,7 +137,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         });
     };
 
-    /*SELECT COURSE TODO change course*/
+    /*SELECT COURSE*/
     $scope.selected = 0;
     $scope.selectCourse = function(course, index){
         if(course) /*IF COURSE IS NOT NULL THEN ITS TRUE*/ {
@@ -124,11 +147,22 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
             $scope.selected = -1;
             global.setCourseId(-1);
         }
+
+        httpCourseFactory.selectCourse(true).success(function(response){
+            var reloadData = function(){
+                $templateCache.remove("/announcements");
+                $templateCache.remove("/syllabus");
+                $templateCache.remove("/assignments");
+                $templateCache.remove("/documents");
+                $templateCache.remove("/grades");
+                $state.reload();
+            };
+            reloadData();
+            /*ENABLE POSTING IN FORUMS*/
+            document.getElementById("newPostFormId").disabled = false;
+            document.getElementById("commentTextAreaId").disabled = false;
+        }).error(function(response){console.log("select course to server error")});
         /* RELOAD TAB DATA */
-        var reloadData = function(){
-            $state.reload();
-        };
-        reloadData();
     };
 
     $http.get('/getCourse').then(function(response) {
@@ -165,8 +199,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
             $scope.courseTaggedList = response.data;
             /*DISPLAY THE MODAL*/
             $scope.getTag();
-            var modal = document.getElementById('courseModal');
-            modal.style.display = "block";
+            courseModal.style.display = "block";
         }, function(error) { console.log(error.data); });
     };
 
@@ -194,6 +227,115 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         });
     };
 
+
+    /************************************************************/
+    /**************SEARCH FUNCTIONS ****************************/
+    /***********************************************************/
+
+
+    /*THE SEARCH MODEL THAT WE WILL USE*/
+    $scope.search = {};
+    $scope.lastSearch = {};
+    $scope.search.tagNames = [];
+    /*PAGE NUMBER THAT WE WILL USE FOR PAGENATION*/
+    $scope.search.pageNum = 0;
+    /*THIS IS TEH SEARCH RESULTS FOR COURSES*/
+    $scope.searchCourseResults = [];
+    /*THIS IS THE SEARCH TAG THAT IS SELECTED*/
+    $scope.selectedSearchTag = "";
+    /*THIS IS THE FUNCTION THAT WILL SHOW THE SEARCH MODEL*/
+    $scope.showSearchModel = function (){
+        searchModal.style.display = "block";
+    };
+    /*THIS IS THE SEARCH COURSE FUNCTION, CALLS HTTP REQUESTS TO SERVER TO SEARCH*/
+    $scope.searchCourse = function() {
+        $scope.search.pageNum = 0;
+        debugger;
+        httpCourseFactory.searchCourse($scope.search).success(function(response) {
+            /*RESETS THE SEARCH BAR/SEARCH INFO*/
+            $scope.lastSearch = $scope.search;
+            $scope.search = {};
+            $scope.search.tagNames = [];
+            $scope.searchCourseResults = response;
+            /*DISPLAYS THE PAGE NUMBER*/
+            document.getElementById("paginationLabelId").innerHTML = "Page " + ($scope.lastSearch.pageNum + 1);
+            searchModal.style.display = "none";
+            debugger;
+        }).error(function(response) {
+            console.log("Search course error");
+        });
+    };
+
+
+    /*THIS IS THE FUNCTION TO ADD SEARCH TAG*/
+    $scope.addSearchTag = function () {
+        if($scope.search.tagNames.indexOf($scope.selectedSearchTag) === -1 && $scope.selectedSearchTag !== ""){
+            $scope.search.tagNames.push($scope.selectedSearchTag);
+        }
+        $scope.selectedSearchTag = "";
+    };
+
+    /*THIS IS THE FUNCTION TO REMOVE SEARCH TAG*/
+    $scope.removeSearchTag = function(searchTagged) {
+        for(var i = 0; i < $scope.search.tagNames.length; i++){
+            if($scope.search.tagNames[i] === searchTagged){
+                $scope.search.tagNames.splice(i,1);
+                break;
+            }
+        }
+    };
+
+    $scope.selectedCourseResult = 0;
+    $scope.selectCourseResults = function(result, index) {
+        if(result) /*IF COURSE IS NOT NULL THEN ITS TRUE*/ {
+            $scope.selectedCourseResult = index;
+            global.setCourseId(result.id);
+        } else {
+            $scope.selectedCourseResult = -1;
+            global.setCourseId(-1);
+        }
+        httpCourseFactory.selectCourse(false).success(function(response){
+            var reloadData = function(){
+                $templateCache.remove("/announcements");
+                $templateCache.remove("/syllabus");
+                $templateCache.remove("/assignments");
+                $templateCache.remove("/documents");
+                $templateCache.remove("/grades");
+                $state.reload();
+            };
+            reloadData();
+            /*DISABLE POSTING IN FORUMS*/
+            document.getElementById("newPostFormId").disabled = true;
+            document.getElementById("commentTextAreaId").disabled = true;
+
+        }).error(function(response){console.log("select course to server error")});
+        /* RELOAD TAB DATA */
+    };
+
+    /*PAGINATION, CHANGES TO EITHER THE NEXT OR PREVIOUS PAGE*/
+    $scope.changePageByOne = function(num) {
+        /*IF THE PAGE IS NEGATIVE WE DON'T CALL THE REQUEST*/
+        if($scope.lastSearch.pageNum + num === -1) return;
+        /*IF THE NUMBER OF ELEMENT IS BEING DISPLAYED IS LESS THAN THE NUMBER OF ELEMENTS
+            THAT SHOULD BE DISPLAYED THAT MEANS THAT WE REACH THE LAST PAGE, THEREFORE WE WON'T PROCEED TO NEXT PAGE
+         */
+        if($scope.searchCourseResults.length < 3 && num > 0) return;
+
+        $scope.lastSearch.pageNum += num;
+        httpCourseFactory.searchCourse($scope.lastSearch).success(function(response) {
+            if(response.length !== 0) {
+                /*RESETS THE SEARCH BAR/SEARCH INFO*/
+                $scope.searchCourseResults = response;
+                /*DISPLAY THE PAGE NUMBER*/
+                document.getElementById("paginationLabelId").innerHTML = "Page " + ($scope.lastSearch.pageNum + 1);
+            } else {
+                $scope.lastSearch.pageNum -= 1;
+            }
+            debugger;
+        }).error(function(response) {
+            console.log("Pagination error");
+        });
+    }
 
 });
 

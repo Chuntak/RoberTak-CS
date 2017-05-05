@@ -77,6 +77,9 @@ textarea {
 /*.form-control{*/
 /*margin-top: 55px;*/
 /*}*/
+.display-off{
+    display: none;
+}
 
 .docCard{
     height: 150px;

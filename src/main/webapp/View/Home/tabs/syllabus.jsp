@@ -11,10 +11,10 @@
 
     <section>
         <c:choose>
-            <c:when test="${userType eq 'prof'}">
+            <c:when test="${userType eq 'prof' && isOwner eq true}">
                 <link rel="stylesheet" href="<c:url value="/resources/app/css/professor.css" />">
             </c:when>
-            <c:when test="${userType eq 'stud'}">
+            <c:when test="${userType eq 'stud' || isOwner eq false}">
                 <link rel="stylesheet" href="<c:url value="/resources/app/css/student.css" />">
             </c:when>
         </c:choose>
@@ -24,7 +24,7 @@
 
 <div ng-controller="syllabusCtrl">
     <c:choose>
-        <c:when test="${userType eq 'prof'}">
+        <c:when test="${userType eq 'prof' && isOwner eq true}">
             <form ng-submit="uploadSyllabus()">
                 <h5>Upload New Syllabus:</h5>
                 <input class="file-selection" type="file" file-model="syllabus.myFile"/>

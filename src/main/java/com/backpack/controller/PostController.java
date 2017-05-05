@@ -32,6 +32,8 @@ public class PostController {
     @RequestMapping(value="/updatePost", method = RequestMethod.GET)
     public @ResponseBody
     int updatePost(@ModelAttribute("post") PostModel post, HttpSession session) {
+        if((!(boolean) session.getAttribute("isOwner")) && ((String)session.getAttribute("userType")).equals("prof"))
+            return -1;
         post.setAuthorId((int)session.getAttribute("id"));
         return new PostDAO().updatePost(post);
     }

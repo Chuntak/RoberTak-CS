@@ -121,7 +121,7 @@
                         <div id="courseModal" class="modal container-fluid">
                             <!-- Modal content -->
                             <div class="modal-content">
-                                <span class="close">&times;</span>
+                                <span class="close" id="courseModelCloseBtn">&times;</span>
                                 <h3 class="modalLabel">Courses</h3>
 
                                 <form name="addCourse" ng-submit="updateCourse()">
@@ -208,109 +208,126 @@
             <c:choose>
                 <c:when test="${userType eq 'prof'}">
                     <div class="input-group">
-                    <%--SEARCH COURSE LABEL--%>
-                        <input type="text" placeholder="Search other courses" autocomplete="off" class="form-control course-box" id="searchInput" ng-model="search.input" aria-label="Text input with dropdown button">
-                        <%--SEARCH COURSE BUTTON--%>
+                        <input class="form-control course-box" required type="text" placeholder="Search courses" autocomplete="off"  id="searchInput" ng-model="search.name">
                         <span class="input-group-btn">
-                            <button ng-click="searchCourse()" type="submit" id="searchSubmit" class="btn btn-default">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
+                            <a href="#" ng-click="showSearchModel()" type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-menu-down"></span>
+                            </a>
+                        </span>
+                        <span class="input-group-btn">
+                             <button ng-click="searchCourse()" type="submit" id="searchSubmit" class="btn btn-default">
+                               <span class="glyphicon glyphicon-search"></span>
+                             </button>
                         </span>
                     </div>
-                    <%--ADVANCED SEARCH--%>
-                    <a class="" ng-click="showSearchModel()" href="#" class="advSearch">Advanced Search</a>
                     <!-- ADVANCED SEARCH MODAL -->
                     <div id="searchModal" class="modal container-fluid">
                         <!-- Modal content -->
                         <div class="modal-content">
-                            <span class="close">&times;</span>
+                            <span class="close" id="searchModalCloseBtn">&times;</span>
                             <h3 class="modalLabel">Advanced Search</h3>
 
-                            <form ng-submit="advanceSearchCourse()">
+                            <form ng-submit="searchCourse()">
                                     <%--The course professor and course name--%>
                                 <div class="form-inline form-group">
                                     <div class="col-lg-6">
-                                        <input required type="text" class="form-control wide" ng-model="search.profName" maxlength="100" autocomplete="off" placeholder="Course Professor" />
+                                        <input type="text" class="form-control wide" ng-model="search.profName" maxlength="100" autocomplete="off" placeholder="Course Professor" />
                                     </div>
                                     <div class="col-lg-6">
-                                        <input required type="text" class="form-control wide" ng-model="search.name" maxlength="32" autocomplete="off" placeholder="Course Name"/>
+                                        <input type="text" class="form-control wide" ng-model="search.name" maxlength="32" autocomplete="off" placeholder="Course Name"/>
                                     </div>
                                 </div>
-
-
                                     <%--The course prefix and number box--%>
                                 <div class="form-inline form-group">
                                     <div class="col-lg-6">
-                                        <input required type="text" class="form-control wide" ng-model="search.prefix" maxlength="8" autocomplete="off" placeholder="Course Prefix" />
+                                        <input type="text" class="form-control wide" ng-model="search.prefix" maxlength="8" autocomplete="off" placeholder="Course Prefix" />
                                     </div>
                                     <div class="col-lg-6">
-                                        <input required type="text" class="form-control wide" ng-model="search.number" maxlength="4" autocomplete="off" placeholder="Course Number"/>
+                                        <input type="text" class="form-control wide" ng-model="search.number" maxlength="4" autocomplete="off" placeholder="Course Number"/>
                                     </div>
                                 </div>
 
                                     <%--The course school--%>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input required type="text" class="form-control text-left courseName" ng-model="search.school" maxlength="32" autocomplete="off" placeholder="Course Name"/>
+                                        <input type="text" class="form-control text-left courseName" ng-model="search.school" maxlength="32" autocomplete="off" placeholder="Course School"/>
                                     </div>
                                 </div>
-
                                     <%--Semester and Public checkbox--%>
                                 <div class="form-inline">
-                                    <div class="col-lg-3">
-                                        <select name="semester_chooser" class="form-control wide" ng-model="course.semester">
+                                    <div class="col-lg-6">
+                                        <select name="semester_chooser" class="form-control wide" ng-model="search.semester">
                                             <option value="" disabled selected>Semester</option>
+                                            <option value="">None</option>
                                             <option value="Spring">Spring</option>
                                             <option value="Summer">Summer</option>
                                             <option value="Fall">Fall</option>
                                             <option value="Winter">Winter</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <select name="year_chooser" class="form-control" ng-model="course.ano">
+                                    <div class="col-lg-6">
+                                        <select name="year_chooser" class="form-control" ng-model="search.ano">
                                             <option value="" disabled selected>Year</option>
+                                            <option value="">None</option>
                                             <option value="2017">2017</option>
                                             <option value="2018">2018</option>
                                             <option value="2019">2019</option>
                                             <option value="2020">2020</option>
                                         </select>
                                     </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-check pubDiv">
-                                            <label class="form-check-label">Make Course Public</label>
-                                            <input class="form-check-input public" ng-model="course.pub" type="checkbox"/>
-                                        </div>
-                                    </div>
                                 </div>
                                     <%--Tag Selection and Removal section--%>
                                 <div>
                                     <div class="col-lg-12">
                                         <div class="form-inline">
-                                            <input list="tags"  ng-model="selectedTag" class="form-control tagList" name="tags">
-                                            <datalist id="tags">
+                                            <input list="searchTags"  ng-model="selectedSearchTag" class="form-control tagList" name="tags">
+                                            <datalist id="searchTags">
                                                 <option ng-repeat="tag in tagList">{{tag}}</option>
                                             </datalist>
-                                            <button type="button" class="btn addTagBtn" ng-click="addTag()">Add Tag</button>
+                                            <button type="button" class="btn addTagBtn" ng-click="addSearchTag()">Add Tag</button>
                                         </div>
 
                                             <%--Where We add the tag chips--%>
                                         <div class="tagPane">
                                                 <%--The X button should remove the tag instead of hiding it--%>
-                                            <div class="chip" ng-repeat="courseTagged in courseTaggedList">
-                                                <span class="closebtn" ng-click="removeTag(courseTagged)">&times;</span>
-                                                {{courseTagged}}
+                                            <div class="chip" ng-repeat="searchTagged in search.tagNames">
+                                                <span class="closebtn" ng-click="removeSearchTag(searchTagged)">&times;</span>
+                                                {{searchTagged}}
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
-                                    <%--SUBMIT BUTTON TO ADD THE COURSE--%>
+                                    <%--SUBMIT BUTTON TO SEARCH--%>
                                 <div class="wrapper">
-                                    <input class="btn btn-primary btn-block" type="submit" value="Save Course">
+                                    <input class="btn btn-primary btn-block" type="submit" value="Search Course">
                                 </div>
                             </form>
                         </div>
+                    </div>
+
+                    <%--AngularJS to dynamically load the courses--%>
+                    <div class="list-grouper" ng-repeat="result in searchCourseResults">
+                        <a class="list-group-item"  ng-click="selectCourseResults(result, $index)" ng-class="{active: $index == selectedCourseResult}">
+                            <h4 class="card-title row">
+                                <p class="col-sm-9" ng-bind="(result.prefix)+-+(result.number)"></p>
+                            </h4>
+                            <h6 class="card-subtitle mb-2" ng-bind="result.name"></h6>
+                            <h6 class="card-subtitle mb-2" ng-bind="(result.semester)+' '+(result.ano)"></h6>
+                            <h6 class="card-subtitle mb-2" ng-bind="(result.profFirstName)+' '+(result.profLastName)"></h6>
+                            <h6 class="card-subtitle mb-2" ng-bind="result.profEmail"></h6>
+                        </a>
+                    </div>
+
+                    <%--PAGINATION--%>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="glyphicon glyphicon-chevron-left btn btn-secondary" ng-click="changePageByOne(-1)" type="button"></button>
+                        </span>
+                        <label class="form-control" id="paginationLabelId"></label>
+                        <span class="input-group-btn">
+                            <button class="glyphicon glyphicon-chevron-right btn btn-secondary" ng-click="changePageByOne(1)" type="button"></button>
+                        </span>
                     </div>
                 </c:when>
             </c:choose>
@@ -332,28 +349,32 @@
     <div class="col-md-3 forumPane" ng-controller="forumCtrl">
         <div class="panel panel-default">
             <div class="panel-group" id="accordion">
-                <form ng-submit="updatePost(newPost)" class="panel">
-                    <input required id="postHeader" class="form-control panel-heading write-post" ng-model="newPost.header" data-toggle="collapse" data-parent="#accordion" href="#new-post" placeholder="Write a post"></input>
-                    <div id="new-post" class="panel-collapse collapse">
-                        <textarea required id="postContent" type="text" autocomplete="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here"></textarea>
-                        <button type="submit" class="panel-footer form-ctrl btn" ng-disabled="courseId==0">Create Post</button>
-                    </div>
-                </form>
-                <p ng-if="!posts.length">There are no posts.</p>
-                <div ng-repeat="post in posts" class="panel post-header panel-primary">
-                    <div class="panel-heading panel-primary">
-                        <h4 class="panel-title">
-                            <a ng-click="getPosts(post, 0)" data-toggle="collapse" ng-bind="post.header" data-parent="#accordion" href="{{'#collapse' + $index}}"></a>
-                        </h4>
-                    </div>
-                    <form ng-submit="updateComment(post, newComment)" id="{{ 'collapse' + $index }}" class="panel-collapse collapse">
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-info" ng-bind="post.content"></li>
-                            <li ng-repeat="comment in post.comments" ng-bind="comment.content" class="list-group-item"></li>
-                            <textarea required type="text" ng-keyup="newComment.content!=='' && $event.keyCode == 13 && updateComment(post, newComment)" ng-model="newComment.content" type="text" autocomplete="off" class="form-control form-ctrl course-box list-group-item"  placeholder="Write new comment"></textarea>
-                        </ul>
+                <fieldset id="newPostFormId">
+                    <form ng-submit="updatePost(newPost)" class="panel">
+                        <input required id="postHeader" class="form-control panel-heading write-post" ng-model="newPost.header" data-toggle="collapse" data-parent="#accordion" href="#new-post" placeholder="Write a post"></input>
+                        <div id="new-post" class="panel-collapse collapse">
+                            <textarea required id="postContent" type="text" autocomplete="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here"></textarea>
+                            <button type="submit" class="panel-footer form-ctrl btn" ng-disabled="courseId==0">Create Post</button>
+                        </div>
                     </form>
-                </div>
+                </fieldset>
+                <p ng-if="!posts.length">There are no posts.</p>
+                <fieldset id="commentTextAreaId">
+                    <div ng-repeat="post in posts" class="panel post-header panel-primary">
+                        <div class="panel-heading panel-primary">
+                            <h4 class="panel-title">
+                                <a ng-click="getPosts(post, 0)" data-toggle="collapse" ng-bind="post.header" data-parent="#accordion" href="{{'#collapse' + $index}}"></a>
+                            </h4>
+                        </div>
+                        <form ng-submit="updateComment(post, newComment)" id="{{ 'collapse' + $index }}" class="panel-collapse collapse">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-info" ng-bind="post.content"></li>
+                                <li ng-repeat="comment in post.comments" ng-bind="comment.content" class="list-group-item"></li>
+                                <textarea required type="text" ng-keyup="newComment.content!=='' && $event.keyCode == 13 && updateComment(post, newComment)" ng-model="newComment.content" type="text" autocomplete="off" class="form-control form-ctrl course-box list-group-item"  placeholder="Write new comment"></textarea>
+                            </ul>
+                        </form>
+                    </div>
+                </fieldset>
             </div>
 
         </div>

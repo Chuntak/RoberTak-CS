@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 import static com.backpack.models.TagModel.*;
 
@@ -77,14 +79,49 @@ public class TagDAO  extends DAOBase{
             if(rs != null && rs.getMetaData().getColumnCount() > 0) {
                 while (rs.next()) {
                     TagModel tm = new TagModel();
-                    tm.setId(rs.getInt("id"));
-                    tm.setTagName(rs.getString("tagName"));
+                    if (columnExists(rs, "id")) tm.setId(rs.getInt("id"));
+                    if (columnExists(rs, "tagName"))tm.setTagName(rs.getString("tagName"));
+                    if (columnExists(rs, "taggableId")) tm.setTaggableId(rs.getInt("taggableId"));
                     tml.add(tm);
                 }
             }
             return tml;
         }
     }
+
+    public static TagModelExtractor getTagModelExtractor() {
+        return new TagModelExtractor();
+    }
+
+    private static class TagRelationHashExtractor implements ResultSetExtractor<HashMap<Integer,ArrayList<String>>> {
+        @Override
+        public HashMap<Integer,ArrayList<String>> extractData(ResultSet rs) throws SQLException, DataAccessException {
+            HashMap<Integer,ArrayList<String>> tmh = new HashMap<Integer,ArrayList<String>>();
+            if(rs != null && rs.getMetaData().getColumnCount() > 0) {
+                while (rs.next()) {
+                    if (columnExists(rs, "taggableId") && columnExists(rs, "tagName")){
+                        int taggableId = rs.getInt("taggableId");
+                        String tagName = rs.getString("tagName");
+                        if(tmh.containsKey(taggableId)) {
+                            tmh.get(taggableId).add(tagName);
+                        }
+                        else {
+                            ArrayList<String> tns = new ArrayList<String>();
+                            tns.add(tagName);
+                            tmh.put(taggableId, tns);
+                        }
+                    }
+                }
+            }
+            return tmh;
+        }
+    }
+
+    public static TagRelationHashExtractor getTagRelationHashExtractor() {
+        return new TagRelationHashExtractor();
+    }
+
+
 
     /*private class to extract a list of tags via the resultset returned from the database*/
     private static class TagNameExtractor implements ResultSetExtractor<ArrayList<String>> {
@@ -102,4 +139,5 @@ public class TagDAO  extends DAOBase{
             return sl;
         }
     }
+
 }

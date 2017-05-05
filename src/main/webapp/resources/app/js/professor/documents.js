@@ -29,25 +29,24 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
     $scope.lastEditedDocument = {};
     $scope.selectedDocument = {};
 
-    $scope.docFile = null;
 
     $scope.uploadDocument = function() {
 
-        var file = $scope.doc.file;
+        var file = $scope.document.file;
 
 
         var fd = new FormData();
         fd.append('file', file);
         fd.append('f', 'json');
-        if($scope.doc.file!==undefined) {
+        if($scope.document.file!==undefined) {
             $http.post("/uploadDocument", fd, {
                 transformRequest: angular.identity,
                 headers: {
                     'Content-Type': undefined
                 },
                 params: {
-                    "title": $scope.doc.title,
-                    "description": $scope.doc.description,
+                    "title": $scope.document.title,
+                    "description": $scope.document.description,
                     "courseId": global.getCourseId()
                 }
             }).success(function (response) {
@@ -62,7 +61,7 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
             });
         }
         else {
-            $scope.doc.fileName = "Not Available"
+            $scope.document.fileName = "Not Available"
         }
     };
 
@@ -114,8 +113,7 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
 
     /*EDIT DOCUMENT*/
     $scope.editDocument = function (document) {
-        $scope.selectedDocument = document;
-
+        $scope.selectedDocument = jQuery.extend(true, {}, document);
     };
 
     /*SAVES FROM EDIT DOCUMENT*/
@@ -139,26 +137,41 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
     };
 
     /* Add New Document Collapse */
-    $(document).ready(function(){
-        var count = 0;
-        $("#collapse-content").hide();
-
-        $("#addBtn").click(function(){
-            count++;
-            if(count % 2 != 0){
-                $("#collapse-content").show();
-                document.getElementById("doc-content").style.marginTop = "50px";
-                document.getElementById("add-content").style.height = "150px";
-                document.getElementById("doc-content").style.height = "430px";
-
-            }else{
-                $("#collapse-content").hide();
-                document.getElementById("doc-content").style.marginTop = "0px";
-                document.getElementById("add-content").style.height = "60px";
-                document.getElementById("doc-content").style.height = "500px";
-
-            }
-        })
-    })
+    // $(document).ready(function(){
+    //     var count = 0;
+    //     $("#collapse-content").hide();
+    //
+    //     $("#addBtn").click(function(){
+    //         count++;
+    //         if(count % 2 !== 0){
+    //             $("#collapse-content").show();
+    //             document.getElementById("doc-content").style.marginTop = "50px";
+    //             document.getElementById("add-content").style.height = "150px";
+    //             document.getElementById("doc-content").style.height = "430px";
+    //
+    //         }else{
+    //             $("#collapse-content").hide();
+    //             document.getElementById("doc-content").style.marginTop = "0px";
+    //             document.getElementById("add-content").style.height = "60px";
+    //             document.getElementById("doc-content").style.height = "500px";
+    //
+    //         }
+    //     })
+    // });
+    var docAddBtn = document.getElementById("addBtn");
+    docAddBtn.onclick = function() {
+        var collapseContent = document.getElementById("collapse-content");
+        if (collapseContent.style.display === 'none') {
+            collapseContent.style.display = 'block';
+            document.getElementById("doc-content").style.marginTop = "50px";
+            document.getElementById("add-content").style.height = "150px";
+            document.getElementById("doc-content").style.height = "430px";
+        } else {
+            collapseContent.style.display = 'none';
+            document.getElementById("doc-content").style.marginTop = "0px";
+            document.getElementById("add-content").style.height = "60px";
+            document.getElementById("doc-content").style.height = "500px";
+        }
+    };
 });
 

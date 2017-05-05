@@ -26,8 +26,14 @@ public class CourseController {
     }
 
     @ModelAttribute("course")
-    public CourseModel getAssignmentModel(){
+    public CourseModel getCourseModel(){
         return new CourseModel();
+    }
+
+    @RequestMapping(value="/updateIsOwner", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody boolean updateIsOwner(@RequestParam(value = "isOwner") boolean isOwner, HttpSession session){
+        session.setAttribute("isOwner", isOwner);
+        return isOwner;
     }
 
     /**
@@ -63,6 +69,12 @@ public class CourseController {
     @RequestMapping(value="/enrollCourse", method = RequestMethod.GET)
     public @ResponseBody CourseModel enrollCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
         return new CourseDAO().enrollCourse((Integer)session.getAttribute("id"),course);
+    }
+
+    @RequestMapping(value="/searchCourse", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<CourseModel> searchCourse(@ModelAttribute("course") CourseModel course,
+                                 @RequestParam(value = "tagNames", required = false) ArrayList<String> tagNames,HttpSession session) {
+        return new CourseDAO().searchCourse(course, tagNames, (Integer)session.getAttribute("id"));
     }
 
 }

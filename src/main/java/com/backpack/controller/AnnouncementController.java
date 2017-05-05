@@ -61,8 +61,4 @@ public class AnnouncementController {
     ArrayList<AnnouncementModel> getAnnouncement(@ModelAttribute("announcement") AnnouncementModel announcement, HttpSession session) {
         return new AnnouncementDAO().getAnnouncement(announcement);
     }
-
-
-
-
 }

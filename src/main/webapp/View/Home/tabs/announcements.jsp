@@ -17,7 +17,7 @@
 <body ng-controller="announcementsCtrl" id="announcementBody" class="container-fluid">
 <div class="container-fluid" id="announcementDiv">
     <c:choose>
-        <c:when test="${userType eq 'prof'}">
+        <c:when test="${userType eq 'prof' && isOwner eq true}">
             <%--Adding an announcement--%>
             <div id="addAnnouncementDiv">
                 <form id="addAnnouncementForm">
@@ -40,7 +40,7 @@
     <div class="announcementContainer" id="announcement-{{$index}}" ng-repeat="announcement in announcementList" testdirective="">
         <div class="row">
             <c:choose>
-                <c:when test="${userType eq 'prof'}">
+                <c:when test="${userType eq 'prof' && isOwner eq true}">
                     <%--Do not use ng-model for title so we save the title if they select cancel edit--%>
                     <h4><input type="text" class="col-xs-10 announcementTitle" placeholder="Announcement Title" id="announcementTitle-{{$index}}" value="{{announcement.title}}"  maxlength="30" disabled="disabled" >
                     </h4>
@@ -49,7 +49,7 @@
                     <btn class="btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteAnnouncement(announcement)">
                     </btn>
                 </c:when>
-                <c:when test="${userType eq 'stud'}">
+                <c:when test="${userType eq 'stud' || isOwner eq false}">
                     <%--Do not use ng-model for title so we save the title if they select cancel edit--%>
                     <h4 class="announcementTitle" id="announcementTitle-{{$index}}">{{announcement.title}}</h4>
                 </c:when>
@@ -63,7 +63,7 @@
         <%--Announcement Description [Div that gets turned into a quill editor]--%>
         <div class="annnouncementEditors" id="announcementDescription-{{$index}}"></div>
         <c:choose>
-            <c:when test="${userType eq 'prof'}">
+            <c:when test="${userType eq 'prof' and isOwner eq true}">
                 <span class="error" id="announcementQuillError-{{$index}}">Announcement Description is Empty!</span>
                 <br>
                 <button class="updateAnnouncement btn-md btn-primary" id="updateButton-{{$index}}" ng-click="updateAnnouncement(announcement, $index)">Update Announcement</button>

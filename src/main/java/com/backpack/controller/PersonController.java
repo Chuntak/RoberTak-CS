@@ -48,6 +48,7 @@ public class PersonController {
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
         session.setAttribute("userType", person.getUserType());
+        session.setAttribute("isOwner", person.getUserType().equals("prof"));
         return "home";
     }
 
@@ -74,6 +75,7 @@ public class PersonController {
         session.setAttribute("firstName", person.getFirstName());
         session.setAttribute("lastName", person.getLastName());
         session.setAttribute("userType", person.getUserType());
+        session.setAttribute("isOwner", person.getUserType().equals("prof"));
         return "home";
     }
 

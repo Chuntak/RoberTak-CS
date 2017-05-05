@@ -17,7 +17,7 @@
 
         <c:choose>
             <%-- ONLY PROF CAN CREATE ASSIGNMENTS --%>
-            <c:when test="${userType eq 'prof'}">
+            <c:when test="${userType eq 'prof' && isOwner eq true}">
                 <div class="asgmt-create">
                     <div class="list-group-item-success">
                         <h4 class="panel-title">
@@ -73,7 +73,7 @@
         <div ng-repeat="asgmt in assignments" class="list-group-item assignment">
             <c:choose>
                 <%-- ONLY PROFS CAN EDIT/REMOVE--%>
-                <c:when test="${userType eq 'prof'}">
+                <c:when test="${userType eq 'prof' && isOwner eq true}">
                     <span ng-click="deleteAssignment(asgmt)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show"></span>
                     <span class="badge btn-xs col-sm-1 glyphicon glyphicon-pencil clickable on-show"></span>
                     <%--<span class="badge  clickable on-show">Cancel</span>--%>

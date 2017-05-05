@@ -18,17 +18,16 @@
 <div ng-controller="docCtrl">
     <c:choose>
         <%--IF PROFESSOR, APPLY THIS FUNCTIONALITY--%>
-        <c:when test="${userType eq 'prof'}">
+        <c:when test="${userType eq 'prof' && isOwner eq true}">
             <div id="add-content">
                 <button type="button" class="btn btn-primary addDocBtn" id="addBtn">Add New Document</button>
-                <div id="collapse-content">
+                <div class="display-off" id="collapse-content">
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" ng-model="doc.title" placeholder="Title" />
-                        <textarea placeholder="Description" ng-model="doc.description" class="description-text"></textarea>
+                        <input type="text" class="form-control" ng-model="document.title" placeholder="Title" />
+                        <textarea placeholder="Description" ng-model="document.description" class="description-text"></textarea>
                     </div>
-
                         <%--FILE UPLOAD--%>
-                    <input type="file" file-model="doc.file" class="pickFileBtn"/>
+                    <input type="file" file-model="document.file" class="pickFileBtn"/>
                     <button id="docSubmit" type="button" ng-click="uploadDocument()" class="btn btn-primary">Upload Document</button>
                     <input id="clearBtn" type="button" value="Cancel" ng-click="clearTextBox()"/>
                 </div>
@@ -46,9 +45,8 @@
                 <p>{{document.description}}</p>
             </div>
             <c:choose>
-
                 <%--<&-- IF PROFESSOR, APPLY THIS FUNCTIONALITY --&>--%>
-                <c:when test="${userType eq 'prof'}">
+                <c:when test="${userType eq 'prof' && isOwner eq true}">
                     <div class="toolBtn">
                         <%--<!-- DELETE DOCUMENT BUTTON-->--%>
                         <btn class="btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteDocument(document)"></btn>
@@ -62,14 +60,14 @@
         <c:choose>
             <%--<!-- IF PROFESSOR, APPLY THIS FUNCTIONALTY -->--%>
             <%--<!-- EDIT DOCUMENT -->--%>
-            <c:when test="${userType eq 'prof'}">
+            <c:when test="${userType eq 'prof' && isOwner eq true}">
                 <script type="text/ng-template" id="edit">
                     <div class="col-lg-6">
-                        <input type="text" class="form-control editInput" ng-model="document.title"/>
-                        <textarea type="text" ng-model="document.description" class="description-edit"></textarea>
+                        <input type="text" class="form-control editInput" ng-model="selectedDocument.title"/>
+                        <textarea type="text" ng-model="selectedDocument.description" class="description-edit"></textarea>
                     </div>
                     <div class="editBtn">
-                        <input type="file" file-model="doc.file" class="replaceFileBtn"/>
+                        <input type="file" file-model="selectedDocument.file" class="replaceFileBtn"/>
                         <button ng-click="saveDocument($index,document)" class="btn btn-primary">Save</button>
                         <button ng-click="reset()" class="btn btn-primary">Cancel</button>
                     </div>

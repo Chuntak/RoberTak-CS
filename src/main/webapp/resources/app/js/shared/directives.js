@@ -13,10 +13,10 @@ angular.module('homeApp').factory('global', function($http) {
 
     properties.getCourseId = function() {
         return properties.courseId;
-    }
+    };
     properties.setCourseId = function(crsId) {
         properties.courseId = crsId;
-    }
+    };
 
     return properties;
 });
