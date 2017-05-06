@@ -68,7 +68,7 @@
                 </div>
                 <div class="form-group form-inline">
                     <label>Question</label>
-                    <input type="text" ng-model="question.description">
+                    <input type="text" ng-model="question.question">
                 </div>
                 <div class="form-group form-inline">
                     <label>Question Answer</label>
@@ -113,7 +113,7 @@
                     <div class="form-inline">
                         <input list="taggs"  ng-model="quiz.selectedTag" class="form-control tagList" name="taggs">
                         <datalist id="taggs">
-                            <option ng-repeat="tagg in tagList">{{tag}}</option>
+                            <option ng-repeat="tag in tagList">{{tag}}</option>
                         </datalist>
                         <button type="button" class="btn addTagBtn" ng-click="addTag(quiz)">Add Tag</button>
                     </div>
@@ -135,7 +135,7 @@
                         </div>
                         <div class="form-group form-inline">
                             <label>Question</label>
-                            <input type="text" ng-model="question.description">
+                            <input type="text" ng-model="question.question">
                         </div>
                         <div class="form-group form-inline">
                             <label>Question Answer</label>
@@ -147,7 +147,7 @@
                     <button class="btn btn-primary" ng-click="addQuestion(quiz)">Add new question</button>
                 </div>
                 <button data-toggle="collapse" data-target="#quizEditor{{$index}}" class="btn btn-primary" ng-click="saveQuestion(quiz)">Save Edit</button>
-                <button data-toggle="collapse" data-target="#quizEditor{{$index}"} class="btn btn-primary" ng-click="cancel(quiz)">Cancel Edit</button>
+                <button data-toggle="collapse" data-target="#quizEditor{{$index}}" class="btn btn-primary" ng-click="cancel(quiz)">Cancel Edit</button>
             </div>
         </div>
     </div>

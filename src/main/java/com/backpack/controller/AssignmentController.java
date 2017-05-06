@@ -87,7 +87,7 @@ public class AssignmentController {
 
     @RequestMapping(value="/deleteAssignment", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
-    boolean deleteAssignment(@ModelAttribute("assignment") AssignmentModel assignment, HttpSession session) {
+    int deleteAssignment(@ModelAttribute("assignment") AssignmentModel assignment, HttpSession session) {
         return new AssignmentDAO().deleteAssignment(assignment);
     }
 

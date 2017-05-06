@@ -64,6 +64,20 @@ public class TagDAO  extends DAOBase{
         return allSuccess;
     }
 
+    public boolean updateTaggedGradable(ArrayList<String> tagNames, int gradableId) {
+        boolean allSuccess = true; /*USED TO RETURN IF ALL UPDATES HAS BEEN A SUCCESS, FOR NOW THERE IS NO WAY TO CHECK IF IT FAILED SO IT IS ALWAYS TRUE*/
+        if(tagNames.size() > 0) {
+            /*THIS WILL FIRST DELETE ALL THE RELATIONS FROM TAGS AND THAT SUSPECTIC COURSE*/
+            String query = "call delete_taggedAssignment(?)";
+            dbs.getJdbcTemplate().update(query, gradableId);
+            query = "call update_taggedAssignment(?,?)";
+            for(String tagName : tagNames) {
+                dbs.getJdbcTemplate().update(query, tagName, gradableId);
+            }
+        }
+        return allSuccess;
+    }
+
 
     /*we add tags to our database secretly*/
     public void updateTag(TagModel tm){

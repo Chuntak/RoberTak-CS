@@ -121,15 +121,16 @@ public class AssignmentDAO extends DAOBase {
     }
 
     /*deletes assignment from the database*/
-    public boolean deleteAssignment(AssignmentModel am) {
+    public int deleteAssignment(AssignmentModel am) {
         String query = "call delete_gradable(?)";
         int rowsAffected = dbs.getJdbcTemplate().update(query, am.getId());
 
         /* DELETE FILE FROM STORAGE IF ANY */
         if(am.getHwBlobName() == null || am.getHwBlobName().equals("")){
-            return true;
+            return am.getId();
         }
-        return dbs.deleteFile(am.getHwBlobName());
+        dbs.deleteFile(am.getHwBlobName());
+        return am.getId();
         //return deleteHWFileModel(0, am.getId());
     }
 

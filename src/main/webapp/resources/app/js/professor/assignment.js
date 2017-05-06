@@ -140,9 +140,15 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
 
     /* REMOVE ASSIGNMENT */
     $scope.deleteAssignment = function(assignment){
-        httpAssignmentFactory.deleteAssignment(assignment).success(function(response){
+        httpAssignmentFactory.deleteAssignment(assignment).then(function(response){
+            for(var i = 0; i < $scope.assignments.length; i++){
+                if($scope.assignments[i].id === response.data){
+                    $scope.assignments.splice(i,1);
+                    break;
+                }
+            }
             debugger;
-        }).error(function(response){
+        }).then(function(response){
             console.log("deleteAssignment Error: " + response);
         });
     }

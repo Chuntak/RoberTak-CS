@@ -1,11 +1,13 @@
 package com.backpack.models;
 
+
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Admin on 5/5/2017.
+ * Created by CHUNTAK on 5/5/2017.
  */
-public class QuizModel {
+public class QuizModel{
     /* ID OF QUIZ IN DB */
     private int id;
     /* ID OF COURSE THE QUIZ BELONGS TO */
@@ -14,9 +16,13 @@ public class QuizModel {
     private String title;
     /* DATE THE QUIZ IS DUE*/
     private Date dueDate;
-    /* THE TYPE SHOWN IN THE DATABASE*/
-    private String gradableType;
 
+    /* LIST OF PROBLEMS*/
+    private ArrayList<ProblemModel> problems;
+
+
+    /* THE MAX GRADE FOR THE QUIZ*/
+    private double maxGrade;
 
     public int getId() {
         return id;
@@ -50,12 +56,21 @@ public class QuizModel {
         this.dueDate = dueDate;
     }
 
-    public String getGradableType() {
-        return gradableType;
+
+    public double getMaxGrade() {
+        return maxGrade;
     }
 
-    public void setGradableType(String gradableType) {
-        this.gradableType = gradableType;
+    public void setMaxGrade(double maxGrade) {
+        this.maxGrade = maxGrade;
+    }
+
+    public ArrayList<ProblemModel> getProblems() {
+        return problems;
+    }
+
+    public void setProblems(ArrayList<ProblemModel> problems) {
+        this.problems = problems;
     }
 
 }

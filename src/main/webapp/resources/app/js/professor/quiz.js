@@ -1,9 +1,27 @@
 /**
- * Created by Calvin on 5/5/2017.
+ * Created by Calvin, Chuntak on 5/5/2017.
  */
+/* FACTORY TO HANDLE HTTP REQUEST LOGIC */
+angular.module('homeApp').factory('httpQuizFactory', function($http, global) {
+    /* SET SINGLETON LIKE OBJECT */
+    var properties = this;
+
+    /*SAVE THE QUIZ*/
+    properties.saveQuiz = function(quiz) {
+        debugger;
+        var parameters = { "id" : quiz.id, "title" : quiz.title, "courseId" :
+            global.getCourseId(),  "tagNames" : quiz.quizTaggedList, "problemList" : quiz.questionList };
+        return $http.get("/updateQuiz", { params : parameters} );
+    };
+
+
+    return properties;
+});
+
+
 var app = angular.module('homeApp');
 /*Grades Controller*/
-app.controller('quizCtrl', function ($scope, $http, $state, global) {
+app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFactory) {
     $scope.quizList = [];
 
     /* INIT THE DATEPICKER */
@@ -29,7 +47,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global) {
     $scope.makeQuiz = function (){
         $('#addQuizBtn').attr("disabled", true);
         $('#quizCreation').fadeToggle('fast');
-        $scope.addQuiz = {title:"Untitled",quizTaggedList:[],selectedTag : "", questionList:[]};
+        $scope.addQuiz = {id:0,title:"Untitled",quizTaggedList:[],selectedTag : "", questionList:[]};
     };
 
     /*ADD TAG */
@@ -52,7 +70,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global) {
     };
 
     $scope.makeQuestion = function (quiz) {
-        quiz.questionList.push({title:"Question "+(quiz.questionList.length+1),description:"",answer:""});
+        quiz.questionList.push({title:"Question "+(quiz.questionList.length+1), question:"",answer:""});
     };
 
     $scope.saveQuiz = function (quiz) {
@@ -62,7 +80,6 @@ app.controller('quizCtrl', function ($scope, $http, $state, global) {
         //quiz.dueDate = new Date(quiz.date + " " + quiz.time).getTime();
         quiz.backUp = {title:quiz.title , quizTaggedList: quiz.quizTaggedList,
             selectedTag: quiz.selectedTag, questionList: quiz.questionList,date:quiz.date, time: quiz.time};
-        debugger;
         $scope.quizList.push(quiz);
 
     };
@@ -78,8 +95,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global) {
 
     };
 
-    $scope.canelEdit = function(quiz){
+    $scope.cancelEdit = function(quiz){
         debugger;
-
     };
 });
