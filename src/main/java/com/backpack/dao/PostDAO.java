@@ -44,10 +44,14 @@ public class PostDAO extends DAOBase {
         return ((BigInteger) ((Map)l.get(0)).get("(LAST_INSERT_ID())")).intValue();
     }
 
+    public int updateLikes(int userId, Integer postId){
+        String query = "call update_likes(?,?)";
+        return dbs.getJdbcTemplate().update(query, userId, (int)postId);
+    }
     /*gets user by email, calls to the database*/
-    public ArrayList<PostModel> getPosts(PostModel pm) {
-        String query = "call get_posts(?,?)";
-        ArrayList<PostModel> al = dbs.getJdbcTemplate().query(query, new Object[] {pm.getId(), pm.getCrsId()} , new PostModelExtractor());
+    public ArrayList<PostModel> getPosts(PostModel pm, int personId) {
+        String query = "call get_posts(?,?,?)";
+        ArrayList<PostModel> al = dbs.getJdbcTemplate().query(query, new Object[] {pm.getId(), pm.getCrsId(), personId} , new PostModelExtractor());
         return al;
     }
 
@@ -66,9 +70,10 @@ public class PostDAO extends DAOBase {
                     if (columnExists(rs, "authorId")) pm.setAuthorId(rs.getInt("authorId"));
                     if (columnExists(rs, "header")) pm.setHeader(rs.getString("header"));
                     if (columnExists(rs, "content")) pm.setContent(rs.getString("content"));
-                    if (columnExists(rs, "dateCreated")) pm.setDateCreated(rs.getDate("dateCreated"));
+                    if (columnExists(rs, "dateCreated")) pm.setDate(rs.getTimestamp("dateCreated"));
                     if (columnExists(rs, "commentCount")) pm.setCommentCount(rs.getInt("commentCount"));
-                    if (columnExists(rs, "content")) pm.setLikes(rs.getInt("likes"));
+                    if (columnExists(rs, "likes")) pm.setLikes(rs.getInt("likes"));
+                    if (columnExists(rs, "liked")) pm.setLiked(rs.getInt("liked"));
                     pml.add(pm);
                 }
             }

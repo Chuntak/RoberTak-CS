@@ -1,4 +1,5 @@
 package com.backpack.models;
+import java.sql.Timestamp;
 import java.util.Date;
 /**
  * Created by rvtru on 4/20/2017.
@@ -17,6 +18,7 @@ public class PostModel {
     private int commentCount;
     private int likes;
     private boolean editable;
+    private int liked;
 
     public PostModel(){
         id=0;
@@ -32,6 +34,15 @@ public class PostModel {
         crsId=0;
         parentId=0;
         editable = false;
+        liked = -1;
+    }
+
+    public int getLiked(){
+        return liked;
+    }
+
+    public void setLiked(int liked){
+        this.liked = liked;
     }
     public int getId() {
         return id;
@@ -91,6 +102,12 @@ public class PostModel {
 
     public Date getDateCreated() {
         return dateCreated;
+    }
+
+    public void setDate(Timestamp date){
+        long l = date.getTime();
+        Date d = new Date(l);
+        this.dateCreated = d;
     }
 
     public void setDateCreated(Date dateCreated) {

@@ -23,7 +23,7 @@ app.directive('fileModel', ['$parse', function ($parse) {
 app.factory('httpAssignmentFactory', function($http, global) {
     /* SET SINGLETON LIKE OBJECT */
     var properties = this;
-
+    /* getAssignments - returns array of assignments */
     properties.getAssignments = function(){
         //return $http.get('/getAssignments', {"crsId" : global.getCourseId(), "gradableType" : "hw"});
         return $http.get("/getAssignments", {
@@ -33,7 +33,6 @@ app.factory('httpAssignmentFactory', function($http, global) {
             }
         });
     }
-
     /* updateAssignment - adds or updates an assignment */
     properties.updateAssignment = function(newAsgmt) {
         /* CONVERT TIME TO PROPER FORMAT HH:MM:SS */
@@ -69,6 +68,7 @@ app.factory('httpAssignmentFactory', function($http, global) {
             return $http.post('/updateAssignment', params);
         }
     }
+    /* deleteAssignment - deletes an assigment and any attached files previously uploaded */
     properties.deleteAssignment = function(assignment){
         return $http({
             method: 'GET',

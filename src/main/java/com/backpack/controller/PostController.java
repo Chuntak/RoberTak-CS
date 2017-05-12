@@ -28,7 +28,7 @@ public class PostController {
         this.BackpackService = BackpackService;
     }
 
-    /*add/update a course*/
+    /*add/update a post*/
     @RequestMapping(value="/updatePost", method = RequestMethod.GET)
     public @ResponseBody
     int updatePost(@ModelAttribute("post") PostModel post, HttpSession session) {
@@ -38,10 +38,20 @@ public class PostController {
         return new PostDAO().updatePost(post);
     }
 
+    /*add/update a post*/
+    @RequestMapping(value="/updateLikes", method = RequestMethod.GET)
+    public @ResponseBody
+    int updateLikes(Integer postId, HttpSession session) {
+        if ((!(boolean) session.getAttribute("isOwner")) && !((String) session.getAttribute("userType")).equals("stud")){
+            return -1;
+        }
+        return new PostDAO().updateLikes((int)session.getAttribute("id"), postId);
+    }
+
     /*gets the course returns the arraylist course can return professor names/email*/
     @RequestMapping(value="/getPost", method = RequestMethod.GET)
     public @ResponseBody ArrayList<PostModel> getPost(@ModelAttribute("post") PostModel post, HttpSession session) {
-        ArrayList<PostModel> pl = new PostDAO().getPosts(post);
+        ArrayList<PostModel> pl = new PostDAO().getPosts(post, (int)session.getAttribute("id"));
         int userId = (int)session.getAttribute("id");
         for(int i=0; i<pl.size();i++){
             if(pl.get(i).getAuthorId() == userId){

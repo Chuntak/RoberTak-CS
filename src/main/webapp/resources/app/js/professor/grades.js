@@ -148,8 +148,8 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     /*Get all enrolled in the course and their respective grade*/
 
     /**
-     * GETS THE GRADEABLES AND THE GRADES OF ALL ENROLLED
-     * 1. Get the gradeables
+     * GETS THE GRADABLES AND THE GRADES OF ALL ENROLLED
+     * 1. Get the gradables
      * 2. Get all people enrolled
      * 3. For each person enrolled, display their grade
      */
