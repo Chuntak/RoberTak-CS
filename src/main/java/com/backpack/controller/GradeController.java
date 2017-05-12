@@ -72,7 +72,7 @@ public class GradeController {
         return new GradeDAO().getGradable(gradable);
     }
 
-    /*update DOCUMENT*/
+    /*update GRADABLE*/
     @RequestMapping(value="/updateGradable", method = RequestMethod.GET , produces="application/json")
     public @ResponseBody
     GradableModel updateGradable(@ModelAttribute("gradable") GradableModel gradable, HttpSession session) {
@@ -80,11 +80,12 @@ public class GradeController {
         return dm;
     }
 
-    /*Delete DOCUMENT*/
+    /*Delete GRADABLE*/
     @RequestMapping(value="/deleteGradable", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
     boolean deleteGradable(@ModelAttribute("gradable") GradableModel gradable, HttpSession session) {
-        return new GradeDAO().deleteGradable(gradable);
+        boolean gdao = new GradeDAO().deleteGradable(gradable);
+        return gdao;
     }
 
 }

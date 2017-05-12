@@ -2,6 +2,8 @@
     height: 100%;
     width: 100%;
     overflow-y: auto;
+    /*margin-top: 10px;*/
+    /*margin-left: -9px;*/
 }
 
 /*#accordion{*/
@@ -39,4 +41,68 @@
     padding: 10px 15px;
     margin-bottom: -1px;
     border: 1px solid #ddd;
+}
+
+.post label{
+    /*margin-left: 50%;*/
+    margin-bottom: 0px !important;
+    font-size: 9pt;
+}
+
+.post p{
+    margin-bottom: 0px !important;
+}
+
+.posts .row{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+.posts .author{
+    padding-left: 0px !important;
+}
+
+.posts span{
+    padding-left: 0px !important;
+}
+
+.likes-sect{
+    margin-top: 10px;
+
+}
+.likes{
+    margin-top: 1px;
+    margin-left: -5px;
+}
+
+/* MOVE ICON TO CORRECT POSITION AND OVERWRITE btn CSS */
+.likes-icon{
+    margin-left: -20px;
+    margin-top: -1px;
+    padding: 0 0 !important;
+    font-size: 9pt !important;
+    line-height: 1 !important;
+    border: 0px !important;
+}
+
+.cmt-cnt-sect{
+    margin-top: 10px;
+}
+.cmt-cnt-icon{
+    margin-left: -15px;
+}
+.cmt-cnt{
+    margin-top: 1px;
+}
+
+.dateDisplay{
+    margin-top: 10px;
+}
+
+.liked{
+    font-weight: 900 !important;
+}
+
+.not-liked{
+    font-weight: 300 !important;
 }

@@ -59,7 +59,7 @@ public class GradeDAO extends DAOBase{
     /* DELETE A GRADABLE*/
     public boolean deleteGradable(GradableModel gm) {
         String query = "call delete_gradable(?)";
-        gm = dbs.getJdbcTemplate().query(query, new Object[]{gm.getId()}, new GradableModelExtractor()).get(0);
+        int rowAffect = dbs.getJdbcTemplate().update(query, gm.getId());
         return true;
     }
 
