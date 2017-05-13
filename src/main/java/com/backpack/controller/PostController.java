@@ -31,11 +31,30 @@ public class PostController {
     /*add/update a post*/
     @RequestMapping(value="/updatePost", method = RequestMethod.GET)
     public @ResponseBody
-    int updatePost(@ModelAttribute("post") PostModel post, HttpSession session) {
+    PostModel updatePost(@ModelAttribute("post") PostModel post, HttpSession session) {
+        /* CHECK THAT USER ISN'T VISITING PROFESSOR */
         if((!(boolean) session.getAttribute("isOwner")) && ((String)session.getAttribute("userType")).equals("prof"))
-            return -1;
+            return null;
+        /* IF EDITING A POST, CHECK THAT USER IS AUTHOR OF POST */
+        if (post.getId() > 0 && (int)session.getAttribute("id")!= post.getAuthorId()){
+            return null;
+        }
+        /* SET AUTHOR ID FOR DB */
         post.setAuthorId((int)session.getAttribute("id"));
-        return new PostDAO().updatePost(post);
+        /* UPDATE POST IN DB AND RETURN NEW POST ID */
+        int postId = new PostDAO().updatePost(post);
+        /* CREATE THE POSTMODEL TO RETURN */
+        PostModel ret = new PostModel();
+        /* SET THE POST ID */
+        ret.setId(postId);
+        /* SET THE AUTHOR ID */
+        ret.setAuthorId((int)session.getAttribute("id"));
+        /* RETURN AUTHOR NAME IF NOT ANON */
+        if(!post.isAnon()){
+            ret.setFirstName((String)session.getAttribute("firstName"));
+            ret.setLastName((String)session.getAttribute("lastName"));
+        }
+        return ret;
     }
 
     /*add/update a post*/
@@ -61,4 +80,22 @@ public class PostController {
         return pl;
     }
 
+    /**
+     * deletePost - deletes a post from the db
+     * @param post - the post to be deleted
+     * @param session - the session with current user info
+     * @return true/false if deleted
+     */
+    @RequestMapping(value="/deletePost", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody
+    boolean deletePost(@ModelAttribute("post") PostModel post, HttpSession session) {
+        /* CAN'T DELETE POST IF YOU ARE NOT THE PROF OF COURSE, OR IF YOU ARE STUDENT BUT NOT AUTHOR */
+        if (((!(boolean) session.getAttribute("isOwner")) && ((String) session.getAttribute("userType")).equals("prof"))
+                || ((int)session.getAttribute("id")!= post.getAuthorId() && ((String) session.getAttribute("userType")).equals("stud"))){
+            return false;
+        }
+        /* SET SESSION USER ID AS AUTHORID FOR SECURITY */
+        post.setAuthorId((int)session.getAttribute("id"));
+        return new PostDAO().deletePost(post);
+    }
 }

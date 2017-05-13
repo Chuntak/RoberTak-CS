@@ -160,7 +160,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
             reloadData();
             /*ENABLE POSTING IN FORUMS*/
             document.getElementById("accordion").disabled = false;
-            // document.getElementById("commentTextAreaId").disabled = false;
         }).error(function(response){console.log("select course to server error")});
         /* RELOAD TAB DATA */
     };

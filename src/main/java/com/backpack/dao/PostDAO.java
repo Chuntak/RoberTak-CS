@@ -26,16 +26,18 @@ public class PostDAO extends DAOBase {
 
     /*calls to the database and update post (add/edit)*/
     public int updatePost(PostModel pm) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        String timeString = df.format(new Date()).substring(10);
-        DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
-        String startUserDateString = df2.format(new Date());
-        startUserDateString = startUserDateString+" "+timeString;
-
-        try {
-            pm.setDateCreated(df.parse(startUserDateString));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        /* IF THERE IS NO ID, THEN FORMAT TIME FOR NEW POST */
+        if(pm.getId() == 0){
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            String timeString = df.format(new Date()).substring(10);
+            DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+            String startUserDateString = df2.format(new Date());
+            startUserDateString = startUserDateString+" "+timeString;
+            try {
+                pm.setDateCreated(df.parse(startUserDateString));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         String query = "call update_post(?,?,?,?,?,?,?,?)";
@@ -53,6 +55,12 @@ public class PostDAO extends DAOBase {
         String query = "call get_posts(?,?,?)";
         ArrayList<PostModel> al = dbs.getJdbcTemplate().query(query, new Object[] {pm.getId(), pm.getCrsId(), personId} , new PostModelExtractor());
         return al;
+    }
+
+    public boolean deletePost(PostModel pm) {
+        String query = "call delete_post(?,?)";
+        pm = dbs.getJdbcTemplate().query(query, new Object[]{pm.getId(), pm.getAuthorId()}, new PostModelExtractor()).get(0);
+        return true;
     }
 
     /*private class to retrieve a list of posts from the resultset returned from the database*/

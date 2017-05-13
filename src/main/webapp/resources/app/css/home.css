@@ -1,6 +1,14 @@
-body{
-    overflow-x: hidden;
+/*
+  Allow angular.js to be loaded in body, hiding cloaked elements until
+  templates compile.  The !important is important given that there may be
+  other selectors that are more specific or come later and might alter display.
+ */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
 
+::-webkit-scrollbar {
+    display: none;
 }
 
 .col-md-12 {
@@ -23,10 +31,26 @@ body{
     background-color: #606060;
 }
 
-.app-wrapper{
-    height: 78%;
+/*.app-wrapper{*/
+    /*height: 78%;*/
+    /*background-color: #ececec;*/
+/*}*/
+* {
+    margin: 0;
+}
+body {
+    overflow: hidden;
+}
+.app-wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto; /*-15px; /* the bottom margin is the negative value of the footer's height */
     background-color: #ececec;
 }
+/*.footer, .push {*/
+    /*height: 15px; !* .push must be the same height as .footer *!*/
+/*}*/
 
 .content.container-fluid{
    padding: 0 0 0 0;
@@ -35,13 +59,16 @@ body{
 /*CSS for Panes INIT/Header*/
 .coursePane{
     margin-top: 10px;
+    overflow: auto;
 }
 
 .tabPane{
+    margin-top: 10px;
     margin-left: -10px;
 }
 
 .forumPane{
+    margin-top: 10px;
     margin-left: -9px;
     width: 100%;
 }
@@ -93,7 +120,7 @@ body{
 
 /*Make the tabs scrollable */
 .tabScroll.panel.panel-default{
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
 }
 

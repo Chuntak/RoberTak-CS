@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by Chuntak on 4/2/2017.
  */
 public class PersonDAO extends DAOBase {
-    /*checks if the user is registered via the databse*/
+    /*checks if the user is registered via the database*/
     public boolean checkUser(PersonModel pm){
         String query = "call get_user(?)";
         List l = dbs.getJdbcTemplate().queryForList(query, new Object[]{pm.getEmail()});

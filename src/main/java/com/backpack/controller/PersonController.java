@@ -98,4 +98,16 @@ public class PersonController {
     ArrayList<PersonModel> getCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
         return new PersonDAO().getEnrolled(course.getId());
     }
+
+    /**
+     * getUserId - get the user id from the session
+     * @param session - current user session
+     * @return - user id
+     */
+    @RequestMapping(value = "/getId", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody int getUserId(HttpSession session){
+        // RETURN USER ID
+        return (int)session.getAttribute("id");
+
+    }
 }
