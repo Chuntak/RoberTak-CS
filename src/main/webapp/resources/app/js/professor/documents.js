@@ -20,7 +20,7 @@ angular.module('homeApp').directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 /*Document Controller
-* ADD DOCUMENT */
+ * ADD DOCUMENT */
 angular.module('homeApp').controller('docCtrl', function ($scope, $http, global) {
     $scope.global = global;
     $scope.document = {};
@@ -47,7 +47,6 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
                     "courseId": global.getCourseId()
                 }
             }).success(function (response) {
-                debugger;
                 var documentJson = response;
                 $scope.documents.push(documentJson);
                 document.getElementById("collapse-content").className = "display-off";
@@ -118,7 +117,6 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         $scope.oldDocument.viewLink = document.viewLink;
 
         $scope.selectedDocument = document; //jQuery.extend(true, {}, document);
-        debugger;
     };
 
     /*SAVES FROM EDIT DOCUMENT*/
@@ -162,7 +160,6 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
                     }
                 }
             ).then(function (response) {
-                debugger;
             }, function errorCallBack(response) {
                 alert("Edit Document Error\n");
             });
@@ -187,21 +184,4 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         $scope.oldDocument = {};
     };
 
-    /* Add New Document Collapse */
-    var docAddBtn = document.getElementById("addBtn");
-    docAddBtn.onclick = function() {
-        var collapseContent = document.getElementById("collapse-content");
-        if (collapseContent.className === 'display-off') {
-            collapseContent.className = 'display-on';
-            document.getElementById("doc-content").style.marginTop = "50px";
-            document.getElementById("add-content").style.height = "150px";
-            document.getElementById("doc-content").style.height = "430px";
-        } else {
-            collapseContent.className = 'display-off';
-            document.getElementById("doc-content").style.marginTop = "0px";
-            document.getElementById("add-content").style.height = "60px";
-            document.getElementById("doc-content").style.height = "500px";
-        }
-    };
 });
-
