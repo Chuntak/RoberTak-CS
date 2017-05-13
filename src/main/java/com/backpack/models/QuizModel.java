@@ -17,9 +17,13 @@ public class QuizModel{
     /* DATE THE QUIZ IS DUE*/
     private Date dueDate;
 
-    /* LIST OF PROBLEMS*/
-    private ArrayList<ProblemModel> problems;
 
+    /* LIST OF PROBLEMS*/
+    private ArrayList<ProblemModel> questionList;
+
+
+    /* LIST OF TAGS */
+    private ArrayList<String> quizTaggedList;
 
     /* THE MAX GRADE FOR THE QUIZ*/
     private double maxGrade;
@@ -52,10 +56,18 @@ public class QuizModel{
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    /* SETTER USE BY MAPPING FROM CLIENT */
+    public void setDueDate(long dueDate) {
+        this.dueDate = new Date(dueDate);
     }
-
+    /* SETTER TO/FROM DB*/
+    public void setDate(java.sql.Timestamp dueDate){
+        if(dueDate != null) {
+            long l = dueDate.getTime();
+            Date d = new Date(l);
+            this.dueDate = d;
+        }
+    }
 
     public double getMaxGrade() {
         return maxGrade;
@@ -65,12 +77,21 @@ public class QuizModel{
         this.maxGrade = maxGrade;
     }
 
-    public ArrayList<ProblemModel> getProblems() {
-        return problems;
+    public ArrayList<ProblemModel> getQuestionList() {
+        return questionList;
     }
 
-    public void setProblems(ArrayList<ProblemModel> problems) {
-        this.problems = problems;
+    public void setQuestionList(ArrayList<ProblemModel> questionList) {
+        this.questionList = questionList;
     }
+
+    public ArrayList<String> getQuizTaggedList() {
+        return quizTaggedList;
+    }
+
+    public void setQuizTaggedList(ArrayList<String> quizTaggedList) {
+        this.quizTaggedList = quizTaggedList;
+    }
+
 
 }

@@ -17,6 +17,10 @@ angular.module('homeApp').factory('global', function($http) {
     properties.setCourseId = function(crsId) {
         properties.courseId = crsId;
     };
+    /*GETS THE TAGS FROM DATABASE FOR SELECTION*/
+    properties.getTag = function() {
+        return $http.get("/getTag");
+    };
 
     return properties;
 });

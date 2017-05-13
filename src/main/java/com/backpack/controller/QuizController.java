@@ -34,18 +34,14 @@ public class QuizController {
         return new ProblemModel();
     }
 
-    @ModelAttribute("problemlist")
-    public ArrayList<ProblemModel> getProblemListModel(){
-        return new ArrayList<ProblemModel>();
-    }
-
-    @RequestMapping(value="/updateQuiz", method = RequestMethod.GET)
+    @RequestMapping(value="/updateQuiz", method = RequestMethod.POST)
     public @ResponseBody QuizModel updateQuiz(@ModelAttribute("quiz") QuizModel quiz,
+                                              @RequestBody(required = false) ArrayList<ProblemModel> pml,
                                               @RequestParam(value = "tagNames", required = false) ArrayList<String> tagNames,
-                                              @ModelAttribute("problemlist") ArrayList<ProblemModel> pml,
                                                           HttpSession session) {
-        QuizModel qm = new QuizDAO().updateQuiz(quiz, quiz.getProblems());
-        new TagDAO().updateTaggedGradable(tagNames, qm.getId());
+        QuizModel qm = new QuizDAO().updateQuiz(quiz, pml);
+        qm.setQuizTaggedList(tagNames);
+        if(tagNames != null) new TagDAO().updateTaggedGradable(tagNames, qm.getId());
         return qm;
     }
 
@@ -55,9 +51,21 @@ public class QuizController {
         return qml;
     }
 
+    @RequestMapping(value="/getQuizContent", method = RequestMethod.GET)
+    public @ResponseBody QuizModel getQuizContent(@ModelAttribute("quiz") QuizModel quiz, HttpSession session){
+        ArrayList<ProblemModel> pml = new QuizDAO().getProblems(quiz.getId());
+        ArrayList<String> tagList = new TagDAO().getTag(quiz.getId(), "quiz");
+        QuizModel qm = new QuizModel();
+        qm.setQuizTaggedList(tagList);
+        qm.setQuestionList(pml);
+        return qm;
+    }
+
     @RequestMapping(value="/deleteQuiz", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody boolean deleteQuiz(@ModelAttribute("quiz") QuizModel quiz, HttpSession session){
         return new QuizDAO().deleteQuiz(quiz);
     }
+
+
 
 }

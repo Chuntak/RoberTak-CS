@@ -78,7 +78,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         $scope.selectedTag = "";
     };
 
-    $scope.removeTag = function(courseTagged) {
+    $scope.deleteTag = function(courseTagged) {
         for(var i = 0; i < $scope.courseTaggedList.length; i++){
             if($scope.courseTaggedList[i] === courseTagged){
                 $scope.courseTaggedList.splice(i,1);
@@ -159,8 +159,8 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
             };
             reloadData();
             /*ENABLE POSTING IN FORUMS*/
-            document.getElementById("newPostFormId").disabled = false;
-            document.getElementById("commentTextAreaId").disabled = false;
+            document.getElementById("accordion").disabled = false;
+            // document.getElementById("commentTextAreaId").disabled = false;
         }).error(function(response){console.log("select course to server error")});
         /* RELOAD TAB DATA */
     };
@@ -276,7 +276,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     };
 
     /*THIS IS THE FUNCTION TO REMOVE SEARCH TAG*/
-    $scope.removeSearchTag = function(searchTagged) {
+    $scope.deleteSearchTag = function(searchTagged) {
         for(var i = 0; i < $scope.search.tagNames.length; i++){
             if($scope.search.tagNames[i] === searchTagged){
                 $scope.search.tagNames.splice(i,1);
@@ -305,9 +305,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
             };
             reloadData();
             /*DISABLE POSTING IN FORUMS*/
-            document.getElementById("newPostFormId").disabled = true;
-            document.getElementById("commentTextAreaId").disabled = true;
-
+            document.getElementById("accordion").disabled = true;
         }).error(function(response){console.log("select course to server error")});
         /* RELOAD TAB DATA */
     };

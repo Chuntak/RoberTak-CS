@@ -27,6 +27,12 @@
     </repositories>
 
     <dependencies>
+        <!--JACKSON JUST TO PASS A LIST OF LIST-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>com.github.kernel164</groupId>

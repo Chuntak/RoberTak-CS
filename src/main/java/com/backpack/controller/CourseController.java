@@ -4,6 +4,7 @@ import com.backpack.dao.CourseDAO;
 import com.backpack.dao.TagDAO;
 import com.backpack.models.CourseModel;
 import com.backpack.models.PersonModel;
+import com.backpack.models.ProblemModel;
 import com.backpack.models.TagModel;
 import com.backpack.service.BackpackServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;

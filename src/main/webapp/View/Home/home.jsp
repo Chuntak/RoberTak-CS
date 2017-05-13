@@ -187,7 +187,7 @@
                                             <div class="tagPane">
                                                     <%--The X button should remove the tag instead of hiding it--%>
                                                 <div class="chip" ng-repeat="courseTagged in courseTaggedList">
-                                                    <span class="closebtn" ng-click="removeTag(courseTagged)">&times;</span>
+                                                    <span class="closebtn" ng-click="deleteTag(courseTagged)">&times;</span>
                                                     {{courseTagged}}
                                                 </div>
 
@@ -296,7 +296,7 @@
                                             <div class="tagPane">
                                                     <%--The X button should remove the tag instead of hiding it--%>
                                                 <div class="chip" ng-repeat="searchTagged in search.tagNames">
-                                                    <span class="closebtn" ng-click="removeSearchTag(searchTagged)">&times;</span>
+                                                    <span class="closebtn" ng-click="deleteSearchTag(searchTagged)">&times;</span>
                                                     {{searchTagged}}
                                                 </div>
 

@@ -41,7 +41,7 @@ app.factory('httpGradeFactory', function($http, global) {
                 "courseId" : global.getCourseId()
             }
         });
-    }
+    };
 
     return properties;
 });
@@ -174,6 +174,17 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     }).error(function(response){
         console.log(response);
     });
+
+    $scope.displayNewForm = function (index) {
+        var newGrade = {};
+        $scope.gradables.unshift(newGrade);
+        $scope.edit_index = index;
+    };
+
+    $scope.setIndex=function(){
+        edit_index=20;
+        return 'display';
+    };
 
     $scope.updateGradable = function(gradable){
         httpGradeFactory.updateGradable(gradable).success(function (response) {

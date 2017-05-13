@@ -20,22 +20,26 @@ public class TagDAO  extends DAOBase{
 
     /*get all tag, get all tags within a course, quiz, or question*/
     public ArrayList<String> getTag(TagModel tm){
+        return getTag(tm.getTaggableId(), tm.getTaggableType());
+    }
+
+    public ArrayList<String> getTag(int taggableId, String taggableType){
         String query;
         ArrayList tml;
-        switch(tm.getTaggableType()){
+        switch(taggableType){
             case COURSE: /*get tags within a course*/
                 query = "call get_taggedCourse(?)";
-                tml = dbs.getJdbcTemplate().query(query, new Object[] {tm.getTaggableId()} , new TagNameExtractor());
+                tml = dbs.getJdbcTemplate().query(query, new Object[] {taggableId} , new TagNameExtractor());
                 return tml;
             case QUESTION: /*get tags within a question*/
                 break;
             case QUIZ: /*get tags within a quiz*/
-                query = "call get_taggedGradable(?)";
-                tml = dbs.getJdbcTemplate().query(query, new Object[] {tm.getTaggableId()} , new TagNameExtractor());
+                query = "call get_taggedAssignment(?)";
+                tml = dbs.getJdbcTemplate().query(query, new Object[] {taggableId} , new TagNameExtractor());
                 return tml;
             case NONE: /*get all tags*/
                 query = "call get_tag(?)";
-                tml = dbs.getJdbcTemplate().query(query, new Object[] {tm.getId()} , new TagNameExtractor());
+                tml = dbs.getJdbcTemplate().query(query, new Object[] {taggableId} , new TagNameExtractor());
                 return tml;
             default:
                 return null;

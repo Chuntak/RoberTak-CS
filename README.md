@@ -12,5 +12,5 @@ we feel that backpack is a more suitable name for this project.
 
 Our website is https://backpack-164101.appspot.com/
 
-Verison 0.0.1
+Verison 0.0.2
 
