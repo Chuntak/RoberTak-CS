@@ -120,7 +120,7 @@ body {
 
 /*Make the tabs scrollable */
 .tabScroll.panel.panel-default{
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 

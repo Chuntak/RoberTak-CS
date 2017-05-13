@@ -5,6 +5,12 @@
 
 var app = angular.module('homeApp');
 var initLoad = true;
+/* TIME FORMATTING OPTIONS */
+var options = {
+    weekday: "long", year: "numeric", month: "short",
+    day: "numeric", hour: "2-digit", minute: "2-digit"
+};
+
 /*Announcement Controller*/
 app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
@@ -20,7 +26,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
         $state.reload();
     };
     //Pre-emtively hide the add announcement pullout
-    $('#addAnnouncementDiv').hide();
+    // $('#addAnnouncementDiv').hide();
     //Initialize Quill editor
     var addQuill = new Quill('#editor', {
         placeholder: 'Announcement Description',
@@ -28,7 +34,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
     });
 
-    $scope.announcementList = {};
+    $scope.announcementList = [];
 
     //Get Announcements on load
 
@@ -37,8 +43,13 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
             "courseId" : global.getCourseId()
         }
     }).success(function(response){
+        /* FORMAT DUE DATE */
+        $.each(response, function() {
+            this.dateCreated = new Date(this.dateCreated).toLocaleTimeString("en-us", options);
+            $scope.announcementList.unshift(this);
+        });
         initLoad = true;
-        $scope.announcementList = response;
+        // $scope.announcementList = response;
     }).error(function(response){
     });
 
@@ -63,6 +74,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
         var announcementTitle = "#announcementTitle-"+index;
         $(announcementTitle).removeAttr("disabled");
+        $(announcementTitle).css('border','1px solid black');
     };
 
 
@@ -120,6 +132,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
             var announcementTitle = "#announcementTitle-"+index;
             $(announcementTitle).attr("disabled", "disabled");
+            $(announcementTitle).css('border','none');
 
         }, function errorCallBack(response) {
             alert("Edit announcement error\n");
@@ -151,6 +164,8 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
         var announcementTitle = "#announcementTitle-"+index;
         $(announcementTitle).attr("disabled", "disabled");
+        $(announcementTitle).css('border','none');
+
 
         //Reload the data of the title and quill
         //We did not use ng-model for title so we save the title if they select cancel edit
@@ -160,15 +175,6 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
         announcement.quill.setContents(JSON.parse(announcement.description));
     };
-
-    /*HIDES THE ADD ANNOUNCEMENT PULL OUT AND THE ERRORS */
-    $scope.toggleAdd = function(){
-        $('#addAnnouncementDiv').fadeToggle('fast');
-        $('#addAnnouncementTitleEmpty').hide();
-        $('#addAnnoucnementTitleLength').hide();
-        $('#addAnnouncementQuillError').hide();
-    };
-
 
 
     $scope.addAnnouncement = function(){
@@ -205,8 +211,6 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
                 $("#addAnnouncementForm")[0].reset();
                 //Clears the add quill
                 addQuill.clipboard.dangerouslyPasteHTML("");
-                //Closes the add div
-                $('#addAnnouncementDiv').fadeToggle('fast');
             }else{
                 console.log(response)
             }
@@ -254,7 +258,10 @@ app.directive('testdirective', function() {
                             placeholder: 'Announcement Description',
                             theme: 'snow'
                         });
+                        if(scope.announcementList.length === 1){
+                            scope.announcementList[0].dateCreated = new Date(scope.announcementList[0].dateCreated).toLocaleTimeString("en-us", options);
 
+                        }
                         //Disable the quill
                         loadQuill.enable(false);
 
@@ -270,20 +277,25 @@ app.directive('testdirective', function() {
                     //Only do stuff to the last announcement
                     //First check if it's a new thing or just a delete
                     //Check if has toolbar
-                    var id = "#announcementDescription-" + (scope.announcementList.length - 1);
+                    var id = "#announcementDescription-"+(scope.announcementList.length - 1);
                     if((!$(id).prev().hasClass("ql-toolbar"))){
+                        var newAnnouncement = scope.announcementList[scope.announcementList.length - 1];
+                        scope.announcementList.unshift(newAnnouncement);
+                        debugger;
+                        scope.announcementList.splice((scope.announcementList.length-1),1);
+                        debugger;
                         //Init the quill
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',
                             theme: 'snow'
                         });
-                        loadQuill.setContents(JSON.parse(scope.announcementList[scope.announcementList.length - 1].description));
+                        loadQuill.setContents(JSON.parse(scope.announcementList[0].description));
                         //Hide the announcement toolbars
                         $(id).prev().hide();
 
                         //Hide the button
-                        var buttonId = "#updateButton-"+(scope.announcementList.length - 1);
-                        var cancelId = '#cancelEdit-'+(scope.announcementList.length - 1);
+                        var buttonId = "#updateButton-0";
+                        var cancelId = '#cancelEdit-0';
 
                         $(buttonId).hide();
                         $(cancelId).hide();
@@ -293,10 +305,12 @@ app.directive('testdirective', function() {
                         //Disable the quill
                         loadQuill.enable(false);
 
-                        var announcementTitle = "#announcementTitle-"+(scope.announcementList.length - 1);
+                        var announcementTitle = "#announcementTitle-0";
                         $(announcementTitle).attr("disabled", "disabled");
 
-                        scope.announcementList[scope.announcementList.length - 1].quill = loadQuill;
+                        scope.announcementList[0].dateCreated = new Date(scope.announcementList[0].dateCreated).toLocaleTimeString("en-us", options);
+
+                        scope.announcementList[0].quill = loadQuill;
                     }
                 }
             }else{
