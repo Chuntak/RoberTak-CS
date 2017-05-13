@@ -31,7 +31,7 @@
                                 <%-- ASSIGNMENT TITLE --%>
                                 <input type="text" class="form-control" ng-model="newAsgmt.title" placeholder="Title" required />
                                 <%-- ASSIGNEMTN DESCRIPTION --%>
-                                <textarea required class="asgmt-form form-control" rows="5" ng-model="newAsgmt.descr" placeholder="Write description here"></textarea>
+                                <textarea required class="asgmt-form form-control" rows="5" ng-model="newAsgmt.description" placeholder="Write description here"></textarea>
                                 <%-- DATE PICKER --%>
                                 <div class="col-xs-3 input-group date asgmt-form" id="datepicker" data-provide="datepicker">
                                     <label for="date" class="col-2 col-form-label">Due Date</label>
@@ -75,16 +75,20 @@
                 <%-- ONLY PROFS CAN EDIT/REMOVE--%>
                 <c:when test="${userType eq 'prof' && isOwner eq true}">
                     <span ng-click="deleteAssignment(asgmt)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show"></span>
-                    <span class="badge btn-xs col-sm-1 glyphicon glyphicon-pencil clickable on-show"></span>
-                    <%--<span class="badge  clickable on-show">Cancel</span>--%>
-                    <%--<span class="badge clickable on-show">Submit</span>--%>
+                    <a id="editAssignment" data-toggle="collapse" data-target="#editAssignment{{$index}}" class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show"></a>
                 </c:when>
             </c:choose>
-            <h4 ng-bind="asgmt.title"></h4>
+
+            <%-- DISPLAY DESCRIPTION FOR ASSIGNMENT--%>
+            <h3 ng-bind="asgmt.title"></h3>
             <h6 ng-bind="'Due ' + asgmt.dueDate"></h6>
             <p ng-bind="asgmt.description"></p>
-            <a href="{{asgmt.hwDownloadLink}}" ng-bind="asgmt.hwFileName">Download Me :-)</a>
+            <a href="{{asgmt.hwDownloadLink}}" ng-bind="asgmt.hwBlobName">Download Me :-)</a>
             <%--<p ng-if="asgmt."></p>--%>
+
+            <%--<h5 ng-bind="asgmt.description"></h5>--%>
+            <%--<a href="'#' + asgmt.hwDownloadLink" ng-bind="asgmt.hwBlobName">Download Me :-)</a>--%>
+
             <c:choose>
                 <%-- ONLY STUDENTS CAN SUBMIT HW --%>
                 <c:when test="${userType eq 'stud'}">
@@ -98,6 +102,56 @@
                     </form>
                 </c:when>
             </c:choose>
+
+            <%-- EDIT ASSIGNMENT --%>
+            <div class="collapse" id="editAssignment{{$index}}">
+                <%-- FORM FOR NEW ASSIGNMENT --%>
+                    <div class="form-group asgmt-form">
+
+                        <%-- ASSIGNMENT TITLE --%>
+                        <input id="title{{$index}}" type="text" class="form-control" value="{{asgmt.title}}" placeholder="Title" required />
+
+                        <%-- ASSIGNMENT DESCRIPTION --%>
+                        <textarea required class="asgmt-form form-control" id="description{{$index}}" rows="5" value="{{asgmt.description}}" placeholder="Write description here">{{asgmt.description}}</textarea>
+
+                        <%-- DATE PICKER --%>
+                        <div class="col-xs-3 input-group date asgmt-form" id="datepicker" data-provide="datepicker">
+                            <label for="date1" class="col-2 col-form-label">Due Date</label>
+                            <input ng-model="asgmt.date" id="date1" required type="text" class="form-control">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+
+                        <%-- TIME PICKER --%>
+                        <div class="col-xs-3 input-group bootstrap-timepicker timepicker asgmt-form">
+                            <label for="timepicker" class="col-2 col-form-label">Due Time</label>
+                            <input ng-model="asgmt.time" required id="timepicker" type="text" class="form-control input-small">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                        </div>
+
+                        <%-- MAX GRADE POSSIBLE --%>
+                        <label for="max-grade" class="asgmt-form label">Max Grade</label>
+                        <input placeholder="Max Grade" id="max-grade" required type="number" ng-model="asgmt.maxGrade" class="form-control">
+                        <span class="checkbox">
+                            <label class="checkbox"><input checked type="checkbox" value="true">Submittable</label>
+                        </span>
+
+                        <%--&lt;%&ndash; FILE CHOOSER (NOT REQUIRED) &ndash;%&gt;--%>
+                        <%--<label class="asgmt-form btn btn-default btn-file">--%>
+                            <%--Browse <input type="file" class="hidden" file-model="asgmt.file" onchange="$('#upload-file-info').html($(this).val());">--%>
+                        <%--</label>--%>
+                        <%--<span class='label label-info' id="upload-file-info">No files uploaded</span>--%>
+                        <%--<span class="btn btn-danger btn-sm glyphicon glyphicon-remove" ng-if="asgmt.file"  ng-click="newAsgmt.file = null;" onclick="$('#upload-file-info').html('No files uploaded');"></span>--%>
+
+                    </div>
+                    <%-- SUBMIT FORM & CANCEL BTNS --%>
+                    <div class="asgmt-btns">
+                        <button type="submit" class="btn btn-default" ng-click="updateAssignment(asgmt)">Submit</button>
+                        <button class="btn btn-default" data-toggle="collapse" data-target="#editAssignment{{$index}}">Cancel</button>
+                    </div>
+                </form>
+            </div>
 
         </div>
     </div>

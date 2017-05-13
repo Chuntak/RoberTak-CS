@@ -1,18 +1,6 @@
 
 /******Wrapper for Adding new Documents*******/
 
-#add-content{
-    height: 53px;
-    width: 100%;
-    /*border: solid 2px #000000;*/
-}
-
-.addDocBtn{
-    float: right;
-    margin-top: 10px;
-    margin-right: 10px;
-}
-
 /*Textbox for Description*/
 textarea {
     width: 100%;
@@ -22,17 +10,43 @@ textarea {
     padding: 2px;
 }
 
-.description-text{
-    margin-top: 5px;
-    border: solid 1px #d9d9d9;
-    border-radius: 4px;
-}
-
-.description-edit{
+.doc-edit{
     margin-top: 5px;
     border: solid 1px #d9d9d9;
     border-radius: 4px;
     min-height: 90px;
+}
+
+.document-btns{
+    margin-left: 70%;
+}
+
+#documentForm{
+    padding: 10px 15px;
+    height: 260px;
+}
+
+.document-create{
+    border: 1px limegreen;
+}
+
+/* HIDE EDIT/DELETE ICONS NORMALLY */
+.document .on-show {
+    display:none;
+}
+
+/* DISPLAY EDIT/DELETE ICONS ON HOVER */
+.document:hover .on-show{
+    display:inline;
+}
+
+.description-color{
+    padding-top: .2cm;
+}
+
+/* PADDING FOR DROP DOWN FORM */
+.list-group-item-success{
+    padding: 15px 15px;
 }
 /******************************/
 
@@ -68,47 +82,19 @@ textarea {
 
 /******Documents display******/
 
-#doc-content{
-    height: 500px;
-    overflow: auto;
-}
-
-/*YOU DONT DO THIS*/
-/*.form-control{*/
-/*margin-top: 55px;*/
-/*}*/
-.display-off{
-    display: none;
-}
-
-.display-on{
-    display: initial;
-}
-
-.docCard{
-    height: 150px;
-    border: solid 1px #f2f2f2;
-    overflow: auto;
-}
-
-.glyphicon-pencil, .glyphicon-trash{
-    float: right;
-    margin-top: 20px;
-}
-
-.text-content{
-    padding-left: .5cm;
-}
-
-.toolBtn{
-    margin-top: -80px;
-}
-
-.editInput{
-    margin-top: 10px;
-}
-
 h3{
     margin-left: -15px;
+}
+
+/* SEPARATE ELEMENTS A LITTLE */
+.document-form{
+    margin-top: 3px;
+}
+
+.document-edit{
+    margin-top: 5px;
+    border: solid 1px #d9d9d9;
+    border-radius: 4px;
+    min-height: 90px;
 }
 /***********************************/

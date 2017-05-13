@@ -49,6 +49,8 @@
     <div class="text-logout">Welcome <c:out value="${firstName}"/> &nbsp
         <%--Sign Out button--%>
         <img src="images/logout.png" ng-controller="homeCtrl" ng-click="signOut()" class="logout clickable" data-toggle="tooltip" title="Sign out" data-placement="bottom"/>
+        <%--<span ng-controller="homeCtrl" class="glyphicon glyphicon-log-out" ng-click="signOut()" class="logout clickable" data-toggle="tooltip" title="Sign out" data-placement="bottom">Logout</span>--%>
+
         <form:form id="signOut" name="signOut"  method="GET" action="/signOut">
             <button hidden="hidden" type="submit"></button>
         </form:form>

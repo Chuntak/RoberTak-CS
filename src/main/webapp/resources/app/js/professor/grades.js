@@ -54,8 +54,6 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
        GRADE INFO INSIDE WILL VARY DEPENDING ON CURRENT GRADABLE ITEM */
     $scope.students = [];
     $scope.gradable = {};
-    $scope.isEmpty = -1;
-    $scope.edit_index = -1;
     $scope.selectedGradable = {};
 
 
@@ -63,6 +61,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     $('#datepicker').datepicker({
         format: "mm-dd-yy"
     });
+
     /* INIT THE TIME */
     $('#timepicker1').timepicker();
 
@@ -175,19 +174,11 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         console.log(response);
     });
 
-    $scope.displayNewForm = function (index) {
-        var newGrade = {};
-        $scope.gradables.unshift(newGrade);
-        $scope.edit_index = index;
-    };
-
-    $scope.setIndex=function(){
-        edit_index=20;
-        return 'display';
-    };
-
+    /* CREATE NEW GRADE TASK */
     $scope.updateGradable = function(gradable){
         httpGradeFactory.updateGradable(gradable).success(function (response) {
+
+            /* SUCCESSFUL HTTP REQUEST - ADD TO MODEL */
             var gradableJson = {
                 "id": response.id,
                 "title": response.title,
@@ -199,16 +190,23 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                 "date" : gradable.date,
                 "time" : gradable.time
             };
+            /* ADD TO THE LIST */
             $scope.gradables.unshift(gradableJson);
+
+            /* CLEAR FORM DISPLAY*/
+            $scope.gradable = {};
         }).error(function(response){
             console.log(response);
             debugger;
         });
     }
 
+    /* EDIT GRADE DESCRIPTION/INFORMATION */
     $scope.editGradable = function(gradable, index){
 
         gradable.title = document.getElementById("title" + index).value;
+        gradable.maxGrade = document.getElementById("max" + index).value;
+        gradable.description = document.getElementById("description" + index).value;
 
         var y = $http.get("/updateGradable",{
             transformRequest: angular.identity,
@@ -234,13 +232,14 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             $scope.gradables[index].date = response.date;
             $scope.gradables[index].time = response.time;
 
-
-            // $scope.gradables.unshift(gradableJson);
         }).error(function(response){
             console.log(response);
         });
 
         document.getElementById("title" + index).value = gradable.title;
+        document.getElementById("max" + index).value = gradable.maxGrade;
+        document.getElementById("description" + index).value = gradable.description;
+
     };
 
     /*DELETES A DOCUMENT*/
@@ -262,56 +261,6 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             console.log(response);
         });
     };
-    //
-    // $scope.cancelEdit = function(){
-    //     $('#createGradable').attr("disabled", false);
-    //     $('#gradableForm').fadeToggle('fast');
-    // };
-
-    /*SAVES FROM EDIT DOCUMENT*/
-    // $scope.editGradable = function (gradable) {
-    //     var x = $http.get("/update",{
-    //         method: 'GET',
-    //         url: '/updateGradable',
-    //         params: {
-    //             "id" : gradable.id,
-    //             "title": gradable.title,
-    //             "gradableType": gradable.gradableType,
-    //             "maxGrade" : gradable.maxGrade,
-    //             "dueDate" : new Date(gradable.date+" "+gradable.time).getTime(),
-    //             "description" : gradable.description,
-    //             "courseId" : global.getCourseId()
-    //         }
-    //         }).success(function (response) {
-    //         //    empty
-    //          alert("Edit Document Error\n");
-    //     });
-    // };
-
-    // $scope.editGradable = function (gradable) {
-    //     var x = $http({
-    //         method: 'GET',
-    //         url: '/updateGradable',
-    //         params: {
-    //             "id" : $scope.gradable.id,
-    //             "title": $scope.gradable.title,
-    //             "gradableType": $scope.gradable.gradableType,
-    //             "maxGrade" : $scope.gradable.maxGrade,
-    //             "dueDate" : new Date($scope.gradable.date+" "+$scope.gradable.time).getTime(),
-    //             "description" : $scope.gradable.description,
-    //             "courseId" : $scope.global.getCourseId()
-    //         }        }).then(function (response) {
-    //         //    empty
-    //     }, function errorCallBack(response){
-    //         alert("Edit Document Error\n");
-    //     });
-    //
-    //     $scope.reset();
-    // };
-    //
-
-
-
 
     /******* GRADES ********/
     // $http.get('/getGrade',{

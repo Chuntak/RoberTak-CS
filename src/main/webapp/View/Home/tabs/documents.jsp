@@ -19,61 +19,79 @@
     <c:choose>
         <%--IF PROFESSOR, APPLY THIS FUNCTIONALITY--%>
         <c:when test="${userType eq 'prof' && isOwner eq true}">
-            <div id="add-content">
-                <button type="button" class="btn btn-primary addDocBtn" id="addBtn">Add New Document</button>
-                <div class="display-off" id="collapse-content">
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control" ng-model="document.title" placeholder="Title" />
-                        <textarea placeholder="Description" ng-model="document.description" class="description-text"></textarea>
-                    </div>
-                        <%--FILE UPLOAD--%>
-                    <input type="file" file-model="document.file" class="pickFileBtn"/>
-                    <button id="docSubmit" type="button" ng-click="uploadDocument()" class="btn btn-primary">Upload Document</button>
-                    <input id="clearBtn" type="button" value="Cancel" ng-click="clearTextBox()"/>
+            <div class="document-create">
+                    <%--ADD NEW DOCUMENT BUTTON--%>
+                <div class="list-group-item-success">
+                    <h4 class="panel-title" id="panel">
+                        <a id="createDocument" data-toggle="collapse" data-target="#documentForm">Add Document</a>
+                    </h4>
+                </div>
+
+                    <%-- ADD NEW DOCUMENT FORM --%>
+                <div class="collapse" id="documentForm">
+                    <form ng-submit="uploadDocument()">
+                        <div class="form-group document-form">
+                            <div class="col-xs-12">
+                                <input required type="text" class="form-control" ng-model="document.title" placeholder="Title" />
+                            </div>
+                            <div class="col-xs-12">
+                                <textarea placeholder="Description" ng-model="document.description" class="doc-edit"></textarea>
+                            </div>
+                                <%--FILE UPLOAD--%>
+                            <input type="file" file-model="document.file" class="pickFileBtn"/>
+
+                                <%-- SUBMIT FORM AND CANCEL BTNS--%>
+                            <div class="document-btns">
+                                <button id="docSubmit" type="button" class="btn btn-default">Upload Document</button>
+                                <input type="button" value="Cancel" data-toggle="collapse" data-target="#DocumentForm" class="btn btn-default"/>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </c:when>
     </c:choose>
     <div id="doc-content">
 
-        <%-- DISPLAY ALL DOCUMENTS --%>
-        <div class="docCard" ng-repeat="document in documents" ng-include="getTemplate(document)"></div>
-        <script type="text/ng-template" id="display">
-            <div class="text-content">
-                <h3>{{document.title}}</h3>Download Link:
-                <a href="{{document.downloadLink}}">{{document.fileName}}</a>
-                <p>{{document.description}}</p>
-            </div>
+    <%-- DISPLAY ALL DOCUMENTS --%>
+    <div class="docCard" ng-repeat="document in documents">
+        <div class="list-group-item document">
             <c:choose>
                 <%--<&-- IF PROFESSOR, APPLY THIS FUNCTIONALITY --&>--%>
                 <c:when test="${userType eq 'prof' && isOwner eq true}">
-                    <div class="toolBtn">
-                        <%--<!-- DELETE DOCUMENT BUTTON-->--%>
-                        <btn class="btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteDocument(document)"></btn>
-                        <%--<!-- EDIT DOCUMENT BUTTON-->--%>
-                        <btn class="btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="editDocument(document)"></btn>
-                    </div>
+                            <%--<!-- DELETE DOCUMENT BUTTON-->--%>
+                        <btn class="badge btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteDocument(document)"></btn>
+                            <%--<!-- EDIT DOCUMENT BUTTON-->--%>
+                        <btn class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" data-toggle="collapse" data-target="#editDocument{{$index}}" ng-click="editDocument(document)"></btn>
                 </c:when>
             </c:choose>
-        </script>
 
-        <c:choose>
-            <%--<!-- IF PROFESSOR, APPLY THIS FUNCTIONALTY -->--%>
-            <%--<!-- EDIT DOCUMENT -->--%>
-            <c:when test="${userType eq 'prof' && isOwner eq true}">
-                <script type="text/ng-template" id="edit">
-                    <div class="col-lg-6">
+            <h3 class="title{{$index}}" value="{{document.title}}">{{document.title}}</h3>
+            <h6>Download Link: <a href="{{document.downloadLink}}">{{document.fileName}}</a></h6>
+            <h5 class="description-color">{{document.description}}</h5>
+
+
+            <div class="collapse" id="editDocument{{$index}}">
+                <div class="form-group document-form">
+
+                    <div class="col-xs-12">
                         <input type="text" class="form-control editInput" ng-model="selectedDocument.title"/>
-                        <textarea type="text" ng-model="selectedDocument.description" class="description-edit"></textarea>
                     </div>
-                    <div class="editBtn">
-                        <input type="file" file-model="selectedDocument.file" class="replaceFileBtn"/>
-                        <button ng-click="saveDocument($index,document)" class="btn btn-primary">Save</button>
-                        <button ng-click="clearChanges($index,document)" class="btn btn-primary">Cancel</button>
+
+                    <div class="col-xs-12">
+                        <textarea type="text" ng-model="selectedDocument.description" class="document-edit"></textarea>
                     </div>
-                </script>
-            </c:when>
-        </c:choose>
+
+                    <div class="col-lg-12">
+                        <input type="file" file-model="selectedDocument.file"/>
+                    </div>
+                    <div class="document-btns">
+                        <button type="submit" ng-click="saveDocument($index,document)" class="btn btn-default" data-toggle="collapse" data-target="#editDocument{{$index}}">Save</button>
+                        <button class="btn btn-default" data-toggle="collapse" data-target="#editDocument{{$index}}">Cancel</button>
+                    </div>
+                 </div>
+            </div>
+        </div>
     </div>
 
 </div>

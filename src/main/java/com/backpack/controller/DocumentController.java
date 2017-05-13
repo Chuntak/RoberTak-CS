@@ -40,7 +40,12 @@ public class DocumentController {
         return "tabs/documents";
     }
 
-    /*Upload DOCUMENT*/
+    /**
+     * uploadDocument - called when updating an document that contains a file
+     * @param document - document to be added to db
+     * @param session - current session of user
+     * @return DocumentModel with any new info needed
+     */
     @RequestMapping(value="/uploadDocument", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public @ResponseBody
     DocumentModel uploadDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {

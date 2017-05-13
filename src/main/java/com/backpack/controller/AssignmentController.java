@@ -76,7 +76,8 @@ public class AssignmentController {
     @RequestMapping(value="/updateAssignment", method = RequestMethod.POST)
     public @ResponseBody
     AssignmentModel updateAssignment(@RequestBody AssignmentModel assignment, HttpSession session) {
-        return new AssignmentDAO().updateAssignment(assignment);
+        AssignmentModel am = new AssignmentDAO().updateAssignment(assignment);
+        return am;
     }
 
     @RequestMapping(value="/getAssignments", method = RequestMethod.GET)
