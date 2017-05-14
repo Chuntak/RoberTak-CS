@@ -81,12 +81,10 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                     fields: {
                         id: {
                             type: "number",
-                            editable : false,
-                            visible : false
+                            editable : false
                         },
                         firstName: {
                             type: "string",
-                            // editable: false,
                             editable: false
                         },
                         lastName: {
@@ -96,7 +94,16 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                             editable: false
                         },
                         email:{
-                            type: "string"
+                            type: "string",
+                            editable : false
+                        },
+                        submission:{
+                            type:"string",
+                            editable : false
+                        },
+                        grade:{
+                            type: "number",
+                            editable: true
                         }
                     }
                 }
@@ -108,10 +115,12 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             dataSource: $scope.gridData,
             selectable: "row",
             columns: [
-                { field: "id", title: "ID" },
+                { field: "id", title: "ID", hidden: true },
                 { field: "firstName", title: "First Name" },
                 { field: "lastName", title: "Last Name" },
-                { field: "email", title: "Email" }
+                { field: "email", title: "Email" },
+                { field: "submission", title: "Submission"},
+                { field: "grade", title: "Grade" }
             ],
             save: function(e){
                 $scope.updateTempRecords();
@@ -141,7 +150,8 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             },
             sortable: true,
             pageable: true,
-            editable: true
+            editable: true,
+            resizable: true
         };
     };
 

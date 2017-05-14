@@ -62,3 +62,10 @@ textarea {
     margin: 0;
     padding: 2px;
 }
+
+.k-grid {
+    font-size: 10px;
+}
+.k-grid td {
+    line-height: 2em;
+}

@@ -28,6 +28,7 @@
         <link rel="stylesheet" href="<c:url value="/resources/app/css/forum.css" />">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+        <%--<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">--%>
         <c:choose>
             <c:when test="$(userType eq 'prof')">
                 <link rel="stylesheet" href="<c:url value="/resources/app/css/professor.css" />">
@@ -86,8 +87,9 @@
                     </div>
                 </c:when>
             </c:choose>
+                <div class="courseSelection-wrapper">
             <%--Course Selection (+Modal)--%>
-            <div id="courseSelection">
+            <div id="courseSelection" class="scrollable">
                 <%--AngularJS to dynamically load the courses--%>
                 <div class="list-grouper" ng-repeat="course in courses">
                     <a class="list-group-item"  ng-click="selectCourse(course, $index)" ng-class="{active: $index == selected}">
@@ -208,6 +210,7 @@
                     </c:when>
                 </c:choose>
             </div>
+                </div>
             <%--SEARCH BAR--%>
             <c:choose>
                 <c:when test="${userType eq 'prof'}">
@@ -346,16 +349,15 @@
                 <ul class="nav nav-tabs tab-heading" ng-controller="tabsCtrl">
                     <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)" ng-bind="tab.label"></a></li>
                 </ul>
-                <div ui-view></div>
-                <div class="panel-body">
+                <div class="scrollable" ui-view></div>
 
-                </div>
             </div>
         </div>
         <%--FORUM PANE--%>
-        <div class="col-md-4 forumPane" ng-controller="forumCtrl">
-            <div class="panel panel-default">
-                <fieldset ng-cloak class="panel-group" id="accordion">
+        <div class="col-md-4 forumPane">
+            <div class="tab-panel panel panel-default">
+                <div class="scrollable">
+                <fieldset ng-cloak class="panel-group" id="accordion" ng-controller="forumCtrl">
                     <form ng-submit="updatePost(newPost)" class="panel">
                         <span>
                             <input required id="postHeader" class="form-control panel-heading write-post" ng-model="newPost.header" data-toggle="collapse" data-parent="#accordion" href="#new-post" placeholder="Write a post"></input>
@@ -368,6 +370,7 @@
                         </div>
                     </form>
                     <p ng-if="!posts.length">There are no posts.</p>
+
                     <div ng-repeat="post in posts" class="posts panel post-header panel-primary">
                         <div class="panel-heading panel-primary post-title">
                             <h4 class="panel-title row"/>
@@ -451,7 +454,9 @@
                             </ul>
                         </div>
                     </div>
+
                 </fieldset>
+            </div>
 
             </div>
         </div>

@@ -97,7 +97,7 @@
     </c:choose>
 
     <%-- DISPLAYS A LIST OF ALL TASKS --%>
-    <div ng-repeat="gradable in gradables">
+    <div ng-repeat="gradable in gradables" >
         <div class="list-group-item gradable">
             <%-- ONLY PROFESSOR CAN EDIT AND SEE THIS FUNCTIONALITY --%>
             <c:choose>
@@ -108,10 +108,18 @@
             </c:choose>
 
             <%-- DISPLAYS DESCRIPTION OF GRADE TASK --%>
-            <h3 ng-bind="gradable.title"></h3>
+            <h3><a ng-bind="gradable.title" data-toggle="collapse" data-target="{{'#items'+$index}}"></a></h3>
             <h6 ng-bind="'Due: ' + gradable.dueDate"></h6>
             <h6 ng-bind="'Maximum Grade: ' + gradable.maxGrade"></h6>
             <h5 ng-bind="gradable.description" class="description-color"></h5>
+            <div id="{{ 'items' + $index }}" class="list-group-item panel-collapse collapse">
+                <h3>Items</h3>
+
+                <kendo-grid id="grid" options="mainGridOptions">
+
+                </kendo-grid>
+
+            </div>
 
             <%-- EDIT GRADABLE --%>
             <div class="collapse" id="editGradable{{$index}}">
@@ -178,14 +186,7 @@
     </div>
 
 
-    <div id="items" class="panel-collapse collapse">
-        <h3>Items</h3>
 
-        <kendo-grid id="grid" options="mainGridOptions">
-
-        </kendo-grid>
-
-    </div>
 
 
 

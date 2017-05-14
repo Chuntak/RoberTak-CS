@@ -139,3 +139,15 @@
 .post:hover .on-show{
     display:inline-flex;
 }
+
+#accordion{
+    /* PREVENTS OVERFLOW OF PANEL */
+    height: 90%;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.tab-panel{
+    overflow-y: hidden;
+}
