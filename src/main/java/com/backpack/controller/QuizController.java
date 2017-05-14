@@ -16,10 +16,16 @@ import java.util.ArrayList;
 
 @Controller
 public class QuizController {
-    /*returns the announcements page*/
+    /*returns the quiz page*/
     @RequestMapping(value="/quiz", method = RequestMethod.GET)
     public String loadQuiz(HttpSession session) {
         return "tabs/quiz";
+    }
+
+    /*returns the quiz taker page*/
+    @RequestMapping(value="/quizTaker", method = RequestMethod.GET)
+    public String loadQuizTaker(HttpSession session) {
+        return "tabs/quizTaker";
     }
 
     /*QUIZ model*/

@@ -1,8 +1,12 @@
 package com.backpack.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by Chuntak on 5/12/2017.
  */
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class ChoiceModel {
     private int id;
     private int questionId;

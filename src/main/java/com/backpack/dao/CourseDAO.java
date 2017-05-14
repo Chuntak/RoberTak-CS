@@ -14,7 +14,13 @@ import java.util.*;
  */
 public class CourseDAO extends DAOBase {
 
-    /*calls to the database to update course*/
+    /**
+     * Adds or edit and existing course in the database
+     * if the course id is 0 we add a new course to the database
+     * if the course id is greater than 0 we update the existing course
+     * @param cm course model containing all the attributes of the course
+     * @return a course model containing its id generated from the database
+     */
     public CourseModel updateCourse(CourseModel cm) {
         String query = "call update_course(?,?,?,?,?,?,?,?)";
         ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[]{cm.getId(), cm.getName(),
@@ -22,7 +28,11 @@ public class CourseDAO extends DAOBase {
         return cml.size() > 0 ? cml.get(0) : cm;
     }
 
-    /*calls to the database and retrieve course the id can be a student and professor*/
+    /**
+     * Gets a list of courses that the person is related to
+     * @param id identifier for that suspecific person
+     * @return a list of courses that the person is related to
+     */
     public ArrayList<CourseModel> getCourse(int id) {
         String query = "call get_course(?)";
         ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[]{id}, new CourseModelExtractor());
@@ -30,13 +40,25 @@ public class CourseDAO extends DAOBase {
     }
 
 
-    /*calls to the database to delete course*/
+    /**
+     * Deletes a course from the database given the course model
+     * which has the course's id
+     * @param cm course model that contains a course id
+     * @return true if delete was a success
+     */
     public boolean deleteCourse(CourseModel cm) {
         String query = "call delete_course(?)";
         return dbs.getJdbcTemplate().update(query, cm.getId()) == 1; /*check if 1 row affected*/
     }
 
-    /*calls to the database to enroll course*/
+    /**
+     * Enrolls a student identified by studId into a course, given
+     * by the course model cm which has its course code that identifies the course
+     * @param studId an identifier taht identifies a student
+     * @param cm a course model that contains the course code
+     *           of the course that the student is enrolling into
+     * @return a course model of the course that the student was just enrolled into
+     */
     public CourseModel enrollCourse(int studId,CourseModel cm) {
         String query = "call update_enrolled(?, ?)";
         ArrayList<CourseModel> cml = dbs.getJdbcTemplate().query(query, new Object[] {studId, cm.getCode()}, new CourseModelExtractor());

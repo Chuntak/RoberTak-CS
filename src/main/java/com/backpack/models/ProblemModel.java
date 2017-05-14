@@ -81,6 +81,10 @@ public class ProblemModel {
         return choices;
     }
 
+    /*FROM THE DATABASE*/
+    public void setChoicesList(ArrayList<ChoiceModel> cml) { this.choices = cml; }
+
+    /*FROM THE FRONTEND JAVASCRIPT*/
     public void setChoices(String choicesJsonString) {
         ObjectMapper mapper = new ObjectMapper();
         try {

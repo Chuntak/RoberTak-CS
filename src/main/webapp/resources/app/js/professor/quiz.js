@@ -138,6 +138,19 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
                         deletedQuestionList : [],
                         selectedTag : ""
                     };
+                    /*SELECT THE ANSWER FOR EACH M/C*/
+                    $.each(quiz.edit.questionList, function(index){
+                        if(this.type === "M/C") {
+                            var i = index;
+                            var question = this;
+                            $.each(this.choices, function(index) {
+                                if(question.answer === this.answerChoice) {
+                                    this.isChecked = true;
+                                    question.answer = this;
+                                }
+                            });
+                        }
+                    });
                     debugger;
                 }).then(function (response) {
                     console.log("getQuizContentError");
@@ -149,6 +162,19 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
                     questionList: JSON.parse(JSON.stringify(quiz.questionList)),
                     deletedQuestionList : []
                 };
+                /*SELECT THE ANSWER FOR EACH M/C*/
+                $.each(quiz.edit.questionList, function(index){
+                    if(this.type === "M/C") {
+                        var i = index;
+                        var question = this;
+                        $.each(this.choices, function(index) {
+                            if(question.answer === this.answerChoice) {
+                                this.isChecked = true;
+                                question.answer = this;
+                            }
+                        });
+                    }
+                });
             }
         }
         document.getElementById("editTitle" + index).value = quiz.title;
@@ -177,7 +203,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
 
     $scope.makeQuestion = function (quiz) {
         quiz.questionList.push({question:"",answer:"", deleted:false, type:"ShortAns",
-            choices:[{id : 0, questionId : 0, answerChoice : "", answerLetter : "a"}]});
+            choices:[{id : 0, questionId : 0, answerChoice : "", answerLetter : ""}]});
     };
 
 
@@ -205,6 +231,19 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
         quiz.questionList.splice(x, 1);
         question.deleted = true;
         if(quiz.deletedQuestionList) quiz.deletedQuestionList.push(question);
+    };
+
+    /*THIS IS TO CLEAR THEM OUT*/
+    $scope.changeQuestionType = function(question) {
+        if(question.type === "M/C") {
+            question.choices = [{id : 0, questionId : 0, answerChoice : "", answerLetter : ""}];
+            question.answer = "";
+            question.question = "";
+        } else if (question.type === "ShortAns") {
+            question.choices = [];
+            question.answer = "";
+            question.question = "";
+        }
     };
 
     $scope.saveQuiz = function (quiz) {

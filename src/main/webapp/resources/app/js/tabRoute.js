@@ -53,6 +53,12 @@ homeApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             controller:  'gradesCtrl',
             controllerAs:  'gradeCtrl'
         })
+        .state('quizTaker', {
+            url: "/quizTak",
+            templateUrl: '/quizTaker',
+            controller: 'quizCtrl',
+            controllerAs: 'quizCtrl'
+        })
 });
 
 /* BEGIN DEFINING THE CONTROLLERS FOR STATES. INJECT $state */
@@ -85,7 +91,14 @@ homeApp.controller('tabsCtrl', function($scope, $state) {
     /* RELOAD TAB DATA */
     var reloadData = function(){
         $state.reload();
-    }
+    };
+
+
+    $scope.quiztaker = function() {
+        var quizTakerTab = { state : 'quizTaker', label : 'Quiz Taker' };
+        $scope.setSelectedTab(quizTakerTab);
+        $scope.tabClass(quizTakerTab);
+    };
 
 });
 

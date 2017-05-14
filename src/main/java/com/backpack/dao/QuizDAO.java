@@ -1,5 +1,6 @@
 package com.backpack.dao;
 
+import com.backpack.models.ChoiceModel;
 import com.backpack.models.ProblemModel;
 import com.backpack.models.QuizModel;
 import com.backpack.models.SyllabusModel;
@@ -9,6 +10,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -16,66 +18,148 @@ import java.util.Iterator;
  */
 public class QuizDAO extends AssignmentDAO {
 
+    /**
+     * This gets all the quizes from the database that
+     * are related to the course that is in the quiz
+     * model identified by its id
+     * @param qm quiz model that contains the courseId
+     * @return a list of quiz models for a course
+     */
     public ArrayList<QuizModel> getQuiz(QuizModel qm) {
         String query = "call get_gradable(?,?,?)";
         ArrayList<QuizModel> qml = dbs.getJdbcTemplate().query(query, new Object[] {qm.getCourseId(), "quiz", 0}, new QuizModelExtractor());
         return qml;
     }
 
+    /**
+     * This gets all the problems that is related to
+     * the course that is related to the quiz that is in
+     * the problem model idenified by its id
+     * @param pm problem model that contains the quizId
+     * @return a list of problem models for a quiz
+     */
     public ArrayList<ProblemModel> getProblems(ProblemModel pm) {
         return getProblems(pm.getQuizId());
     }
 
+    /**
+     * This gets all the problems that is related to
+     * the course that is related to the quiz that is in
+     * the problem model idenified by its id
+     * @param quizId the quiz id that identifies the quiz
+     * @return a list of problem models for a quiz
+     */
     public ArrayList<ProblemModel> getProblems(int quizId) {
         String query = "call get_problem(?)";
-        ArrayList<ProblemModel> qml = dbs.getJdbcTemplate().query(query, new Object[] {quizId}, new ProblemModelExtractor());
-        return qml;
+        ArrayList<ProblemModel> pml = dbs.getJdbcTemplate().query(query, new Object[] {quizId}, new ProblemModelExtractor());
+
+        /*PUT ALL IN HASHMAP FOR PUTTING QUIZ CHOICES FASTER*/
+        HashMap<Integer, ProblemModel> pmh = new HashMap<Integer, ProblemModel>();
+        for(ProblemModel pm : pml){
+            pmh.put(pm.getProblemId(), pm);
+        }
+
+        /*THIS CALLS THE DATABASE FOR ALL THE CHOICES*/
+        query = "call get_problemChoice(?,?)";
+        ArrayList<ChoiceModel> cml = dbs.getJdbcTemplate().query(query, new Object[] {0, quizId}, new ChoiceModelExtractor());
+
+        for(ChoiceModel cm : cml) {
+            ProblemModel pm = pmh.get(cm.getQuestionId());
+            if(pm.getChoices() == null) pm.setChoicesList(new ArrayList<ChoiceModel>());
+            pm.getChoices().add(cm);
+        }
+
+        return pml;
     }
 
+    /**
+     * Deletes a particular problem for a quiz from the database
+     * @param pm problem model that contains a problem id and
+     *           quiz id that identifies a problem and quiz respectively
+     * @return the number of rows affect by the jdbc call
+     */
     public int deleteProblemsFromQuiz(ProblemModel pm) {
         return deleteProblemsFromQuiz(pm.getProblemId(), pm.getQuizId());
     }
 
+    /**
+     * Deletes a particular problem for a quiz from the database
+     * @param problemId an id that identifies a problem
+     * @param quizId an id that identifies a quiz
+     * @return the number of rows affect by the jdbc call
+     */
     public int deleteProblemsFromQuiz(int problemId, int quizId) {
         String query = "call delete_problem_from_quiz(?,?)";
         return dbs.getJdbcTemplate().update(query, problemId, quizId);
     }
 
+    /**
+     * Adds or edit a quiz and also add edit the problems of a quiz
+     * @param qm a quiz model that contains all the attributes of a quiz
+     * @param pml a problem model that contains attributes of a problem
+     * @return the quizmodel with its id and the problems with their ids
+     */
     public QuizModel updateQuiz(QuizModel qm, ArrayList<ProblemModel> pml) {
         String query = "call update_gradable(?,?,?,?,?,?,?,?,?)";
         ArrayList<QuizModel> qml = dbs.getJdbcTemplate().query(query, new Object[] { qm.getId(),
                 qm.getCourseId(), qm.getTitle(), "", "quiz", qm.getMaxGrade(), qm.getDueDate(), "", "" }, new QuizModelExtractor());
         QuizModel quizModel;
+        /*MAKES SURE THAT WE HAVE THE CORRECT LIST WITH THE ID*/
         if(qml != null && qml.size() > 0)  quizModel = qml.get(0); else quizModel = qm;
         if(pml != null && pml.size() > 0) {
-            query = "call update_problem(?,?,?,?,?)";
             for (Iterator<ProblemModel> iterator = pml.iterator(); iterator.hasNext();) {
                 ProblemModel pm = iterator.next();
                 if(pm.isDeleted() && pm.getProblemId() > 0) {
+                    /*DELETE QUIZ FROM DB AND LIST*/
                     deleteProblemsFromQuiz(pm.getProblemId(), qm.getId());
                     iterator.remove();
                 }
                 else if(pm.isDeleted()){
+                    /*DELETE QUIZ FROM LIST NOT FROM DB CUZ IT WASNT THERE IN THE FIRST PLACE*/
                     iterator.remove();
                 }
                 else {
+                    /*UPDATE THE PROBLEM*/
+                    query = "call update_problem(?,?,?,?,?)";
                     ProblemModel tmp = dbs.getJdbcTemplate().query(query, new Object[]{
-                            pm.getProblemId(), "quiz", pm.getQuestion(), pm.getAnswer(), quizModel.getId()}, new ProblemModelExtractor()).get(0);
-                    if (tmp != null) pm.setProblemId(tmp.getProblemId());
+                            pm.getProblemId(), pm.getType(), pm.getQuestion(), pm.getAnswer(), quizModel.getId()}, new ProblemModelExtractor()).get(0);
+                    if (tmp != null) {
+                        /*SET ID OF THE PROBLEM*/
+                        pm.setProblemId(tmp.getProblemId());
+                        /*UPDATE EACH PROBLEM CHOICE IN DB PER PROBLEM*/
+                        query = "call update_problemChoice(?,?,?)";
+                        if (pm.getType().equals("M/C")){
+                            for (ChoiceModel cm : pm.getChoices()) {
+                            /*UPDATE THE DB*/
+                                ArrayList<ChoiceModel> cml = dbs.getJdbcTemplate().query(query,
+                                        new Object[]{cm.getId(), pm.getProblemId(), cm.getAnswerChoice()}, new ChoiceModelExtractor());
+                            /*SET THE ID OF THE CHOICE*/
+                                if (cml != null && cml.size() > 0) cm.setId(cml.get(0).getId());
+                            }
+                        }
+                    }
                 }
             }
-
         }
+        /*SETS THE QUESTION LIST */
         quizModel.setQuestionList(pml);
         return quizModel;
     }
 
+    /**
+     * Deletes a quiz from the database
+     * @param qm the quiz model that gets deleted
+     * @return true if delete success else false
+     */
     public boolean deleteQuiz(QuizModel qm) {
         String query = "call delete_gradable(?)";
         int rowAffected = dbs.getJdbcTemplate().update(query, qm.getId());
         return rowAffected > 0;
     }
 
+    /**
+     * This is a private class that extracts problems from the resultset and returns an arraylist of problem models
+     */
     private static class ProblemModelExtractor implements ResultSetExtractor<ArrayList<ProblemModel>> {
         @Override
         public ArrayList<ProblemModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -95,6 +179,9 @@ public class QuizDAO extends AssignmentDAO {
         }
     }
 
+    /**
+     * Extractor that extracts quiz models from resultset and returns an array of quiz models
+     */
     private static class QuizModelExtractor implements ResultSetExtractor<ArrayList<QuizModel>> {
         @Override
         public ArrayList<QuizModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -110,6 +197,27 @@ public class QuizDAO extends AssignmentDAO {
                     qml.add(qm);
                 }
                 return qml;
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Extractor that extracts a choice model from result set and returns a list of choice models
+     */
+    private static class ChoiceModelExtractor implements ResultSetExtractor<ArrayList<ChoiceModel>> {
+        @Override
+        public ArrayList<ChoiceModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
+            if(rs != null && rs.getMetaData().getColumnCount() > 0) {
+                ArrayList<ChoiceModel> cml = new ArrayList<ChoiceModel>();
+                while (rs.next()) {
+                    ChoiceModel cm = new ChoiceModel();
+                    if (columnExists(rs, "id")) cm.setId(rs.getInt("id"));
+                    if (columnExists(rs, "problemId")) cm.setQuestionId(rs.getInt("problemId"));
+                    if (columnExists(rs, "answerChoice")) cm.setAnswerChoice(rs.getString("answerChoice"));
+                    cml.add(cm);
+                }
+                return cml;
             }
             return null;
         }

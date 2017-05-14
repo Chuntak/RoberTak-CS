@@ -23,10 +23,11 @@
 <body>
 
 <div ng-controller="quizCtrl">
-    <button class="btn btn-primary" ng-click="makeQuiz()" id="addQuizBtn">Create a Quiz</button>
     <c:choose>
         <%--IF PROFESSOR, APPLY THIS FUNCTIONALITY--%>
-        <c:when test="${userType eq 'prof'}">
+        <c:when test="${userType eq 'prof' && isOwner eq true}">
+            <%--CREATE QUIZ BUTTON--%>
+            <button class="btn btn-primary" ng-click="makeQuiz()" id="addQuizBtn">Create a Quiz</button>
             <%--CREATE A QUIZ--%>
             <div id="quizCreation" ng-model="addQuiz">
                 <h3><input type="text"  placeholder="Title" ng-model="addQuiz.title" ></h3>
@@ -70,9 +71,9 @@
                     <div ng-repeat="question in addQuiz.questionList">
                         <form class="form-group form-inline">
                             <label for="shortAnswerMaker{{$index}}">Short Answer</label>
-                            <input id="shortAnswerMaker{{$index}}" type="radio" name="content" ng-model="question.type" value="ShortAns">
+                            <input id="shortAnswerMaker{{$index}}" ng-click="changeQuestionType(question)" type="radio" name="content" ng-model="question.type" value="ShortAns">
                             <label for="multipleChoiceMaker{{$index}}">Multiple Choice</label>
-                            <input id="multipleChoiceMaker{{$index}}" type="radio" name="content" ng-model="question.type" value="M/C">
+                            <input id="multipleChoiceMaker{{$index}}" ng-click="changeQuestionType(question)" type="radio" name="content" ng-model="question.type" value="M/C">
                             <span ng-click="deleteQuestion(addQuiz,question)" class="btn-xs glyphicon glyphicon-trash clickable"></span>
                         </form>
                         <div class="form-group form-inline">
@@ -86,8 +87,8 @@
                             <form ng-if="question.type === 'M/C'">
                                 <div ng-repeat="choice in question.choices">
                                     <input type="radio" name="choices" ng-click="setMCAnswer(question,choice)" value="{{$index+1|character}}">{{$index+1|character}}
-                                    <input type="text" id="multipleChoiceQuestion{{$index}}" ng-model="choice.answerChoice" class="form-control">
-                                    <button type="button" id="addRemoveChoiceBtn{{$index}}" class="btn btn-default" ng-click="addRemoveChoice('addRemoveChoiceBtn',$index,question,choice)">+</button>
+                                    <input type="text" id="multipleChoiceQuestion{{$parent.$index}}{{$index}}" ng-model="choice.answerChoice" class="form-control">
+                                    <button type="button" id="addRemoveChoiceBtn{{$parent.$index}}{{$index}}" class="btn btn-default" ng-click="addRemoveChoice('addRemoveChoiceBtn','' + $parent.$index + $index,question,choice)">+</button>
                                 </div>
                                 <label>Answer is: {{question.answer.answerChoice}}</label>
                             </form>
@@ -106,12 +107,16 @@
         <div ng-repeat="quiz in quizList" class="list-group-item">
             <div class="quizCard" id="quizViewer{{$index}}">
                 <h4 class="row">
-                    <p class="col-sm-9" ng-bind="quiz.title"></p>
                     <c:choose>
                         <%-- ONLY PROFS CAN EDIT/REMOVE--%>
                         <c:when test="${userType eq 'prof' && isOwner eq true}">
+                            <p class="col-sm-9" ng-bind="quiz.title"></p>
                             <span id="createAsgmt" data-target="#quizEditor{{$index}}" data-toggle="collapse"  ng-click="editQuizInit($index,quiz)" class="btn-xs col-sm-1 glyphicon glyphicon-pencil clickable on-show"></span>
                             <span ng-click="deleteQuiz(quiz)" class="btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show"></span>
+                        </c:when>
+                        <%--STUDENT OR PROFESSORS VIEWING CAN SEE THIS--%>
+                        <c:when test="${isOwner eq false}">
+                            <a href="#" ng-controller="tabsCtrl" ng-click="quiztaker(quiz)" ui-sref="quizTaker" class="col-sm-9" ng-bind="quiz.title"></a>
                         </c:when>
                     </c:choose>
                 </h4>
@@ -163,10 +168,10 @@
                             <div ng-repeat="question in quiz.edit.questionList">
                                 <form class="form-group form-inline">
                                     <label for="shortAnswerMaker2{{$index}}">Short Answer</label>
-                                    <input id="shortAnswerMaker2{{$index}}" type="radio" name="content" ng-model="question.type" value="ShortAns">
+                                    <input id="shortAnswerMaker2{{$index}}" ng-click="changeQuestionType(question)" type="radio" name="content" ng-model="question.type" value="ShortAns">
                                     <label for="multipleChoiceMaker2{{$index}}">Multiple Choice</label>
-                                    <input id="multipleChoiceMaker2{{$index}}" type="radio" name="content" ng-model="question.type" value="M/C">
-                                    <span ng-click="deleteQuestion(addQuiz,question)" class="btn-xs glyphicon glyphicon-trash clickable"></span>
+                                    <input id="multipleChoiceMaker2{{$index}}" ng-click="changeQuestionType(question)" type="radio" name="content" ng-model="question.type" value="M/C">
+                                    <span ng-click="deleteQuestion(quiz.edit,question)" class="btn-xs glyphicon glyphicon-trash clickable"></span>
                                 </form>
                                 <div class="form-group form-inline">
                                     <label>Question</label>
@@ -178,9 +183,9 @@
                                     </div>
                                     <form ng-if="question.type === 'M/C'">
                                         <div ng-repeat="choice in question.choices">
-                                            <input type="radio" name="choices" ng-click="setMCAnswer(question,choice)" value="{{$index+1|character}}">{{$index+1|character}}
-                                            <input type="text" id="multipleChoice{{$index}}" ng-model="choice.answerChoice" class="form-control">
-                                            <button type="button" id="addRemoveChoice{{$index}}" class="btn btn-default" ng-click="addRemoveChoice('addRemoveChoice',$index,question,choice)">+</button>
+                                            <input type="radio" id="mcRadioButton{{$parent.$index}}{{$index}}" ng-checked="choice.isChecked" name="choices" ng-click="setMCAnswer(question,choice)" value="{{$index+1|character}}">{{$index+1|character}}
+                                            <input type="text" id="multipleChoice{{$parent.$index}}{{$index}}" ng-model="choice.answerChoice" class="form-control">
+                                            <button type="button" id="addRemoveChoice{{$parent.$index}}{{$index}}" class="btn btn-default" ng-click="addRemoveChoice('addRemoveChoice','' + $parent.$index + $index,question,choice)">+</button>
                                         </div>
                                         <label>Answer is: {{question.answer.answerChoice}}</label>
                                     </form>
