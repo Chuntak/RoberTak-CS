@@ -155,6 +155,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                 $templateCache.remove("/assignments");
                 $templateCache.remove("/documents");
                 $templateCache.remove("/grades");
+                $templateCache.remove("/quiz");
                 $state.reload();
             };
             reloadData();
@@ -300,6 +301,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                 $templateCache.remove("/assignments");
                 $templateCache.remove("/documents");
                 $templateCache.remove("/grades");
+                $templateCache.remove("/quiz");
                 $state.reload();
             };
             reloadData();
