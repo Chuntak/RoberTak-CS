@@ -45,6 +45,10 @@ html::-webkit-scrollbar {
     padding-left: 5px;
 }
 
+.tabPane .scrollable{
+    height: 90%;
+}
+
 .col-md-12 {
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -120,6 +124,7 @@ body {
 }
 
 .tab-heading{
+    height: 9%;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     background-color: #f5f5f5;
