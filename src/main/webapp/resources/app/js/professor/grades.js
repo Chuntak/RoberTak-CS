@@ -263,11 +263,19 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             $scope.gradables.unshift(gradableJson);
 
             /* CLEAR FORM DISPLAY*/
+            $("#createGradable").click();
             $scope.gradable = {};
         }).error(function(response){
             console.log(response);
             debugger;
         });
+    };
+
+    $scope.initEdit = function(index){
+        /* INIT DATEPICKER */
+        $('#datepicker' + index).datepicker({format: "mm-dd-yy"});
+        /* INIT THE TIME */
+        $('#timepicker1' + index).timepicker();
     };
 
     /* EDIT GRADE DESCRIPTION/INFORMATION */

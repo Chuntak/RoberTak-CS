@@ -32,7 +32,7 @@ app.factory('httpAssignmentFactory', function($http, global) {
                 "gradableType" : "hw"
             }
         });
-    }
+    };
     /* updateAssignment - adds or updates an assignment */
     properties.updateAssignment = function(newAsgmt) {
         /* CONVERT TIME TO PROPER FORMAT HH:MM:SS */
@@ -43,7 +43,7 @@ app.factory('httpAssignmentFactory', function($http, global) {
         var params = {
             "id" : newAsgmt.id,
             "title" : newAsgmt.title,
-            "description" : newAsgmt.descr,
+            "description" : newAsgmt.description,
             "courseId" : global.getCourseId(),
             "gradableType" : "hw",
             "maxGrade" : newAsgmt.maxGrade,
@@ -67,7 +67,7 @@ app.factory('httpAssignmentFactory', function($http, global) {
         else {
             return $http.post('/updateAssignment', params);
         }
-    }
+    };
     /* deleteAssignment - deletes an assigment and any attached files previously uploaded */
     properties.deleteAssignment = function(assignment){
         return $http({
@@ -78,7 +78,7 @@ app.factory('httpAssignmentFactory', function($http, global) {
                 "hwBlobName" : assignment.hwBlobName
             }
         })
-    }
+    };
     return properties;
 });
 
@@ -131,59 +131,50 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
                 "dueDate" : new Date(response.dueDate).toLocaleTimeString("en-us", options),
                 "difficulty" : "hard",
                 "hwBlobName" : response.hwBlobName,
-                "hwDownloadLink" : response.hwDownloadLink
+                "hwDownloadLink" : response.hwDownloadLink,
+                "hwFileName" : ""
             });
             /* CLOSE FORM */
             $("#createAsgmt").click();
-            // $scope.newAsgmt = {};
         }).error(function(response) {
             console.log('error');
         })
     };
 
+    $scope.initEdit = function(index){
+        /* INIT DATEPICKER */
+        $('#datepicker' + index).datepicker({format: "mm-dd-yy"});
+        /* INIT THE TIME */
+        $('#timepicker' + index).timepicker();
+    };
 
-    // $scope.editAssignment = function(newAsgmt, index){
-    //
-    //     newAsgmt.title = document.getElementById("title" + index).value;
-    //     newAsgmt.description = document.getElementById("description" + index).value;
-    //
-    //     var y = $http.post("/updateAssignment",{
-    //         transformRequest: angular.identity,
-    //         headers: {
-    //             'Content-Type': undefined
-    //         },
-    //         params: {
-    //             "id" : newAsgmt.id,
-    //             "title": newAsgmt.title,
-    //             "gradableType": "hw",
-    //             "maxGrade" : newAsgmt.maxGrade,
-    //             "dueDate" : new Date(newAsgmt.date+" "+newAsgmt.time).getTime(),
-    //             "description" : newAsgmt.description,
-    //             "courseId" : global.getCourseId(),
-    //             "difficulty" : "hard",
-    //             "hwBlobName" : newAsgmt.hwBlobName,
-    //             "hwDownloadLink" : newAsgmt.hwDownloadLink
-    //         }
-    //     }).success(function (response) {
-    //         $state.reload();
-    //         $scope.assignments[index].title = response.title;
-    //         $scope.assignments[index].gradableType = response.gradableType;
-    //         $scope.assignments[index].maxGrade = response.maxGrade;
-    //         $scope.assignments[index].dueDate = new Date(response.date+" "+response.time).getTime();
-    //         $scope.assignments[index].description = response.description;
-    //         $scope.assignments[index].date = response.date;
-    //         $scope.assignments[index].time = response.time;
-    //         $scope.assignments[index].hwBlobName = response.hwBlobName;
-    //
-    //     }).error(function(response){
-    //         console.log(response);
-    //     });
-    //
-    //     document.getElementById("title" + index).value = newAsgmt.title;
-    //     // document.getElementById("hwBlobName" + index).value = asgmt.hwBlobName;
-    //     document.getElementById("description" + index).value = newAsgmt.description;
-    //
-    // };
+    /* CREATE/EDIT ASSIGNMENTS */
+    $scope.editAssignment = function (newAsgmt, index) {
+
+        newAsgmt.title = document.getElementById("title" + index).value;
+        // newAsgmt.maxGrade = document.getElementById("maxGrade" + index).value;
+        // newAsgmt.description = document.getElementById("description" + index).value;
+
+        httpAssignmentFactory.updateAssignment(newAsgmt).success(function(response) {
+            /* SUCCESSFUL HTTP REQUEST - EDIT MODEL */
+            $state.reload();
+            $scope.assignments[index].title = response.title;
+            $scope.assignments[index].gradableType = response.gradableType;
+            $scope.assignments[index].maxGrade = response.maxGrade;
+            $scope.assignment[index].dueDate = new Date(response.date+" "+response.time).getTime();
+            $scope.assignments[index].description = response.description;
+            $scope.assignments[index].date = response.date;
+            $scope.assignments[index].time = response.time;
+            /* CLEAR FORM */
+            $scope.newAsgmt = {};
+        }).error(function(response) {
+            console.log('error');
+        });
+        document.getElementById("title" + index).value = newAsgmt.title;
+        // document.getElementById("maxGrade" + index).value = newAsgmt.maxGrade;
+        // document.getElementById("description" + index).value = newAsgmt.description;
+
+    };
 
     /* REMOVE ASSIGNMENT */
     $scope.deleteAssignment = function(assignment){
@@ -194,7 +185,6 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
                     break;
                 }
             }
-            debugger;
         }).then(function(response){
             console.log("deleteAssignment Error: " + response);
         });

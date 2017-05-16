@@ -17,9 +17,9 @@ app.factory('httpQuizFactory', function($http, global) {
             }
             this.choices = angular.toJson(this.choices);
         });
-        debugger;
         var parameters = { "id" : quiz.id, "title" : quiz.title, "courseId" :
             global.getCourseId(), "dueDate" : quiz.dueDate, "maxGrade" : quiz.maxGrade ,"tagNames" : quiz.quizTaggedList };
+
         return $http.post("/updateQuiz", JSON.parse(angular.toJson(quizQuestionList)),
             { params : parameters });
     };
@@ -89,7 +89,6 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
             this.contentLoaded = false; /*MARK THEM AS QUESTIONS NOT LOADED*/
         });
         $scope.quizList = response;
-        debugger;
         /* INIT THE TIME */
     }).error(function(response){ console.log("getQuiz error"); });
     /* Quiz is a list of questions wtih Quiz Title and Questions
@@ -151,7 +150,6 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
                             });
                         }
                     });
-                    debugger;
                 }).error(function (response) {
                     console.log("getQuizContentError");
                 })
@@ -192,7 +190,6 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
     };
 
     $scope.deleteTag = function(quizTagged,quiz) {
-        debugger;
         for(var i = 0; i < quiz.quizTaggedList.length; i++){
             if(quiz.quizTaggedList[i] === quizTagged){
                 quiz.quizTaggedList.splice(i,1);
@@ -244,7 +241,6 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
     };
 
     $scope.saveQuiz = function (quiz) {
-        debugger;
         $('#addQuizBtn').attr("disabled", false);
         $('#quizCreation').fadeToggle('fast');
         quiz.dueDate = new Date(quiz.date + " " + quiz.time).getTime();
@@ -264,7 +260,6 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
 
     $scope.deleteQuiz = function(quiz) {
         httpQuizFactory.deleteQuiz(quiz).success(function(response) {
-            debugger;
             var x = $scope.quizList.indexOf(quiz);
             $scope.quizList.splice(x, 1);
         }).error(function(response) { console.log("delete Quiz error.")})
@@ -285,11 +280,9 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
         quiz.time = document.getElementById("timepicker" + index).value;
         quiz.maxGrade = document.getElementById("editMaxGrade" + index).value;
         quiz.dueDate = new Date(quiz.date + " " + quiz.time).getTime();
-        debugger;
         httpQuizFactory.saveQuiz(quiz).success(function(response){
             quiz.questionList = response.questionList;
             quiz.dueDate = new Date(quiz.date + " " + quiz.time).toLocaleTimeString("en-us", options);
-            debugger;
         }).error(function(response) {
             console.log("Update Quiz error");
         });

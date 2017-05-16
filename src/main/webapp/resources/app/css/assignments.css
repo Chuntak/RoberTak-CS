@@ -1,3 +1,4 @@
+/* ADDING NEW ASSIGNMENT HEADER */
 .asgmt-create{
     border: 1px limegreen;
 }
@@ -12,6 +13,7 @@
     display:inline;
 }
 
+/* TITLE POSITIONING */
 h3{
     margin-left: -15px;
 }
@@ -19,14 +21,22 @@ h3{
 /* STYLE THE ASSIGNMENT FORMS */
 #assignmentForm{
     padding: 10px 15px;
+    height: auto;
 }
 
 /* POSITION THE ASGMT FORM BUTTONS */
 #assignmentForm button{
     margin-left: 7px;
 }
+
+/* SUBMIT AND CANCEL BUTTON FOR EDIT */
 .asgmt-btns{
     margin-left: 70%;
+}
+
+/* SUBMIT BUTTON */
+.asgmt-btn{
+    margin-top: 20px;
 }
 
 /* PADDING FOR DROP DOWN FORM */
@@ -42,4 +52,19 @@ h3{
 /* SEPARATE ELEMENTS A LITTLE */
 .asgmt-form{
     margin-top: 3px;
+}
+
+/* ASSIGNMENT DESCRIPTION STYLE */
+.descr-padding{
+    padding-top: .3cm;
+}
+
+/* PADDING FOR FORM - BETWEEN THE TEXTBOXES */
+.label-padding{
+    padding-top: .3cm;
+}
+
+/* CALENDAR WIDTH SIZING */
+.datepicker{
+    width: auto;
 }

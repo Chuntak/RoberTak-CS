@@ -23,9 +23,10 @@ textarea {
 
 #documentForm{
     padding: 10px 15px;
-    height: 260px;
+    height: auto;
 }
 
+/* ADDING NEW DOCUMENT BANNER */
 .document-create{
     border: 1px limegreen;
 }
@@ -82,6 +83,7 @@ textarea {
 
 /******Documents display******/
 
+/* TITLE POSITIONING */
 h3{
     margin-left: -15px;
 }

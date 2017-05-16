@@ -1,3 +1,4 @@
+/* ADDING NEW GRADABLE BANNER */
 .gradable-create{
     border: 1px limegreen;
 }
@@ -5,6 +6,7 @@
 /* HIDE EDIT/DELETE ICONS NORMALLY */
 .gradable .on-show {
     display:none;
+    float: right;
 }
 
 /* DISPLAY EDIT/DELETE ICONS ON HOVER */
@@ -15,15 +17,17 @@
 /* STYLE THE ASSIGNMENT FORMS */
 #gradableForm{
     padding: 10px 15px;
-    height: 260px;
+    height: 400px;
 }
 
 /* POSITION THE ASGMT FORM BUTTONS */
 #gradableForm button{
     margin-left: 7px;
 }
+
 .gradable-btns{
     margin-left: 70%;
+    margin-top: 5%;
 }
 
 /* SEPARATE ELEMENTS A LITTLE */
@@ -39,7 +43,7 @@
 }
 
 .select-type{
-    margin-top: 10px;
+    margin-top: 45px;
 }
 
 .description-color{
@@ -69,7 +73,22 @@ textarea {
 .k-grid td {
     line-height: 2em;
 }
+
+
+/* PADDING FOR FORM - BETWEEN THE TEXTBOXES */
+.label-padding {
+    padding-top: .3cm;
+}
+
+/* GRAPHS FOR GRADES STATISTICS */
 canvas{
     max-height: 200px; !important;
     max-width: 400px; !important;
 }
+
+/* CALENDAR WIDTH SIZING */
+.datepicker{
+    width: auto;
+}
+
+
