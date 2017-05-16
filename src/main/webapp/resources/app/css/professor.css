@@ -1,13 +1,10 @@
 
-/*Course Pane*/
-#courseSelection{
-    max-height: 60%;
-    overflow-y: auto;
-}
+
 
 /*CSS FOR SYLLABUS*/
 h5{
     margin-left: 20px;
+    margin-top: 15px;
 }
 
 iframe{
@@ -22,9 +19,10 @@ iframe{
 }
 
 .submitBtn{
-    margin-right: 340px;
+
     float: right;
     margin-top: -27px;
+    margin-right: 10px;
 }
 
 /*************************/

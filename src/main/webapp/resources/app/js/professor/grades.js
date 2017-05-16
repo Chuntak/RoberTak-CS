@@ -65,6 +65,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     $scope.gradable = {};
     $scope.selectedGradable = {};
     $scope.gridData = null;
+    var gridIndex = 0;
 
 
     /* INIT THE DATEPICKER */
@@ -82,13 +83,31 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     };
 
     /*ACTIVATES WHEN THE GRADE TITLE IS CLICKED AND THE GRADE TABLE SHOWS*/
-    $scope.getGrades = function(gradableId, gridIndex){
+    $scope.getGrades = function(gradableId, index){
         selectedGradableID = gradableId;
+        gridIndex = index;
         httpGradeFactory.getGrades(gradableId).success(function (response) {
-            $scope.students = response;
-            $scope.initDataSource();
-            $scope.gridData.read();
-            $scope.initGrid();
+            if($scope.students.length){
+                var slength = $scope.students.length;
+                var rlength = response.length;
+                var max = slength > rlength ? slength : rlength;
+                for(i = 0; i < max; i++){
+                    if(slength--) {
+                        $scope.students.shift();
+                    }
+                    if(rlength--){
+                        $scope.students.push(response[i]);
+                    }
+                }
+                $("#kendogrid"+gridIndex).data("kendoGrid").dataSource.read();
+            }
+            else{
+                $scope.students = response;
+                $scope.initDataSource();
+                $scope.initGrid();
+
+            }
+
 
         }).error(function(response){
             console.log(response);
