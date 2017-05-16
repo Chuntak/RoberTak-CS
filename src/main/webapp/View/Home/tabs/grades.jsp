@@ -24,6 +24,7 @@
 </head>
 <body>
 <div ng-controller="gradesCtrl">
+
     <c:choose>
         <%--IF PROFESSOR, APPLY THIS FUNCTIONALITY--%>
         <c:when test="${userType eq 'prof'}">
@@ -96,9 +97,10 @@
         </c:when>
     </c:choose>
 
-    <%-- DISPLAYS A LIST OF ALL TASKS --%>
-    <div ng-repeat="gradable in gradables" >
-        <div class="list-group-item gradable">
+    <div class="panel-group" id="gradeAccordion">
+        <div ng-repeat="gradable in gradables" class="panel list-group-item gradable">
+            <%--<div class="list-group-item gradable">--%>
+                <div class="panel-heading">
             <%-- ONLY PROFESSOR CAN EDIT AND SEE THIS FUNCTIONALITY --%>
             <c:choose>
                 <c:when test="${userType eq 'prof'}">
@@ -106,23 +108,25 @@
                     <a id="editGradable" data-toggle="collapse" data-target="#editGradable{{$index}}" class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show"></a>
                 </c:when>
             </c:choose>
-
             <%-- DISPLAYS DESCRIPTION OF GRADE TASK --%>
-            <h3><a ng-bind="gradable.title" data-toggle="collapse" data-target="{{'#items'+$index}}"></a></h3>
-            <h6 ng-bind="'Due: ' + gradable.dueDate"></h6>
+
+            <h3 calss="panel-title"><a ng-bind="gradable.title"  ng-click="selectGradable(gradable.id)" data-toggle="collapse" data-target="{{'#items'+$index}}" data-parent="#gradeAccordion" ></a></h3>
+
+                <h6 ng-bind="'Due: ' + gradable.dueDate"></h6>
             <h6 ng-bind="'Maximum Grade: ' + gradable.maxGrade"></h6>
             <h5 ng-bind="gradable.description" class="description-color"></h5>
-            <div id="{{ 'items' + $index }}" class="list-group-item panel-collapse collapse">
-                <h3>Items</h3>
+                </div>
+                <div id="{{ 'items' + $index }}" class="panel-collapse collapse">
+                    <div class="panel-body">
 
-                <kendo-grid id="grid" options="mainGridOptions">
-
-                </kendo-grid>
-
-            </div>
+                        <h3>Items</h3>
+                        <%--<canvas id="gradeGraph-{{$index}}" height="150px" width="300px"></canvas>--%>
+                        <kendo-grid id="grid" options="mainGridOptions"></kendo-grid>
+                    </div>
+                </div>
 
             <%-- EDIT GRADABLE --%>
-            <div class="collapse" id="editGradable{{$index}}">
+            <div class="collapse" id="editGradable{{$index}}" >
                 <div>
                     <div class="form-group gradable-form">
 
@@ -180,9 +184,9 @@
                         <button type="submit" class="btn btn-default" ng-click="editGradable(gradable, $index)">Submit</button>
                         <button class="btn btn-default" data-toggle="collapse" data-target="#editGradable{{$index}}">Cancel</button>
                     </div>
-                </div>
+                </>
             </div>
-        </div>
+        <%--</div>--%>
     </div>
 
 

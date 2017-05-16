@@ -2,7 +2,7 @@
  * Created by Calvin on 5/4/2017.
  */
 var app = angular.module('homeApp');
-
+var selectedId = 0;
 /* FACTORY TO HANDLE HTTP REQUEST LOGIC */
 app.factory('httpGradeFactory', function($http, global) {
     /* SET SINGLETON LIKE OBJECT */
@@ -14,7 +14,7 @@ app.factory('httpGradeFactory', function($http, global) {
                 "courseId" : global.getCourseId()
             }
         });
-    }
+    };
 
     properties.getEnrolled = function(){
         return $http.get("/getEnrolled", {
@@ -22,7 +22,7 @@ app.factory('httpGradeFactory', function($http, global) {
                 "id" : global.getCourseId()
             }
         });
-    }
+    };
 
     /* updateAssignment - adds or updates an assignment */
     properties.updateGradable = function(gradable) {
@@ -71,10 +71,27 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         day: "numeric", hour: "2-digit", minute: "2-digit"
     };
 
+    /*ACTIVATES WHEN THE GRADE TITLE IS CLICKED AND THE GRADE TABLE SHOWS*/
+    $scope.selectGradable = function(gradableId){
+        selectedGradableID = gradableId;
+        var y = $http({
+            method: 'GET',
+            url: '/getGrade',
+            params: {"courseId": global.getCourseId() ,"gradableId": selectedGradableID}
+        }).then(function (response) {
+            $scope.students = response;
+            $scope.initGrid();
+        }, function errorCallBack(response) {
+            console.log(response);
+        });
+
+    };
+
     /* DATA FOR KENDO GRID. THESE SHOULD BE THE ITEM OBJECTS RECEIVED FROM DATASTORE */
     $scope.initGrid = function() {
         $scope.gridData = new kendo.data.DataSource({
             data: $scope.students,
+            pageSize: 5 ,
             schema: {
                 model: {
                     id: "id",
@@ -123,7 +140,9 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                 { field: "grade", title: "Grade" }
             ],
             save: function(e){
-                $scope.updateTempRecords();
+                debugger;
+                var id = selectedGradableID;
+                $scope.updateGradableRecords(e.model.id, id  , e.values.grade);
                 var dataSource = $("#grid").data("kendoGrid").dataSource;
                 $("#grid").data('kendoGrid').refresh();
                 debugger;
@@ -157,6 +176,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
 
 
 
+
     /*Get all enrolled in the course and their respective grade*/
 
     /**
@@ -174,12 +194,40 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         /* MODEL THE GRADABLES */
         $scope.gradables = response;
         /* NOW LOAD ALL ENROLLED STUDENT INFORMATION AFTER GRADABLES LOAD */
-        httpGradeFactory.getEnrolled().success(function(response){
-            $scope.students = response;
-            $scope.initGrid();
-        }).error(function(){
-
-        });
+        // httpGradeFactory.getEnrolled().success(function(response){
+        //     debugger;
+        //     $scope.students = response;
+        //      $scope.initGrid();
+            // var data2 = [
+            //     {
+            //         label: "Grade",
+            //         strokeColor: '#F16220',
+            //         data: [
+            //             { x:100, y: 1 },
+            //             { x: 85, y: 3 },
+            //             { x: 80, y: 8 },
+            //             { x: 75, y: 10 },
+            //             { x: 70, y: 7 },
+            //             { x: 65, y: 6 },
+            //             { x: 60, y: 5 },
+            //             { x: 50, y: 3 },
+            //             { x: 40, y: 1 }
+            //         ]
+            //     }
+            // ];
+            // var graphCanvas = '#gradeGraph-0';
+            // var ctx = $(graphCanvas).get(0).getContext("2d");
+            // var myLineChart = new Chart(ctx).Scatter(data2, {
+            //     bezierCurve: true,
+            //     showTooltips: true,
+            //     scaleShowHorizontalLines: true,
+            //     scaleShowLabels: true,
+            //     scaleBeginAtZero: true
+            // });
+            // makeGraph();
+        // }).error(function(){
+        //
+        // });
     }).error(function(response){
         console.log(response);
     });
@@ -209,7 +257,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             console.log(response);
             debugger;
         });
-    }
+    };
 
     /* EDIT GRADE DESCRIPTION/INFORMATION */
     $scope.editGradable = function(gradable, index){
@@ -272,6 +320,72 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         });
     };
 
+    // Chart.defaults.global.animation = false;
+    // Chart.defaults.global.tooltipFontSize=10;
+    // Chart.defaults.global.tooltipFillColor = "rgba(0,80,140,0.8)";
+    // Chart.defaults.global.responsive = true;
+    // Chart.defaults.global.scaleLineColor = "black";
+    //
+    // /*CREATES A GRAPH FOR A GRADABLE*/
+    // function makeGraph(){
+    //     var gradeFrequency=[{ grade: 100, freq: 1 },{ grade: 90, freq: 3 },
+    //         { grade: 80, freq: 8 },{ grade: 70, freq: 11 },
+    //         { grade: 60, freq: 9 },{ grade: 50, freq: 5 },
+    //         { grade: 40, freq: 3 },{ grade: 30, freq: 3 },
+    //         { grade: 20, freq: 2 },{ grade: 10, freq: 1 }];
+    //
+    //     var graphPoints = [];
+    //     var xData;
+    //     var yData;
+    //     debugger;
+    //     for(count = 0; count < gradeFrequency.length -1; count++){
+    //         xData = gradeFrequency[count].grade;
+    //         yData = gradeFrequency[count].freq;
+    //         graphPoints.push({x : xData, y : yData});
+    //     }
+    //     debugger;
+    //
+    //
+    //     var graphData = [
+    //         {
+    //             label: "gradable.title",
+    //             strokeColor: '#F16220',
+    //             data: graphPoints
+    //         }
+    //     ];
+    //     // var graphCanvas = '#gradeGraph-'+index;
+    //     var graphCanvas = '#gradeGraph-0';
+    //     var ctx = $(graphCanvas).get(0).getContext("2d");
+    //     ctx.height = 400;
+    //     var myLineChart = new Chart(ctx).Scatter(graphData, {
+    //         bezierCurve: true,
+    //         showTooltips: true,
+    //         scaleShowHorizontalLines: true,
+    //         scaleShowVerticalLines: false,
+    //         scaleShowLabels: true,
+    //         scaleBeginAtZero: true,
+    //         scaleStartValue : 0,
+    //         maintainAspectRatio: true,
+    //
+    //         options : {
+    //             scales:{
+    //                 xAxes:[{
+    //                     ticks:{
+    //                         beginAtZero: true
+    //                     }
+    //                 }],
+    //                 yAxes: [{
+    //                     ticks: {
+    //                         beginAtZero: true
+    //                     }
+    //                 }]
+    //             }
+    //         }
+    //     });
+    //
+    //
+    // }
+
     /******* GRADES ********/
     // $http.get('/getGrade',{
     //     params : {
@@ -291,5 +405,16 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     //     debugger;
     // });
 
+    $scope.updateGradableRecords = function(studentId,gradableId, grade){
+        var y = $http({
+            method: 'GET',
+            url: '/updateGrade',
+            params: {"studId" : studentId, "gradableId" : gradableId, "grade" : grade}
+        }).then(function (response) {
+            debugger;
+        }, function errorCallBack(response) {
+            console.log(response);
+        });
+    };
 
 });

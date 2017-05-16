@@ -42,18 +42,30 @@ public class GradeController {
         return new GradableModel();
     }
 
-    /*returns the corrent grades page*/
+    /*returns the cUrrent grades page*/
     @RequestMapping(value="/grades", method = RequestMethod.GET)
     public String loadGrades(HttpSession session) {
         return "tabs/grades";
     }
 
-    /*gets the course returns the arraylist course can return professor names/email*/
+    /*gets the grades returns the arraylist grades of that gradable*/
     @RequestMapping(value="/getGrade", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<GradeModel> getGrade(@ModelAttribute("grade") GradeModel grade, HttpSession session) {
         return new GradeDAO().getGrade(grade);
     }
+
+
+    /*Updates GRADE*/
+    @RequestMapping(value="/updateGrade", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    GradeModel updateGrade(@ModelAttribute("grade") GradeModel grade, HttpSession session){
+        GradeModel dm = new GradeDAO().updateGrade(grade);
+        return dm;
+    }
+
+
+
 
 
 

@@ -1,7 +1,7 @@
 package com.backpack.models;
 
 /**
- * Created by Admin on 5/4/2017.
+ * Created by Calvin on 5/4/2017.
  */
 public class GradeModel {
 
@@ -12,7 +12,7 @@ public class GradeModel {
     private int gradableId;
     private int courseId;
     private int grade;
-    private int stdId;
+    private int id;
 
     public String getSubmissionFile() {
         return submissionFile;
@@ -30,12 +30,12 @@ public class GradeModel {
         this.gradableId = gradableId;
     }
 
-    public int getStdId() {
-        return stdId;
+    public int getId() {
+        return id;
     }
 
-    public void setStdId(int stdId) {
-        this.stdId = stdId;
+    public void setId(int studId) {
+        this.id = studId;
     }
 
     public void setCourseId(int courseId) {

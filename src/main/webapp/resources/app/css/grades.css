@@ -69,3 +69,7 @@ textarea {
 .k-grid td {
     line-height: 2em;
 }
+canvas{
+    max-height: 200px; !important;
+    max-width: 400px; !important;
+}

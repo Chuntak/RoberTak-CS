@@ -12,14 +12,21 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Admin on 5/4/2017.
+ * Created by Calvin on 5/4/2017.
  */
 public class GradeDAO extends DAOBase{
 
     /*  GET INFORMATION FROM DB FOR: STUDENT INFO, SUBMISSION FILE */
     public ArrayList<GradeModel> getGrade(GradeModel gm){
         String query = "call get_grade(?,?,?)";
-        return dbs.getJdbcTemplate().query(query, new Object[] { gm.getStdId(), gm.getCourseId(), gm.getGradableId() }, new GradeModelExtractor());
+        return dbs.getJdbcTemplate().query(query, new Object[] { 0,gm.getCourseId(), gm.getGradableId() }, new GradeModelExtractor());
+    }
+
+    /*UPDATES THE DATABASE GRADE*/
+    public GradeModel updateGrade(GradeModel gm){
+        String query = "call update_grade(?,?,?)";
+        ArrayList<GradeModel> gml =  dbs.getJdbcTemplate().query(query, new Object[] { gm.getId(), gm.getGradableId(),gm.getGrade() }, new GradeDAO.GradeModelExtractor());
+        return gml.size() > 0 ? gml.get(0) : null;
     }
 
     /* RETRIEVE RESULTS FROM DB STORED PROCEDURE (QUERY) */
@@ -34,7 +41,10 @@ public class GradeDAO extends DAOBase{
                     if(columnExists(rs, "lastName")) gm.setLastName(rs.getString("lastName"));
                     if(columnExists(rs, "email")) gm.setEmail(rs.getString("email"));
                     if(columnExists(rs, "submissionFile")) gm.setSubmissionFile(rs.getString("submissionFile"));
+                    if(columnExists(rs,"gradableId")) gm.setGradableId(rs.getInt("gradableId"));
+                    if(columnExists(rs,"crsId")) gm.setCourseId(rs.getInt("crsId"));
                     if(columnExists(rs, "grade")) gm.setGrade(rs.getInt("grade"));
+                    if(columnExists(rs,"id")) gm.setId(rs.getInt("id"));
                     gml.add(gm);
                 }
             }
