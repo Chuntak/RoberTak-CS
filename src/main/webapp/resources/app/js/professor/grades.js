@@ -154,8 +154,8 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                 debugger;
                 var id = selectedGradableID;
                 $scope.updateGradableRecords(e.model.id, id  , e.values.grade);
-                var dataSource = $("#grid").data("kendoGrid").dataSource;
-                $("#grid").data('kendoGrid').refresh();
+                // var dataSource = $("#grid").data("kendoGrid").dataSource;
+                // $("#grid").data('kendoGrid').refresh();
                 debugger;
             },
             remove: function (e) {

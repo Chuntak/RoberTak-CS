@@ -4,6 +4,7 @@
 var app = angular.module('homeApp');
 
 
+
 /* FACTORY TO HANDLE HTTP REQUEST LOGIC */
 app.factory('httpQuizFactory', function($http, global) {
     /* SET SINGLETON LIKE OBJECT */
@@ -31,20 +32,28 @@ app.factory('httpQuizFactory', function($http, global) {
         return $http.get("/getQuiz", { params : parameters });
     };
 
-    /*get QUIZ CONTENT, GIVES THE TAGS AND QUESTIONS*/
-    properties.getQuizContent = function(quiz) {
-        var parameters = { "id" : quiz.id };
-        return $http.get("/getQuizContent", { params : parameters });
+    /*GET QUIZ CONTENT, GIVES THE TAGS AND QUESTIONS*/
+    properties.getQuizProblem = function(quizId) {
+        var parameters = { "id" : quizId };
+        return $http.get("/getQuizProblemsForStudent", { params : parameters });
     };
 
-    /* DELETE QUIZ*/
-    properties.deleteQuiz = function(quiz) {
-        var parameters = { "id" : quiz.id };
-        return $http.get("/deleteQuiz", {params : parameters});
+    /*SAVES THE ANSWER TO A PROBLEM*/
+    properties.saveAnswer = function(problem) {
+        var parameters = { problemId : problem.problemId, quizId : global.getQuizId(), answer : problem.answer };
+        return $http.get("/updateStudentAnsForProbInQuiz", { params : parameters });
     };
 
     return properties;
 });
+
+/*MAKES INDEX INTO A B C D FOR MULTIPLE CHOICE*/
+app.filter('character',function(){
+    return function(input){
+        return String.fromCharCode(96 + parseInt(input,10));
+    };
+});
+
 
 app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFactory) {
     /* TIME FORMATTING OPTIONS */
@@ -65,10 +74,41 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
             this.date = new Date(this.dueDate).toLocaleDateString("en-us", dateOptions);
             this.time = new Date(this.dueDate).toLocaleTimeString("en-us", timeOptions);
             this.dueDate = new Date(this.dueDate).toLocaleTimeString("en-us", options);
-            this.contentLoaded = false; /*MARK THEM AS QUESTIONS NOT LOADED*/
         });
         $scope.quizList = response;
-        debugger;
     }).error(function(response){ console.log("getQuiz error"); });
+
+    $scope.quiztaker = function(quiz) {
+        global.setQuizId(quiz.id);
+    };
+
+});
+
+app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFactory) {
+    $scope.problemList = [];
+    $scope.problemPage = 1;
+    var lastProblemPage = $scope.problemPage;
+    $scope.itemsPerPage = 1;
+    httpQuizFactory.getQuizProblem(global.getQuizId()).success(function(response){
+        $scope.problemList = response;
+    }).error(function(response) {
+        console.log("getQuizProblem");
+    });
+
+    /*SAVE ANSWER*/
+    $scope.saveAnswer = function(){
+        httpQuizFactory.saveAnswer($scope.problemList[lastProblemPage-1]).success(function(response){
+           lastProblemPage = $scope.problemPage;
+            debugger;
+        }).error(function(response) {
+            console.log("save answer error");
+        });
+    };
+
+    /*THIS CHECKS IF USER CLICKS ON ANOTHER TAB, WE'LL SAVE*/
+    $scope.$on('$destroy', function onLeave() {
+        /*SAVES ANSWER WHEN USER LEAVES THE TAB*/
+        $scope.saveAnswer();
+    })
 
 });

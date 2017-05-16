@@ -13,6 +13,18 @@ angular.module('homeApp').factory('global', function($http) {
     properties.courseId = 0;
     /* INIT CURRENT USER ID */
     properties.userId = 0;
+    /* INIT QUIZ ID THAT THE STUDENT IS TAKING*/
+    properties.quizId = 0;
+
+    /* RETURNS THE QUIZ ID */
+    properties.getQuizId = function() {
+        return properties.quizId;
+    };
+
+    /* RETURNS THE QUIZ ID */
+    properties.setQuizId = function(quizId) {
+        properties.quizId = quizId;
+    };
 
     /* RETURNS COURSE ID */
     properties.getCourseId = function() {

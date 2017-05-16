@@ -492,9 +492,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
 
-    <%--<script src="<c:url value="/resources/app/js/Chart.Core.min.js" />"  type="text/javascript" ></script>--%>
-    <%--<script src="<c:url value="/resources/app/js/Chart.Scatter.min.js" />"  type="text/javascript" ></script>--%>
+
+    <script src="<c:url value="/resources/app/js/imported/Chart.Core.min.js" />"  type="text/javascript" ></script>
+    <script src="<c:url value="/resources/app/js/imported/Chart.Scatter.min.js" />"  type="text/javascript" ></script>
 
 
     <!-- Include the Quill library -->

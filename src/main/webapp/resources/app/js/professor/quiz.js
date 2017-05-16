@@ -52,50 +52,6 @@ app.filter('character',function(){
     };
 });
 
-/*If the element is the first one and its the last one, we ng-repeat */
-app.filter('first', function() {
-    return function(input) {
-        debugger;
-        if(input.length === 1){
-            return input.slice(0,1);
-        } else {
-            return [];
-        }
-    }
-});
-
-/*FILTER FOR NG-REPEAT*/
-app.filter('middle', function() {
-    return function(input) {
-        if(input.length > 1) {
-            return input.slice(0, input.length - 1);
-        } else {
-            return [];
-        }
-    }
-});
-
-
-app.filter('last_1', function() {
-   return function(input) {
-       if(input.length > 1 && input.length < 5) {
-           return input.slice(input.length - 1, input.length);
-       } else {
-           return [];
-       }
-   }
-});
-
-app.filter('last_2', function() {
-    return function(input) {
-        if(input.length > 1 && input.length === 5) {
-            return input.slice(input.length - 1, input.length);
-        } else {
-            return [];
-        }
-    }
-});
-
 /*Grades Controller*/
 app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFactory) {
     $scope.quizList = [];
@@ -171,10 +127,10 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
                 $('#datepicker' + index).datepicker({format: "mm-dd-yy"});
                 /* INIT THE TIME */
                 $('#timepicker' + index).timepicker();
-                httpQuizFactory.getQuizContent(quiz).then(function (response) {
+                httpQuizFactory.getQuizContent(quiz).success(function (response) {
                     quiz.contentLoaded = true;
-                    quiz.quizTaggedList = response.data.quizTaggedList;
-                    quiz.questionList = response.data.questionList;
+                    quiz.quizTaggedList = response.quizTaggedList;
+                    quiz.questionList = response.questionList;
                     /*EDIT BUT NOT COMMIT*/
                     quiz.edit = {
                         quizTaggedList: JSON.parse(JSON.stringify(quiz.quizTaggedList)),
@@ -196,7 +152,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
                         }
                     });
                     debugger;
-                }).then(function (response) {
+                }).error(function (response) {
                     console.log("getQuizContentError");
                 })
             } else {
@@ -251,11 +207,10 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
     };
 
 
-    $scope.addRemoveChoice = function(idPrefix, index,question, choice) {
-        var x = document.getElementById(idPrefix + index);
-        if(x.innerText === "+") {
+    $scope.addRemoveChoice = function(question, choice, x) {
+        if(x === '+') {
             question.choices.push({id : 0, questionId : 0, answerChoice : "", answerLetter : ""});
-        } else {
+        }else {
             var i = question.choices.indexOf(choice);
             question.choices.splice(i, 1);
             if(question.answer === choice) {

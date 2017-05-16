@@ -17,6 +17,7 @@ public class ProblemModel {
     private String answer;
     private String title;
     private boolean deleted;
+    private double pointsWorth;
 
     private ArrayList<ChoiceModel> choices;
 
@@ -92,6 +93,14 @@ public class ProblemModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public double getPointsWorth() {
+        return pointsWorth;
+    }
+
+    public void setPointsWorth(double pointsWorth) {
+        this.pointsWorth = pointsWorth;
     }
 
 }

@@ -2,7 +2,7 @@
  * Created by Calvin on 4/1/2017.
  */
 /*Course Controller*/
-angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $state, global) {
+angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $templateCache, $state, global) {
     $scope.course = "";
     /*enrolling in a course*/
     $scope.enrollCourse = function() {
@@ -36,6 +36,10 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     $scope.selectCourse = function(course, index){
         $scope.selected = index;
         global.setCourseId(course.id);
+        if($state.current.name === "quizTaker") {
+            $templateCache.remove("/quizTak");
+        }
+
         /* RELOAD TAB DATA */
         var reloadData = function(){
             $state.reload();

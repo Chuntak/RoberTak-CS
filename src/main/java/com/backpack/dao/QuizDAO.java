@@ -43,8 +43,8 @@ public class QuizDAO extends AssignmentDAO {
     }
 
     /**
-     * This gets all the problems that is related to
-     * the course that is related to the quiz that is in
+     * This gets all the problems that is
+     * that is related to the quiz that is in
      * the problem model idenified by its id
      * @param quizId the quiz id that identifies the quiz
      * @return a list of problem models for a quiz
@@ -52,24 +52,33 @@ public class QuizDAO extends AssignmentDAO {
     public ArrayList<ProblemModel> getProblems(int quizId) {
         String query = "call get_problem(?)";
         ArrayList<ProblemModel> pml = dbs.getJdbcTemplate().query(query, new Object[] {quizId}, new ProblemModelExtractor());
+        return getMultipleChoices(pml, quizId);
+    }
 
-        /*PUT ALL IN HASHMAP FOR PUTTING QUIZ CHOICES FASTER*/
-        HashMap<Integer, ProblemModel> pmh = new HashMap<Integer, ProblemModel>();
-        for(ProblemModel pm : pml){
-            pmh.put(pm.getProblemId(), pm);
-        }
+    /**
+     * This gets all the problems for the quiz with the student's answer
+     * @param quizId the quiz id that identifies the quiz
+     * @param studentId the student id that identifies the student
+     * @return a list of problem models for a quiz with student's answer
+     */
+    public ArrayList<ProblemModel> getProblemsForStudent(int quizId, int studentId) {
+        String query = "call get_studentProbQuiz(?,?)";
+        ArrayList<ProblemModel> pml = dbs.getJdbcTemplate().query(query, new Object[] {studentId, quizId}, new ProblemModelExtractor());
+        return getMultipleChoices(pml, quizId);
+    }
 
-        /*THIS CALLS THE DATABASE FOR ALL THE CHOICES*/
-        query = "call get_problemChoice(?,?)";
-        ArrayList<ChoiceModel> cml = dbs.getJdbcTemplate().query(query, new Object[] {0, quizId}, new ChoiceModelExtractor());
-
-        for(ChoiceModel cm : cml) {
-            ProblemModel pm = pmh.get(cm.getQuestionId());
-            if(pm.getChoices() == null) pm.setChoicesList(new ArrayList<ChoiceModel>());
-            pm.getChoices().add(cm);
-        }
-
-        return pml;
+    /**
+     * Saves the student's answer for a problem in a quiz
+     * @param pm problem model that contains the quiz id that the
+     *           problem is related to, the problem id for itself,
+     *           and the student's answer they entered for that question
+     * @param studentId the student id which identifies the student
+     * @return true if successfully updated the database else false
+     */
+    public boolean updateStudentAnsForProbInQuiz(ProblemModel pm, int studentId) {
+        String query = "call update_studentAnsForProbInQuiz(?,?,?,?)";
+        int rowsAffected = dbs.getJdbcTemplate().update(query, studentId, pm.getQuizId(), pm.getProblemId(), pm.getAnswer());
+        return rowsAffected > 0;
     }
 
     /**
@@ -120,9 +129,9 @@ public class QuizDAO extends AssignmentDAO {
                 }
                 else {
                     /*UPDATE THE PROBLEM*/
-                    query = "call update_problem(?,?,?,?,?)";
+                    query = "call update_problem(?,?,?,?,?,?)";
                     ProblemModel tmp = dbs.getJdbcTemplate().query(query, new Object[]{
-                            pm.getProblemId(), pm.getType(), pm.getQuestion(), pm.getAnswer(), quizModel.getId()}, new ProblemModelExtractor()).get(0);
+                            pm.getProblemId(), pm.getType(), pm.getQuestion(), pm.getAnswer(), pm.getPointsWorth(), quizModel.getId()}, new ProblemModelExtractor()).get(0);
                     if (tmp != null) {
                         /*SET ID OF THE PROBLEM*/
                         pm.setProblemId(tmp.getProblemId());
@@ -158,6 +167,29 @@ public class QuizDAO extends AssignmentDAO {
     }
 
     /**
+     *  Gets the multiple choices for the problems in the problem list
+     */
+    private ArrayList<ProblemModel> getMultipleChoices(ArrayList<ProblemModel> pml, int quizId) {
+   /*PUT ALL IN HASHMAP FOR PUTTING QUIZ CHOICES FASTER*/
+        HashMap<Integer, ProblemModel> pmh = new HashMap<Integer, ProblemModel>();
+        for(ProblemModel pm : pml){
+            pmh.put(pm.getProblemId(), pm);
+        }
+
+        /*THIS CALLS THE DATABASE FOR ALL THE CHOICES*/
+        String query = "call get_problemChoice(?,?)";
+        ArrayList<ChoiceModel> cml = dbs.getJdbcTemplate().query(query, new Object[] {0, quizId}, new ChoiceModelExtractor());
+
+        for(ChoiceModel cm : cml) {
+            ProblemModel pm = pmh.get(cm.getQuestionId());
+            if(pm.getChoices() == null) pm.setChoicesList(new ArrayList<ChoiceModel>());
+            pm.getChoices().add(cm);
+        }
+
+        return pml;
+    }
+
+    /**
      * This is a private class that extracts problems from the resultset and returns an arraylist of problem models
      */
     private static class ProblemModelExtractor implements ResultSetExtractor<ArrayList<ProblemModel>> {
@@ -171,6 +203,7 @@ public class QuizDAO extends AssignmentDAO {
                     if (columnExists(rs, "type")) pm.setType(rs.getString("type"));
                     if (columnExists(rs, "question")) pm.setQuestion(rs.getString("question"));
                     if (columnExists(rs, "answer")) pm.setAnswer(rs.getString("answer"));
+                    if (columnExists(rs, "pointsWorth")) pm.setPointsWorth(rs.getDouble("pointsWorth"));
                     pml.add(pm);
                 }
                 return pml;

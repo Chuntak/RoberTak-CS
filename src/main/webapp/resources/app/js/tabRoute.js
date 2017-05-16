@@ -56,8 +56,8 @@ homeApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('quizTaker', {
             url: "/quizTak",
             templateUrl: '/quizTaker',
-            controller: 'quizCtrl',
-            controllerAs: 'quizCtrl'
+            controller: 'quizTakCtrl',
+            controllerAs: 'quizTakCtrl'
         })
 });
 
@@ -94,43 +94,7 @@ homeApp.controller('tabsCtrl', function($scope, $state) {
     };
 
 
-    $scope.quiztaker = function() {
-        var quizTakerTab = { state : 'quizTaker', label : 'Quiz Taker' };
-        $scope.setSelectedTab(quizTakerTab);
-        $scope.tabClass(quizTakerTab);
-    };
-
 });
-
-// // create the controller and inject Angular's $scope
-// homeApp.controller('announcementsCtrl', function($scope, $state) {
-//     // create a message to display in our view
-//     $scope.message = 'this is the announcements page!';
-//     var reloadData = function(){
-//         $state.reload();
-//     }
-//
-// });
-
-// homeApp.controller('syllabusCtrl', function($scope, $state) {
-//     // create a message to display in our view
-//     $scope.message = 'this is the syllabus page!';
-//     var vm = this;
-//     // SET NGCLICK WHEN YOU WANT TO RELOAD
-//     vm.reloadData = function(){
-//         $state.reload();
-//     }
-// });
-
-// homeApp.controller('assignmentsCtrl', function($scope, $state) {
-//     // create a message to display in our view
-//     $scope.message = 'this is the assignments page!';
-//     var vm = this;
-//     // SET NGCLICK WHEN YOU WANT TO RELOAD
-//     vm.reloadData = function(){
-//         $state.reload();
-//     }
-// });
 
 homeApp.controller('documentsCtrl', function($scope, $state) {
     // create a message to display in our view
@@ -141,13 +105,3 @@ homeApp.controller('documentsCtrl', function($scope, $state) {
         $state.reload();
     }
 });
-
-// homeApp.controller('gradesCtrl', function($scope, $state) {
-//     // create a message to display in our view
-//     $scope.message = 'this is the grades page!';
-//     var vm = this;
-//     // SET NGCLICK WHEN YOU WANT TO RELOAD
-//     vm.reloadData = function(){
-//         $state.reload();
-//     }
-// });

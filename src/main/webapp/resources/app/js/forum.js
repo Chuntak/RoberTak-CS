@@ -15,7 +15,7 @@ app.factory('httpForumFactory', function($http, global) {
     /* getUserId - gets user id in order to check edit permissions */
     properties.getUserId = function(){
         return $http.get("/getId");
-    }
+    };
 
     /* getPosts - gets posts/comments for current course/post */
     properties.getPosts = function(post, crsId){
@@ -25,7 +25,7 @@ app.factory('httpForumFactory', function($http, global) {
                 "id": post.id
             }
         });
-    }
+    };
 
     /* updatePost - adds or updates an post */
     properties.updatePost = function(post) {
@@ -40,7 +40,7 @@ app.factory('httpForumFactory', function($http, global) {
                 "authorId" : post.authorId
             }
         });
-    }
+    };
 
     /* updateComment - adds or updates a comment to a post */
     properties.updateComment = function(parent, comment){
@@ -53,7 +53,7 @@ app.factory('httpForumFactory', function($http, global) {
                 "anon":false
             }
         });
-    }
+    };
 
     /* updateLikes - update likes count of post */
     properties.updateLikes = function(postId){
@@ -62,7 +62,7 @@ app.factory('httpForumFactory', function($http, global) {
                 "postId": postId
             }
         });
-    }
+    };
 
     /* deletePost - deletes a post from db */
     properties.deletePost = function(postId, authorId){
@@ -74,7 +74,7 @@ app.factory('httpForumFactory', function($http, global) {
                 "authorId" : authorId
             }
         });
-    }
+    };
 
     /* return */
     return properties;

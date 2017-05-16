@@ -67,6 +67,20 @@ public class QuizController {
         return qm;
     }
 
+    @RequestMapping(value="/getQuizProblemsForStudent", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<ProblemModel> getQuizProblemForStudent(@ModelAttribute("quiz") QuizModel quiz, HttpSession session){
+        int studentId = (int) session.getAttribute("id");
+        return new QuizDAO().getProblemsForStudent(quiz.getId(), studentId);
+    }
+
+    @RequestMapping(value="/updateStudentAnsForProbInQuiz", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody boolean getQuizProblemForStudent(@ModelAttribute("problem") ProblemModel problem, HttpSession session){
+        int studentId = (int) session.getAttribute("id");
+        return new QuizDAO().updateStudentAnsForProbInQuiz(problem, studentId);
+    }
+
+
+
     @RequestMapping(value="/deleteQuiz", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody boolean deleteQuiz(@ModelAttribute("quiz") QuizModel quiz, HttpSession session){
         return new QuizDAO().deleteQuiz(quiz);
