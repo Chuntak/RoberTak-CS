@@ -161,18 +161,17 @@
                     <c:choose>
                         <%-- ONLY PROFS CAN EDIT/REMOVE--%>
                         <c:when test="${userType eq 'prof' && isOwner eq true}">
+                            <h3 ng-bind="quiz.title"></h3>
                             <btn ng-click="deleteQuiz(quiz)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show"></btn>
                             <btn data-target="#quizEditor{{$index}}" data-toggle="collapse"  ng-click="editQuizInit($index,quiz)" class="badge btn-xs col-sm-1 glyphicon glyphicon-pencil clickable on-show"></btn>
                         </c:when>
 
                         <%--STUDENT OR PROFESSORS VIEWING CAN SEE THIS--%>
                         <c:when test="${isOwner eq false}">
-                            <a href="#" ng-click="quiztaker(quiz)" ui-sref="quizTaker" class="col-sm-9" ng-bind="quiz.title"></a>
+                            <h3><a href="#" ng-click="quiztaker(quiz)" ui-sref="quizTaker"ng-bind="quiz.title"></a></h3>
                         </c:when>
                     </c:choose>
-
                     <%-- DISPLAYS DESCRIPTION OF ASSIGNMENT --%>
-                    <h3 ng-bind="quiz.title"></h3>
                     <h6 ng-bind="'Due ' + quiz.dueDate"></h6>
                     <h6 ng-bind="'Maximum Grade: ' + quiz.maxGrade"></h6>
                 </div>

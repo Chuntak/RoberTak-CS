@@ -28,8 +28,10 @@
             </div>
         </div>
         <!-- /panel-body -->
-        <div class="panel-footer">
-            <ul ng-click="saveAnswer()" uib-pagination total-items="problemList.length" ng-model="problemPage" max-size="10" class="pagination-sm" boundary-link-numbers="false" items-per-page="itemsPerPage"></ul>
+        <div class="panel-footer col">
+            <ul ng-click="saveAnswer()" uib-pagination total-items="problemList.length" ng-model="problemPage" max-size="10" class="pagination-sm col-9" boundary-link-numbers="false" items-per-page="itemsPerPage"></ul>
+            <!-- Indicates a successful or positive action -->
+            <button ng-if="quizCompleted" type="button" class="btn btn-success">Submit Quiz</button>
         </div>
         <!-- panel footer -->
     </div>

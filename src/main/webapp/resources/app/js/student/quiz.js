@@ -87,6 +87,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
 app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFactory) {
     $scope.problemList = [];
     $scope.problemPage = 1;
+    $scope.quizCompleted = false;
     var lastProblemPage = $scope.problemPage;
     $scope.itemsPerPage = 1;
     httpQuizFactory.getQuizProblem(global.getQuizId()).success(function(response){
@@ -99,6 +100,7 @@ app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFa
     $scope.saveAnswer = function(){
         httpQuizFactory.saveAnswer($scope.problemList[lastProblemPage-1]).success(function(response){
            lastProblemPage = $scope.problemPage;
+            $scope.quizCompleted = isQuizCompleted;
             debugger;
         }).error(function(response) {
             console.log("save answer error");
@@ -109,6 +111,15 @@ app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFa
     $scope.$on('$destroy', function onLeave() {
         /*SAVES ANSWER WHEN USER LEAVES THE TAB*/
         $scope.saveAnswer();
-    })
+    });
+
+    var isQuizCompleted = function(){
+        $.each($scope.problemList, function() {
+            if(this.answer !== null && this.answer !== ''){
+                return false;
+            }
+            return false;
+        });
+    };
 
 });
