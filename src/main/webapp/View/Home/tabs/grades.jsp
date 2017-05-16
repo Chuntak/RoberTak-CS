@@ -110,18 +110,18 @@
             </c:choose>
             <%-- DISPLAYS DESCRIPTION OF GRADE TASK --%>
 
-            <h3 calss="panel-title"><a ng-bind="gradable.title"  ng-click="selectGradable(gradable.id)" data-toggle="collapse" data-target="{{'#items'+$index}}" data-parent="#gradeAccordion" ></a></h3>
+            <h3 calss="panel-title"><a ng-bind="gradable.title"  ng-click="getGrades(gradable.id, $index)" data-toggle="collapse" data-target="{{'#grid'+$index}}" data-parent="#gradeAccordion" ></a></h3>
 
                 <h6 ng-bind="'Due: ' + gradable.dueDate"></h6>
-            <h6 ng-bind="'Maximum Grade: ' + gradable.maxGrade"></h6>
-            <h5 ng-bind="gradable.description" class="description-color"></h5>
+                <h6 ng-bind="'Maximum Grade: ' + gradable.maxGrade"></h6>
+                <h5 ng-bind="gradable.description" class="description-color"></h5>
                 </div>
-                <div id="{{ 'items' + $index }}" class="panel-collapse collapse">
+                <div id="{{ 'grid' + $index }}" class="panel-collapse collapse">
                     <div class="panel-body">
 
                         <h3>Items</h3>
                         <%--<canvas id="gradeGraph-{{$index}}" height="150px" width="300px"></canvas>--%>
-                        <kendo-grid id="grid" options="mainGridOptions"></kendo-grid>
+                        <kendo-grid id="{{ 'kendogrid' + $index }}" options="mainGridOptions"></kendo-grid>
                     </div>
                 </div>
 

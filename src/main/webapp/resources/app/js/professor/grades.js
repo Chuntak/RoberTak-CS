@@ -43,6 +43,15 @@ app.factory('httpGradeFactory', function($http, global) {
         });
     };
 
+    /* getGrades - loads the data for the selected gradable */
+    properties.getGrades = function(gradableId){
+        return $http({
+            method: 'GET',
+            url: '/getGrade',
+            params: {"courseId": global.getCourseId() ,"gradableId": gradableId}
+        });
+    };
+
     return properties;
 });
 
@@ -55,6 +64,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     $scope.students = [];
     $scope.gradable = {};
     $scope.selectedGradable = {};
+    $scope.gridData = null;
 
 
     /* INIT THE DATEPICKER */
@@ -72,23 +82,20 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     };
 
     /*ACTIVATES WHEN THE GRADE TITLE IS CLICKED AND THE GRADE TABLE SHOWS*/
-    $scope.selectGradable = function(gradableId){
+    $scope.getGrades = function(gradableId, gridIndex){
         selectedGradableID = gradableId;
-        var y = $http({
-            method: 'GET',
-            url: '/getGrade',
-            params: {"courseId": global.getCourseId() ,"gradableId": selectedGradableID}
-        }).then(function (response) {
+        httpGradeFactory.getGrades(gradableId).success(function (response) {
             $scope.students = response;
+            $scope.initDataSource();
+            $scope.gridData.read();
             $scope.initGrid();
-        }, function errorCallBack(response) {
+
+        }).error(function(response){
             console.log(response);
         });
-
     };
 
-    /* DATA FOR KENDO GRID. THESE SHOULD BE THE ITEM OBJECTS RECEIVED FROM DATASTORE */
-    $scope.initGrid = function() {
+    $scope.initDataSource = function(){
         $scope.gridData = new kendo.data.DataSource({
             data: $scope.students,
             pageSize: 5 ,
@@ -114,7 +121,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                             type: "string",
                             editable : false
                         },
-                        submission:{
+                        submissionFile:{
                             type:"string",
                             editable : false
                         },
@@ -127,6 +134,10 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             },
             batch: true
         });
+    }
+    /* DATA FOR KENDO GRID. THESE SHOULD BE THE ITEM OBJECTS RECEIVED FROM DATASTORE */
+    $scope.initGrid = function() {
+
         /* INIT ITEM TABLE WITH KENDO GRID */
         $scope.mainGridOptions = {
             dataSource: $scope.gridData,
@@ -136,7 +147,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                 { field: "firstName", title: "First Name" },
                 { field: "lastName", title: "Last Name" },
                 { field: "email", title: "Email" },
-                { field: "submission", title: "Submission"},
+                { field: "submissionFile", title: "Submission"},
                 { field: "grade", title: "Grade" }
             ],
             save: function(e){
@@ -409,7 +420,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         var y = $http({
             method: 'GET',
             url: '/updateGrade',
-            params: {"studId" : studentId, "gradableId" : gradableId, "grade" : grade}
+            params: {"id" : studentId, "gradableId" : gradableId, "grade" : grade}
         }).then(function (response) {
             debugger;
         }, function errorCallBack(response) {
