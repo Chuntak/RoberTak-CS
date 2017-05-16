@@ -151,3 +151,27 @@
 .tab-panel{
     overflow-y: hidden;
 }
+
+
+.dropdown-menu{
+    min-width: 0px !important;
+    width: 60px;
+    font-size: 8pt !important;
+}
+
+.edit-options{
+    padding-left: 10px !important;
+}
+
+.edit-dropdown{
+    position: absolute !important;
+    top: 0 !important;
+    right: 0px !important;
+    margin-top: -2px;
+    margin-right: -50px;
+    color: #cecece;
+}
+
+.edit-dropdown:hover{
+    color: #bababa;
+}

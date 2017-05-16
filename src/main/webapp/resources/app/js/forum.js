@@ -90,6 +90,8 @@ app.controller("forumCtrl", function ($scope, $http, global, httpForumFactory){
     $scope.newComment = {"content":""};
     /* KEEP TRACK OF USER ID */
     $scope.userId = 0;
+    /* KEEP TRACK OF WHICH POST IS SELECTED */
+    $scope.selectedPost = null;
 
     /* WATCH FOR CHANGE IN courseId TO RECEIVE THE POSTS FOR COURSE */
     $scope.$watch(function(){
@@ -178,6 +180,17 @@ app.controller("forumCtrl", function ($scope, $http, global, httpForumFactory){
 
     /* getPosts - loads posts for course / comments for post */
     $scope.getPosts = function(post, crsId){
+        /* RESET SELECTED POST */
+        if($scope.selectedPost){
+            /* TURN OFF EDITING FOR OLD SELECTED POST */
+            $scope.selectedPost.editing = false;
+        }
+        $scope.selectedPost = post;
+        /* TURN OFF EDIT MODE WHEN SELECTING NEW POST */
+        $scope.editmode = false;
+        if(post.comments){
+            return;
+        }
         httpForumFactory.getPosts(post, crsId).success(function(response){
             /* MUST LOOP OVER EVERY POST AND EDIT DATA */
             $.each(response, function() {

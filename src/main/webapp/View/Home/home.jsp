@@ -366,12 +366,12 @@
                             <textarea required id="postContent" type="text" autocomplete="off" ng-model="newPost.content" class="form-control panel-body form-ctrl course-box" placeholder="Write the body here"></textarea>
 
                             <input ng-model="newPost.anon" type="checkbox" class="custom-control-input">Post Anonymously</input>
-                            <button type="submit" class="panel-footer form-ctrl btn" ng-disabled="courseId==0">Create Post</button>
+                            <button type="submit" class="panel-footer form-ctrl btn btn-default" ng-disabled="courseId==0">Create Post</button>
                         </div>
                     </form>
                     <p ng-if="!posts.length">There are no posts.</p>
 
-                    <div ng-repeat="post in posts" class="posts panel post-header panel-primary">
+                    <div ng-repeat="(pkey,post) in posts" class="posts panel post-header panel-primary">
                         <div class="panel-heading panel-primary post-title">
                             <h4 class="panel-title row"/>
                                 <a ng-if="!post.editing" class="post-header col-md-11" ng-click="getPosts(post, 0)" data-toggle="collapse" ng-bind="post.header" data-parent="#accordion" href="{{'#collapse' + $index}}"></a>
@@ -421,29 +421,33 @@
                                     <label ng-bind="post.anon ? 'posted by ' + 'anonymous' : 'posted by ' + post.firstName + ' ' + post.lastName" ></label>
                                 </li>
                                 <li ng-repeat="comment in post.comments"  class="list-group-item post row">
-                                    <c:choose>
-                                        <%-- IF OWNER PROFESSOR OR ENROLLED STUDENT, APPLY THIS FUNCTIONALITY --%>
-                                        <c:when test="${(userType eq 'prof' && isOwner eq true) || userType eq 'stud'}">
-                                            <div class="col-md-1 col-md-offset-10 edit-btns">
-                                                    <%-- EDIT POST BUTTON --%>
-                                                <btn ng-if="comment.editable && !editMode && !comment.editing" class="btn-xs glyphicon glyphicon-pencil clickable on-show" ng-click="editPost(comment)" title="Edit Comment"></btn>
-                                                <btn ng-if="comment.editable && editMode && comment.editing" class="btn-xs glyphicon glyphicon-ok-sign clickable" ng-click="saveEdit(post, $parent.$index, comment, $index)" title="Save Edit"></btn>
-                                                    <%-- DELETE POST BUTTON - PROFESSORS CAN ALWAYS DELETE --%>
-                                                <c:choose>
-                                                    <c:when test="${userType eq 'prof' && isOwner eq true}">
-                                                        <btn ng-if="!editMode && !comment.editing" class="btn-xs glyphicon glyphicon-trash clickable on-show" ng-click="deletePost(post, $parent.$index, comment, $index)" title="Delete Comment"></btn>
-                                                    </c:when>
-                                                    <c:when test="${userType eq 'stud'}">
-                                                        <btn ng-if="userId == comment.authorId && !editMode && !comment.editing" class="btn-xs glyphicon glyphicon-trash clickable on-show" ng-click="deletePost(post, $parent.$index, comment, $index)" title="Delete Comment"></btn>
-                                                    </c:when>
-                                                </c:choose>
-                                                <btn ng-if="editMode && comment.editing" class="btn-xs glyphicon glyphicon-remove-sign clickable" ng-click="cancelEdit(comment)" title="Cancel Edit"></btn>
+                                    <div class="col-md-1 col-md-offset-10 edit-btns">
+                                            <%-- EDIT POST BUTTON --%>
+                                        <btn ng-if="comment.editable && comment.editing" class="btn-xs glyphicon glyphicon-ok-sign clickable" ng-click="saveEdit(post, pkey, comment, $index)" title="Save Edit"></btn>
+                                            <%-- DELETE POST BUTTON - PROFESSORS CAN ALWAYS DELETE --%>
+                                        <c:choose>
+                                            <c:when test="${userType eq 'prof' && isOwner eq true}">
+                                                <div ng-if="!comment.editing" class="dropdown">
+                                                    <div ng-if="!comment.editing" class="glyphicon glyphicon-menu-down dropdown-toggle clickable edit-dropdown" type="button" data-toggle="dropdown"></div>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a ng-if="comment.editable && !comment.editing" ng-click="editPost(comment)" class="edit-options">Edit</a></li>
+                                                        <c:choose>
+                                                            <c:when test="${userType eq 'prof' && isOwner eq true}">
+                                                                <li><a ng-if="!comment.editing" ng-click="deletePost(post, pkey, comment, $index)" class="edit-options">Delete</a></li>
+                                                            </c:when>
+                                                            <c:when test="${userType eq 'stud'}">
+                                                                <li><a ng-if="userId == comment.authorId && !comment.editing" ng-click="deletePost(post, pkey, comment, $index)" class="edit-options">Delete</a></li>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </ul>
+                                                </div>
+                                            </c:when>
+                                        </c:choose>
+                                        <btn ng-if="comment.editing" class="btn-xs glyphicon glyphicon-remove-sign clickable" ng-click="cancelEdit(comment)" title="Cancel Edit"></btn>
 
-                                            </div>
-                                        </c:when>
-                                    </c:choose>
+                                    </div>
                                     <p ng-if="!comment.editing" class="col-md-12" ng-bind="comment.content"></p>
-                                    <textarea ng-if="editMode && comment.editing" id="{{ 'c-content-' + $parent.$index + $index }}" type="text"  type="text" autocomplete="off" class="form-control form-ctrl course-box list-group-item">{{ comment.content }}</textarea>
+                                    <textarea ng-if="comment.editing" id="{{ 'c-content-' + pkey + $index }}" type="text"  type="text" autocomplete="off" class="form-control form-ctrl course-box list-group-item">{{ comment.content }}</textarea>
 
                                     <label class="col-md-9 author" ng-bind="comment.anon ? 'posted by ' + 'anonymous' : 'posted by ' + comment.firstName + ' ' + comment.lastName" ></label>
                                     <label class="col-md-3" ng-bind="comment.dateCreated" ></label>
