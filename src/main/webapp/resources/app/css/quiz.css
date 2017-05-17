@@ -33,6 +33,10 @@
     margin-top: 5%;
 }
 
+.quiz-btns label{
+    display : none;
+}
+
 /* SET TEXTAREA WIDTH LENGTH */
 textarea.form-control{
     width: 100%;
@@ -85,4 +89,9 @@ h3{
 
 .multText{
     width: 70%;
+}
+
+
+.pagination-margin{
+    margin: 0 0;
 }

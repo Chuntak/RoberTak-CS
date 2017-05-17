@@ -86,6 +86,11 @@ public class QuizController {
         return new QuizDAO().deleteQuiz(quiz);
     }
 
+    @RequestMapping(value="/submitQuiz", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody double submitQuiz(@ModelAttribute("problem") ProblemModel problem, HttpSession session){
+        return new QuizDAO().submitQuiz(problem, (int) session.getAttribute("id"));
+    }
+
 
 
 }

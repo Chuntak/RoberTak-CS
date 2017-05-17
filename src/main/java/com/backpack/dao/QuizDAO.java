@@ -8,8 +8,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -62,8 +64,8 @@ public class QuizDAO extends AssignmentDAO {
      * @return a list of problem models for a quiz with student's answer
      */
     public ArrayList<ProblemModel> getProblemsForStudent(int quizId, int studentId) {
-        String query = "call get_studentProbQuiz(?,?)";
-        ArrayList<ProblemModel> pml = dbs.getJdbcTemplate().query(query, new Object[] {studentId, quizId}, new ProblemModelExtractor());
+        String query = "call get_studentProbQuiz(?,?,?)";
+        ArrayList<ProblemModel> pml = dbs.getJdbcTemplate().query(query, new Object[] {studentId, quizId, new Date()}, new ProblemModelExtractor());
         return getMultipleChoices(pml, quizId);
     }
 
@@ -79,6 +81,23 @@ public class QuizDAO extends AssignmentDAO {
         String query = "call update_studentAnsForProbInQuiz(?,?,?,?)";
         int rowsAffected = dbs.getJdbcTemplate().update(query, studentId, pm.getQuizId(), pm.getProblemId(), pm.getAnswer());
         return rowsAffected > 0;
+    }
+
+    /**
+     * Saves the student's answer for a problem in a quiz
+     * and grade the quiz
+     * @param pm problem model that contains the quiz id that the
+     *           problem is related to, the problem id for itself,
+     *           and the student's answer they entered for that question
+     * @param studentId the student id which identifies the student
+     * @return
+     */
+    public double submitQuiz(ProblemModel pm, int studentId) {
+        String query = "call grade_student(?,?,?,?)";
+        double grade = dbs.getJdbcTemplate().query(query,
+                new Object[] {studentId, pm.getQuizId(), pm.getProblemId(), pm.getAnswer()},
+                new StudentGradeExtractor());
+        return grade;
     }
 
     /**
@@ -111,7 +130,7 @@ public class QuizDAO extends AssignmentDAO {
     public QuizModel updateQuiz(QuizModel qm, ArrayList<ProblemModel> pml) {
         String query = "call update_gradable(?,?,?,?,?,?,?,?,?,?)";
         ArrayList<QuizModel> qml = dbs.getJdbcTemplate().query(query, new Object[] { qm.getId(),
-                qm.getCourseId(), qm.getTitle(), "", "quiz", qm.getMaxGrade(), qm.getDueDate(), "", "", 0}, new QuizModelExtractor());
+                qm.getCourseId(), qm.getTitle(), "", "quiz", qm.getMaxGrade(), qm.getDueDate(), "", "", 0 }, new QuizModelExtractor());
         QuizModel quizModel;
         /*MAKES SURE THAT WE HAVE THE CORRECT LIST WITH THE ID*/
         if(qml != null && qml.size() > 0)  quizModel = qml.get(0); else quizModel = qm;
@@ -212,6 +231,20 @@ public class QuizDAO extends AssignmentDAO {
         }
     }
 
+    /**
+     * This is an extractor for the student's grade
+     */
+    private static class StudentGradeExtractor implements ResultSetExtractor<Double> {
+        @Override
+        public Double extractData(ResultSet rs) throws SQLException, DataAccessException {
+            double grade = 0;
+            rs.next();
+            if(rs != null && rs.getMetaData().getColumnCount() > 0) {
+                if(columnExists(rs, "grade")) grade = rs.getDouble("grade");
+            }
+            return grade;
+        }
+    }
     /**
      * Extractor that extracts quiz models from resultset and returns an array of quiz models
      */

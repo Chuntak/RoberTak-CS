@@ -47,7 +47,7 @@
                     <%-- MAXIMUM GRADE--%>
                     <div class="col-xs-6">
                         <label>Max Grade: </label>
-                        <input type="number" placeholder="Maximum Grade" class="form-control" ng-model="addQuiz.maxGrade" required />
+                        <input type="number" id="addMaxGradeId" placeholder="Maximum Grade" class="form-control" ng-model="addQuiz.maxGrade" required />
                     </div>
 
                     <%-- DATE PICKER --%>
@@ -75,10 +75,10 @@
                     <%--Tag Selection and Removal section--%>
                     <div class="col-lg-12">
                         <div class="form-inline">
-                            <input list="tags"  ng-model="addQuiz.selectedTag" class="form-control tagList" name="tags">
-                            <datalist id="tags">
+                            <%--<input list="tags"  ng-model="addQuiz.selectedTag" class="form-control tagList" name="tags">--%>
+                            <select id="tags" ng-model="addQuiz.selectedTag" class="form-control tagList" name="tags">
                                 <option ng-repeat="tag in tagList">{{tag}}</option>
-                            </datalist>
+                            </select>
                             <button type="button" class="btn btn-success" ng-click="addTag(addQuiz)">Add Tag</button>
                         </div>
 
@@ -122,8 +122,8 @@
 
                                             <button type="button" ng-if="question.choices.length === 1 && question.choices.indexOf(choice) === 0" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '+')">+</button>
                                             <button type="button" ng-if="question.choices.length > 1 && (question.choices.indexOf(choice) >= 0 && question.choices.indexOf(choice) < question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '-')">-</button>
-                                            <button type="button" ng-if="question.choices.length > 1 && question.choices.length < 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '+')">+</button>
                                             <button type="button" ng-if="question.choices.length > 1 && question.choices.length < 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '-')">-</button>
+                                            <button type="button" ng-if="question.choices.length > 1 && question.choices.length < 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '+')">+</button>
                                             <button type="button" ng-if="question.choices.length > 1 && question.choices.length === 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '-')">-</button>
 
                                         </div><br>
@@ -147,10 +147,12 @@
                         </div>
                     </div>
                     <div class="quiz-btns">
+                        <label class="alert alert-danger" for="addQuizVal" id="addQuizVal"></label>
                         <button class="btn btn-default" ng-click="saveQuiz(addQuiz)">Save the Quiz</button>
                         <button class="btn btn-default" ng-click="cancelQuizCreation(addQuiz)">Cancel Quiz Creation</button>
                     </div>
                 </div>
+            </div>
             </c:when>
         </c:choose>
         <div class="list-group">
@@ -185,13 +187,13 @@
                                 <%-- QUIZ TITLE --%>
                             <div class="col-xs-6">
                                 <label>Title: </label>
-                                <input id="editTitle{{$index}}" type="text" placeholder="Title" class="form-control" value="{{quiz.title}}" required/>
+                                <input id="editTitle{{$index}}" type="text" placeholder="Title" class="form-control" ng-value="quiz.title" required/>
                             </div>
 
                                 <%-- MAXIMUM GRADE --%>
                             <div class="col-xs-6">
                                 <label>Maximum Grade: </label>
-                                <input type="number" id="editMaxGrade{{$index}}" placeholder="Maximum Grade" value="{{quiz.maxGrade}}" class="form-control" required/>
+                                <input type="number" id="editMaxGrade{{$index}}" placeholder="Maximum Grade" ng-value="quiz.maxGrade" class="form-control" required/>
                             </div>
 
                                 <%-- DATE PICKER --%>
@@ -199,7 +201,7 @@
                                 <label class="label-padding">Due Date: </label>
                                 <div class="input-group date quiz-form datepicker" id="datepicker{{$index}}" data-provide="datepicker">
                                     <label for="date{{$index}}" class="col-2 col-form-label"></label>
-                                    <input value="{{quiz.date}}" id="date{{$index}}" required type="text" class="form-control">
+                                    <input ng-value="quiz.date" id="date{{$index}}" required type="text" class="form-control">
                                     <div class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </div>
@@ -211,7 +213,7 @@
                                 <label class="label-padding">Due Time: </label>
                                 <div class="input-group bootstrap-timepicker quiz-form">
                                     <label for="timepicker{{$index}}" class="col-2 col-form-label"></label>
-                                    <input value="{{quiz.time}}" required id="timepicker{{$index}}" type="text" class="form-control input-small timepicker">
+                                    <input ng-value="quiz.time" required id="timepicker{{$index}}" type="text" class="form-control input-small timepicker">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                 </div>
                             </div>
@@ -219,10 +221,9 @@
                             <%--Tag Selection and Removal section--%>
                             <div class="col-xs-12">
                                 <div class="form-inline">
-                                    <input list="tags{{$index}}"  ng-model="quiz.edit.selectedTag" class="form-control tagList" name="tags{{$index}}">
-                                    <datalist id="tags{{$index}}">
+                                    <select id="tags{{$index}}"  ng-model="quiz.edit.selectedTag" class="form-control tagList" name="tags{{$index}}">
                                         <option ng-repeat="tag in tagList">{{tag}}</option>
-                                    </datalist>
+                                    </select>
                                     <button type="button" class="btn addTagBtn" ng-click="addTag(quiz.edit)">Add Tag</button>
                                 </div>
                             </div>
@@ -255,26 +256,26 @@
                                             <br>
                                             <div ng-if="question.type === 'ShortAns'" >
                                                 <label>Question Answer: </label>
-                                                <textarea tyoe="text" ng-model="question.answer" class="form-control" placeholder="Write answer here"></textarea>
+                                                <textarea type="text" ng-model="question.answer" class="form-control" placeholder="Write answer here"></textarea>
                                             </div>
                                             <form ng-if="question.type === 'M/C'">
                                                 <div ng-repeat="choice in question.choices" class="form-inline">
-                                                    <input type="radio" required name="choices" ng-click="setMCAnswer(question,choice)" value="{{question.choices.indexOf(choice)+1|character}}">  {{question.choices.indexOf(choice)+1|character}}.
-                                                    <input type="text" id="multipleChoiceQuestion0{{$parent.$index}}{{$index}}" ng-model="choice.answerChoice" class="form-control">
+                                                    <input type="radio" ng-checked="choice.isChecked" required ng-click="setMCAnswer(question,choice)" value="{{question.choices.indexOf(choice)+1|character}}">  {{question.choices.indexOf(choice)+1|character}}.
+                                                    <input type="text" ng-model="choice.answerChoice" class="form-control">
 
                                                     <button type="button" ng-if="question.choices.length === 1 && question.choices.indexOf(choice) === 0" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '+')">+</button>
                                                     <button type="button" ng-if="question.choices.length > 1 && (question.choices.indexOf(choice) >= 0 && question.choices.indexOf(choice) < question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '-')">-</button>
-                                                    <button type="button" ng-if="question.choices.length > 1 && question.choices.length < 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '+')">+</button>
                                                     <button type="button" ng-if="question.choices.length > 1 && question.choices.length < 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '-')">-</button>
+                                                    <button type="button" ng-if="question.choices.length > 1 && question.choices.length < 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '+')">+</button>
                                                     <button type="button" ng-if="question.choices.length > 1 && question.choices.length === 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '-')">-</button>
                                                 </div>
                                                 <br>
 
                                                 <%-- PROFESSOR SELECTS THE ANSWER FROM THE CHOICES INPUTTED --%>
-                                                <label>Selected answer is:</label> {{question.answer.answerChoice}}
+                                                <label ng-bind="'Selected Answer is' + question.answer.answerChoice"></label>
                                             </form>
 
-                                            <%-- PROFESSOR ENTER POINT VALUE FOR THIS QUESTION --%>
+                                                <%-- PROFESSOR ENTER POINT VALUE FOR THIS QUESTION --%>
                                             <div class="form-inline"><br>
                                                 <label>Point Value:  </label> <input type="number" class="form-control" ng-model="question.pointsWorth" placeholder="Point Value"/>
                                             </div>
@@ -289,7 +290,8 @@
                                 </div>
                             </div>
                             <div class="quiz-btns">
-                                <button data-toggle="collapse" data-target="#quizEditor{{$index}}" class="btn btn-default" ng-click="updateQuiz($index,quiz)">Save Edit</button>
+                                <label class="alert alert-danger" for="editQuizVal{{$index}}" id="editQuizVal{{$index}}"></label>
+                                <button class="btn btn-default" ng-click="updateQuiz($index,quiz)">Save Edit</button>
                                 <button data-toggle="collapse" data-target="#quizEditor{{$index}}" class="btn btn-default" ng-click="cancelEdit($index)">Cancel Edit</button>
                             </div>
                         </div>

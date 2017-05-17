@@ -44,6 +44,12 @@ app.factory('httpQuizFactory', function($http, global) {
         return $http.get("/updateStudentAnsForProbInQuiz", { params : parameters });
     };
 
+    /*STUDENT SUBMIT QUIZ*/
+    properties.submitQuiz = function(problem) {
+        var parameters = { problemId : problem.problemId, quizId : global.getQuizId(), answer : problem.answer };
+        return $http.get("/submitQuiz", { params : parameters });
+    };
+
     return properties;
 });
 
@@ -87,7 +93,6 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
 app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFactory) {
     $scope.problemList = [];
     $scope.problemPage = 1;
-    $scope.quizCompleted = false;
     var lastProblemPage = $scope.problemPage;
     $scope.itemsPerPage = 1;
     httpQuizFactory.getQuizProblem(global.getQuizId()).success(function(response){
@@ -100,7 +105,34 @@ app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFa
     $scope.saveAnswer = function(){
         httpQuizFactory.saveAnswer($scope.problemList[lastProblemPage-1]).success(function(response){
            lastProblemPage = $scope.problemPage;
-            $scope.quizCompleted = isQuizCompleted;
+            debugger;
+        }).error(function(response) {
+            console.log("save answer error");
+        });
+    };
+
+    /*SUBMIT QUIZ*/
+    $scope.submitQuizAttempt = function() {
+        var uncompletedQuestions = getQuestionsNotCompleted();
+        if(uncompletedQuestions.length > 0) {
+            var modalMessage = "Not all questions are answered.\nQuestions: ";
+            for(var x = 0; x < uncompletedQuestions.length; x++){
+                if(x === uncompletedQuestions.length - 1) {
+                    modalMessage = modalMessage + (uncompletedQuestions[x] + 1) + " have not been answered";
+                } else {
+                    modalMessage = modalMessage + (uncompletedQuestions[x] + 1) + ", ";
+                }
+            }
+            $scope.confirmationModalMessage = modalMessage;
+        } else {
+            $scope.confirmationModalMessage = "All questions have been completed";
+        }
+        $('#confirmationModal').modal('show');
+    };
+
+    $scope.submitQuiz = function() {
+        httpQuizFactory.submitQuiz($scope.problemList[lastProblemPage-1]).success(function(response){
+            lastProblemPage = $scope.problemPage;
             debugger;
         }).error(function(response) {
             console.log("save answer error");
@@ -113,13 +145,14 @@ app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFa
         $scope.saveAnswer();
     });
 
-    var isQuizCompleted = function(){
-        $.each($scope.problemList, function() {
-            if(this.answer !== null && this.answer !== ''){
-                return false;
+    var getQuestionsNotCompleted = function() {
+        var questionNotCompleted = [];
+        for(var x = 0; x < $scope.problemList.length; x++){
+            if($scope.problemList[x].answer === null || $scope.problemList[x].answer === ''){
+                questionNotCompleted.push(x);
             }
-            return false;
-        });
-    };
+        }
+        return questionNotCompleted;
+    }
 
 });

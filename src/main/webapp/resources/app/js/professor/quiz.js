@@ -42,6 +42,11 @@ app.factory('httpQuizFactory', function($http, global) {
         return $http.get("/deleteQuiz", {params : parameters});
     };
 
+    /* GET TAGS RELATED TO THE COURSE*/
+    properties.getCourseTag = function(){
+        return $http.get("/getTag", {params: { taggableId : global.getCourseId(), taggableType : "course" }});
+    };
+
     return properties;
 });
 
@@ -55,9 +60,9 @@ app.filter('character',function(){
 /*Grades Controller*/
 app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFactory) {
     $scope.quizList = [];
-
+    $scope.validationMessage = "";
     /*GETS THE TAGS*/
-    global.getTag().success(function(response){
+    httpQuizFactory.getCourseTag().success(function(response){
         $scope.tagList = response;
     }).error(function(response) { console.log("get tag error " + response)});
 
@@ -109,7 +114,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
         /*GET THE QUIZ VIEWER*/
         var x = document.getElementById("quizViewer" + index);
         if (x.style.display === 'none') {
-            /*SHOW THE QUIZ VIEWER*/
+            /*SHOW THE QUIZ VIEwER*/
             x.style.display = 'initial';
         } else {
             /*HIDE THE QUIZ VIEWER*/
@@ -241,21 +246,23 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
     };
 
     $scope.saveQuiz = function (quiz) {
-        $('#addQuizBtn').attr("disabled", false);
-        $('#quizCreation').fadeToggle('fast');
-        quiz.dueDate = new Date(quiz.date + " " + quiz.time).getTime();
-        httpQuizFactory.saveQuiz(quiz).success(function(response){
-            var time = quiz.time;
-            var date = quiz.date;
-            quiz = response;
-            quiz.dueDate = new Date(quiz.dueDate).toLocaleTimeString("en-us", options);
-            quiz.time = time;
-            quiz.date = date;
-            $scope.quizList.push(quiz);
-            quiz.contentLoaded = "almost";
-        }).error(function(response){
-            console.log("saveQuiz error")
-        });
+        if(validiateSubmit(quiz, 'addMaxGradeId','addQuizVal')){
+            $('#addQuizBtn').attr("disabled", false);
+            $('#quizCreation').fadeToggle('fast');
+            quiz.dueDate = new Date(quiz.date + " " + quiz.time).getTime();
+            httpQuizFactory.saveQuiz(quiz).success(function (response) {
+                var time = quiz.time;
+                var date = quiz.date;
+                quiz = response;
+                quiz.dueDate = new Date(quiz.dueDate).toLocaleTimeString("en-us", options);
+                quiz.time = time;
+                quiz.date = date;
+                $scope.quizList.push(quiz);
+                quiz.contentLoaded = "almost";
+            }).error(function (response) {
+                console.log("saveQuiz error")
+            });
+        }
     };
 
     $scope.deleteQuiz = function(quiz) {
@@ -271,25 +278,28 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
         $('#quizCreation').fadeToggle('fast');
     };
 
-    /* SAVES EDIT */
     $scope.updateQuiz = function(index, quiz) {
-        quiz.questionList = quiz.edit.questionList;
-        quiz.questionList = quiz.questionList.concat(quiz.edit.deletedQuestionList);
-        quiz.quizTaggedList = quiz.edit.quizTaggedList;
-        quiz.title = document.getElementById("editTitle" + index).value;
-        quiz.date = document.getElementById("date" + index).value;
-        quiz.time = document.getElementById("timepicker" + index).value;
-        quiz.maxGrade = document.getElementById("editMaxGrade" + index).value;
-        quiz.dueDate = new Date(quiz.date + " " + quiz.time).getTime();
-        httpQuizFactory.saveQuiz(quiz).success(function(response){
-            quiz.questionList = response.questionList;
-            quiz.dueDate = new Date(quiz.date + " " + quiz.time).toLocaleTimeString("en-us", options);
-        }).error(function(response) {
-            console.log("Update Quiz error");
-        });
+        /*VALIDATE THE SUBMITION OF QUIZ*/
+        if(validiateSubmit(quiz.edit, 'editMaxGrade' + index, 'editQuizVal' + index)) {
+            $('#quizEditor' + index).collapse('toggle');
+            quiz.questionList = quiz.edit.questionList;
+            quiz.questionList = quiz.questionList.concat(quiz.edit.deletedQuestionList);
+            quiz.quizTaggedList = quiz.edit.quizTaggedList;
+            quiz.title = document.getElementById("editTitle" + index).value;
+            quiz.date = document.getElementById("date" + index).value;
+            quiz.time = document.getElementById("timepicker" + index).value;
+            quiz.maxGrade = document.getElementById("editMaxGrade" + index).value;
+            quiz.dueDate = new Date(quiz.date + " " + quiz.time).getTime();
+            httpQuizFactory.saveQuiz(quiz).success(function (response) {
+                quiz.questionList = response.questionList;
+                quiz.dueDate = new Date(quiz.date + " " + quiz.time).toLocaleTimeString("en-us", options);
+            }).error(function (response) {
+                console.log("Update Quiz error");
+            });
 
-        /*PUT BACK THE DISPLAY ON*/
-        document.getElementById("quizViewer" + index).style.display = 'initial';
+            /*PUT BACK THE DISPLAY ON*/
+            document.getElementById("quizViewer" + index).style.display = 'initial';
+        }
     };
 
     /* CANCEL EDITING, UPLOAD BACK TO ORIGINAL INFORMATION TO THE TEXTBOX */
@@ -297,5 +307,23 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
         /*PUT BACK THE DISPLAY ON*/
         document.getElementById("quizViewer" + index).style.display = 'initial';
     };
+
+    /*VALIDATES SUBMITION IF THE TOTAL QUIZ POINTS IS EQUAL TO QUIZ MAX GRADE*/
+    var validiateSubmit = function(quiz, maxGradeId, validationId) {
+        var maxGrade = document.getElementById(maxGradeId).value;
+        var sumGrade = 0;
+        for(var x = 0; x < quiz.questionList.length; x++) {
+            sumGrade = sumGrade + quiz.questionList[x].pointsWorth;
+        }
+        var validationLabel = $("#" + validationId);
+        if(sumGrade == maxGrade){
+            validationLabel[0].style.display = 'none';
+            return true;
+        } else {
+            validationLabel[0].style.display = 'inline-block';
+            validationLabel.html("The sum of the points that each question is worth does not match the maximum possible grade! " +
+                "Total grade: " + sumGrade);
+        }
+    }
 
 });
