@@ -48,7 +48,8 @@ app.factory('httpAssignmentFactory', function($http, global) {
             "gradableType" : "hw",
             "maxGrade" : newAsgmt.maxGrade,
             "dueDate" : new Date(newAsgmt.date + " " + newAsgmt.time).getTime(),
-            "difficulty" : "hard"
+            "difficulty" : "hard",
+            "submittable" : newAsgmt.submittable
         };
         /* MAKE THE FILE STUFF */
         if(newAsgmt.file){
@@ -119,6 +120,13 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
 
     /* CREATE/EDIT ASSIGNMENTS */
     $scope.updateAssignment = function (newAsgmt) {
+        var checkVal = document.getElementById("checkSub").checked;
+        if(checkVal === true){
+            newAsgmt.submittable = true;
+        }
+        else{
+            newAsgmt.submittable = false;
+        }
         httpAssignmentFactory.updateAssignment(newAsgmt).success(function(response) {
             /* SUCCESSFUL HTTP REQUEST - ADD TO MODEL */
             $scope.assignments.unshift({
@@ -132,7 +140,10 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
                 "difficulty" : "hard",
                 "hwBlobName" : response.hwBlobName,
                 "hwDownloadLink" : response.hwDownloadLink,
-                "hwFileName" : ""
+                "hwFileName" : "",
+                "submittable" : response.submittable,
+                "date" : newAsgmt.date,
+                "time" : newAsgmt.time
             });
             /* CLOSE FORM */
             $("#createAsgmt").click();
@@ -141,39 +152,48 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
         })
     };
 
-    $scope.initEdit = function(index){
+    /* SAVE THE STATE FOR CANCEL EDIT */
+    $scope.initEdit = function(index, asgmt){
         /* INIT DATEPICKER */
         $('#datepicker' + index).datepicker({format: "mm-dd-yy"});
         /* INIT THE TIME */
-        $('#timepicker' + index).timepicker();
+        $('#timepicker1' + index).timepicker();
+
+        document.getElementById("title" + index).value = asgmt.title;
+        document.getElementById("maxGrade" + index).value = asgmt.maxGrade;
+        document.getElementById("description" + index).value = asgmt.description;
+        document.getElementById("date" + index).value = asgmt.date;
+        document.getElementById("timepicker1" + index).value = asgmt.time;
     };
 
     /* CREATE/EDIT ASSIGNMENTS */
     $scope.editAssignment = function (newAsgmt, index) {
 
         newAsgmt.title = document.getElementById("title" + index).value;
-        // newAsgmt.maxGrade = document.getElementById("maxGrade" + index).value;
-        // newAsgmt.description = document.getElementById("description" + index).value;
+        newAsgmt.maxGrade = document.getElementById("maxGrade" + index).value;
+        newAsgmt.description = document.getElementById("description" + index).value;
+        newAsgmt.date = document.getElementById("date" + index).value;
+        newAsgmt.time = document.getElementById("timepicker1" + index).value;
+
+        var checkVal = document.getElementById("checkSub" + index).checked;
+        if(checkVal === true){
+            newAsgmt.submittable = true;
+        }
+        else{
+            newAsgmt.submittable = false;
+        }
 
         httpAssignmentFactory.updateAssignment(newAsgmt).success(function(response) {
             /* SUCCESSFUL HTTP REQUEST - EDIT MODEL */
-            $state.reload();
-            $scope.assignments[index].title = response.title;
-            $scope.assignments[index].gradableType = response.gradableType;
-            $scope.assignments[index].maxGrade = response.maxGrade;
-            $scope.assignment[index].dueDate = new Date(response.date+" "+response.time).getTime();
-            $scope.assignments[index].description = response.description;
-            $scope.assignments[index].date = response.date;
-            $scope.assignments[index].time = response.time;
-            /* CLEAR FORM */
-            $scope.newAsgmt = {};
+
+            /* UPDATE INFORMATION */
+            newAsgmt.assignments = response.assignments;
+            newAsgmt.dueDate = new Date(newAsgmt.date + " " + newAsgmt.time).toLocaleTimeString("en-us", options);
+
+
         }).error(function(response) {
             console.log('error');
         });
-        document.getElementById("title" + index).value = newAsgmt.title;
-        // document.getElementById("maxGrade" + index).value = newAsgmt.maxGrade;
-        // document.getElementById("description" + index).value = newAsgmt.description;
-
     };
 
     /* REMOVE ASSIGNMENT */
@@ -188,6 +208,12 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
         }).then(function(response){
             console.log("deleteAssignment Error: " + response);
         });
-    }
+    };
+
+    /* CANCEL EDIT / RESTORE INFORMATION */
+    $scope.cancelEdit = function(index){
+        /*PUT BACK THE DISPLAY ON*/
+        document.getElementById("asgmtViewer" + index).style.display = 'initial';
+    };
 });
 

@@ -37,83 +37,83 @@
                     </h4>
                 </div>
 
-            <%--ADD NEW GRADE TASK FORM--%>
-        <div class="collapse" id="gradableForm">
-            <%--<form ng-submit="updateGradable(gradable)">--%>
-                <div class="form-group gradable-form">
-                        <%-- GRADABLE TITLE --%>
-                    <div class="col-xs-6">
-                        <label>Title: </label>
-                        <input type="text" class="form-control" ng-model="gradable.title" placeholder="Title" required />
-                    </div>
-                    <div class="col-xs-6">
-                        <label>Maximum Grade: </label>
-                        <input type="number" class="form-control" ng-model="gradable.maxGrade" placeholder="Maximum Grade" required />
-                    </div>
-                    <div class="col-lg-12">
-                        <label class="label-padding">Description: </label>
-                        <textarea type="text" class="form-control" rows="5" ng-model="gradable.description" placeholder=" Write description here" required></textarea>
-                    </div>
-                </div>
-
-                    <%-- DATE PICKER --%>
-                <div class="col-xs-4">
-                    <label class="label-padding">Due Date: </label>
-                    <div class="input-group date gradable-form" id="datepicker" data-provide="datepicker">
-                        <label for="date" class="col-2 col-form-label"></label>
-                        <input ng-model="gradable.date" id="date" required type="text" class="form-control" placeholder="Due Date">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
+                <%--ADD NEW GRADE TASK FORM--%>
+                <div class="collapse" id="gradableForm">
+                    <%--<form ng-submit="updateGradable(gradable)">--%>
+                    <div class="form-group gradable-form">
+                            <%-- GRADABLE TITLE --%>
+                        <div class="col-xs-6">
+                            <label>Title: </label>
+                            <input type="text" class="form-control" ng-model="gradable.title" placeholder="Title" required />
+                        </div>
+                        <div class="col-xs-6">
+                            <label>Maximum Grade: </label>
+                            <input type="number" class="form-control" ng-model="gradable.maxGrade" placeholder="Maximum Grade" required />
+                        </div>
+                        <div class="col-lg-12">
+                            <label class="label-padding">Description: </label>
+                            <textarea type="text" class="form-control" rows="5" ng-model="gradable.description" placeholder=" Write description here" required></textarea>
                         </div>
                     </div>
-                </div>
 
-                    <%-- TIME PICKER --%>
-                <div class="col-xs-4">
-                    <label class="label-padding">Due Time: </label>
-                    <div class="input-group bootstrap-timepicker timepicker gradable-form">
-                        <label for="timepicker1" class="col-2 col-form-label"></label>
-                        <input ng-model="gradable.time" required id="timepicker1" type="text" class="form-control input-small" placeholder="Due Time">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                        <%-- DATE PICKER --%>
+                    <div class="col-xs-4">
+                        <label class="label-padding">Due Date: </label>
+                        <div class="input-group date gradable-form" id="datepicker" data-provide="datepicker">
+                            <label for="date" class="col-2 col-form-label"></label>
+                            <input ng-model="gradable.date" id="date" required type="text" class="form-control" placeholder="Due Date">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                        <%-- TIME PICKER --%>
+                    <div class="col-xs-4">
+                        <label class="label-padding">Due Time: </label>
+                        <div class="input-group bootstrap-timepicker timepicker gradable-form">
+                            <label for="timepicker1" class="col-2 col-form-label"></label>
+                            <input ng-model="gradable.time" required id="timepicker1" type="text" class="form-control input-small" placeholder="Due Time">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                        </div>
+                    </div>
+
+                        <%-- TYPE PICKER --%>
+                    <div class="col-xs-4 select-type">
+                        <form class="form-inline">
+                            <label class="mr-sm-2" for="inlineFormCustomSelect">Choose Type:  </label>
+                            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="gradable.gradableType">
+                                <option selected value="att">Attendance</option>
+                                <option value="exam">Exam</option>
+                                <option value="ec" >Extra Credit</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </form>
+                    </div>
+
+                        <%-- SUBMIT FORM & CANCEL BTNS --%>
+                    <div class="col-xs-12 gradable-btns">
+                        <p><input type="submit" class="btn btn-default" ng-click="updateGradable(gradable)"/>
+                            <button class="btn btn-default" data-toggle="collapse" data-target="#gradableForm">Cancel</button></p>
                     </div>
                 </div>
-
-                            <%-- TYPE PICKER --%>
-                        <div class="col-xs-4 select-type">
-                            <form class="form-inline">
-                                <label class="mr-sm-2" for="inlineFormCustomSelect">Choose Type:  </label>
-                                <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="gradable.gradableType">
-                                    <option selected value="att">Attendance</option>
-                                    <option value="exam">Exam</option>
-                                    <option value="ec" >Extra Credit</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </form>
-                        </div>
-
-                    <%-- SUBMIT FORM & CANCEL BTNS --%>
-                <div class="col-xs-12 gradable-btns">
-                    <p><input type="submit" class="btn btn-default" ng-click="updateGradable(gradable)"/>
-                        <button class="btn btn-default" data-toggle="collapse" data-target="#gradableForm">Cancel</button></p>
-                </div>
-            </form>
-        </div>
-    </div>
-    </c:when>
+            </div>
+        </c:when>
     </c:choose>
 
     <div class="panel-group" id="gradeAccordion">
         <div ng-repeat="gradable in gradables" class="panel list-group-item gradable">
-            <%--<div class="list-group-item gradable">--%>
-            <%-- ONLY PROFESSOR CAN EDIT AND SEE THIS FUNCTIONALITY --%>
-            <c:choose>
-                <c:when test="${userType eq 'prof'}">
-                    <btn class="badge btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteGradable(gradable)"></btn>
-                    <a id="editGradable" data-toggle="collapse" data-target="#editGradable{{$index}}" class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="initEdit($index)"></a>
-                </c:when>
-            </c:choose>
-            <%-- DISPLAYS DESCRIPTION OF GRADE TASK --%>
-                <%-- USE class="panel-title", if accordion does not work --%>
+            <div id="gradableViewer{{$index}}">
+
+                <%-- ONLY PROFESSOR CAN EDIT AND SEE THIS FUNCTIONALITY --%>
+                <c:choose>
+                    <c:when test="${userType eq 'prof'}">
+                        <btn class="badge btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteGradable(gradable)"></btn>
+                        <a id="editGradable" data-toggle="collapse" data-target="#editGradable{{$index}}" class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="initEdit($index, gradable)"></a>
+                    </c:when>
+                </c:choose>
+
+                <%-- DISPLAYS DESCRIPTION OF GRADE TASK --%>
                 <h3><a ng-bind="gradable.title" ng-click="getGrades(gradable.id, $index)" data-toggle="collapse" data-target="{{'#grid'+$index}}" data-parent="#gradeAccordion" ></a></h3>
                 <h6 ng-bind="'Due: ' + gradable.dueDate"></h6>
                 <h6 ng-bind="'Maximum Grade: ' + gradable.maxGrade"></h6>
@@ -136,19 +136,19 @@
                             <%-- GRADABLE TITLE --%>
                             <div class="col-xs-6">
                                 <label class="label-padding">Title: </label>
-                                <input id="title{{$index}}" type="text" class="form-control" value="{{gradable.title}}" placeholder="Title" required />
+                                <input id="title{{$index}}" type="text" class="form-control" ng-value="gradable.title" placeholder="Title" required />
                             </div>
 
                             <%-- GRADABLE MAX GRADE VALUE --%>
                             <div class="col-xs-6">
                                 <label class="label-padding">Maximum Grade: </label>
-                                <input id="max{{$index}}" type="number" class="form-control" value="{{gradable.maxGrade}}" placeholder="Maximum Grade" required />
+                                <input id="maxGrade{{$index}}" type="number" class="form-control" ng-value="gradable.maxGrade" placeholder="Maximum Grade" required />
                             </div>
 
                             <%-- GRADABLE DESCRIPTION --%>
                             <div class="col-xs-12">
                                 <label class="label-padding">Description: </label>
-                                <textarea id="description{{$index}}" row="5" type="text" value="{{gradable.description}}" class="form-control" placeholder="Write description here">{{gradable.description}}</textarea>
+                                <textarea id="description{{$index}}" row="5" type="text" ng-value="gradable.description" class="form-control" placeholder="Write description here">{{gradable.description}}</textarea>
                             </div>
 
 
@@ -156,8 +156,8 @@
                             <div class="col-xs-4">
                                 <label class="label-padding">Due Date: </label>
                                 <div class="input-group date gradable-form" id="datepicker{{$index}}" data-provide="datepicker">
-                                    <label for="date1" class="col-2 col-form-label"></label>
-                                    <input ng-model="gradable.date" id="date1" required type="text" class="form-control" placeholder="Due Date">
+                                    <label for="date{{$index}}" class="col-2 col-form-label"></label>
+                                    <input ng-value="gradable.date" id="date{{$index}}" required type="text" class="form-control" placeholder="Due Date">
                                     <div class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </div>
@@ -167,9 +167,9 @@
                             <%-- TIME PICKER --%>
                             <div class="col-xs-4">
                                 <label class="label-padding">Due Time: </label>
-                                <div class="input-group bootstrap-timepicker timepicker gradable-form">
+                                <div class="input-group bootstrap-timepicker gradable-form">
                                     <label for="timepicker1{{$index}}" class="col-2 col-form-label"></label>
-                                    <input value="{{gradable.time}}" required id="timepicker1{{$index}}" type="text" class="form-control input-small" placeholder="Due Time">
+                                    <input ng-value="gradable.time" required id="timepicker1{{$index}}" type="text" class="form-control input-small" placeholder="Due Time">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@
                             <div class="col-xs-4">
                                 <form class="form-inline select-type">
                                     <label class="mr-sm-2" for="inlineFormCustomSelect1">Choose Type:  </label>
-                                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect1" id="type{{$index}}" value="{{gradable.gradableType}}">
+                                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect1" id="type{{$index}}" ng-value="gradable.gradableType">
                                         <option selected value="att">Attendance</option>
                                         <option value="exam">Exam</option>
                                         <option value="ec" >Extra Credit</option>
@@ -190,11 +190,14 @@
                             <%-- SUBMIT FORM & CANCEL BTNS --%>
                             <div class="gradable-btns">
                                 <button type="submit" class="btn btn-default" ng-click="editGradable(gradable, $index)">Save Changes</button>
-                                <button class="btn btn-default" data-toggle="collapse" data-target="#editGradable{{$index}}">Cancel</button>
+                                <button class="btn btn-default" data-toggle="collapse" data-target="#editGradable{{$index}}" ng-click="cancelEdit($index)">Cancel</button>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
+        </div>
+    </div>
 </body>
 
 

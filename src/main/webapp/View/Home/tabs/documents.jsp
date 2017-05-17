@@ -32,9 +32,11 @@
                     <form ng-submit="uploadDocument()">
                         <div class="form-group document-form">
                             <div class="col-xs-12">
-                                <input required type="text" class="form-control" ng-model="document.title" placeholder="Title" />
+                                <label>Title: </label>
+                                <input type="text" class="form-control" ng-model="document.title" placeholder="Title" required />
                             </div>
                             <div class="col-xs-12">
+                                <label class="label-padding">Description: </label>
                                 <textarea placeholder="Description" ng-model="document.description" class="doc-edit"></textarea>
                             </div>
                                 <%--FILE UPLOAD--%>
@@ -56,30 +58,34 @@
     <%-- DISPLAY ALL DOCUMENTS --%>
     <div class="docCard" ng-repeat="document in documents">
         <div class="list-group-item document">
+        <div id="documentViewer{{$index}}">
             <c:choose>
                 <%--<&-- IF PROFESSOR, APPLY THIS FUNCTIONALITY --&>--%>
                 <c:when test="${userType eq 'prof' && isOwner eq true}">
                             <%--<!-- DELETE DOCUMENT BUTTON-->--%>
                         <btn class="badge btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteDocument(document)"></btn>
                             <%--<!-- EDIT DOCUMENT BUTTON-->--%>
-                        <btn class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" data-toggle="collapse" data-target="#editDocument{{$index}}" ng-click="editDocument(document)"></btn>
+                        <btn class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" data-toggle="collapse" data-target="#editDocument{{$index}}" ng-click="editDocument(document,$index)"></btn>
                 </c:when>
             </c:choose>
 
-            <h3 class="title{{$index}}" value="{{document.title}}">{{document.title}}</h3>
+            <h3 class="title{{$index}}" ng-bind="document.title"></h3>
             <h6>Download Link: <a href="{{document.downloadLink}}">{{document.fileName}}</a></h6>
-            <h5 class="description-color">{{document.description}}</h5>
+            <h5 class="description-color" ng-bind="document.description"></h5>
 
 
             <div class="collapse" id="editDocument{{$index}}">
                 <div class="form-group document-form">
+                    <hr>
 
                     <div class="col-xs-12">
-                        <input type="text" class="form-control editInput" ng-model="selectedDocument.title"/>
+                        <label>Title: </label>
+                        <input type="text" id="title{{$index}}" class="form-control editInput" ng-value="selectedDocument.title"/>
                     </div>
 
                     <div class="col-xs-12">
-                        <textarea type="text" ng-model="selectedDocument.description" class="document-edit"></textarea>
+                        <label class="label-padding">Description: </label>
+                        <textarea type="text" id="description{{$index}}" ng-value="selectedDocument.description" class="document-edit"></textarea>
                     </div>
 
                     <div class="col-lg-12">
@@ -87,10 +93,11 @@
                     </div>
                     <div class="document-btns">
                         <button type="submit" ng-click="saveDocument($index,document)" class="btn btn-default" data-toggle="collapse" data-target="#editDocument{{$index}}">Save</button>
-                        <button class="btn btn-default" data-toggle="collapse" data-target="#editDocument{{$index}}">Cancel</button>
+                        <button class="btn btn-default" data-toggle="collapse" data-target="#editDocument{{$index}}" ng-click="cancelEdit($index)">Cancel</button>
                     </div>
                  </div>
             </div>
+        </div>
         </div>
     </div>
 

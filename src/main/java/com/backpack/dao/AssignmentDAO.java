@@ -103,13 +103,13 @@ public class AssignmentDAO extends DAOBase {
      */
     public AssignmentModel updateAssignment(AssignmentModel am){
         /* DATABASE QUERY */
-        String query = "call update_gradable(?,?,?,?,?,?,?,?,?)";
+        String query = "call update_gradable(?,?,?,?,?,?,?,?,?,?)";
         /* EXECUTE QUERY AND RETURN LIST OF ASSIGNMENT OBJECTS */
         ArrayList<AssignmentModel> aml = dbs.getJdbcTemplate().query(query ,new Object[] { am.getId(), am.getCourseId(), am.getTitle(), am.getDescription(),
-                am.getGradableType(), am.getMaxGrade(), am.getDueDate(), am.getDifficulty(), am.getHwBlobName()}, new AssignmentModelExtractor());
+                am.getGradableType(), am.getMaxGrade(), am.getDueDate(), am.getDifficulty(), am.getHwBlobName(), am.isSubmittable()}, new AssignmentModelExtractor());
 
         /* RETURN NEWLY CREATED ASSIGNMENT WITH ID */
-        return aml.size() > 0 ? aml.get(0) : null;
+         return aml.size() > 0 ? aml.get(0) : null;
     }
 
     /*gets assignment for course*/

@@ -290,19 +290,27 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         });
     };
 
-    $scope.initEdit = function(index){
+    $scope.initEdit = function(index, gradable){
         /* INIT DATEPICKER */
         $('#datepicker' + index).datepicker({format: "mm-dd-yy"});
         /* INIT THE TIME */
         $('#timepicker1' + index).timepicker();
+
+        document.getElementById("title" + index).value = gradable.title;
+        document.getElementById("maxGrade" + index).value = gradable.maxGrade;
+        document.getElementById("description" + index).value = gradable.description;
+        document.getElementById("date" + index).value = gradable.date;
+        document.getElementById("timepicker1" + index).value = gradable.time;
     };
 
     /* EDIT GRADE DESCRIPTION/INFORMATION */
     $scope.editGradable = function(gradable, index){
 
         gradable.title = document.getElementById("title" + index).value;
-        gradable.maxGrade = document.getElementById("max" + index).value;
+        gradable.maxGrade = document.getElementById("maxGrade" + index).value;
         gradable.description = document.getElementById("description" + index).value;
+        gradable.date = document.getElementById("date" + index).value;
+        gradable.time = document.getElementById("timepicker1" + index).value;
 
         var y = $http.get("/updateGradable",{
             transformRequest: angular.identity,
@@ -332,9 +340,9 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             console.log(response);
         });
 
-        document.getElementById("title" + index).value = gradable.title;
-        document.getElementById("max" + index).value = gradable.maxGrade;
-        document.getElementById("description" + index).value = gradable.description;
+        // document.getElementById("title" + index).value = gradable.title;
+        // document.getElementById("maxGrade" + index).value = gradable.maxGrade;
+        // document.getElementById("description" + index).value = gradable.description;
 
     };
 
@@ -453,6 +461,11 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         }, function errorCallBack(response) {
             console.log(response);
         });
+    };
+
+    $scope.cancelEdit = function(index){
+        /*PUT BACK THE DISPLAY ON*/
+        document.getElementById("gradableViewer" + index).style.display = 'initial';
     };
 
 });

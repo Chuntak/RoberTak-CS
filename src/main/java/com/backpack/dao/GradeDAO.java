@@ -61,9 +61,9 @@ public class GradeDAO extends DAOBase{
     /*UPDATES THE DATABASE GRADABLE*/
     public GradableModel updateGradable(GradableModel gm){
 //        gm.setDateCreated(new Date()); //temp
-        String query = "call update_gradable(?,?,?,?,?,?,?,?,?)";
+        String query = "call update_gradable(?,?,?,?,?,?,?,?,?,?)";
         ArrayList<GradableModel> gml =  dbs.getJdbcTemplate().query(query, new Object[] { gm.getId(), gm.getCourseId(), gm.getTitle(),
-                gm.getDescription(), gm.getGradableType(), gm.getMaxGrade(), gm.getDueDate(), gm.getDifficulty(), gm.getBlobName() }, new GradeDAO.GradableModelExtractor());
+                gm.getDescription(), gm.getGradableType(), gm.getMaxGrade(), gm.getDueDate(), gm.getDifficulty(), gm.getBlobName(), 0}, new GradeDAO.GradableModelExtractor());
         return gml.size() > 0 ? gml.get(0) : null;
     }
     /* DELETE A GRADABLE*/

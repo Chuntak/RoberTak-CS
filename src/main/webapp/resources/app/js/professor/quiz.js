@@ -109,7 +109,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
         /*GET THE QUIZ VIEWER*/
         var x = document.getElementById("quizViewer" + index);
         if (x.style.display === 'none') {
-            /*SHOW THE QUIZ VIEwER*/
+            /*SHOW THE QUIZ VIEWER*/
             x.style.display = 'initial';
         } else {
             /*HIDE THE QUIZ VIEWER*/
@@ -271,6 +271,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
         $('#quizCreation').fadeToggle('fast');
     };
 
+    /* SAVES EDIT */
     $scope.updateQuiz = function(index, quiz) {
         quiz.questionList = quiz.edit.questionList;
         quiz.questionList = quiz.questionList.concat(quiz.edit.deletedQuestionList);
@@ -291,6 +292,7 @@ app.controller('quizCtrl', function ($scope, $http, $state, global, httpQuizFact
         document.getElementById("quizViewer" + index).style.display = 'initial';
     };
 
+    /* CANCEL EDITING, UPLOAD BACK TO ORIGINAL INFORMATION TO THE TEXTBOX */
     $scope.cancelEdit = function(index){
         /*PUT BACK THE DISPLAY ON*/
         document.getElementById("quizViewer" + index).style.display = 'initial';

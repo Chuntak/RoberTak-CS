@@ -109,9 +109,9 @@ public class QuizDAO extends AssignmentDAO {
      * @return the quizmodel with its id and the problems with their ids
      */
     public QuizModel updateQuiz(QuizModel qm, ArrayList<ProblemModel> pml) {
-        String query = "call update_gradable(?,?,?,?,?,?,?,?,?)";
+        String query = "call update_gradable(?,?,?,?,?,?,?,?,?,?)";
         ArrayList<QuizModel> qml = dbs.getJdbcTemplate().query(query, new Object[] { qm.getId(),
-                qm.getCourseId(), qm.getTitle(), "", "quiz", qm.getMaxGrade(), qm.getDueDate(), "", "" }, new QuizModelExtractor());
+                qm.getCourseId(), qm.getTitle(), "", "quiz", qm.getMaxGrade(), qm.getDueDate(), "", "", 0}, new QuizModelExtractor());
         QuizModel quizModel;
         /*MAKES SURE THAT WE HAVE THE CORRECT LIST WITH THE ID*/
         if(qml != null && qml.size() > 0)  quizModel = qml.get(0); else quizModel = qm;

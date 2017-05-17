@@ -106,21 +106,33 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         else return 'display';
     };
 
-    /*EDIT DOCUMENT*/
-    $scope.editDocument = function (document) {
-        $scope.oldDocument = {};
-        $scope.oldDocument.description = document.description;
-        $scope.oldDocument.downloadLink = document.downloadLink;
-        $scope.oldDocument.fileName = document.fileName;
-        $scope.oldDocument.id = document.id;
-        $scope.oldDocument.title = document.title;
-        $scope.oldDocument.viewLink = document.viewLink;
+    /* SAVE THE STATE FOR CANCEL EDITING */
+    $scope.initEdit = function(index, document){
+        document.getElementById("title" + index).value = document.title;
+        document.getElementById("description" + index).value = document.description;
+    };
 
-        $scope.selectedDocument = document; //jQuery.extend(true, {}, document);
+    /*EDIT DOCUMENT*/
+    $scope.editDocument = function (doc, index) {
+        // $scope.oldDocument = {};
+        // $scope.oldDocument.description = document.description;
+        // $scope.oldDocument.downloadLink = document.downloadLink;
+        // $scope.oldDocument.fileName = document.fileName;
+        // $scope.oldDocument.id = document.id;
+        // $scope.oldDocument.title = document.title;
+        // $scope.oldDocument.viewLink = document.viewLink;
+
+        document.getElementById("title" + index).value = doc.title;
+        document.getElementById("description" + index).value = doc.description;
+        $scope.selectedDocument = doc; //jQuery.extend(true, {}, document);
     };
 
     /*SAVES FROM EDIT DOCUMENT*/
-    $scope.saveDocument = function (index, document) {
+    $scope.saveDocument = function (index, doc) {
+
+        doc.title = document.getElementById("title" + index).value;
+        doc.description = document.getElementById("description" + index).value;
+
         var file = $scope.selectedDocument.file;
         if(file) {
             var fd = new FormData();
@@ -140,9 +152,10 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
                 }
                 }
             ).then(function (response) {
-                document.downloadLink = response.data.downloadLink;
-                document.fileName = response.data.fileName;
-                document.blobName = response.data.blobName;
+                // document.downloadLink = response.data.downloadLink;
+                // document.fileName = response.data.fileName;
+                // document.blobName = response.data.blobName;
+                doc.documents = response.documents;
                 debugger;
                 //    empty
             }, function errorCallBack(response) {
@@ -160,6 +173,7 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
                     }
                 }
             ).then(function (response) {
+                doc.documents = response.documents;
             }, function errorCallBack(response) {
                 alert("Edit Document Error\n");
             });
@@ -172,7 +186,7 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         $scope.selectedDocument = {};
     };
 
-    /*THIS IS THE CLEAR BTN*/
+    /* THIS IS TO CLEAR BTN */
     $scope.clearChanges = function(index, document) {
         $scope.reset();
         document.description = $scope.oldDocument.description;
@@ -184,4 +198,10 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         $scope.oldDocument = {};
     };
 
+
+    /* CANCEL EDIT / RESTORE INFORMATION */
+    $scope.cancelEdit = function(index){
+        /*PUT BACK THE DISPLAY ON*/
+        document.getElementById("documentViewer" + index).style.display = 'initial';
+    };
 });

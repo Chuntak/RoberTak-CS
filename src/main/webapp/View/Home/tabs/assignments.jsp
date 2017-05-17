@@ -80,7 +80,7 @@
                                 <%-- CHECKBOX FOR SUBMITTABLE --%>
                             <div class="col-xs-2 label-padding">
                                     <span class="checkbox">
-                                        <label class="checkbox"><input checked type="checkbox" value="true">Submittable</label>
+                                        <label class="checkbox"><input type="checkbox" id="checkSub" value="true">Submittable</label>
                                     </span>
                             </div>
                                 <%-- SUBMIT FORM & CANCEL BTNS --%>
@@ -95,11 +95,12 @@
         </c:when>
     </c:choose>
     <div ng-repeat="asgmt in assignments" class="list-group-item assignment">
+        <div id="asgmtViewer{{$index}}">
         <c:choose>
             <%-- ONLY PROFS CAN EDIT/REMOVE--%>
             <c:when test="${userType eq 'prof' && isOwner eq true}">
-                <span ng-click="deleteAssignment(asgmt)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show"></span>
-                <a id="editAssignment" data-toggle="collapse" data-target="#editAssignment{{$index}}" class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="initEdit($index)"></a>
+                <span ng-click="deleteAssignment(asgmt)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show funcBtn"></span>
+                <a id="editAssignment" data-toggle="collapse" data-target="#editAssignment{{$index}}" class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show funcBtn" ng-click="initEdit($index,asgmt)"></a>
             </c:when>
         </c:choose>
 
@@ -131,26 +132,26 @@
 
                 <%-- ASSIGNMENT TITLE --%>
                 <div class="col-xs-6">
-                    <label>Title: </label><input id="title{{$index}}" type="text" class="form-control" id="title" value="{{asgmt.title}}" placeholder="Title" required />
+                    <label>Title: </label><input id="title{{$index}}" type="text" class="form-control" id="title" ng-value="asgmt.title" placeholder="Title" required />
                 </div>
 
                 <%-- MAX GRADE POSSIBLE --%>
                 <div class="col-xs-6">
-                    <label>Maximum Grade:</label><input placeholder="Maximum Grade" id="max-grade1" required type="number" ng-model="asgmt.maxGrade" class="form-control">
+                    <label>Maximum Grade:</label><input placeholder="Maximum Grade" required type="number" id="maxGrade{{$index}}" ng-value="asgmt.maxGrade" class="form-control">
                 </div>
                 <br>
                 <%-- ASSIGNMENT DESCRIPTION --%>
                 <div class="col-xs-12">
                     <label class="label-padding">Description: </label>
-                    <textarea required class="asgmt-form form-control" id="description{{$index}}" rows="5" ng-model="asgmt.description" placeholder="Write description here">{{asgmt.description}}</textarea>
+                    <textarea required class="asgmt-form form-control" id="description{{$index}}" rows="5" ng-value="asgmt.description" placeholder="Write description here">{{asgmt.description}}</textarea>
                 </div>
 
                 <%-- DATE PICKER --%>
                 <div class="col-xs-6">
                     <label class="label-padding">Due Date: </label>
                     <div class="input-group date asgmt-form" id="datepicker{{$index}}" data-provide="datepicker">
-                        <label for="date1" class="col-2 col-form-label"></label>
-                        <input ng-model="asgmt.date" id="date1" required type="text" class="form-control">
+                        <label for="date{{$index}}" class="col-2 col-form-label"></label>
+                        <input ng-value="asgmt.date" id="date{{$index}}" required type="text" class="form-control">
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </div>
@@ -161,8 +162,8 @@
                 <div class="col-xs-6 select-type">
                     <label class="label-padding">Due Time: </label>
                     <div class="input-group bootstrap-timepicker timepicker asgmt-form">
-                        <label for="timepicker{{$index}}" class="col-2 col-form-label"></label>
-                        <input ng-model="asgmt.time" required id="timepicker{{$index}}" type="text" class="form-control input-small">
+                        <label for="timepicker1{{$index}}" class="col-2 col-form-label"></label>
+                        <input ng-value="asgmt.time" required id="timepicker1{{$index}}" type="text" class="form-control input-small" placeholder="Due Time">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                     </div>
                 </div>
@@ -178,18 +179,19 @@
 
                 <%-- CHECKBOX FOR SUBMITTABLE --%>
                 <div class="col-xs-2 label-padding">
-                            <span class="checkbox">
-                                <label class="checkbox"><input checked type="checkbox" value="true">Submittable</label>
-                            </span>
+                    <span class="checkbox">
+                        <label class="checkbox" ng-model="asgmt.submittable" type="checkbox"><input type="checkbox" id="checkSub{{$index}}" ng-checked="asgmt.submittable">Submittable</label>
+                    </span>
                 </div>
 
                 <%-- SUBMIT FORM & CANCEL BTNS --%>
                 <div class="asgmt-btns">
                     <button type="submit" class="btn btn-default asgmt-btn" data-toggle="collapse" data-target="#editAssignment{{$index}}" ng-click="editAssignment(asgmt, $index)">Submit</button>
-                    <button class="btn btn-default asgmt-btn" data-toggle="collapse" data-target="#editAssignment{{$index}}">Cancel</button>
+                    <button class="btn btn-default asgmt-btn" data-toggle="collapse" data-target="#editAssignment{{$index}}" ng-click="cancelEdit($index)">Cancel</button>
                 </div>
             </div>
             </form>
+        </div>
         </div>
     </div>
 </div>

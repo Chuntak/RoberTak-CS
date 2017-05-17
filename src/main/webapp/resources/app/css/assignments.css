@@ -68,3 +68,8 @@ h3{
 .datepicker{
     width: auto;
 }
+
+/* POSITIONING THE EDIT AND DELETE BUTTONS */
+.funcBtn{
+    float: right;
+}
