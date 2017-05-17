@@ -83,15 +83,15 @@ h3{
     width: auto;
 }
 
-.newQuestion-btn{
 
-}
+/***** STUDENT QUIZ TAKER *****/
 
-.multText{
-    width: 70%;
-}
-
-
+/* PAGINATION POSITIONING */
 .pagination-margin{
     margin: 0 0;
+}
+
+/* SIZE THE PANEL BODY */
+.content-quiz{
+    height: calc(74vh - 145px);
 }

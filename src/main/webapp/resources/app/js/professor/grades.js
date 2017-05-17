@@ -169,7 +169,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             ],
             save: function(e){
                 var id = selectedGradableID;
-                $scope.updateGrades(e.model.id, id  , e.values.grade);
+                $scope.updateGrade(e.model.id, id  , e.values.grade);
             },
             remove: function (e) {
                 if(e.model.iD != 0) {
@@ -291,9 +291,6 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             console.log(response);
         });
 
-        // document.getElementById("title" + index).value = gradable.title;
-        // document.getElementById("maxGrade" + index).value = gradable.maxGrade;
-        // document.getElementById("description" + index).value = gradable.description;
 
     };
 

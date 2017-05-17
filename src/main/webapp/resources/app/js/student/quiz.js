@@ -19,7 +19,6 @@ app.factory('httpQuizFactory', function($http, global) {
             }
             this.choices = angular.toJson(this.choices);
         });
-        debugger;
         var parameters = { "id" : quiz.id, "title" : quiz.title, "courseId" :
             global.getCourseId(), "dueDate" : quiz.dueDate, "maxGrade" : quiz.maxGrade ,"tagNames" : quiz.quizTaggedList };
         return $http.post("/updateQuiz", JSON.parse(angular.toJson(quizQuestionList)),
@@ -105,7 +104,6 @@ app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFa
     $scope.saveAnswer = function(){
         httpQuizFactory.saveAnswer($scope.problemList[lastProblemPage-1]).success(function(response){
            lastProblemPage = $scope.problemPage;
-            debugger;
         }).error(function(response) {
             console.log("save answer error");
         });
@@ -133,7 +131,6 @@ app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFa
     $scope.submitQuiz = function() {
         httpQuizFactory.submitQuiz($scope.problemList[lastProblemPage-1]).success(function(response){
             lastProblemPage = $scope.problemPage;
-            debugger;
         }).error(function(response) {
             console.log("save answer error");
         });

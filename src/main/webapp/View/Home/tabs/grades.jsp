@@ -10,7 +10,6 @@
 
     <!-- Include stylesheet -->
     <link rel="stylesheet" href="<c:url value="/resources/app/css/grades.css" />">
-
     <link rel="stylesheet" href="<c:url value="/resources/app/css/imported/bootstrap-datepicker.css" />">
     <link rel="stylesheet/less" href="<c:url value="/resources/app/css/imported/timepicker.less" />">
 
@@ -18,7 +17,6 @@
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common-material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.mobile.min.css" />
-
 
     <title>Grades</title>
 </head>
@@ -39,7 +37,6 @@
 
                 <%--ADD NEW GRADE TASK FORM--%>
                 <div class="collapse" id="gradableForm">
-                    <%--<form ng-submit="updateGradable(gradable)">--%>
                     <div class="form-group gradable-form">
                             <%-- GRADABLE TITLE --%>
                         <div class="col-xs-6">
@@ -101,10 +98,11 @@
         </c:when>
     </c:choose>
 
+    <%-- PROFESSOR VIEW GRADES FOR EDITING --%>
     <div class="panel-group" id="gradeAccordion">
         <div ng-repeat="gradable in gradables" class="panel list-group-item gradable">
 
-                <%-- ONLY PROFESSOR CAN EDIT AND SEE THIS FUNCTIONALITY --%>
+                <%-- ONLY PROFESSOR CAN EDIT/DELETE AND SEE THIS FUNCTIONALITY --%>
                 <c:choose>
                     <c:when test="${userType eq 'prof'  && isOwner eq true}">
                         <btn class="badge btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteGradable(gradable)"></btn>
@@ -140,9 +138,10 @@
                             </div>
                         </div>
 
-                    <div id="gradableViewer{{$index}}">
-                    <%-- EDIT GRADABLE --%>
-                        <div class="collapse" id="editGradable{{$index}}" >
+                <%-- FOR CANCEL ON EDIT, RESTORES DESCRIPTIONS --%>
+                <div id="gradableViewer{{$index}}">
+                <%-- EDIT GRADABLE --%>
+                <div class="collapse" id="editGradable{{$index}}" >
                     <div>
                         <div class="form-group gradable-form">
                             <hr>

@@ -18,17 +18,21 @@
 <body ng-controller="quizTakCtrl">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h4 ng-bind="problemList[problemPage-1].question"></h4>
-            <h6 ng-bind="'This is worth ' + problemList[problemPage-1].pointsWorth + ' points.'"></h6>
+            <h2>Question {{problemPage}} </h2>
+            <h6 ng-bind="'Worth ' + problemList[problemPage-1].pointsWorth + ' points'"></h6>
         </div>
-        <div class="panel-body">
-            <textarea ng-if="problemList[problemPage-1].type === 'ShortAns'" placeholder="Your answer" ng-model="problemList[problemPage-1].answer"></textarea>
+        <div class="panel-body content-quiz">
+            <br>
+            <h4 ng-bind="problemList[problemPage-1].question"></h4>
+            <br>
+            <textarea ng-if="problemList[problemPage-1].type === 'ShortAns'" placeholder="Enter answer here" ng-model="problemList[problemPage-1].answer" class="form-control"></textarea>
             <div ng-if="problemList[problemPage-1].type === 'M/C'">
                 <div ng-repeat="choice in problemList[problemPage-1].choices">
-                    <input type="radio" ng-model="problemList[problemPage-1].answer" ng-value="choice.answerChoice">
-                    <span ng-bind="($index+1|character) + ') ' + (choice.answerChoice)"></span>
+                    <h4><input type="radio" ng-model="problemList[problemPage-1].answer" ng-value="choice.answerChoice">
+                        <span ng-bind="($index+1|character) + ')  ' + (choice.answerChoice)"></span></h4>
                 </div>
-                <p ng-bind="'The answer you put is: ' + problemList[problemPage-1].answer"></p>
+                <br>
+                <h5 ng-bind="'Your answer is:  ' + problemList[problemPage-1].answer"></h5>
             </div>
         </div>
         <!-- /panel-body -->

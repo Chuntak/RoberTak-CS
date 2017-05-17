@@ -10,6 +10,7 @@ textarea {
     padding: 2px;
 }
 
+/* DESCRIPTION TEXTAREA STYLING */
 .doc-edit{
     margin-top: 5px;
     border: solid 1px #d9d9d9;
@@ -17,10 +18,12 @@ textarea {
     min-height: 90px;
 }
 
+/* SUBMIT AND CANCEL BTN POSITIONING */
 .document-btns{
     margin-left: 70%;
 }
 
+/* GIVE PADDING AND HEIGHT FOR ADD NEW DOCUMENT */
 #documentForm{
     padding: 10px 15px;
     height: auto;
@@ -41,7 +44,8 @@ textarea {
     display:inline;
 }
 
-.description-color{
+/* PADDING FOR DESCRIPTION */
+.description-pos{
     padding-top: .2cm;
 }
 
@@ -59,26 +63,14 @@ textarea {
 
 /******File selector******/
 
+/* PADDING FOR FILE BTN */
 .pickFileBtn{
     padding-top: .33cm;
     border: 0px;
     padding-left: .5cm;
 }
 
-.replaceFileBtn{
-    margin-top: -38px;
-    margin-bottom: 40px;
-}
-
-.editBtn{
-    margin-top: 55px;
-    margin-left: 50px;
-}
-
-.addFuncBtn{
-    margin-top: 24px;
-}
-
+/* POSITIONINF FOR SUBMIT BUTTON ON ADD NEW DOCUMENT */
 .docSubmit{
     margin-top: 17px;
     margin-left: 65px;
@@ -98,6 +90,7 @@ h3{
     margin-top: 3px;
 }
 
+/* GIVE STYLING FOR DESCRIPTION */
 .document-edit{
     margin-top: 5px;
     border: solid 1px #d9d9d9;
