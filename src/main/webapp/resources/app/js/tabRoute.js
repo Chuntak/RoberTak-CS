@@ -62,7 +62,7 @@ homeApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 });
 
 /* BEGIN DEFINING THE CONTROLLERS FOR STATES. INJECT $state */
-homeApp.controller('tabsCtrl', function($scope, $state) {
+homeApp.controller('tabsCtrl', function($scope, $state, global) {
     /* DEFINE TABS FOR NG-REPEAT IN JSP */
     $scope.tabs = [
         { state : 'announcements', label : 'Announcements' },

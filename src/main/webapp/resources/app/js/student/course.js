@@ -56,16 +56,18 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $tem
 
     $scope.selected = 0;
     $scope.selectCourse = function(course, index){
-        $scope.selected = index;
-        global.setCourseId(course.id);
         if($state.current.name === "quizTaker") {
-            $templateCache.remove("/quizTak");
+                    /*USING IS TAKING A QUIZ DONT LET THEM SWITCH COURSE*/
+        } else {
+            $scope.selected = index;
+            global.setCourseId(course.id);
+
+            /* RELOAD TAB DATA */
+            var reloadData = function(){
+                $state.reload();
+            };
+            reloadData();
         }
-        /* RELOAD TAB DATA */
-        var reloadData = function(){
-            $state.reload();
-        };
-        reloadData();
     };
 
     /* GET THE COURSES STUDENT IS ENROLLED IN */
@@ -92,7 +94,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $tem
         }
         /* SET CURRENT COURSE ID */
         global.setCourseId($scope.courses[0].id);
-
     }).error(function(response){
         console.log(response);
     });

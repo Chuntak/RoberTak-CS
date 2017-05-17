@@ -148,6 +148,7 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
             });
             /* CLOSE FORM */
             $("#createAsgmt").click();
+            newAsgmt = {};
         }).error(function(response) {
             console.log('error');
         })

@@ -49,7 +49,6 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
             }).success(function (response) {
                 var documentJson = response;
                 $scope.documents.push(documentJson);
-                document.getElementById("collapse-content").className = "display-off";
                 console.log('success')
             }).error(function (response) {
                 console.log('error');

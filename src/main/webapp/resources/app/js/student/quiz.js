@@ -40,11 +40,7 @@ app.factory('httpQuizFactory', function($http, global) {
     /*SAVES THE ANSWER TO A PROBLEM*/
     properties.saveAnswer = function(problem) {
         /*IF PROBLEM IS SOMETHING*/
-        if(problem) {
-            var parameters = {problemId: problem.problemId, quizId: global.getQuizId(), answer: problem.answer};
-        } else {
-            return;
-        }
+        var parameters = {problemId: problem.problemId, quizId: global.getQuizId(), answer: problem.answer};
         return $http.get("/updateStudentAnsForProbInQuiz", { params : parameters });
     };
 
@@ -119,11 +115,13 @@ app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFa
 
     /*SAVE ANSWER*/
     $scope.saveAnswer = function(){
-        httpQuizFactory.saveAnswer($scope.problemList[lastProblemPage-1]).success(function(response){
-           lastProblemPage = $scope.problemPage;
-        }).error(function(response) {
-            console.log("save answer error");
-        });
+        if($scope.problemList[lastProblemPage-1]) {
+            httpQuizFactory.saveAnswer($scope.problemList[lastProblemPage - 1]).success(function (response) {
+                lastProblemPage = $scope.problemPage;
+            }).error(function (response) {
+                console.log("save answer error");
+            });
+        }
     };
 
     /*SUBMIT QUIZ*/

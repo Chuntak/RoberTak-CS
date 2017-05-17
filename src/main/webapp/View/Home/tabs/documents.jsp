@@ -50,7 +50,7 @@
 
                             <%-- SUBMIT FORM AND CANCEL BTNS--%>
                             <div class="document-btns">
-                                <button id="docSubmit" type="submit" class="btn btn-default">Upload Document</button>
+                                <button id="docSubmit" data-toggle="collapse" data-target="#documentForm"  type="submit" class="btn btn-default">Upload Document</button>
                                 <input type="button" value="Cancel" data-toggle="collapse" data-target="#documentForm" class="btn btn-default" ng-click="cancelAdd()"/>
                             </div>
                         </div>
