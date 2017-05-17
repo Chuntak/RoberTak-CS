@@ -2,24 +2,16 @@
  * Created by Calvin on 5/4/2017.
  */
 var app = angular.module('homeApp');
-var selectedId = 0;
 /* FACTORY TO HANDLE HTTP REQUEST LOGIC */
 app.factory('httpGradeFactory', function($http, global) {
     /* SET SINGLETON LIKE OBJECT */
     var properties = this;
 
+    /* getGradable - loads the data for all the gradables */
     properties.getGradable = function(){
         return $http.get("/getGradable", {
             params : {
                 "courseId" : global.getCourseId()
-            }
-        });
-    };
-
-    properties.getEnrolled = function(){
-        return $http.get("/getEnrolled", {
-            params : {
-                "id" : global.getCourseId()
             }
         });
     };
@@ -59,12 +51,13 @@ app.factory('httpGradeFactory', function($http, global) {
 app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeFactory) {
     /* ALL GRADABLE ITEMS */
     $scope.gradables = [];
-    /* ALL STUDENTS ENROLLED IN COURSE - FOR GRADING TABLES.
-       GRADE INFO INSIDE WILL VARY DEPENDING ON CURRENT GRADABLE ITEM */
+    /* ARRAY OF GRADE MODEL OBJECTS*/
     $scope.students = [];
+    /* THE CURRENT GRADABLE OBJECT*/
     $scope.gradable = {};
-    $scope.selectedGradable = {};
+    /* THE GRID DATA FOR KENDO GRID*/
     $scope.gridData = null;
+    /* THE INDEX OF THE KENDO GRID WE WANT TO EDIT*/
     var gridIndex = 0;
 
 
@@ -82,8 +75,8 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         day: "numeric", hour: "2-digit", minute: "2-digit"
     };
 
-    /*ACTIVATES WHEN THE GRADE TITLE IS CLICKED AND THE GRADE TABLE SHOWS*/
-    $scope.getGrades = function(gradableId, index){
+    /* getGrades - ACTIVATES WHEN THE GRADE TITLE IS CLICKED AND THE GRADE TABLE SHOWS*/
+    $scope.getGrades = function(gradableId,index){
         selectedGradableID = gradableId;
         gridIndex = index;
         httpGradeFactory.getGrades(gradableId).success(function (response) {
@@ -114,6 +107,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         });
     };
 
+    /* initDataSouce - BINDS THE $SCOPE.STUDENTS DATA TO THE KENDO GRID*/
     $scope.initDataSource = function(){
         $scope.gridData = new kendo.data.DataSource({
             data: $scope.students,
@@ -140,7 +134,11 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                             type: "string",
                             editable : false
                         },
-                        submissionFile:{
+                        fileName:{
+                            type:"string",
+                            editable : false
+                        },
+                        downloadLink:{
                             type:"string",
                             editable : false
                         },
@@ -153,8 +151,8 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             },
             batch: true
         });
-    }
-    /* DATA FOR KENDO GRID. THESE SHOULD BE THE ITEM OBJECTS RECEIVED FROM DATASTORE */
+    };
+    /* initGrid - DATA FOR KENDO GRID. THESE SHOULD BE THE ITEM OBJECTS RECEIVED FROM DATABASE */
     $scope.initGrid = function() {
 
         /* INIT ITEM TABLE WITH KENDO GRID */
@@ -166,16 +164,12 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                 { field: "firstName", title: "First Name" },
                 { field: "lastName", title: "Last Name" },
                 { field: "email", title: "Email" },
-                { field: "submissionFile", title: "Submission"},
+                { field: "fileName", title: "Submission",template:"<a href='${downloadLink}' target='_blank'>${fileName}</a>"},
                 { field: "grade", title: "Grade" }
             ],
             save: function(e){
-                debugger;
                 var id = selectedGradableID;
-                $scope.updateGradableRecords(e.model.id, id  , e.values.grade);
-                // var dataSource = $("#grid").data("kendoGrid").dataSource;
-                // $("#grid").data('kendoGrid').refresh();
-                debugger;
+                $scope.updateGrades(e.model.id, id  , e.values.grade);
             },
             remove: function (e) {
                 if(e.model.iD != 0) {
@@ -186,7 +180,6 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                 }
             },
             update: function(e){
-                //alert("update");
             },
             cancel: function(e) {
                 console.log("cancel fired");
@@ -204,17 +197,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         };
     };
 
-
-
-
-    /*Get all enrolled in the course and their respective grade*/
-
-    /**
-     * GETS THE GRADABLES AND THE GRADES OF ALL ENROLLED
-     * 1. Get the gradables
-     * 2. Get all people enrolled
-     * 3. For each person enrolled, display their grade
-     */
+    /* getGradable- GETS ALL THE GRADABLES FOR THIS COURSE */
     httpGradeFactory.getGradable().success(function(response) {
         $.each(response, function() {
             this.dueDate = new Date(this.dueDate).toLocaleTimeString("en-us", options);
@@ -223,46 +206,11 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         });
         /* MODEL THE GRADABLES */
         $scope.gradables = response;
-        /* NOW LOAD ALL ENROLLED STUDENT INFORMATION AFTER GRADABLES LOAD */
-        // httpGradeFactory.getEnrolled().success(function(response){
-        //     debugger;
-        //     $scope.students = response;
-        //      $scope.initGrid();
-            // var data2 = [
-            //     {
-            //         label: "Grade",
-            //         strokeColor: '#F16220',
-            //         data: [
-            //             { x:100, y: 1 },
-            //             { x: 85, y: 3 },
-            //             { x: 80, y: 8 },
-            //             { x: 75, y: 10 },
-            //             { x: 70, y: 7 },
-            //             { x: 65, y: 6 },
-            //             { x: 60, y: 5 },
-            //             { x: 50, y: 3 },
-            //             { x: 40, y: 1 }
-            //         ]
-            //     }
-            // ];
-            // var graphCanvas = '#gradeGraph-0';
-            // var ctx = $(graphCanvas).get(0).getContext("2d");
-            // var myLineChart = new Chart(ctx).Scatter(data2, {
-            //     bezierCurve: true,
-            //     showTooltips: true,
-            //     scaleShowHorizontalLines: true,
-            //     scaleShowLabels: true,
-            //     scaleBeginAtZero: true
-            // });
-            // makeGraph();
-        // }).error(function(){
-        //
-        // });
     }).error(function(response){
         console.log(response);
     });
 
-    /* CREATE NEW GRADE TASK */
+    /* updateGradable- CREATE NEW GRADE TASK */
     $scope.updateGradable = function(gradable){
         httpGradeFactory.updateGradable(gradable).success(function (response) {
 
@@ -290,7 +238,8 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         });
     };
 
-    $scope.initEdit = function(index, gradable){
+    /* initEdit - INITIALIZES THE EDIT FOR THE NEW GRADABLE*/
+    $scope.initEdit = function(index,gradable){
         /* INIT DATEPICKER */
         $('#datepicker' + index).datepicker({format: "mm-dd-yy"});
         /* INIT THE TIME */
@@ -304,7 +253,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         document.getElementById("type" + index).value = gradable.gradableType;
     };
 
-    /* EDIT GRADE DESCRIPTION/INFORMATION */
+    /* editGradable - EDIT GRADE DESCRIPTION/INFORMATION */
     $scope.editGradable = function(gradable, index){
 
         gradable.title = document.getElementById("title" + index).value;
@@ -348,7 +297,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
 
     };
 
-    /*DELETES A DOCUMENT*/
+    /* deleteGradable - DELETES A GRADABLE */
     $scope.deleteGradable = function(gradable){
         var y = $http({
             method: 'GET',
@@ -368,92 +317,8 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         });
     };
 
-    // Chart.defaults.global.animation = false;
-    // Chart.defaults.global.tooltipFontSize=10;
-    // Chart.defaults.global.tooltipFillColor = "rgba(0,80,140,0.8)";
-    // Chart.defaults.global.responsive = true;
-    // Chart.defaults.global.scaleLineColor = "black";
-    //
-    // /*CREATES A GRAPH FOR A GRADABLE*/
-    // function makeGraph(){
-    //     var gradeFrequency=[{ grade: 100, freq: 1 },{ grade: 90, freq: 3 },
-    //         { grade: 80, freq: 8 },{ grade: 70, freq: 11 },
-    //         { grade: 60, freq: 9 },{ grade: 50, freq: 5 },
-    //         { grade: 40, freq: 3 },{ grade: 30, freq: 3 },
-    //         { grade: 20, freq: 2 },{ grade: 10, freq: 1 }];
-    //
-    //     var graphPoints = [];
-    //     var xData;
-    //     var yData;
-    //     debugger;
-    //     for(count = 0; count < gradeFrequency.length -1; count++){
-    //         xData = gradeFrequency[count].grade;
-    //         yData = gradeFrequency[count].freq;
-    //         graphPoints.push({x : xData, y : yData});
-    //     }
-    //     debugger;
-    //
-    //
-    //     var graphData = [
-    //         {
-    //             label: "gradable.title",
-    //             strokeColor: '#F16220',
-    //             data: graphPoints
-    //         }
-    //     ];
-    //     // var graphCanvas = '#gradeGraph-'+index;
-    //     var graphCanvas = '#gradeGraph-0';
-    //     var ctx = $(graphCanvas).get(0).getContext("2d");
-    //     ctx.height = 400;
-    //     var myLineChart = new Chart(ctx).Scatter(graphData, {
-    //         bezierCurve: true,
-    //         showTooltips: true,
-    //         scaleShowHorizontalLines: true,
-    //         scaleShowVerticalLines: false,
-    //         scaleShowLabels: true,
-    //         scaleBeginAtZero: true,
-    //         scaleStartValue : 0,
-    //         maintainAspectRatio: true,
-    //
-    //         options : {
-    //             scales:{
-    //                 xAxes:[{
-    //                     ticks:{
-    //                         beginAtZero: true
-    //                     }
-    //                 }],
-    //                 yAxes: [{
-    //                     ticks: {
-    //                         beginAtZero: true
-    //                     }
-    //                 }]
-    //             }
-    //         }
-    //     });
-    //
-    //
-    // }
-
-    /******* GRADES ********/
-    // $http.get('/getGrade',{
-    //     params : {
-    //         "courseId":global.getCourseId(),
-    //     }
-    // }).success(function(response) {
-    //     var gradeList = response.data;
-    //     $scope.grades = [];
-    //     for(i = 0; i < gradeList.length; i++) {
-    //         var grade = gradeList[i];
-    //         var gradeJson = {"firstName": grade.firstName ,"lastName": grade.lastName,
-    //             "email": grade.email, "submissionFile": grade.submissionFile};
-    //         $scope.grades.push(gradeJson);
-    //     }
-    // }).error(function(response) { /*error*/
-    //     console.log(response);
-    //     debugger;
-    // });
-
-    $scope.updateGradableRecords = function(studentId,gradableId, grade){
+    /* updateGrade - UPDATES THE GRADES WITH THE NEW GRADE*/
+    $scope.updateGrade = function(studentId,gradableId, grade){
         var y = $http({
             method: 'GET',
             url: '/updateGrade',

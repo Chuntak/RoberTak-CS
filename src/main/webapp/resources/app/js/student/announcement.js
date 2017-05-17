@@ -18,7 +18,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
     });
     var reloadData = function(){
         $state.reload();
-    }
+    };
     $scope.announcementList = {};
 
     //Get Announcements on load
@@ -100,4 +100,4 @@ app.directive('testdirective', function() {
 
 
     };
-})
+});

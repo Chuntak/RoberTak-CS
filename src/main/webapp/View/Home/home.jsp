@@ -150,7 +150,7 @@
                                     <%--Semester and Public checkbox--%>
                                 <div class="form-inline">
                                     <div class="col-lg-3">
-                                        <select name="semester_chooser" class="form-control wide" ng-model="course.semester">
+                                        <select name="semester_chooser" class="form-control wide" ng-model="course.semester" required>
                                             <option value="" disabled selected>Semester</option>
                                             <option value="Spring">Spring</option>
                                             <option value="Summer">Summer</option>
@@ -159,7 +159,7 @@
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <select name="year_chooser" class="form-control" ng-model="course.ano">
+                                        <select name="year_chooser" class="form-control" ng-model="course.ano" required>
                                             <option value="" disabled selected>Year</option>
                                             <option value="2017">2017</option>
                                             <option value="2018">2018</option>

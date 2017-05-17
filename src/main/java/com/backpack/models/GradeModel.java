@@ -8,35 +8,28 @@ public class GradeModel {
     private String firstName;
     private String lastName;
     private String email;
-    private String submissionFile;
     private int gradableId;
     private int courseId;
     private int grade;
     private int id;
 
-    public String getSubmissionFile() {
-        return submissionFile;
-    }
 
-    public void setSubmissionFile(String submissionFile) {
-        this.submissionFile = submissionFile;
-    }
 
-    public int getGradableId() {
-        return gradableId;
-    }
+    /*FOR THE SUBMISSION FILES*/
 
-    public void setGradableId(int gradableId) {
-        this.gradableId = gradableId;
-    }
+    /*Blob name gotten from the database*/
+    private String blobName;
+    /*The name of the submitted file*/
+    private String fileName;
+    /*The link to download the file*/
+    private String downloadLink;
 
-    public int getId() {
-        return id;
-    }
+    public int getGradableId() {return gradableId;}
 
-    public void setId(int studId) {
-        this.id = studId;
-    }
+    public void setGradableId(int gradableId) {this.gradableId = gradableId;}
+
+    public int getId() {return id;}
+    public void setId(int studId) {this.id = studId;}
 
     public void setCourseId(int courseId) {
         this.courseId = courseId;
@@ -45,7 +38,6 @@ public class GradeModel {
     public int getGrade() {
         return grade;
     }
-
     public void setGrade(int grade) {
         this.grade = grade;
     }
@@ -53,7 +45,6 @@ public class GradeModel {
     public Integer getCourseId() {
         return courseId;
     }
-
     public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
@@ -61,7 +52,6 @@ public class GradeModel {
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -69,17 +59,22 @@ public class GradeModel {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getFirstName() {
-
-        return firstName;
-    }
-
+    public String getFirstName() {return firstName;}
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
+    public String getBlobName() {return blobName;}
+    public void setBlobName(String blobName) {this.blobName = blobName;}
+
+    public String getFileName() {return fileName;}
+    public void setFileName(String fileName) {this.fileName = fileName;}
+
+    public String getDownloadLink() {return downloadLink;}
+    public void setDownloadLink(String downloadLink) {this.downloadLink = downloadLink;}
+
 }

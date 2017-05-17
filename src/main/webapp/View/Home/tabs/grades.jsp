@@ -27,7 +27,7 @@
 
     <c:choose>
         <%--IF PROFESSOR, APPLY THIS FUNCTIONALITY--%>
-        <c:when test="${userType eq 'prof'}">
+        <c:when test="${userType eq 'prof'  && isOwner eq true}">
             <div class="gradable-create">
 
                     <%--ADD NEW GRADE TASK BUTTON--%>
@@ -103,32 +103,46 @@
 
     <div class="panel-group" id="gradeAccordion">
         <div ng-repeat="gradable in gradables" class="panel list-group-item gradable">
-            <div id="gradableViewer{{$index}}">
 
                 <%-- ONLY PROFESSOR CAN EDIT AND SEE THIS FUNCTIONALITY --%>
                 <c:choose>
-                    <c:when test="${userType eq 'prof'}">
+                    <c:when test="${userType eq 'prof'  && isOwner eq true}">
                         <btn class="badge btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteGradable(gradable)"></btn>
                         <a id="editGradable" data-toggle="collapse" data-target="#editGradable{{$index}}" class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="initEdit($index, gradable)"></a>
-                    </c:when>
-                </c:choose>
 
-                <%-- DISPLAYS DESCRIPTION OF GRADE TASK --%>
-                <h3><a ng-bind="gradable.title" ng-click="getGrades(gradable.id, $index)" data-toggle="collapse" data-target="{{'#grid'+$index}}" data-parent="#gradeAccordion" ></a></h3>
+            <%-- DISPLAYS DESCRIPTION OF GRADE TASK --%>
+                <%-- USE class="panel-title", if accordion does not work --%>
+                    <h3><a ng-bind="gradable.title" ng-click="getGrades(gradable.id,$index)" data-toggle="collapse" data-target="{{'#grid'+$index}}" data-parent="#gradeAccordion" ></a></h3>
+                </c:when>
+
+                <c:when test="${userType eq 'stud' || isOwner eq false}">
+                    <h3 ng-bind="gradable.title" ></h3>
+                </c:when>
+                </c:choose>
                 <h6 ng-bind="'Due: ' + gradable.dueDate"></h6>
                 <h6 ng-bind="'Maximum Grade: ' + gradable.maxGrade"></h6>
                 <h5 ng-bind="gradable.description" class="description-color"></h5>
-
-                <%-- KENDO --%>
-                <div id="{{ 'grid' + $index }}" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <h3>Grades</h3>
-                        <kendo-grid id="{{ 'kendogrid' + $index }}" options="mainGridOptions"></kendo-grid>
-                    </div>
+                <div class="statistics">
+                    <%--<canvas id="gradeGraph-{{$index}}" height="150px" width="300px"></canvas>--%>
+                    <h6 class="highest"><b>Highest Grade : </b>{{gradable.highestGrade}} / {{gradable.maxGrade}}</h6>
+                    <h6 class="lowest"><b>Lowest Grade : </b>{{gradable.minGrade}} / {{gradable.maxGrade}}</h6>
+                    <h6 class="average"><b>Average Grade : </b>{{gradable.avg}}</h6>
+                    <h6 class="standardDeviation"><b>Standard Deviation : </b>{{gradable.stdDev}}</h6>
                 </div>
 
-                <%-- EDIT GRADABLE --%>
-                <div class="collapse" id="editGradable{{$index}}" >
+                <c:choose>
+                    <c:when test="${userType eq 'prof'  && isOwner eq true}">
+                        <%-- KENDO --%>
+                        <div id="{{ 'grid' + $index }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                            <h3>Grades</h3>
+                            <kendo-grid id="{{ 'kendogrid' + $index }}" options="mainGridOptions"></kendo-grid>
+                            </div>
+                        </div>
+
+                    <div id="gradableViewer{{$index}}">
+                    <%-- EDIT GRADABLE --%>
+                        <div class="collapse" id="editGradable{{$index}}" >
                     <div>
                         <div class="form-group gradable-form">
                             <hr>
@@ -195,6 +209,12 @@
                         </div>
                     </div>
                 </div>
+                    </c:when>
+                    <c:when test="${userType eq 'stud'}">
+                        <h6><b>Your Grade is : </b>{{gradable.grade}} / {{gradable.maxGrade}}</h6>
+                    </c:when>
+
+                </c:choose>
             </div>
         </div>
     </div>

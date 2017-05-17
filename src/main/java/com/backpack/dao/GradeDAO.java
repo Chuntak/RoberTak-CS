@@ -19,7 +19,7 @@ public class GradeDAO extends DAOBase{
     /*  GET INFORMATION FROM DB FOR: STUDENT INFO, SUBMISSION FILE */
     public ArrayList<GradeModel> getGrade(GradeModel gm){
         String query = "call get_grade(?,?,?)";
-        return dbs.getJdbcTemplate().query(query, new Object[] { 0,gm.getCourseId(), gm.getGradableId() }, new GradeModelExtractor());
+        return dbs.getJdbcTemplate().query(query, new Object[] { gm.getId(),gm.getCourseId(), gm.getGradableId()}, new GradeModelExtractor());
     }
 
     /*UPDATES THE DATABASE GRADE*/
@@ -30,8 +30,8 @@ public class GradeDAO extends DAOBase{
     }
 
     /* RETRIEVE RESULTS FROM DB STORED PROCEDURE (QUERY) */
-    private static class GradeModelExtractor implements ResultSetExtractor<ArrayList<GradeModel>> {
-
+    private class GradeModelExtractor implements ResultSetExtractor<ArrayList<GradeModel>> {
+        @Override
         public ArrayList<GradeModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
             ArrayList<GradeModel> gml = new ArrayList<GradeModel>();
             if(rs != null && rs.getMetaData().getColumnCount() > 0){
@@ -40,11 +40,22 @@ public class GradeDAO extends DAOBase{
                     if(columnExists(rs, "firstName")) gm.setFirstName(rs.getString("firstName"));
                     if(columnExists(rs, "lastName")) gm.setLastName(rs.getString("lastName"));
                     if(columnExists(rs, "email")) gm.setEmail(rs.getString("email"));
-                    if(columnExists(rs, "submissionFile")) gm.setSubmissionFile(rs.getString("submissionFile"));
                     if(columnExists(rs,"gradableId")) gm.setGradableId(rs.getInt("gradableId"));
                     if(columnExists(rs,"crsId")) gm.setCourseId(rs.getInt("crsId"));
                     if(columnExists(rs, "grade")) gm.setGrade(rs.getInt("grade"));
                     if(columnExists(rs,"id")) gm.setId(rs.getInt("id"));
+
+                    if (columnExists(rs, "blobName")) gm.setBlobName(rs.getString("blobName"));
+                  if (gm.getBlobName() != null && !gm.getBlobName().equals("")) {
+                      /* IF THERE IS A BLOB NAME, GET THE DOWNLOAD LINK */
+                      try{ gm.setFileName(gm.getBlobName().split("\\|")[1]); }
+                      catch (IndexOutOfBoundsException e) { System.err.println("Filename not formatted correctly."); }
+                      gm.setDownloadLink(dbs.getFileViewLink(gm.getBlobName(), false));
+                    }else{
+                      gm.setBlobName("");
+                      gm.setFileName("");
+                      gm.setDownloadLink("");
+                  }
                     gml.add(gm);
                 }
             }
@@ -60,7 +71,6 @@ public class GradeDAO extends DAOBase{
 
     /*UPDATES THE DATABASE GRADABLE*/
     public GradableModel updateGradable(GradableModel gm){
-//        gm.setDateCreated(new Date()); //temp
         String query = "call update_gradable(?,?,?,?,?,?,?,?,?,?)";
         ArrayList<GradableModel> gml =  dbs.getJdbcTemplate().query(query, new Object[] { gm.getId(), gm.getCourseId(), gm.getTitle(),
                 gm.getDescription(), gm.getGradableType(), gm.getMaxGrade(), gm.getDueDate(), gm.getDifficulty(), gm.getBlobName(), 0}, new GradeDAO.GradableModelExtractor());
@@ -83,12 +93,15 @@ public class GradeDAO extends DAOBase{
                     GradableModel gbm = new GradableModel();
                     if(columnExists(rs, "id")) gbm.setId(rs.getInt("id"));
                     if(columnExists(rs, "title")) gbm.setTitle(rs.getString("title"));
-                    if(columnExists(rs, "maxGrade")) gbm.setMaxGrade(rs.getInt("maxGrade"));
+                    if(columnExists(rs, "maxGrade")) gbm.setMaxGrade(rs.getDouble("maxGrade"));
+                    if(columnExists(rs, "average")) gbm.setAvg(rs.getDouble("average"));
+                    if(columnExists(rs, "standardDeviation")) gbm.setStdDev(rs.getDouble("standardDeviation"));
+                    if(columnExists(rs, "highestGrade")) gbm.setHighestGrade(rs.getDouble("highestGrade"));
+                    if(columnExists(rs, "minGrade")) gbm.setMinGrade(rs.getDouble("minGrade"));
                     if(columnExists(rs, "dueDate")) gbm.setDate(rs.getTimestamp("dueDate"));
                     if(columnExists(rs, "description")) gbm.setDescription(rs.getString("description"));
                     if(columnExists(rs, "gradableType")) gbm.setGradableType(rs.getString("gradableType"));
 
-//                    if(columnExists(rs, "avg"));
                     gbml.add(gbm);
                 }
             }

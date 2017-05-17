@@ -9,10 +9,11 @@ public class GradableModel {
 
     private String title;
     private double maxGrade;
+    private double highestGrade;
     private double minGrade;
-    private double standardD;
     private double avg;
     private double median;
+    private double stdDev;
     private int courseId;
     private int stdId;
     private String description;
@@ -128,14 +129,6 @@ public class GradableModel {
         this.minGrade = minGrade;
     }
 
-    public double getStandardD() {
-        return standardD;
-    }
-
-    public void setStandardD(double standardD) {
-        this.standardD = standardD;
-    }
-
     public double getAvg() {
         return avg;
     }
@@ -151,4 +144,12 @@ public class GradableModel {
     public void setMedian(double median) {
         this.median = median;
     }
+
+    public double getHighestGrade() {return highestGrade;}
+
+    public void setHighestGrade(double highestGrade) {this.highestGrade = highestGrade;}
+
+    public double getStdDev() {return stdDev;}
+
+    public void setStdDev(double stdDev) {this.stdDev = stdDev;}
 }

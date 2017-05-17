@@ -115,7 +115,6 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
             url: '/updateAnnouncement',
             params: {"id" : announcement.id, "title": $(title).val(), "description" : JSON.stringify(announcement.quill.getContents())}
         }).then(function (response) {
-            console.log(response)
             //Hide the announcement toolbars
             $(id).prev().hide();
             //Hide the button
