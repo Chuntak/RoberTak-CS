@@ -32,31 +32,37 @@
 
         <form:form method="GET" modelAttribute="person" action="/register" class="form-horizontal no-margin" id="form">
 
+        <%-- FIRST NAME --%>
         <div class="form-group">
             <label class="control-label col-sm-4" for="firstName"></label>
             <form:input path="firstName" class="form-control form-control-lg input-lg" type="text" id="firstName" placeholder="First Name"/>
         </div>
 
+        <%-- LAST NAME --%>
         <div class="form-group">
             <Label class="control-label col-sm-4" for="lastName"></Label>
             <form:input path="lastName" class="form-control form-control-lg input-lg" type="text" id="lastName" placeholder="Last Name"/>
         </div>
 
+        <%-- SCHOOL NAME --%>
         <div class="form-group">
             <label class="control-label col-sm-4" for="school"></label>
             <form:input path="school" class="form-control form-control-lg input-lg" type="text" id="school" placeholder="School Name"/>
         </div>
 
+        <%-- GET EMAIL FORM GOOGLE ACCOUNT --%>
         <div class="form-group">
             <form:input path="email" type="hidden" id="email" value='<%= session.getAttribute("email")%>'/>
         </div>
 
+        <%-- RADIO BUTTON FOR PICKING PROFESSOR OR STUDENT --%>
         <div class="bottom-form">
             <form:radiobutton path="userType" name="options" checked="true" id="Professor" value="prof"/>&nbspProfessor
             &nbsp&nbsp
             <form:radiobutton path="userType" name="options" id="Student" value="stud"/>&nbspStudent
             <br><br><br>
 
+        <%-- SUBMIT BTN --%>
         <div>
             <input class="btn btn-lg btn-primary" name="submit" value="Sign Up" type="submit"></input>
         </div>

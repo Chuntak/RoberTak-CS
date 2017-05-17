@@ -117,17 +117,20 @@
                     <h3 ng-bind="gradable.title" ></h3>
                 </c:when>
                 </c:choose>
+                <%-- DISPLAY THE INFORMATION --%>
                 <h6 ng-bind="'Due: ' + gradable.dueDate"></h6>
                 <h6 ng-bind="'Maximum Grade: ' + gradable.maxGrade"></h6>
                 <h5 ng-bind="gradable.description" class="description-color"></h5>
+
+                <%-- DISPLAY STATISTICS FOR GRADES --%>
                 <div class="statistics">
-                    <%--<canvas id="gradeGraph-{{$index}}" height="150px" width="300px"></canvas>--%>
                     <h6 class="highest"><b>Highest Grade : </b>{{gradable.highestGrade}} / {{gradable.maxGrade}}</h6>
                     <h6 class="lowest"><b>Lowest Grade : </b>{{gradable.minGrade}} / {{gradable.maxGrade}}</h6>
                     <h6 class="average"><b>Average Grade : </b>{{gradable.avg}}</h6>
                     <h6 class="standardDeviation"><b>Standard Deviation : </b>{{gradable.stdDev}}</h6>
                 </div>
 
+                <%-- DISPLAY GRADES FOR EACH TASK --%>
                 <c:choose>
                     <c:when test="${userType eq 'prof'  && isOwner eq true}">
                         <%-- KENDO --%>
@@ -209,10 +212,10 @@
                     </div>
                 </div>
                     </c:when>
+                    <%-- STUDENT VIEW FINAL GRADE --%>
                     <c:when test="${userType eq 'stud'}">
                         <h6><b>Your Grade is : </b>{{gradable.grade}} / {{gradable.maxGrade}}</h6>
                     </c:when>
-
                 </c:choose>
             </div>
         </div>

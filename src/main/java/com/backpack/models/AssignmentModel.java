@@ -46,6 +46,8 @@ public class AssignmentModel {
     private int hwId;
 
     /* FILE INFO FOR STUDENT SUBMSSIONS - ONLY USED FROM BACKEND -> FRONTEND */
+
+    /* USE IT TO GET THE ID FOR BLOB, BLOB IS THE FILE */
     private String submissionBlobName;
     private String submissionDownloadLink;
     private String submissionFileName;

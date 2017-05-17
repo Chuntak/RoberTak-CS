@@ -16,6 +16,7 @@
     <meta charset="UTF-8">
     <title>Quiz</title>
 
+    <%-- CSS --%>
     <link rel="stylesheet" href="<c:url value="/resources/app/css/imported/bootstrap-datepicker.css" />">
     <link rel="stylesheet/less" href="<c:url value="/resources/app/css/imported/timepicker.less" />">
     <link rel="stylesheet" href="<c:url value="/resources/app/css/quiz.css" />">
@@ -106,26 +107,30 @@
                                 <span ng-click="deleteQuestion(addQuiz,question)" class="btn-xs glyphicon glyphicon-remove clickable remove"></span>
                             </form>
                             <div class="form-group">
+                                <%-- QUESTION NUMBER --%>
                                 <div class="col-xs-1"><label>{{$index+1}}. </label></div>
+                                <%-- QUESTION --%>
                                 <div class="col-xs-11">
                                     <label>Enter Question: </label>
                                     <textarea type="text" class="form-control textarea-style" ng-model="question.question" placeholder="Write question here" required></textarea>
                                     <br>
+                                    <%-- QUESTION ANSWER --%>
                                     <div ng-if="question.type === 'ShortAns'" >
                                         <label>Question Answer: </label>
                                         <textarea tyoe="text" ng-model="question.answer" class="form-control" placeholder="Write answer here"></textarea>
                                     </div>
+                                    <%-- MULTIPLE CHOICE QUESTIONS --%>
                                     <form ng-if="question.type === 'M/C'">
                                         <div ng-repeat="choice in question.choices" class="form-inline">
                                             <input type="radio" required name="choices" ng-click="setMCAnswer(question,choice)" value="{{question.choices.indexOf(choice)+1|character}}">  {{question.choices.indexOf(choice)+1|character}}.
                                             <input type="text" id="multipleChoiceQuestion0{{$parent.$index}}{{$index}}" ng-model="choice.answerChoice" class="form-control">
 
+                                            <%-- ADD AND REMOVE MULTIPLE CHOICE DEPENDING ON CONDITION --%>
                                             <button type="button" ng-if="question.choices.length === 1 && question.choices.indexOf(choice) === 0" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '+')">+</button>
                                             <button type="button" ng-if="question.choices.length > 1 && (question.choices.indexOf(choice) >= 0 && question.choices.indexOf(choice) < question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '-')">-</button>
                                             <button type="button" ng-if="question.choices.length > 1 && question.choices.length < 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '-')">-</button>
                                             <button type="button" ng-if="question.choices.length > 1 && question.choices.length < 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '+')">+</button>
                                             <button type="button" ng-if="question.choices.length > 1 && question.choices.length === 5 && (question.choices.indexOf(choice) === question.choices.length - 1)" class="btn btn-default" ng-click="addRemoveChoice(question,choice, '-')">-</button>
-
                                         </div><br>
 
                                         <%-- PROFESSOR SELECTS THE ANSWER FROM THE CHOICES INPUTTED --%>
@@ -141,11 +146,14 @@
                         </div>
                     </div>
                     <div>
+                        <%-- CREATE NEW QUESTION BTN --%>
                         <div class="col-xs-12">
                             <br>
                             <button class="btn btn-default" ng-click="makeQuestion(addQuiz)">Add new question</button>
                         </div>
                     </div>
+
+                    <%-- SAVE AND CANCEL QUIZ BTN --%>
                     <div class="quiz-btns">
                         <label class="alert alert-danger" for="addQuizVal" id="addQuizVal"></label>
                         <button class="btn btn-default" ng-click="saveQuiz(addQuiz)">Save the Quiz</button>
@@ -284,11 +292,15 @@
                                 </div>
                             </div>
                             <div>
+
+                                <%-- ADDING A NEW QUESTION BTN --%>
                                 <div class="col-xs-12">
                                     <br>
                                     <button class="btn btn-default" ng-click="makeQuestion(quiz.edit)">Add new question</button>
                                 </div>
                             </div>
+
+                            <%-- SAVE AND CANCEL BTN --%>
                             <div class="quiz-btns">
                                 <label class="alert alert-danger" for="editQuizVal{{$index}}" id="editQuizVal{{$index}}"></label>
                                 <button class="btn btn-default" ng-click="updateQuiz($index,quiz)">Save Edit</button>

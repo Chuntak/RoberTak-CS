@@ -11,7 +11,6 @@
     margin-top: -20px;
 }
 
-
 /* HIDE EDIT/DELETE ICONS NORMALLY */
 .announcement .on-show {
     display:none;
@@ -34,20 +33,25 @@
 .annnouncementEditors.ql-container.ql-snow{border: none; height: 100%;}
 /* Use javascript to change css to .annnouncementEditors{border: 1px solid #ccc; border-top: 0px;} during edit mode*/
 
+/* STYLING THE TITLE */
 .announcementTitle{
     width: 80%;
     background-color: white;
     border:none;
 }
 
+/* POSITIONING TITLE */
 h3{
     margin-left: -15px;
 }
-
+/* TITLE CONTAINER */
 #addAnnouncementTitleContainer{
     margin-bottom: 7%;
 }
+/* UPDATE BTN */
 .updateAnnouncement{display: none;}
+
+/* CANCEL BTN */
 .cancelEdit{display: none;}
 
 /*Styles the errors to red*/

@@ -7,17 +7,20 @@ h5{
     margin-top: 15px;
 }
 
+/* PDF VIEWER */
 iframe{
     margin-top: 10px;
     height: 522px;
     width: 100%;
 }
 
+/* FILE SELECTION POSITIONING */
 .file-selection{
     padding-left: 4.8cm;
     margin-top: -26px;
 }
 
+/* SUBMIT BTN */
 .submitBtn{
 
     float: right;

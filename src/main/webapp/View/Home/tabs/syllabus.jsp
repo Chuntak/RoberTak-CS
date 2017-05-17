@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <title>Syllabus</title>
 
+    <%-- CHOOSE BETWEEN PROFESSOR OR STUDENT CSS --%>
     <section>
         <c:choose>
             <c:when test="${userType eq 'prof' && isOwner eq true}">
@@ -25,16 +26,19 @@
 <div ng-controller="syllabusCtrl">
     <c:choose>
         <c:when test="${userType eq 'prof' && isOwner eq true}">
+            <%-- UPLOAD CSS --%>
             <form ng-submit="uploadSyllabus()">
                 <h5>Upload New Syllabus:</h5>
                 <input class="file-selection" type="file" file-model="syllabus.myFile"/>
+                    <%-- SUBMIT BTN --%>
                 <button type="submit" class="btn btn-primary submitBtn">Submit</button>
             </form>
         </c:when>
     </c:choose>
 
-    <iframe ng-src="{{syllabus.viewLink | trustUrl}}" frameborder="1"></iframe>
-</div>
+        <%-- PDF VIEWER --%>
+        <iframe ng-src="{{syllabus.viewLink | trustUrl}}" frameborder="1"></iframe>
+    </div>
 
 
 </body>

@@ -5,11 +5,13 @@
     overflow-y: auto;
 }
 
+/* PADDING */
 h2{
     padding-left: .3cm;
     padding-bottom: .2cm;
 }
 
+/* PDF VIEWER */
 iframe{
     margin-top: 10px;
     height: 562px;
