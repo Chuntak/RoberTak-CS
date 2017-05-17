@@ -3,19 +3,28 @@ package com.backpack.models;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
+ * HWFileModel - used to reflect the data of
+ * an uploaded file from professor for an assignment
  * Created by Chuntak on 4/21/2017.
  */
 public class HWFileModel {
 
+    /* ID OF ASSIGNMENT THE FILE IS FOR */
     private int assignmentId;
+    /* THE FILE UPLOADED BY PROF */
     private MultipartFile file;
+    /* BLOBNAME (KEY) FOR FILE IN STORAGE */
     private String blobName;
+    /* NAME OF FILE */
     private String fileName;
+    /* LINK TO DOWNLOAD FILE */
     private String downloadLink;
+    /* THE VISIBLE LINK OF FILE */
     private String viewLink;
+    /* ID OF HWFILE IN DB */
     private int id;
 
-
+    /* GETTERS & SETTERS */
     public int getId() {
         return id;
     }

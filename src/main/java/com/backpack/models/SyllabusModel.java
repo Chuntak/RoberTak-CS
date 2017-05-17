@@ -5,21 +5,29 @@ import org.springframework.web.multipart.MultipartFile;
 import java.sql.Date;
 
 /**
+ * Syllabus Model - used to reflect a syllabus
+ * provided by the professor
  * Created by Chuntak on 4/9/2017.
  */
 public class SyllabusModel {
+    /* ID OF COURSE THE SYLLABUS IS FOR */
     private int courseId;
+    /* DATE THE SYLLABUS WAS UPLOADED */
     private Date dateCreated;
+    /* TITLE OF THE SYLLABUS */
     private String title;
+    /* DESCRIPTION OF SYLLABUS */
     private String description;
+    /* FILE BEING UPLOADED */
     private MultipartFile file;
 
-
+    /* FILE ATTRIBUTES */
     private String blobName;
     private String fileName;
     private String downloadLink;
     private String viewLink;
 
+    /* GETTERS & SETTERS */
     public MultipartFile getFile() {
         return file;
     }
@@ -59,7 +67,6 @@ public class SyllabusModel {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public String getBlobName() {
         return blobName;

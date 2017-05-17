@@ -1,6 +1,7 @@
 /**
  * Created by Chuntak on 4/21/2017.
  */
+/* GET THE MODULE FOR ANGULAR FUNCTIONS */
 var app = angular.module('homeApp');
 /* DIRECTIVE FOR FILES */
 app.directive('fileModel', ['$parse', function ($parse) {
@@ -23,17 +24,16 @@ app.directive('fileModel', ['$parse', function ($parse) {
 app.factory('httpAssignmentFactory', function($http, global) {
     /* SET SINGLETON LIKE OBJECT */
     var properties = this;
-
+    /* getAssignments - GET THE ASSIGNMENTS FOR THE COURSE */
     properties.getAssignments = function(){
-        //return $http.get('/getAssignments', {"crsId" : global.getCourseId(), "gradableType" : "hw"});
         return $http.get("/getAssignments", {
             params : {
                 "crsId" : global.getCourseId(),
                 "gradableType" : "hw"
             }
         });
-    }
-    /* updateSubmission - adds a submission */
+    };
+    /* updateSubmission - UPLOADS STUDENT SUBMISSION */
     properties.uploadSubmission= function(asgmt) {
         /* CREATE PARAMETERS FOR HTTP REQUEST */
         var params = {
@@ -54,7 +54,7 @@ app.factory('httpAssignmentFactory', function($http, global) {
                 params: params
             });
         }
-    }
+    };
     return properties;
 });
 
@@ -80,16 +80,16 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
         });
         $scope.assignments = response;
     }).error(function(response){
+        console.log(response);
     });
 
+    /* uploadSubmission - UPLOADS STUDENT SUBMISSION */
     $scope.uploadSubmission = function(asgmt){
         httpAssignmentFactory.uploadSubmission(asgmt).success(function(response){
-            debugger;
+            console.log(response);
         }).error(function(response){
             console.log(response);
-            debugger;
         });
     }
-
 });
 

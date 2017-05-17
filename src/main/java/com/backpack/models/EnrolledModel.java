@@ -4,9 +4,12 @@ package com.backpack.models;
  * Created by Chuntak on 4/5/2017.
  */
 public class EnrolledModel {
+    /* ID OF STUDENT BEING ENROLLED */
     private int studId;
+    /* UNIQUE CODE TO ENROLL IN COURSE */
     private String courseCode;
 
+    /* GETTERS & SETTERS */
     public int getStudId() {
         return studId;
     }

@@ -49,11 +49,12 @@
             <c:choose>
                 <c:when test="${userType eq 'prof' && isOwner eq true}">
                     <%--Do not use ng-model for title so we save the title if they select cancel edit--%>
-                    <span ng-click="deleteAnnouncement(announcement)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show"></span>
+                    <span ng-click="deleteAnnouncement(announcement, $index)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show"></span>
                     <span ng-click="editAnnouncement(announcement,$index)" class="badge btn-xs col-sm-1 glyphicon glyphicon-pencil clickable on-show"></span>
 
-                    <h4><input type="text" class="announcementTitle" placeholder="Announcement Title" id="announcementTitle-{{$index}}" value="{{announcement.title}}"  maxlength="30" disabled="disabled">
-                    </h4>
+                    <%-- DUPE ID IS OK, BOTH ELEMENTS ARE NEVER TOGETHER B/C JSP --%>
+                    <h3><input type="text" class="announcementTitle" placeholder="Announcement Title" id="announcementTitle-{{$index}}" value="{{announcement.title}}"  maxlength="30" disabled="disabled">
+                    </h3>
 
                     <span class="error" id="announcementTitleEmpty-{{$index}}">Announcement Title is required!</span>
                     <span class="error" id="announcementTitleLength-{{$index}}">Announcement Title is too long!</span>
@@ -66,7 +67,7 @@
                 </c:when>
             </c:choose>
 
-        <h6>{{announcement.dateCreated}}</h6>
+        <h6 ng-bind="announcement.dateCreated"></h6>
         <%--Announcement Description [Div that gets turned into a quill editor]--%>
         <div class="annnouncementEditors" id="announcementDescription-{{$index}}"></div>
         <c:choose>

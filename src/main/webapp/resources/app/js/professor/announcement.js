@@ -1,8 +1,6 @@
 /**
  * Created by Calvin on 4/16/2017.
  */
-
-
 var app = angular.module('homeApp');
 var initLoad = true;
 /* TIME FORMATTING OPTIONS */
@@ -10,57 +8,136 @@ var options = {
     weekday: "long", year: "numeric", month: "short",
     day: "numeric", hour: "2-digit", minute: "2-digit"
 };
+/* INIT QUILL EDITOR */
+var addQuill;
 
-/*Announcement Controller*/
-app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
-
-    $scope.$watch(function(){
-        return global.getCourseId();
-    }, function(newValue, oldValue){
-        /* check if courseId has really changed */
-        if(newValue !== undefined && newValue !== 0 && newValue !== oldValue){
-            reloadData();
-        }
-    });
-    var reloadData = function(){
-        $state.reload();
+/* FACTORY TO HANDLE HTTP REQUEST LOGIC */
+app.factory('httpAnnouncementFactory', function($http, global) {
+    /* SET SINGLETON LIKE OBJECT */
+    var properties = this;
+    /* getAnnouncements- RETURNS ARRAY OF COURSE's ANNOUNCEMENTS */
+    properties.getAnnouncements = function(){
+        return $http.get("/getAnnouncement", {
+            params : {
+                "courseId" : global.getCourseId()
+            }
+        });
     };
-    //Pre-emtively hide the add announcement pullout
-    // $('#addAnnouncementDiv').hide();
-    //Initialize Quill editor
-    var addQuill = new Quill('#editor', {
+
+    /* addAnnouncement - CREATES A NEW ANNOUNCEMENT AND RETURNS NEWLY MADE ANNOUNCEMENT W/ ID */
+    properties.addAnnouncement = function(){
+        /* VALIDATION */
+        var valid = true;
+        if( ($('#addAnnouncementTitle').val() == "")){
+            $('#addAnnouncementTitleEmpty').show();
+            valid = false;
+        }
+        if( $('#addAnnouncementTitle').val().length > 30 ){
+            $('#addAnnoucnementTitleLength').show();
+            valid = false;
+        }
+        if(addQuill.getText().trim().length == 0){
+            $('#addAnnouncementQuillError').show();
+            valid = false;
+        }
+        /* CHECK IF VALID */
+        if(valid === false){
+            return "invalid";
+        }
+        $('#addAnnouncementTitleEmpty').hide();
+        $('#addAnnoucnementTitleLength').hide();
+        $('#addAnnouncementQuillError').hide();
+        /* RETURN NEWLY MADE ANNOUNCEMENT */
+        return $http({
+            method: 'GET',
+            url: '/updateAnnouncement',
+            params: {"courseId" : global.getCourseId(), "title": $('#addAnnouncementTitle').val(), "description" : JSON.stringify(addQuill.getContents())}
+        });
+    };
+
+    /* updateAnnouncement - UPDATES AN ASSIGNMENT WITH EDITS MADE BY USER */
+    properties.updateAnnouncement = function(announcement, index) {
+        var id = "#announcementDescription-"+index;
+        var title = "#announcementTitle-"+index;
+        var emptyError = "#announcementTitleEmpty-"+index;
+        var lengthError = "#announcementTitleLength-"+index;
+        var quillError = "#announcementQuillError-"+index;
+        /* SET VALIDATION */
+        var valid = true;
+        /* IF THE TITLE IS EMPTY, SHOW EMPTY TITLE ERROR */
+        if( ($(title).val() == "")){
+            $(emptyError).show();
+            valid = false;
+        }
+        /* IF TITLE IS TOO LONG, SHOW ERROR */
+        if( $(title).val().length > 30 ){
+            $(lengthError).show();
+            valid = false;
+        }
+        /* IF DESCRIPTION IS EMPTY, SHOW ERROR */
+        if(announcement.quill.getText().trim().length == 0){
+            $(quillError).show();
+            valid = false;
+        }
+        /* CHECK THAT CHANGES WERE VALID */
+        if(valid === false){
+            return "invalid";
+        }
+        /* HIDE ALL ERRORS IF OK */
+        $(emptyError).hide();
+        $(lengthError).hide();
+        $(quillError).hide();
+        var params = {
+            "id" : announcement.id,
+            "title": $(title).val(),
+            "description" : JSON.stringify(announcement.quill.getContents())
+        };
+        return $http({
+            method: 'GET',
+            url: '/updateAnnouncement',
+            params: params
+        });
+    };
+
+    /* deleteAssignment - deletes an assigment and any attached files previously uploaded */
+    properties.deleteAnnouncement = function(id){
+        return $http({
+            method: 'GET',
+            url: '/deleteAnnouncement',
+            params: {"id": id}
+        });
+    };
+
+    return properties;
+});
+
+/* ANNOUNCEMENT CONTROLLER */
+app.controller('announcementsCtrl', function ($scope, $http, $state, global, httpAnnouncementFactory) {
+
+    addQuill = new Quill('#editor', {
         placeholder: 'Announcement Description',
         theme: 'snow'
 
     });
-
+    /* INIT ANNOUNCEMENT LIST */
     $scope.announcementList = [];
-
-    //Get Announcements on load
-
-    $http.get("/getAnnouncement", {
-        params : {
-            "courseId" : global.getCourseId()
-        }
-    }).success(function(response){
-        /* FORMAT DUE DATE */
+    /* LOAD ANNOUNCEMENTS FOR COURSE */
+    httpAnnouncementFactory.getAnnouncements().success(function(response){
+        /* FORMAT DUE DATE OF EACH ANNOUNCEMENT */
         $.each(response, function() {
             this.dateCreated = new Date(this.dateCreated).toLocaleTimeString("en-us", options);
+            /* ADD ANNOUNCEMENT TO LIST */
             $scope.announcementList.unshift(this);
         });
         initLoad = true;
-        // $scope.announcementList = response;
     }).error(function(response){
     });
 
-
-
-
-    //Clicks on edit button.
+    /* editAnnouncement - CHANGE UI FOR EDITING */
     $scope.editAnnouncement = function(announcement,index){
 
         var id = "#announcementDescription-"+index;
-        //Shows the announcement toolbar, editor border, and enables editing
+        /* SHOWS THE ANNOUNCEMENT TOOLBAR, EDITOR BORDER, AND ENABLES EDITING */
         $(id).prev().show();
 
         var buttonId = "#updateButton-"+index;
@@ -77,173 +154,108 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
         $(announcementTitle).css('border','1px solid black');
     };
 
-
-
-
+    /* UPDATE THE ANNOUNCEMENT WITH CHANGES MADE */
     $scope.updateAnnouncement = function(announcement,index){
-        var id = "#announcementDescription-"+index;
-        var title = "#announcementTitle-"+index;
-        var emptyError = "#announcementTitleEmpty-"+index;
-        var lengthError = "#announcementTitleLength-"+index;
-        var quillError = "#announcementQuillError-"+index;
-        //Validation
-        var valid = true;
-        //If the title is empty, show empty title error
-        if( ($(title).val() == "")){
-            $(emptyError).show();
-            valid = false;
-        }
-        //If the announcement Title is too long, show title too long error
-        if( $(title).val().length > 30 ){
-            $(lengthError).show();
-            valid = false;
-        }
-        //If the Announcement Description is empty, show the empty quill error
-        if(announcement.quill.getText().trim().length == 0){
-            $(quillError).show();
-            valid = false;
-        }
-        if(valid === false){
-            return;
-        }
-        $(emptyError).hide();
-        $(lengthError).hide();
-        $(quillError).hide();
-
-        var y = $http({
-            method: 'GET',
-            url: '/updateAnnouncement',
-            params: {"id" : announcement.id, "title": $(title).val(), "description" : JSON.stringify(announcement.quill.getContents())}
-        }).then(function (response) {
-            //Hide the announcement toolbars
+        httpAnnouncementFactory.updateAnnouncement(announcement,index).success(function (response) {
+            /* CHECK FOR IMPROPER UPDATE DATA */
+            if(response === "invalid"){
+                return;
+            }
+            /* HIDE THE ANNOUNCEMENT TOOLBARS */
+            var id = "#announcementDescription-"+index;
             $(id).prev().hide();
-            //Hide the button
+            /* HIDE THE BUTTONS */
             var buttonId = "#updateButton-"+index;
             var cancelId = '#cancelEdit-'+index;
-
             $(buttonId).hide();
             $(cancelId).hide();
 
-            //Hide the borders
+            /* HIDE THE BORDERS */
             $(id).css({'border': 'none'});
-            //Disable the quill
+            /* DISABLE QUILL EDITOR */
             announcement.quill.enable(false);
-
             var announcementTitle = "#announcementTitle-"+index;
             $(announcementTitle).attr("disabled", "disabled");
             $(announcementTitle).css('border','none');
 
-        }, function errorCallBack(response) {
-            alert("Edit announcement error\n");
+            /* SAVE THE DATA OF THE TITLE AND QUILL */
+            announcement.title = $(announcementTitle).val();
+            announcement.description = announcement.quill.getContents();
+
+        }).error(function(response){
+            console.log(response);
         });
 
     };
 
+    /* CANCEL ANY EDITS MADE BY THE USER */
     $scope.cancelEdit = function(announcement,index){
         var id = "#announcementDescription-"+index;
         var emptyError = "#announcementTitleEmpty-"+index;
         var lengthError = "#announcementTitleLength-"+index;
         var quillError = "#announcementQuillError-"+index;
-        //Hide the edit options
+        /* HIDE THE EDIT OPTIONS */
         $(id).prev().hide();
         var buttonId = "#updateButton-"+index;
         var cancelId = '#cancelEdit-'+index;
-
         $(buttonId).hide();
         $(cancelId).hide();
 
-        //Hide any errors from Edit mode
+        /* HIDE ANY ERRORS MADE FROM EDIT MODE */
         $(emptyError).hide();
         $(lengthError).hide();
         $(quillError).hide();
 
-
+        /* REMOVE BORDER AND DISABLE EDITOR */
         $(id).css({'border': 'none'});
         announcement.quill.enable(false);
-
         var announcementTitle = "#announcementTitle-"+index;
         $(announcementTitle).attr("disabled", "disabled");
         $(announcementTitle).css('border','none');
 
-
-        //Reload the data of the title and quill
-        //We did not use ng-model for title so we save the title if they select cancel edit
+        /* RELOAD PREV DATA OF TITLE AND QUILL */
+        /* DID NOT USE ng-model FOR TITLE SO WE SAVE THE TITLE IF THEY SELECT 'CANCEL' */
         var titleId = "#announcementTitle-"+index;
         $(titleId).val(announcement.title);
-
-
         announcement.quill.setContents(JSON.parse(announcement.description));
     };
 
-
+    /* CREATE A NEW ANNOUNCEMENT */
     $scope.addAnnouncement = function(){
-        /*Validation*/
-        var valid = true;
-        if( ($('#addAnnouncementTitle').val() == "")){
-            $('#addAnnouncementTitleEmpty').show();
-            valid = false;
-        }
-        if( $('#addAnnouncementTitle').val().length > 30 ){
-            $('#addAnnoucnementTitleLength').show();
-            valid = false;
-        }
-        if(addQuill.getText().trim().length == 0){
-            $('#addAnnouncementQuillError').show();
-            valid = false;
-        }
-        if(valid === false){
-            return;
-        }
-        $('#addAnnouncementTitleEmpty').hide();
-        $('#addAnnoucnementTitleLength').hide();
-        $('#addAnnouncementQuillError').hide();
-
-        var y = $http({
-            method: 'GET',
-            url: '/updateAnnouncement',
-            params: {"courseId" : global.getCourseId(), "title": $('#addAnnouncementTitle').val(), "description" : JSON.stringify(addQuill.getContents())}
-        }).then(function (response) {
-            console.log(response);
-            if(response.data !== "") {
-                $scope.announcementList.push(response.data);
-                //Clear the things
+        httpAnnouncementFactory.addAnnouncement().success(function (response) {
+            /* CHECK THAT RESPONSE IS VALID */
+            if(response === "invalid"){
+                return;
+            }
+            if(response !== "") {
+                $scope.announcementList.push(response);
+                /* CLEAR THE FORM */
                 $("#addAnnouncementForm")[0].reset();
-                //Clears the add quill
+                /* CLEAR addQuill */
                 addQuill.clipboard.dangerouslyPasteHTML("");
             }else{
-                console.log(response)
+                /* SOMETHING WENT WRONG */
+                console.log("Empty Response");
             }
-        }, function errorCallBack(response) {
-            alert("add announcement error\n");
-        });
+        }).error(function(response){
+            console.log(response);
+        })
     };
 
     /*DELETES AN ANNOUNCEMENT*/
-    $scope.deleteAnnouncement = function(announcement){
-        var y = $http({
-            method: 'GET',
-            url: '/deleteAnnouncement',
-            params: {"id": announcement.id}
-        }).then(function (response) {
-            if(response.data === true) {  /*add*/
-                for(var i = 0; i < $scope.announcementList.length; i++){
-                    if($scope.announcementList[i].id === announcement.id){
-                        $scope.announcementList.splice(i,1);
-                        break;
-                    }
-                }
+    $scope.deleteAnnouncement = function(announcement, index){
+        httpAnnouncementFactory.deleteAnnouncement(announcement.id).success(function (response) {
+            if(response === true) {
+                /* REMOVE DELETED ANNOUNCEMENT FROM MODEL */
+                $scope.announcementList.splice(index,1);
             }
-        }, function errorCallBack(response) {
-            alert("delete anncounement error\n");
+        }).error(function(response){
+            console.log(response);
         });
     };
-
-
-
-
 });
 
-//Directive to initiate all the quills as they load
+/* DIRECTIVE TO INITIATE ALL THE QUILLS AS THEY LOAD */
 app.directive('testdirective', function() {
     return function(scope, element, attrs) {
         scope.$watch('$last',function(v){
@@ -251,7 +263,6 @@ app.directive('testdirective', function() {
                 if((initLoad)){
                     initLoad = false;
                     for(var i = 0; i < scope.announcementList.length; i++) {
-                        ;
                         var id = "#announcementDescription-" + i;
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',
@@ -261,7 +272,7 @@ app.directive('testdirective', function() {
                             scope.announcementList[0].dateCreated = new Date(scope.announcementList[0].dateCreated).toLocaleTimeString("en-us", options);
 
                         }
-                        //Disable the quill
+                        /* DISABLE THE QUILL */
                         loadQuill.enable(false);
 
                         loadQuill.setContents(JSON.parse(scope.announcementList[i].description));
@@ -269,13 +280,13 @@ app.directive('testdirective', function() {
                         scope.announcementList[i].quill = loadQuill;
 
                     }
-                    //Hide the announcement toolbars
+                    /* HIDE THE ANNOUNCEMENT TOOLBARS */
                     $(".annnouncementEditors").prev().hide();
 
                 }else{
-                    //Only do stuff to the last announcement
-                    //First check if it's a new thing or just a delete
-                    //Check if has toolbar
+                    /* ONLY DO STUFF TO THE LAST ANNOUNCEMENT
+                     * FIRST CHECK IF IT'S A NEW THING OR JUST A DELETE
+                     * CHECK IF HAS TOOLBAR */
                     var id = "#announcementDescription-"+(scope.announcementList.length - 1);
                     if((!$(id).prev().hasClass("ql-toolbar"))){
                         var newAnnouncement = scope.announcementList[scope.announcementList.length - 1];
@@ -283,25 +294,25 @@ app.directive('testdirective', function() {
                         debugger;
                         scope.announcementList.splice((scope.announcementList.length-1),1);
                         debugger;
-                        //Init the quill
+                        /* INIT THE QUILL */
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',
                             theme: 'snow'
                         });
                         loadQuill.setContents(JSON.parse(scope.announcementList[0].description));
-                        //Hide the announcement toolbars
+                        /* HIDE THE ANNOUNCEMENT TOOLBAR */
                         $(id).prev().hide();
 
-                        //Hide the button
+                        /* HIDE THE BUTTON */
                         var buttonId = "#updateButton-0";
                         var cancelId = '#cancelEdit-0';
 
                         $(buttonId).hide();
                         $(cancelId).hide();
 
-                        //Hide the borders
+                        /* HIDE THE BORDERS */
                         $(id).css({'border': 'none'});
-                        //Disable the quill
+                        /* DISABLE THE QUILL */
                         loadQuill.enable(false);
 
                         var announcementTitle = "#announcementTitle-0";
@@ -315,7 +326,5 @@ app.directive('testdirective', function() {
             }else{
             }
         });
-
-
     };
 });

@@ -1,41 +1,48 @@
 package com.backpack.models;
 
 /**
+ * CourseModel - used to reflect a course
  * Created by Calvin on 4/3/2017.
  */
 public class CourseModel {
+
+    /* PAGESIZE FOR PROFESSORS - HOW MANY ITEMS PER PAGE WHEN SEARCHING FOR COURSES */
     public static final int PAGESIZE = 3;
 
+    /* PREFIX OF COURSE ex: 'CSE', 'AMS' */
     private String prefix;
+    /* COURSE NUMBER ex: 100, 210, IN CONTEXT OF: 'AMS 100' */
     private String number;
+    /* NAME OF COURSE */
     private String name;
+    /* SPECIFIC COURSE CODE STUDENTS NEED TO ENROLL */
     private String code;
+    /* ID OF THE PROFESSOR IN CHARGE OF COURSE */
     private int profId;
+    /* SEMESTER COURSE TAKES PLACE IN FORMAT: "Summer", "Fall", "Winter", "Spring" */
     private String semester;
+    /* YEAR THE COURSE TAKES PLACE: 1994, 2017, etc. */
     private String ano;
-
+    /* BOOLEAN DECIDING WHETHER COURSE IS PUBLIC TO OTHER PROFESSORS */
     private boolean pub;
+    /* ID OF COURSE IN DB */
     private int id;
-
+    /* SCHOOL THE COURSE BELONGS TO */
     private String school;
-
-
     /*THE PAGEGINATION WHERE EACH PAGE IS */
     private int pageNum;
-
     /*THIS IS USED FOR SEARCHING, WHERE USERS SEARCH ONLY BY NAME (FIRST AND LAST IN 1 TEXTBOX)*/
     private String profName;
 
-    /*Professor attributes*/
+    /* PROFESSOR ATTRIBUTES */
     private String profFirstName;
     private String profLastName;
     private String profEmail;
-    /*Person attributes*/
 
-    /*Professor attributes*/
     public CourseModel() {
     }
 
+    /* GETTERS & SETTERS */
     public String getProfFirstName() {
         return profFirstName;
     }
@@ -60,12 +67,9 @@ public class CourseModel {
         this.profEmail = profEmail;
     }
 
-
-
     public int getProfId(){
         return this.profId;
     }
-
 
     public void setProfId(int profId){
         this.profId = profId;
@@ -146,8 +150,6 @@ public class CourseModel {
     public void setSchool(String school) {
         this.school = school;
     }
-
-
 
     public String getProfName() {
         return profName;

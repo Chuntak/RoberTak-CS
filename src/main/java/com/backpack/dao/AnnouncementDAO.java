@@ -46,7 +46,7 @@ public class AnnouncementDAO extends DAOBase{
                     AnnouncementModel am = new AnnouncementModel();
                     if (columnExists(rs, "id")) am.setId(rs.getInt("id"));
                     if (columnExists(rs, "crsId")) am.setCourseId(rs.getInt("crsId"));
-                    if (columnExists(rs, "dateCreated")) am.setDateCreated(rs.getDate("dateCreated"));
+                    if (columnExists(rs, "dateCreated")) am.setDate(rs.getTimestamp("dateCreated"));
                     if (columnExists(rs, "title")) am.setTitle(rs.getString("title"));
                     if (columnExists(rs, "description")) am.setDescription(rs.getString("description"));
                     aml.add(am);

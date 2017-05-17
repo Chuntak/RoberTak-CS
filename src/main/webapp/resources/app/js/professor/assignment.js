@@ -51,7 +51,7 @@ app.factory('httpAssignmentFactory', function($http, global) {
             "difficulty" : "hard",
             "submittable" : newAsgmt.submittable
         };
-        /* MAKE THE FILE STUFF */
+        /* MAKE THE FILE STUFF IF PROF UPLOADED FILE */
         if(newAsgmt.file){
             var fd = new FormData();
             fd.append('hwFile', newAsgmt.file);
@@ -66,6 +66,7 @@ app.factory('httpAssignmentFactory', function($http, global) {
             });
         }
         else {
+            /* THERE IS NO FILE SO SKIP THE UPLOAD PROCEDURE */
             return $http.post('/updateAssignment', params);
         }
     };
@@ -118,7 +119,7 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
     }).error(function(response){
     });
 
-    /* CREATE/EDIT ASSIGNMENTS */
+    /* CREATE ASSIGNMENTS */
     $scope.updateAssignment = function (newAsgmt) {
         var checkVal = document.getElementById("checkSub").checked;
         if(checkVal === true){
@@ -166,7 +167,7 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
         document.getElementById("timepicker1" + index).value = asgmt.time;
     };
 
-    /* CREATE/EDIT ASSIGNMENTS */
+    /* EDIT ASSIGNMENTS */
     $scope.editAssignment = function (newAsgmt, index) {
 
         newAsgmt.title = document.getElementById("title" + index).value;
@@ -197,15 +198,11 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
     };
 
     /* REMOVE ASSIGNMENT */
-    $scope.deleteAssignment = function(assignment){
-        httpAssignmentFactory.deleteAssignment(assignment).then(function(response){
-            for(var i = 0; i < $scope.assignments.length; i++){
-                if($scope.assignments[i].id === response.data){
-                    $scope.assignments.splice(i,1);
-                    break;
-                }
-            }
-        }).then(function(response){
+    $scope.deleteAssignment = function(assignment, index){
+        httpAssignmentFactory.deleteAssignment(assignment).success(function(response){
+            /* REMOVE DELETED ASSIGNMENT FROM THE MODEL */
+            $scope.assignments.splice(index, 1);
+        }).error(function(response){
             console.log("deleteAssignment Error: " + response);
         });
     };

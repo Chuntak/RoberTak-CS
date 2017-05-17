@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 
 /**
+ * AssignmentModel - used to reflect an
+ * assignment created by the professor.
+ * Also a gradable item.
  * Created by rvtru on 4/5/2017.
  */
 public class AssignmentModel {
@@ -16,12 +19,19 @@ public class AssignmentModel {
     private int id;
     /* ID OF COURSE THAT THIS ASSIGNMENT BELONGS TO */
     private int courseId;
+    /* TITLE OF THE ASSIGNMENT */
     private String title;
+    /* DESCRIPTION OF ASSIGNMENT */
     private String description;
+    /* THE KIND OF GRADABLE ITEM THE OBJECT IS (hw) */
     private String gradableType;
+    /* MAX POSSIBLE GRADE FOR ASSIGNMENT */
     private double maxGrade;
+    /* DUE DATE OF ASSIGNMENT */
     private Date dueDate;
+    /* DIFFICULTY OF ASSIGNMENT */
     private String difficulty;
+    /* IS THE ASSIGNMENT SUBMITTABLE FOR STUDENTS */
     private boolean submittable;
 
     /* FILE OBJECT TO BE SAVED - EITHER ATTACHED FILE BY PROF OR STUDENT SUBMISSION */
@@ -41,14 +51,26 @@ public class AssignmentModel {
     private String submissionFileName;
     private String submissionViewLink;
 
-
+    /* @TODO FOR MULTIPLE FILE SUPPORT */
     private ArrayList<HWFileModel> hwFileModelList;
 
 
-
+    /* DEFAULT CONSTRUCTOR NOT NEEDED */
     public AssignmentModel() {
     }
 
+    /**
+     * parameterized constructor - for mappings from Controllers
+     * @param id
+     * @param courseId
+     * @param title
+     * @param description
+     * @param gradableType
+     * @param maxGrade
+     * @param dueDate
+     * @param difficulty
+     * @param submittable
+     */
     public AssignmentModel(int id, int courseId, String title, String description, String gradableType, double maxGrade, Date dueDate,  String difficulty, boolean submittable) {
         this.id = id;
         this.courseId = courseId;
@@ -61,6 +83,7 @@ public class AssignmentModel {
         this.submittable = submittable;
     }
 
+    /* GETTERS AND SETTERS */
     public int getId() {
         return id;
     }
@@ -120,7 +143,7 @@ public class AssignmentModel {
 
     /* SETTER WHEN USED TO MAPPING TO/FROM DB */
     public void setDate(java.sql.Timestamp dueDate) {
-        /* SEND DUEDATE TO CONTROLLER AS LONG */
+        /* SEND DUE DATE TO CONTROLLER AS LONG */
         this.dueDate = new Date(dueDate.getTime());
     }
 

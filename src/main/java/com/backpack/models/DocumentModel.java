@@ -5,15 +5,22 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 
 /**
+ * DocumentModel - used to reflect a course
  * Created by rvtru on 4/5/2017.
  */
 public class DocumentModel {
 
+    /* ID OF DOCUMENT IN DB */
     private int id;
+    /* ID OF COURSE THE DOCUMENT BELONGS TO */
     private int courseId;
+    /* DATE THE DOCUMENT WAS CREATED */
     private Date dateCreated;
+    /* TITLE OF THE DOCUMENT */
     private String title;
+    /* DESCRIPTION OF THE DOCUMENT */
     private String description;
+    /* FILE UPLOADED BY PROF  & FILE ATTRIBUTES*/
     private MultipartFile file;
     private String downloadLink;
     private String blobName;
@@ -24,7 +31,7 @@ public class DocumentModel {
 
     public DocumentModel() {
     }
-
+    /* GETTERS & SETTERS */
     public int getCourseId() {
         return courseId;
     }

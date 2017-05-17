@@ -2,22 +2,38 @@ package com.backpack.models;
 import java.sql.Timestamp;
 import java.util.Date;
 /**
+ * PostModel - used to reflect data of a post
+ * made by student or professor
  * Created by rvtru on 4/20/2017.
  */
 public class PostModel {
+    /* ID OF POST IN DB */
     private int id;
+    /* ID OF PARENT POST (IF THIS IS A COMMENT) */
     private int parentId;
+    /* ID OF THE AUTHOR IN DB */
     private int authorId;
+    /* ID OF THE COURSE POST WAS MADE ON */
     private int crsId;
+    /* FIRST NAME OF THE AUTHOR */
     private String firstName;
+    /* LAST NAME OF THE AUTHOR */
     private String lastName;
+    /* HEADER FOR THE POST (LIKE A TITLE) */
     private String header;
+    /* CONTENT OF THE POST */
     private String content;
+    /* BOOLEAN IF AUTHOR WANTED TO STAY PRIVATE */
     private boolean anon;
+    /* DATE POST WAS CREATED */
     private Date dateCreated;
+    /* NUMBER OF COMMENTS A POST HAS */
     private int commentCount;
+    /* NUMBER OF LIKES A POST HAS */
     private int likes;
+    /* PERMISSION FOR USER TO EDIT POST - ONLY IF PROF OR COURSE OR AUTHOR */
     private boolean editable;
+    /* FLAG IF USER ALREADY LIKED A POST */
     private int liked;
 
     public PostModel(){
@@ -37,6 +53,7 @@ public class PostModel {
         liked = -1;
     }
 
+    /* GETTERS & SETTERS */
     public int getLiked(){
         return liked;
     }
@@ -104,6 +121,7 @@ public class PostModel {
         return dateCreated;
     }
 
+    /* SPECIAL SETTER FOR MAPPING FROM DB */
     public void setDate(Timestamp date){
         long l = date.getTime();
         Date d = new Date(l);

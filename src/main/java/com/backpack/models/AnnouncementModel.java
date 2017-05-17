@@ -1,5 +1,6 @@
 package com.backpack.models;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -84,5 +85,13 @@ public class AnnouncementModel {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    /**
+     * setDate - special setter to map TimeStamp data from database
+     * @param time
+     */
+    public void setDate(Timestamp time){
+        this.dateCreated = new Date(time.getTime());
     }
 }

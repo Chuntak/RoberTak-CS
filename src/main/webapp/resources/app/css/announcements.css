@@ -40,6 +40,10 @@
     border:none;
 }
 
+h3{
+    margin-left: -15px;
+}
+
 #addAnnouncementTitleContainer{
     margin-bottom: 7%;
 }

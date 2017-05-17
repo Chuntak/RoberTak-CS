@@ -1,16 +1,24 @@
 package com.backpack.models;
 
-/**
+/** GradeModel - reflects data needed for
+ *  a grade a student receives for a gradable item
  * Created by Calvin on 5/4/2017.
  */
 public class GradeModel {
 
+    /* FIRST NAME OF THE STUDENT */
     private String firstName;
+    /* LAST NAME OF STUDENT */
     private String lastName;
+    /* EMAIL OF STUDENT */
     private String email;
+    /* ID OF THE GRADABLE ITEM THE GRADE IS FOR */
     private int gradableId;
+    /* ID OF THE COURSE THE GRADE IS FOR */
     private int courseId;
+    /* ACTUAL GRADE OF GRADABLE ITEM STUDENT RECEIVED */
     private int grade;
+    /* ID OF STUDENT IN DATABASE */
     private int id;
 
 
@@ -38,6 +46,7 @@ public class GradeModel {
     public int getGrade() {
         return grade;
     }
+
     public void setGrade(int grade) {
         this.grade = grade;
     }
@@ -45,6 +54,7 @@ public class GradeModel {
     public Integer getCourseId() {
         return courseId;
     }
+
     public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
@@ -52,6 +62,7 @@ public class GradeModel {
     public String getLastName() {
         return lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -59,6 +70,7 @@ public class GradeModel {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }

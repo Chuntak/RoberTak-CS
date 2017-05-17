@@ -25,12 +25,10 @@
                     </h4>
                 </div>
                 <div class="collapse" id="assignmentForm">
-
-                    <%-- FORM FOR NEW ASSIGNMENT --%>
+                        <%-- FORM FOR NEW ASSIGNMENT --%>
                     <form ng-submit="updateAssignment(newAsgmt)">
                         <div class="form-group asgmt-form">
-
-                            <%-- ASSIGNMENT TITLE --%>
+                                <%-- ASSIGNMENT TITLE --%>
                             <div class="col-xs-6">
                                 <label>Title: </label>
                                 <input type="text" class="form-control" ng-model="newAsgmt.title" placeholder="Title" required />
@@ -86,7 +84,7 @@
                                 <%-- CHECKBOX FOR SUBMITTABLE --%>
                             <div class="col-xs-2 label-padding">
                                     <span class="checkbox">
-                                        <label class="checkbox"><input type="checkbox" id="checkSub" value="true">Submittable</label>
+                                        <label class="checkbox"><input checked type="checkbox" id="checkSub" value="true">Submittable</label>
                                     </span>
                             </div>
                                 <%-- SUBMIT FORM & CANCEL BTNS --%>
@@ -105,7 +103,7 @@
         <c:choose>
             <%-- ONLY PROFS CAN EDIT/REMOVE--%>
             <c:when test="${userType eq 'prof' && isOwner eq true}">
-                <span ng-click="deleteAssignment(asgmt)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show funcBtn"></span>
+                <span ng-click="deleteAssignment(asgmt, $index)" class="badge btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show funcBtn"></span>
                 <a id="editAssignment" data-toggle="collapse" data-target="#editAssignment{{$index}}" class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show funcBtn" ng-click="initEdit($index,asgmt)"></a>
             </c:when>
         </c:choose>

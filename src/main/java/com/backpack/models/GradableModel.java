@@ -3,26 +3,48 @@ package com.backpack.models;
 import java.util.Date;
 
 /**
+ * GradableModel - used to reflect a gradable item
+ * hws, extra credit, quizzes, attendance, other
+ *
+ * Could have different values left empty depending on
+ * context of use.
  * Created by susanlin on 5/5/17.
  */
+
 public class GradableModel {
 
+    /* TITLE OF THE GRADABLE ITEM */
     private String title;
+    /* MAX POSSIBLE GRADE */
     private double maxGrade;
+    /* HIGHEST GRADE RECEIVED BY STUDENT */
     private double highestGrade;
+    /* LOWEST GRADE SCORED FROM CLASS */
     private double minGrade;
+    /* AVG GRADE RECEIVED FOR GRADABLE BY STUDENTS */
     private double avg;
+    /* MEDIAN GRADE RECEIVED FOR GRADABLE BY STUDENTS */
     private double median;
+    /* STANDARD DEVIATION OF GRADES FOR GRADABLE */
     private double stdDev;
+    /* ID OF COURSE THE GRADABLE IS FROM */
     private int courseId;
+    /* ID OF STUDENT THE GRADABLE BELONGS TO */
     private int stdId;
+    /* DESCRIPTION OF GRADABLE ITEM */
     private String description;
+    /* ID OF GRADABLE ITEM IN DB */
     private int id;
+    /* TYPE OF GRADABLE ITEM */
     private String gradableType;
+    /* DUE DATE OF GRADABLE ITEM */
     private Date dueDate;
+    /* DIFFICULTY OF GRADABLE ITEM */
     private String difficulty;
+    /* BLOBNAME IS A REFERENCE TO ANY UPLOADED FILE FOR GRADABLE ITEM */
     private String blobName;
 
+    /* GETTERS & SETTERS */
     public String getBlobName() {
         return blobName;
     }

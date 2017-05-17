@@ -6,31 +6,60 @@ angular.module('homeApp').factory('httpCourseFactory', function($http, global) {
     /* SET SINGLETON LIKE OBJECT */
     var properties = this;
 
+    /* getTag - GETS TAGS FOR TAGGING COURSE IN ADD/EDIT COURSE */
+    properties.getTag = function(){
+        return $http.get("/getTag");
+    }
+
+    /* getCourse - GET LIST OF COURSES PROFESSOR TEACHES */
+    properties.getCourse = function(){
+        return $http.get('/getCourse');
+    }
+
+    /* updateCourse - ADDS/UPDATES A COURSE */
+    properties.updateCourse = function(params){
+        return $http({
+            method: 'GET',
+            url: '/updateCourse',
+            params: params
+        });
+    };
+
     /* updateAssignment - ADDS OR UPDATES AN ASSIGNMENT */
     properties.searchCourse = function (searchModel) {
         return $http.get("/searchCourse", { params : searchModel } );
     };
 
-    /* TELLS THE SERVER WHAT TYPE OF OWNER OF THE SELECTED COURSE IS */
+    /* selectCourse - TELLS THE SERVER WHAT TYPE OF OWNER OF THE SELECTED COURSE IS */
     properties.selectCourse = function (isOwner) {
         return $http.get("/updateIsOwner", { params : { isOwner : isOwner } });
     };
+
+    /* deleteCourse - DELETES A COURSE */
+    properties.deleteCourse = function(course){
+        return $http({
+            method: 'GET',
+            url: '/deleteCourse',
+            params: {"id": course.id, "code" : course.code}
+        });
+    };
+
     return properties;
 });
 
-/*Course Controller*/
+/* COURSE CONTROLLER */
 angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $state, $templateCache, global, httpCourseFactory) {
 
-/******************************************INITALIZING THE MODAL************************************************/
-    // Get the modal
+    /******************************************INITALIZING THE MODAL************************************************/
+    /* GET THE MODALS */
     var courseModal = document.getElementById('courseModal');
     var searchModal = document.getElementById('searchModal');
-    // Get the button that opens the modal
+    /* GET THE BUTTON THAT OPENS THE MODAL */
     var courseModalAddBtn = document.getElementById("addCourse");
-    // Get the <span> element that closes the modal
+    /* GET THE <span> ELEMENT THAT CLOSES THE MODAL */
     var courseModelCloseBtn = document.getElementById("courseModelCloseBtn");
     var searchModalCloseBtn = document.getElementById("searchModalCloseBtn");
-    // When the user clicks on the button, open the modal
+    /* WHEN THE USER CLICKS ON THE BUTTON, OPEN THE MODAL */
     courseModalAddBtn.onclick = function() {
         $scope.getTag();
         $scope.course = {};
@@ -38,14 +67,14 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         $scope.$apply();
         courseModal.style.display = "block";
     };
-    // When the user clicks on <span> (x), close the modal
+    /* WHEN THE USER CLICKS ON <span> (x), CLOSE THE MODAL */
     courseModelCloseBtn.onclick = function() {
         courseModal.style.display = "none";
     };
     searchModalCloseBtn.onclick = function() {
         searchModal.style.display = "none";
     };
-    // When the user clicks anywhere outside of the modal, close it
+    /* WHEN THE USER CLICKS ANYWHERE OUTSIDE THE MODAL, CLOSE IT */
     window.onclick = function(event) {
         if (event.target === courseModal) {
             courseModal.style.display = "none";
@@ -57,6 +86,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
 
 
 /***************************************************************************************************************/
+    /* INIT VARIABLES */
     $scope.course = {id:0};
     $scope.lastEditedCourse = {};
     $scope.tagList = {};
@@ -65,12 +95,15 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
 
     /*GETS THE TAGS FROM DATABASE FOR SELECTION*/
     $scope.getTag = function() {
-        $http.get("/getTag").then(function (response){
-            $scope.tagList = response.data;
-        }, function(error) { console.log(error.data); });
+        httpCourseFactory.getTag().success(function (response){
+            $scope.tagList = response;
+        }).error(function(response){
+            console.log(response);
+        });
     };
+
     $scope.getTag();
-    /*ADD TAG */
+    /*ADD TAG TO LIST */
     $scope.addTag = function(tag){
         if($scope.courseTaggedList.indexOf($scope.selectedTag) === -1 && $scope.selectedTag !== ""){
             $scope.courseTaggedList.push($scope.selectedTag);
@@ -78,6 +111,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         $scope.selectedTag = "";
     };
 
+    /* DELETE TAG FROM LIST */
     $scope.deleteTag = function(courseTagged) {
         for(var i = 0; i < $scope.courseTaggedList.length; i++){
             if($scope.courseTaggedList[i] === courseTagged){
@@ -87,22 +121,28 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         }
     };
 
-
-    /*ADDS OR EDITS */
+    /*ADDS OR EDITS A COURSE */
     $scope.updateCourse = function(){
         var crsid = $scope.course.id;
-        var y = $http({
-            method: 'GET',
-            url: '/updateCourse',
-            params: {"id": $scope.course.id, "prefix": $scope.course.prefix, "number":$scope.course.number, "name":$scope.course.name,
-                "semester": $scope.course.semester, "ano":$scope.course.ano,"pub": $scope.course.pub, "tagNames" : $scope.courseTaggedList  }
-        }).then(function (response) {
+        /* MAKE PARAMS FOR HTTP REQUEST */
+        var params = {
+            "id": $scope.course.id,
+            "prefix": $scope.course.prefix,
+            "number":$scope.course.number,
+            "name":$scope.course.name,
+            "semester": $scope.course.semester,
+            "ano":$scope.course.ano,
+            "pub": $scope.course.pub,
+            "tagNames" : $scope.courseTaggedList
+        };
+        /* MAKE HTTP REQUEST VIA FACTORY */
+        httpCourseFactory.updateCourse(params).success(function (response) {
             courseModal.style.display = "none";
-            if(response.data.id !== crsid) {  /*add to the pane*/
-                var code = response.data.code;
-                var id = response.data.id;
-                var firstName = response.data.profFirstName;
-                var lastName = response.data.profLastName;
+            if(response.id !== crsid) {  /* ADD TO THE PANE */
+                var code = response.code;
+                var id = response.id;
+                var firstName = response.profFirstName;
+                var lastName = response.profLastName;
                 $scope.courses.push({
                     "id": id,
                     "prefix": $scope.course.prefix,
@@ -120,20 +160,20 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
                     /* SET SELECTED COURSE TO NEWLY ADDED COURSE */
                     $scope.selectCourse($scope.courses[$scope.courses.length-1], $scope.courses.length-1);
                 }
-                /*clear the courseTaggedList since modal is closed*/
+                /* CLEAR THE courseTaggedList SINCE MODAL IS CLOSED */
                 $scope.courseTaggedList = [];
-            } else { /*edit the pane*/
+            } else { /* EDIT THE PANE */
                 $scope.lastEditedCourse.prefix = $scope.course.prefix;
                 $scope.lastEditedCourse.number = $scope.course.number;
                 $scope.lastEditedCourse.name = $scope.course.name;
                 $scope.lastEditedCourse.semester = $scope.course.semester;
                 $scope.lastEditedCourse.ano = $scope.course.ano;
                 $scope.lastEditedCourse.pub = $scope.course.pub;
-                /*clear the courseTaggedList since the modal is closed*/
+                /* CLEAR THE courseTaggedList SINCE THE MODAL IS CLOSED */
                 $scope.courseTaggedList = [];
             }
-        }, function errorCallBack(response) {
-            alert("add course error\n");
+        }).error(function(response){
+            console.log(response);
         });
     };
 
@@ -165,17 +205,31 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         /* RELOAD TAB DATA */
     };
 
-    $http.get('/getCourse').then(function(response) {
-        var courseList = response.data;
+    /* GET COURSES FOR PROFESSOR */
+    httpCourseFactory.getCourse().success(function(response) {
+        var courseList = response;
         $scope.courses = [];
+        /* ADD COURSES TO MODEL */
         for(i = 0; i < courseList.length; i++) {
             var course = courseList[i];
-            var courseJson = {"id": course.id ,"prefix":course.prefix, "number":course.number, "name":course.name, "semester":course.semester,
-                "ano":course.ano ,"profFirstName":course.profFirstName, "profLastName":course.profLastName, "code":course.code, "pub":course.pub};
+            var courseJson = {
+                "id": course.id ,
+                "prefix":course.prefix,
+                "number":course.number,
+                "name":course.name,
+                "semester":course.semester,
+                "ano":course.ano ,
+                "profFirstName":course.profFirstName,
+                "profLastName":course.profLastName,
+                "code":course.code,
+                "pub":course.pub
+            };
             $scope.courses.push(courseJson);
         }
+        /* SET THE CURRENT COURSE ID */
         global.setCourseId($scope.courses[0].id);
-    }, function(response) { /*error*/
+    }).error(function(response){
+        console.log(response);
     });
 
     /*EDITS A COURSE*/
@@ -195,35 +249,28 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
         $scope.course.pub = course.pub;
         $scope.course.ano = course.ano;
 
-        $http.get("/getTag", { params: {"taggableId" : global.getCourseId() , "taggableType" : "course"} }).then(function (response){
-            $scope.courseTaggedList = response.data;
+        $http.get("/getTag", { params: {"taggableId" : global.getCourseId() , "taggableType" : "course"} }).success(function (response){
+            $scope.courseTaggedList = response;
             /*DISPLAY THE MODAL*/
             $scope.getTag();
             courseModal.style.display = "block";
-        }, function(error) { console.log(error.data); });
+        }).error(function(response){
+            console.log(response);
+        });
     };
 
     /*DELETES A COURSE*/
-    $scope.deleteCourse = function(course){
-        var y = $http({
-            method: 'GET',
-            url: '/deleteCourse',
-            params: {"id": course.id, "code" : course.code}
-        }).then(function (response) {
-            if(response.data === true) {  /*add*/
-                for(var i = 0; i < $scope.courses.length; i++){
-                    if($scope.courses[i].id === course.id){
-                        $scope.courses.splice(i,1);
-                        break;
-                    }
-                }
+    $scope.deleteCourse = function(course, index){
+        httpCourseFactory.deleteCourse(course).success(function (response) {
+            if(response === true) {  /*add*/
+                /* REMOVE DELETED COURSE FROM MODEL */
+                $scope.courses.splice(index, 1);
                 /*SETS THE SELECTED COURSE TO THE FIRST ONE*/
                 /*@TODO fix the blinking selectCourse gets called before this*/
                 $scope.selectCourse($scope.courses[0], 0);
-
             }
-        }, function errorCallBack(response) {
-            alert("delete course error\n");
+        }).error(function(response){
+            console.log(respones);
         });
     };
 
@@ -250,7 +297,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
     /*THIS IS THE SEARCH COURSE FUNCTION, CALLS HTTP REQUESTS TO SERVER TO SEARCH*/
     $scope.searchCourse = function() {
         $scope.search.pageNum = 0;
-        debugger;
         httpCourseFactory.searchCourse($scope.search).success(function(response) {
             /*RESETS THE SEARCH BAR/SEARCH INFO*/
             $scope.lastSearch = $scope.search;
@@ -260,12 +306,10 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
             /*DISPLAYS THE PAGE NUMBER*/
             document.getElementById("paginationLabelId").innerHTML = "Page " + ($scope.lastSearch.pageNum + 1);
             searchModal.style.display = "none";
-            debugger;
         }).error(function(response) {
-            console.log("Search course error");
+            console.log("Search course error:" + response);
         });
     };
-
 
     /*THIS IS THE FUNCTION TO ADD SEARCH TAG*/
     $scope.addSearchTag = function () {
@@ -287,7 +331,7 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
 
     $scope.selectedCourseResult = 0;
     $scope.selectCourseResults = function(result, index) {
-        if(result) /*IF COURSE IS NOT NULL THEN ITS TRUE*/ {
+        if(result) /* IF COURSE IS NOT NULL THEN ITS TRUE */ {
             $scope.selectedCourseResult = index;
             global.setCourseId(result.id);
         } else {
@@ -335,7 +379,6 @@ angular.module('homeApp').controller('courseCtrl', function ($scope, $http, $sta
             console.log("Pagination error");
         });
     }
-
 });
 
 

@@ -98,7 +98,7 @@
                                 <c:when test="${userType eq 'prof'}">
                                     <btn class="btn-xs col-sm-1 glyphicon glyphicon-pencil clickable on-show" ng-click="editCourse(course)">
                                     </btn>
-                                    <btn class="btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteCourse(course)"style="">
+                                    <btn class="btn-xs col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteCourse(course, $index)"style="">
                                     </btn>
                                 </c:when>
                             </c:choose>

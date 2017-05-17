@@ -9,13 +9,15 @@ angular.module('homeApp')
         };
     });
 
-
+/* SYLLABUS CONTROLLER */
 angular.module('homeApp').controller('syllabusCtrl', function ($scope, $http, global) {
+    /* LOAD THE SYLLABUS */
     $http.get("/getSyllabus", {
         params : {
             "courseId" : global.getCourseId()
         }
     }).success(function(response){
+        /* SET THE SYLLABUS */
         $scope.syllabus = response;
     }).error(function(response){
     });

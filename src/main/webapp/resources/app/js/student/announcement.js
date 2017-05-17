@@ -2,38 +2,52 @@
 /**
  * Created by Calvin on 4/21/2017.
  */
-
 var app = angular.module('homeApp');
 var initLoad = true;
-/*Announcement Controller*/
-app.controller('announcementsCtrl', function ($scope, $http, $state, global) {
 
-    $scope.$watch(function(){
-        return global.getCourseId();
-    }, function(newValue, oldValue){
-        /* check if courseId has really changed */
-        if(newValue !== undefined && newValue != 0 && newValue !== oldValue){
-            reloadData();
-        }
-    });
-    var reloadData = function(){
-        $state.reload();
+/* TIME FORMATTING OPTIONS */
+var options = {
+    weekday: "long", year: "numeric", month: "short",
+    day: "numeric", hour: "2-digit", minute: "2-digit"
+};
+
+/* FACTORY TO HANDLE HTTP REQUEST LOGIC */
+app.factory('httpAnnouncementFactory', function($http, global) {
+    /* SET SINGLETON LIKE OBJECT */
+    var properties = this;
+    /* getAnnouncements- RETURNS ARRAY OF COURSE's ANNOUNCEMENTS */
+    properties.getAnnouncements = function(){
+        return $http.get("/getAnnouncement", {
+            params : {
+                "courseId" : global.getCourseId()
+            }
+        });
     };
-    $scope.announcementList = {};
 
-    //Get Announcements on load
-    $http.get("/getAnnouncement", {
-        params : {
-            "courseId" : global.getCourseId()
-        }
-    }).success(function(response){
+    return properties;
+});
+
+/* ANNOUNCEMENT CONTROLLER */
+app.controller('announcementsCtrl', function ($scope, $http, $state, global, httpAnnouncementFactory) {
+
+    /* INIT ANNOUNCEMENT LIST */
+    $scope.announcementList = [];
+
+    /* GET ANNOUNCEMENTS FOR COURSE ON LOAD */
+    httpAnnouncementFactory.getAnnouncements().success(function(response){
         initLoad = true;
-        $scope.announcementList = response;
+        /* FORMAT DUE DATE OF EACH ANNOUNCEMENT */
+        $.each(response, function() {
+            this.dateCreated = new Date(this.dateCreated).toLocaleTimeString("en-us", options);
+            /* ADD ANNOUNCEMENT TO LIST */
+            $scope.announcementList.unshift(this);
+        });
     }).error(function(response){
+        console.log(response);
     });
 });
 
-//Directive to initiate all the quills as they load
+/* DIRECTIVE TO INIT ALL THE QUILLS AS THEY LOAD */
 app.directive('testdirective', function() {
     return function(scope, element, attrs) {
         scope.$watch('$last',function(v){
@@ -41,14 +55,13 @@ app.directive('testdirective', function() {
                 if((initLoad)){
                     initLoad = false;
                     for(var i = 0; i < scope.announcementList.length; i++) {
-                        ;
                         var id = "#announcementDescription-" + i;
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',
                             theme: 'snow'
                         });
 
-                        //Disable the quill
+                        /* DISABLE THE QUILL */
                         loadQuill.enable(false);
 
                         loadQuill.setContents(JSON.parse(scope.announcementList[i].description));
@@ -57,47 +70,43 @@ app.directive('testdirective', function() {
 
                     }
 
-                    //Hide the announcement toolbars
+                    /* HIDE THE ANNOUNCEMENT TOOLBARS */
                     $(".annnouncementEditors").prev().hide();
 
                 }else{
-                    //Only do stuff to the last announcement
-                    //First check if it's a new thing or just a delete
-                    //Check if has toolbar
+                    /* ONLY DO STUFF TO THE LAST ANNOUNCEMENT
+                     * FIRST CHECK IF IT'S A NEW THING OR JUST A DELETE
+                     * CHECK IF HAS TOOLBAR */
                     var id = "#announcementDescription-" + (scope.announcementList.length - 1);
                     if((!$(id).prev().hasClass("ql-toolbar"))){
-                        //Init the quill
+                        /* INIT THE QUILL */
                         var loadQuill = new Quill(id, {
                             placeholder: 'Announcement Description',
                             theme: 'snow'
                         });
                         loadQuill.setContents(JSON.parse(scope.announcementList[scope.announcementList.length - 1].description));
-                        //Hide the announcement toolbars
+                        /* HIDE THE ANNOUNCEMENT TOOLBARS */
                         $(id).prev().hide();
 
-                        //Hide the button
+                        /* HIDE THE BUTTONS */
                         var buttonId = "#updateButton-"+(scope.announcementList.length - 1);
                         var cancelId = '#cancelEdit-'+(scope.announcementList.length - 1);
 
                         $(buttonId).hide();
                         $(cancelId).hide();
 
-                        //Hide the borders
+                        /* HIDE THE BORDERS */
                         $(id).css({'border': 'none'});
-                        //Disable the quill
+                        /* DISABLE THE QUILL */
                         loadQuill.enable(false);
 
                         var announcementTitle = "#announcementTitle-"+(scope.announcementList.length - 1);
                         $(announcementTitle).attr("disabled", "disabled");
-
-
                         scope.announcementList[scope.announcementList.length - 1].quill = loadQuill;
                     }
                 }
             }else{
             }
         });
-
-
     };
 });
