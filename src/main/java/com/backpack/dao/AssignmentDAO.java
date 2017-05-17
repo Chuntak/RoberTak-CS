@@ -248,11 +248,11 @@ public class AssignmentDAO extends DAOBase {
                     if (columnExists(rs, "blobName")) am.setHwBlobName(rs.getString("blobName"));
                     if (am.getHwBlobName() != null && !am.getHwBlobName().equals("")) {
                         /* IF THERE IS A BLOB NAME, GET THE DOWNLOAD LINK */
-//                        Blob b = dbs.getBlob(am.getHwBlobName());
-//                        String link = b.getMediaLink();
+                        Blob b = dbs.getBlob(am.getHwBlobName());
+                        String link = b.getMediaLink();
                         try{ am.setHwFileName(am.getHwBlobName().split("\\|")[1]); }
                         catch (IndexOutOfBoundsException e) { System.err.println("Filename not formatted correctly."); }
-                        am.setHwDownloadLink(dbs.getFileViewLink(am.getHwBlobName(), false));
+                        am.setHwDownloadLink(link);
                     }
                     aml.add(am);
                 }

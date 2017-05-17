@@ -65,13 +65,14 @@ app.factory('httpForumFactory', function($http, global) {
     };
 
     /* deletePost - deletes a post from db */
-    properties.deletePost = function(postId, authorId){
+    properties.deletePost = function(postId, authorId, parentId){
         return $http({
             method: 'GET',
             url: '/deletePost',
             params: {
                 "id": postId,
-                "authorId" : authorId
+                "authorId" : authorId,
+                "parentId" : parentId
             }
         });
     };
@@ -216,7 +217,7 @@ app.controller("forumCtrl", function ($scope, $http, global, httpForumFactory){
         /* DELETE POST OR COMMENT (IF GIVEN) FROM DB. comment WILL BE UNDEFINED/NULL IF POST */
         var id = comment ? comment.id : post.id;
         var authorId = comment ? comment.authorId : post.authorId;
-        httpForumFactory.deletePost(id, authorId).success(function (response) {
+        httpForumFactory.deletePost(id, authorId, post.id).success(function (response) {
             if(response === true) {
                 /* REMOVE POST FROM MODEL OR COMMENT FROM POST MODEL */
                 comment ? $scope.posts[pindex].comments.splice(cindex, 1) : $scope.posts.splice(pindex,1);

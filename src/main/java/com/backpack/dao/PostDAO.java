@@ -78,8 +78,8 @@ public class PostDAO extends DAOBase {
      * @return boolean if succeeded
      */
     public boolean deletePost(PostModel pm) {
-        String query = "call delete_post(?,?)";
-        pm = dbs.getJdbcTemplate().query(query, new Object[]{pm.getId(), pm.getAuthorId()}, new PostModelExtractor()).get(0);
+        String query = "call delete_post(?,?,?)";
+        pm = dbs.getJdbcTemplate().query(query, new Object[]{pm.getId(), pm.getAuthorId(), pm.getParentId()}, new PostModelExtractor()).get(0);
         return true;
     }
 

@@ -57,6 +57,7 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         else {
             $scope.document.fileName = "Not Available"
         }
+        $scope.document = {};
     };
 
     /* FROM CONTROLLER */

@@ -424,8 +424,8 @@
                                             <%-- EDIT POST BUTTON --%>
                                         <btn ng-if="comment.editable && comment.editing" class="btn-xs glyphicon glyphicon-ok-sign clickable" ng-click="saveEdit(post, pkey, comment, $index)" title="Save Edit"></btn>
                                             <%-- DELETE POST BUTTON - PROFESSORS CAN ALWAYS DELETE --%>
-                                        <c:choose>
-                                            <c:when test="${userType eq 'prof' && isOwner eq true}">
+
+
                                                 <div ng-if="!comment.editing" class="dropdown">
                                                     <div ng-if="!comment.editing" class="glyphicon glyphicon-menu-down dropdown-toggle clickable edit-dropdown" type="button" data-toggle="dropdown"></div>
                                                     <ul class="dropdown-menu">
@@ -440,8 +440,6 @@
                                                         </c:choose>
                                                     </ul>
                                                 </div>
-                                            </c:when>
-                                        </c:choose>
                                         <btn ng-if="comment.editing" class="btn-xs glyphicon glyphicon-remove-sign clickable" ng-click="cancelEdit(comment)" title="Cancel Edit"></btn>
 
                                     </div>
