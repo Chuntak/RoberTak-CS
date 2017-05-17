@@ -117,7 +117,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     $scope.initDataSource = function(){
         $scope.gridData = new kendo.data.DataSource({
             data: $scope.students,
-            pageSize: 5 ,
+            pageSize: 30 ,
             schema: {
                 model: {
                     id: "id",

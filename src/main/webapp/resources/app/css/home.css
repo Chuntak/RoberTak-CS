@@ -1,3 +1,14 @@
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #ececec !important;
+}
+
+.app-wrapper.row{
+    margin: 0 0 !important;
+}
 /*
   Allow angular.js to be loaded in body, hiding cloaked elements until
   templates compile.  The !important is important given that there may be
@@ -47,7 +58,7 @@ html::-webkit-scrollbar {
 }
 
 .tabPane .scrollable{
-    height: 90%;
+    height: 91%;
 }
 
 .col-md-12 {
@@ -65,27 +76,19 @@ html::-webkit-scrollbar {
 
 /*Header Pane*/
 #toolbar{
-    padding-top: .4cm;
-    padding-left: 1cm;
-    background-color: #606060;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #cc181e;
+    height: 8.5%;
 }
 
-/*.app-wrapper{*/
-    /*height: 78%;*/
-    /*background-color: #ececec;*/
-/*}*/
 * {
     margin: 0;
 }
-body {
-    /*overflow: hidden;*/
-}
+
 .app-wrapper {
-    /*min-height: 100%;*/
-    /*height: auto !important;*/
-    /*height: 100%;*/
-    /*margin: 0 auto; !*-15px; !* the bottom margin is the negative value of the footer's height *!*/
     background-color: #ececec;
+    height: 85%;
 }
 /*.footer, .push {*/
     /*height: 15px; !* .push must be the same height as .footer *!*/
@@ -99,11 +102,13 @@ body {
 .coursePane{
     margin-top: 10px;
     overflow: auto;
+    height: 99%;
 }
 
 .tabPane{
     margin-top: 10px;
     margin-left: -10px;
+    height: 99%;
 }
 
 .forumPane{
@@ -121,7 +126,7 @@ body {
     padding-left: 15px;
     padding-bottom: 10px;
     padding-top: 10px;
-    height: 40.8px;
+    height: 8%;
 }
 
 .tab-heading{
@@ -144,6 +149,20 @@ body {
 
 
 /*CSS FOR TABS*/
+.tabs{
+    /* SET COLOR OF TAB NAME TO */
+    color: #cc181e !important;
+}
+
+.tabs:hover{
+    /* MAKE TAB NAME DARKER ON HOVER */
+    color: #7F2628 !important;
+}
+
+.nav-tabs>li.active>a{
+    /* ACTIVE TAB IS GREY */
+    color: #555 !important;
+}
 .nav-tabs > li, .nav-pills > li {
     float:none;
     display:inline-block;
@@ -160,7 +179,7 @@ body {
 }
 
 /*Make the tabs scrollable */
-.tabScroll.panel.panel-default{
+.tab-scroll.panel.panel-default{
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -270,26 +289,28 @@ body {
 img.inline_header{
     display: inline;
     padding-left: .3cm;
-    padding-bottom: .5cm;
+    height: 40px !important;
 }
 
 .text{
     display: inline;
+    vertical-align: middle;
     font-family: 'Ubuntu', sans-serif;
+    color: #fff;
 }
 
 h3{
     padding-left: .35cm;
 }
 .text-logout{
-    text-align: right;
-    margin-top: -40px;
-    padding-right: .5cm;
+    float: right;
+    margin-top: 10px;
+    padding-right: 10px;
+    color: #fff;
 }
 
-img.logout{
-    height: 30px;
-    width: 30px;
+.logout{
+    padding-left: 5px;
 
 }
 
@@ -302,8 +323,14 @@ img.logout{
 .panel-heading{
     font-size: large;
 }
+
+.footer{
+    height: 4.6%;
+    background-color: #ececec;
+}
 .footer-content{
     text-align: center;
+    margin-top: .75%;
 }
 
 .footer-content img, .footer-content span{
@@ -436,3 +463,21 @@ img.logout{
     display:inline;
 }
 
+
+/* SET HEIGHTS OF PANES TO 100% */
+.tab-panel{
+    height: 99%;
+    margin-bottom: 0 !important;
+}
+.tab-forum-wrapper, .forumPane, #accordion, .tab-scroll{
+    height: 100%;
+}
+
+.tab-scroll, #announcementDiv, #gradeAccordion, .asgmt-wrapper{
+    margin-bottom: 0 !important;
+}
+
+.course-panel{
+    height: 100%;
+    margin-bottom: 0 !important;
+}

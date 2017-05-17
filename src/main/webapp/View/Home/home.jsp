@@ -44,14 +44,13 @@
 <!--App Content START-->
 <body ng-app="homeApp">
 
-<div id="toolbar" ng-controller="homeCtrl">
-    <img class="inline_header" src="images/logo-black-toolbar.png"/>
+<div id="toolbar">
+    <img class="inline_header" src="images/logo-white-small.png"/>
     <h1 class="text">&nbspbackpack</h1>
-    <div class="text-logout">Welcome <c:out value="${firstName}"/> &nbsp
-        <%--Sign Out button--%>
-        <img src="images/logout.png" ng-controller="homeCtrl" ng-click="signOut()" class="logout clickable" data-toggle="tooltip" title="Sign out" data-placement="bottom"/>
-        <%--<span ng-controller="homeCtrl" class="glyphicon glyphicon-log-out" ng-click="signOut()" class="logout clickable" data-toggle="tooltip" title="Sign out" data-placement="bottom">Logout</span>--%>
-
+    <div onclick="logout()" class="text-logout clickable" title="Sign out">
+        Sign Out
+        <span class="logout clickable glyphicon glyphicon-log-out"></span> &nbsp
+        <%-- HIDDEN FORM TO TRIGGER FOR SIGN OUT--%>
         <form:form id="signOut" name="signOut"  method="GET" action="/signOut">
             <button hidden="hidden" type="submit"></button>
         </form:form>
@@ -63,7 +62,7 @@
 
     <div class="coursePane col-md-2" ng-controller="courseCtrl">
 
-        <div class="col-md-12 panel panel-default">
+        <div class="col-md-12 panel panel-default course-panel">
             <%--Course Heading--%>
             <c:choose>
                 <c:when test="${userType eq 'prof'}">
@@ -342,12 +341,12 @@
             </c:choose>
        </div>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-10 tab-forum-wrapper">
         <%--TABS PANE--%>
         <div class="col-md-8 tabPane">
-            <div class="tabScroll panel panel-default">
+            <div class="tab-scroll panel panel-default">
                 <ul class="nav nav-tabs tab-heading" ng-controller="tabsCtrl">
-                    <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)" ng-bind="tab.label"></a></li>
+                    <li class="tabs clickable" ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a ui-sref="{{tab.state}}" ng-click="setSelectedTab(tab)" ng-bind="tab.label" class="tabs"></a></li>
                 </ul>
                 <div class="scrollable" ui-view></div>
 
@@ -468,11 +467,13 @@
     <%--<div class="push"></div>--%>
 </div>
 <!--App Content END-->
-<%--FOOTER--%>
-<%--<div class="footer footer-content">--%>
-    <%--<img src="images/logo_footer.png"> &nbsp--%>
-    <%--<span class="text-muted">Copyright &copy 2017 backpack Red Robins. All Rights Reserved.</span>--%>
-<%--</div>--%>
+
+<div class="footer">
+    <div class="footer-content">
+        <img src="images/logo_footer.png"> &nbsp
+        <span class="text-muted">Copyright &copy 2017 backpack Red Robins. All Rights Reserved.</span>
+    </div>
+</div>
 
 </body>
 

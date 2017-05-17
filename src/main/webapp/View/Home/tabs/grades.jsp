@@ -93,7 +93,7 @@
 
                     <%-- SUBMIT FORM & CANCEL BTNS --%>
                 <div class="col-xs-12 gradable-btns">
-                    <p><input type="submit" class="btn btn-default" ng-submit="updateGradable(gradable)"/>
+                    <p><input type="submit" class="btn btn-default" ng-click="updateGradable(gradable)"/>
                         <button class="btn btn-default" data-toggle="collapse" data-target="#gradableForm">Cancel</button></p>
                 </div>
             </form>

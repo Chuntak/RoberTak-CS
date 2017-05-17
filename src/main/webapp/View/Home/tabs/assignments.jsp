@@ -13,7 +13,7 @@
     <link rel="stylesheet/less" href="<c:url value="/resources/app/css/imported/timepicker.less" />">
 </head>
 <body ng-controller="assignmentsCtrl">
-    <div class="list-group">
+    <div class="list-group asgmt-wrapper">
 
     <c:choose>
         <%-- ONLY PROF CAN CREATE ASSIGNMENTS --%>

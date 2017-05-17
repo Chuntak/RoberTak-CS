@@ -31,7 +31,7 @@
 }
 
 /*The divs that get turned into announcement*/
-.annnouncementEditors.ql-container.ql-snow{border: none; height: 100px;}
+.annnouncementEditors.ql-container.ql-snow{border: none; height: 100%;}
 /* Use javascript to change css to .annnouncementEditors{border: 1px solid #ccc; border-top: 0px;} during edit mode*/
 
 .announcementTitle{
