@@ -15,7 +15,11 @@ import java.util.ArrayList;
  */
 public class SyllabusDAO extends DAOBase {
 
-    /*uploads and stores syllabus into the database*/
+    /**
+     * uploadSyllabus - uploads a syllabus into db
+     * @param sm - syllabus file to upload with course info
+     * @return syllabus model with id
+     */
     public SyllabusModel uploadSyllabus(SyllabusModel sm){
         if(sm.getFile() != null) {
             Blob blob = dbs.uploadFile(sm.getFile()); /*uploads to store*/
@@ -35,6 +39,11 @@ public class SyllabusDAO extends DAOBase {
         return sm;
     }
 
+    /**
+     * getSyllabus - get syllabus file for course
+     * @param sm - contains course id
+     * @return syllabus model with file
+     */
     public SyllabusModel getSyllabus(SyllabusModel sm) {
         String query = "call get_syllabus(?)";
         sm = dbs.getJdbcTemplate().query(query, new Object[] {sm.getCourseId()}, new SyllabusModelExtractor());
@@ -46,6 +55,11 @@ public class SyllabusDAO extends DAOBase {
         }
     }
 
+    /**
+     * deleteSyllabus - deletes a syllabus from db and storage
+     * @param sm - syllabus to delete
+     * @return boolean if it succeeded
+     */
     public boolean deleteSyllabus(SyllabusModel sm) {
         String query = "call delete_syllabus(?)";
         sm = dbs.getJdbcTemplate().query(query, new Object[] {sm.getCourseId()}, new SyllabusModelExtractor()); /*delete from database*/

@@ -16,14 +16,22 @@ import java.util.Map;
  * Created by Chuntak on 4/2/2017.
  */
 public class PersonDAO extends DAOBase {
-    /*checks if the user is registered via the database*/
+    /**
+     * checkUser - check if user exists in db
+     * @param pm - person to check
+     * @return boolean if they already have account
+     */
     public boolean checkUser(PersonModel pm){
         String query = "call get_user(?)";
         List l = dbs.getJdbcTemplate().queryForList(query, new Object[]{pm.getEmail()});
         return l.size() > 0;
     }
 
-    /*calls to the database and update user*/
+    /**
+     * updateUser - add/edit a user
+     * @param pm - person to update
+     * @return id of user
+     */
     public int updateUser(PersonModel pm) {
         String query = "call update_user(?,?,?,?,?,?,?)";
         List l = dbs.getJdbcTemplate().queryForList(query, new Object[]{pm.getId(), pm.getEmail(),
@@ -31,7 +39,11 @@ public class PersonDAO extends DAOBase {
         return ((BigInteger) ((Map)l.get(0)).get("(LAST_INSERT_ID())")).intValue();
     }
 
-    /*gets user by email, calls to the database*/
+    /**
+     * getUserByEmail - gets user by their email from db
+     * @param email - email of user
+     * @return person with that email
+     */
     public PersonModel getUserByEmail(String email) {
         String query = "call get_user(?)";
         ArrayList<PersonModel> al = dbs.getJdbcTemplate().query(query, new Object[] {email} , new PersonModelExtractor());
@@ -39,7 +51,11 @@ public class PersonDAO extends DAOBase {
     }
 
 
-    /* calls to the database and retrieve enrolled students in course */
+    /**
+     * getEnrolled - gets enrolled students in a course
+     * @param crsId - course to get roster for
+     * @return list of student data
+     */
     public ArrayList<PersonModel> getEnrolled(Integer crsId) {
         String query = "call get_enrolled(0, ?)";
         ArrayList<PersonModel> pml = dbs.getJdbcTemplate().query(query, new Object[]{crsId}, new PersonModelExtractor());

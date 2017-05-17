@@ -29,20 +29,32 @@ public class PersonController {
         this.BackpackService = BackpackService;
     }
 
-    /*person model*/
+    /**
+     * getPersonModel - maps 'person' to a PersonModel
+     * @return PersonModel
+     */
     @ModelAttribute("person")
     public PersonModel getPersonModel(){
         return new PersonModel();
     }
 
-
-    /*returns the signin page*/
+    /**
+     * index - returns signIn.jsp
+     * @return signIn.jsp
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
         return "signIn";
     }
 
-    /*returns the right home page*/
+    /**
+     * loadIndex - loads user home page and sets session data
+     * @param person - user logging in
+     * @param bindingResult
+     * @param session - current session
+     * @param map - map of model data
+     * @return home.jsp
+     */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String loadIndex(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session, ModelMap map){
         person = new PersonDAO().getUserByEmail((String)session.getAttribute("email"));
@@ -54,13 +66,24 @@ public class PersonController {
         return "home";
     }
 
-    /*returns the signup page*/
+    /**
+     * signUp - returns register page
+     * @param person - user signing up
+     * @param bindingResult
+     * @param map
+     * @return signUp.jsp
+     */
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
     public String signUp(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, ModelMap map){
         return "signUp";
     }
 
-    /*returns to signin page*/
+    /**
+     * signOut - signs user out of app and invalidates session
+     * @param person - person signing out
+     * @param session - session to invalidate
+     * @return the signIn jsp
+     */
     @RequestMapping(value = "/signOut", method = RequestMethod.GET)
     public String signOut(@ModelAttribute("person") PersonModel person, HttpSession session){
         session.invalidate();
@@ -68,7 +91,14 @@ public class PersonController {
     }
 
 
-    /*registers the person and returns the home page*/
+    /**
+     * register - registers the user in db and sets session
+     * @param person - person to register
+     * @param bindingResult
+     * @param session - current user session
+     * @param map
+     * @return home jsp
+     */
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(@ModelAttribute("person") PersonModel person, BindingResult bindingResult, HttpSession session,ModelMap map){
         //@todo store into database
@@ -92,7 +122,12 @@ public class PersonController {
 
     }
 
-    /*gets the course returns the arraylist course can return professor names/email*/
+    /**
+     * getEnrolled - get enrooled students in course
+     * @param course - course to get roster for
+     * @param session - current user session
+     * @return boolean if user exists in db already
+     */
     @RequestMapping(value="/getEnrolled", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<PersonModel> getCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {

@@ -24,7 +24,11 @@ import java.util.Map;
 public class PostDAO extends DAOBase {
 
 
-    /*calls to the database and update post (add/edit)*/
+    /**
+     * updatePost - add/edit a post in db
+     * @param pm - post to update
+     * @return id of post
+     */
     public int updatePost(PostModel pm) {
         /* IF THERE IS NO ID, THEN FORMAT TIME FOR NEW POST */
         if(pm.getId() == 0){
@@ -39,24 +43,40 @@ public class PostDAO extends DAOBase {
                 e.printStackTrace();
             }
         }
-
         String query = "call update_post(?,?,?,?,?,?,?,?)";
         List l = dbs.getJdbcTemplate().queryForList(query, new Object[]{pm.getId(), pm.getParentId(),
                 pm.getCrsId(), pm.getAuthorId(), pm.getHeader(), pm.getContent(), pm.isAnon(), pm.getDateCreated()});
         return ((BigInteger) ((Map)l.get(0)).get("(LAST_INSERT_ID())")).intValue();
     }
 
+    /**
+     * updateLikes - updates number of likes on a post
+     * @param userId - user who liked/disliked post
+     * @param postId - post that was liked
+     * @return number of likes
+     */
     public int updateLikes(int userId, Integer postId){
         String query = "call update_likes(?,?)";
         return dbs.getJdbcTemplate().update(query, userId, (int)postId);
     }
-    /*gets user by email, calls to the database*/
+
+    /**
+     * getPosts - gets posts for a course
+     * @param pm - contains the course id
+     * @param personId - get posts for a specific person
+     * @return list of post models
+     */
     public ArrayList<PostModel> getPosts(PostModel pm, int personId) {
         String query = "call get_posts(?,?,?)";
         ArrayList<PostModel> al = dbs.getJdbcTemplate().query(query, new Object[] {pm.getId(), pm.getCrsId(), personId} , new PostModelExtractor());
         return al;
     }
 
+    /**
+     * deletePost - deletes a post from db
+     * @param pm - post to delete
+     * @return boolean if succeeded
+     */
     public boolean deletePost(PostModel pm) {
         String query = "call delete_post(?,?)";
         pm = dbs.getJdbcTemplate().query(query, new Object[]{pm.getId(), pm.getAuthorId()}, new PostModelExtractor()).get(0);

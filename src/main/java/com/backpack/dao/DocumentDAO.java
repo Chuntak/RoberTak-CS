@@ -16,6 +16,12 @@ import java.util.Date;
  * Created by Chuntak on 4/12/2017.
  */
 public class DocumentDAO extends DAOBase{
+
+    /**
+     * uploadDocument - uploads a document to storage
+     * @param dm - contains file to upload
+     * @return model of document
+     */
     public DocumentModel uploadDocument(DocumentModel dm){
 
         if(dm.getBlobName() != null && !dm.getBlobName().equals("")) {
@@ -37,7 +43,11 @@ public class DocumentDAO extends DAOBase{
         return docModel;
     }
 
-    /*upate Documemnts*/
+    /**
+     * updateDocument - adds/edits a document in db
+     * @param dm - document to update
+     * @return document updated
+     */
     public DocumentModel updateDocument(DocumentModel dm){
         dm.setDateCreated(new Date()); //temp
         /*UPDATES THE DATABASE*/
@@ -47,6 +57,11 @@ public class DocumentDAO extends DAOBase{
         return dml.size() > 0 ? dml.get(0) : null;
     }
 
+    /**
+     * deleteDocument - deletes a document from db
+     * @param dm - document to delete
+     * @return boolean if succeeded
+     */
     public boolean deleteDocument(DocumentModel dm) {
         String query = "call delete_document(?)";
         dm = dbs.getJdbcTemplate().query(query, new Object[]{dm.getId()}, new DocumentModelExtractor()).get(0);
@@ -57,13 +72,18 @@ public class DocumentDAO extends DAOBase{
         return true;
     }
 
+    /**
+     * getDocument - gets documents for a course
+     * @param dm - contains course id of course
+     * @return list of document models
+     */
     public ArrayList<DocumentModel> getDocument(DocumentModel dm) {
         String query = "call get_document(?)";
         return dbs.getJdbcTemplate().query(query, new Object[] { dm.getCourseId() }, new DocumentModelExtractor());
     }
 
 
-    /*private class to retrieve a list of person from the resultset returned from the database*/
+    /*private class to retrieve a list of documents from the resultset returned from the database*/
     private class DocumentModelExtractor implements ResultSetExtractor<ArrayList<DocumentModel>> {
         @Override
         public ArrayList<DocumentModel> extractData(ResultSet rs) throws SQLException, DataAccessException {

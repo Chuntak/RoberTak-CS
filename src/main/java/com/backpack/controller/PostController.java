@@ -28,7 +28,12 @@ public class PostController {
         this.BackpackService = BackpackService;
     }
 
-    /*add/update a post*/
+    /**
+     * updatePost - add/edit a post to db
+     * @param post - post to add/edit to db
+     * @param session - current session of user
+     * @return post updated
+     */
     @RequestMapping(value="/updatePost", method = RequestMethod.GET)
     public @ResponseBody
     PostModel updatePost(@ModelAttribute("post") PostModel post, HttpSession session) {
@@ -57,7 +62,12 @@ public class PostController {
         return ret;
     }
 
-    /*add/update a post*/
+    /**
+     * updateLikes - updates the like count of a post
+     * @param postId - post that was liked/disliked
+     * @param session - current user session
+     * @return  number of likes the post has now
+     */
     @RequestMapping(value="/updateLikes", method = RequestMethod.GET)
     public @ResponseBody
     int updateLikes(Integer postId, HttpSession session) {
@@ -68,6 +78,13 @@ public class PostController {
     }
 
     /*gets the course returns the arraylist course can return professor names/email*/
+
+    /**
+     * getPost - gets the posts for a course
+     * @param post - has the course id to get posts
+     * @param session - current user session
+     * @return
+     */
     @RequestMapping(value="/getPost", method = RequestMethod.GET)
     public @ResponseBody ArrayList<PostModel> getPost(@ModelAttribute("post") PostModel post, HttpSession session) {
         ArrayList<PostModel> pl = new PostDAO().getPosts(post, (int)session.getAttribute("id"));

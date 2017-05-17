@@ -50,6 +50,12 @@ public class AssignmentDAO extends DAOBase {
         return asgmtModel;
     }
 
+    /**
+     * uploadSubmission - uploads file from student for assigment
+     * @param am - assignment model with file
+     * @param userId - id of student
+     * @return the new assignment model
+     */
     public AssignmentModel uploadSubmission(AssignmentModel am, int userId){
         /* CHECK IF THERE IS NO FILE TO UPLOAD */
         if(am.getHwFile() == null){
@@ -112,7 +118,13 @@ public class AssignmentDAO extends DAOBase {
          return aml.size() > 0 ? aml.get(0) : null;
     }
 
-    /*gets assignment for course*/
+    /**
+     * getAssignments - gets assignments for a course
+     * @param crsId - id of course to get assignments for
+     * @param gradableType - the kind of gradable to retrieve from db
+     * @param userId - id of the user
+     * @return list of assignment models for course
+     */
     public ArrayList<AssignmentModel> getAssignments(Integer crsId, String gradableType, int userId) {
         /*gets the assignments for the course*/
         String query = "call get_gradable(?, ?, ?)";
@@ -120,7 +132,12 @@ public class AssignmentDAO extends DAOBase {
         return aml;
     }
 
-    /*deletes assignment from the database*/
+    /**
+     * deleteAssignment - deletes an assignment from a course
+     * also deletes file from storage if exists
+     * @param am - assignment to delete from db
+     * @return id of deleted assignment
+     */
     public int deleteAssignment(AssignmentModel am) {
         String query = "call delete_gradable(?)";
         int rowsAffected = dbs.getJdbcTemplate().update(query, am.getId());
@@ -134,7 +151,11 @@ public class AssignmentDAO extends DAOBase {
         //return deleteHWFileModel(0, am.getId());
     }
 
-    /*upload hw files to database*/
+    /**
+     * uploadHWFileModels - uploads hw submissions
+     * @param hwl - files to upload to storage
+     * @return file uploaded
+     */
     public ArrayList<HWFileModel> uploadHWFileModels ( ArrayList<HWFileModel> hwl ) {
         for(HWFileModel hw : hwl){
             uploadHWFileModel(hw);
@@ -142,7 +163,11 @@ public class AssignmentDAO extends DAOBase {
         return hwl;
     }
 
-    /*upload hw file to database*/
+    /**
+     * uploadHWFileModel - uploads single file submission for assignment
+     * @param hw - file to upload
+     * @return null if failed or the file uploaded
+     */
     public HWFileModel uploadHWFileModel(HWFileModel hw) {
         if (hw.getFile() != null) {
             Blob blob = dbs.uploadFile(hw.getFile()); /*uploads to store*/
@@ -159,22 +184,40 @@ public class AssignmentDAO extends DAOBase {
         return null;
     }
 
-    /*gets the hw file from the database*/
+    /**
+     * getHWFileModels - gets hw files for specific assignment if has more than one
+     * @param hw - contains assignment id to get files for
+     * @return list of HWFileModels
+     */
     public ArrayList<HWFileModel> getHWFileModels(HWFileModel hw) {
         return getHWFileModels(hw.getAssignmentId());
     }
 
-    /*get he fiels from the database*/
+    /**
+     * getHWFileModels - queries db to get HWFiles
+     * @param assignmentId - assignment that has hwfiles
+     * @return list of HWFileModels
+     */
     public ArrayList<HWFileModel> getHWFileModels(int assignmentId) {
         String query = "call get_hwFile(?)";
         return dbs.getJdbcTemplate().query(query, new Object[] {assignmentId}, new HWFileModelExtractor());
     }
 
-    /*deletss the hw files from the database*/
+    /**
+     * deleteHWFileModel - deletes a hw file (prof)
+     * @param hw - hw file to delete
+     * @return boolean if succeeded
+     */
     public boolean deleteHWFileModel(HWFileModel hw){
         return deleteHWFileModel(hw.getId(), hw.getAssignmentId());
     }
 
+    /**
+     * deleteHWFileModel - deletes a hw file (prof)
+     * @param hwId - hw file to delete
+     * @param assId - assignment id the file belongs to
+     * @return boolean if succeeded
+     */
     public boolean deleteHWFileModel(int hwId, int assId){
         String query = "call delete_hwFile(?,?)";
         HWFileModel hw = dbs.getJdbcTemplate().query(query, new Object[] {hwId, assId}, new HWFileModelExtractor()).get(0);
@@ -183,7 +226,7 @@ public class AssignmentDAO extends DAOBase {
 
 
 
-    /*private class to retrieve a list of person from the resultset returned from the database*/
+    /*private class to retrieve a list of assignments from the resultset returned from the database*/
     private class AssignmentModelExtractor implements ResultSetExtractor<ArrayList<AssignmentModel>> {
         @Override
         public ArrayList<AssignmentModel> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -218,7 +261,7 @@ public class AssignmentDAO extends DAOBase {
         }
     }
 
-    /*private class to retrieve a list of person from the resultset returned from the database*/
+    /*private class to retrieve a list of hwfiles from the resultset returned from the database*/
     private class HWFileModelExtractor implements ResultSetExtractor<ArrayList<HWFileModel>> {
         @Override
         public ArrayList<HWFileModel> extractData(ResultSet rs) throws SQLException, DataAccessException {

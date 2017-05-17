@@ -5,12 +5,19 @@ import java.util.Date;
  */
 public class PersonModel {
 
+    /* FIRST NAME OF USER */
     private String firstName;
+    /* LAST NAME OF USER */
     private String lastName;
+    /* TYPE OF USER i.e. 'stud', 'prof', etc. */
     private String userType;
+    /* DATE OF BIRTH */
     private Date dob;
+    /* SCHOOL OF USER */
     private String school;
+    /* USER's EMAIL */
     private String email;
+    /* ID OF USER IN DB */
     private int id;
 
     public PersonModel(){
@@ -23,6 +30,7 @@ public class PersonModel {
         id = 0;
     }
 
+    /* GETTERS & SETTERS */
     public String getFirstName(){
         return firstName;
     }
@@ -38,6 +46,7 @@ public class PersonModel {
     public Date getDob(){
         return dob;
     }
+
     public String getSchool(){
         return school;
     }
@@ -45,15 +54,19 @@ public class PersonModel {
     public void setFirstName(String name){
         firstName = name;
     }
+
     public void setLastName(String name){
         lastName = name;
     }
+
     public void setUserType(String type){
         userType = type;
     }
+
     public void setDob(Date date){
         dob = date;
     }
+
     public void setSchool(String sch){
         school = sch;
     }
