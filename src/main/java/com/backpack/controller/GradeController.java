@@ -88,6 +88,14 @@ public class GradeController {
         return dm;
     }
 
+    /*UPDATES STATISTICS*/
+        /*gets the course returns the arraylist course can return professor names/email*/
+    @RequestMapping(value="/getStatistic", method = RequestMethod.GET)
+    public @ResponseBody
+    ArrayList<GradableModel> getStaticstic(@ModelAttribute("gradable") GradableModel gradable, HttpSession session) {
+        ArrayList<GradableModel> gm = new GradeDAO().getStatistic(gradable);
+        return gm;
+    }
 
 
 

@@ -2,6 +2,8 @@
  * Created by Calvin on 5/4/2017.
  */
 var app = angular.module('homeApp');
+var selectedGradable = {};
+var selectedGradableId = 0;
 /* FACTORY TO HANDLE HTTP REQUEST LOGIC */
 app.factory('httpGradeFactory', function($http, global) {
     /* SET SINGLETON LIKE OBJECT */
@@ -44,6 +46,15 @@ app.factory('httpGradeFactory', function($http, global) {
         });
     };
 
+
+    properties.getStatistics = function(gradableId){
+        return $http({
+            method: 'GET',
+            url: '/getStatistic',
+            params: {"courseId": global.getCourseId() ,"id": gradableId}
+        });
+    };
+
     return properties;
 });
 
@@ -76,10 +87,13 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
     };
 
     /* getGrades - ACTIVATES WHEN THE GRADE TITLE IS CLICKED AND THE GRADE TABLE SHOWS*/
-    $scope.getGrades = function(gradableId,index){
-        selectedGradableID = gradableId;
+    $scope.getGrades = function(gradable,index){
+        selectedGradableID = gradable.id;
+        selectedGradable = gradable;
         gridIndex = index;
-        httpGradeFactory.getGrades(gradableId).success(function (response) {
+        httpGradeFactory.getGrades(selectedGradableID).success(function (response) {
+            /* Loop through the $scope.students, pop off old grades and push in the new grades*/
+
             if($scope.students.length){
                 var slength = $scope.students.length;
                 var rlength = response.length;
@@ -94,6 +108,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                 }
                 $("#kendogrid"+gridIndex).data("kendoGrid").dataSource.read();
             }
+            /* RUNS DURING INITIAL LOAD AND BINDS THE DATA TO KENDO*/
             else{
                 $scope.students = response;
                 $scope.initDataSource();
@@ -197,7 +212,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         };
     };
 
-    /* getGradable- GETS ALL THE GRADABLES FOR THIS COURSE */
+    /* getGradable- GETS ALL THE GRADABLES FOR THIS COURSE RUNS ON INITIAL LOAD */
     httpGradeFactory.getGradable().success(function(response) {
         $.each(response, function() {
             this.dueDate = new Date(this.dueDate).toLocaleTimeString("en-us", options);
@@ -227,7 +242,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
                 "time" : gradable.time
             };
             /* ADD TO THE LIST */
-            $scope.gradables.unshift(gradableJson);
+            $scope.gradables.push(gradableJson);
 
             /* CLEAR FORM DISPLAY*/
             $("#createGradable").click();
@@ -320,9 +335,18 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
             method: 'GET',
             url: '/updateGrade',
             params: {"id" : studentId, "gradableId" : gradableId, "grade" : grade}
-        }).then(function (response) {
-            debugger;
-        }, function errorCallBack(response) {
+        }).success(function (response) {
+            /* REFRESH */
+            httpGradeFactory.getStatistics(gradableId).success(function (response) {
+                /*Replace the statistic data*/
+                selectedGradable.avg = response[0].avg;
+                selectedGradable.highestGrade = response[0].highestGrade;
+                selectedGradable.minGrade = response[0].minGrade;
+                selectedGradable.stdDev = response[0].stdDev;
+            }).error(function (response) {
+                console.log(response);
+            });
+        }).error(function(response){
             console.log(response);
         });
     };

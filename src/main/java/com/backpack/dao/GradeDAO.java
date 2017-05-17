@@ -29,6 +29,13 @@ public class GradeDAO extends DAOBase{
         return gml.size() > 0 ? gml.get(0) : null;
     }
 
+    /*  GETS NEW STATISTICS */
+    public ArrayList<GradableModel> getStatistic(GradableModel gm){
+        String query = "call get_statistic(?,?)";
+        return dbs.getJdbcTemplate().query(query, new Object[] { gm.getCourseId(), gm.getId()}, new GradableModelExtractor());
+    }
+
+
     /* RETRIEVE RESULTS FROM DB STORED PROCEDURE (QUERY) */
     private class GradeModelExtractor implements ResultSetExtractor<ArrayList<GradeModel>> {
         @Override

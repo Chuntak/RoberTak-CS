@@ -110,7 +110,7 @@
 
             <%-- DISPLAYS DESCRIPTION OF GRADE TASK --%>
                 <%-- USE class="panel-title", if accordion does not work --%>
-                    <h3><a ng-bind="gradable.title" ng-click="getGrades(gradable.id,$index)" data-toggle="collapse" data-target="{{'#grid'+$index}}" data-parent="#gradeAccordion" ></a></h3>
+                    <h3><a ng-bind="gradable.title" ng-click="getGrades(gradable,$index)" data-toggle="collapse" data-target="{{'#grid'+$index}}" data-parent="#gradeAccordion" ></a></h3>
                 </c:when>
 
                 <c:when test="${userType eq 'stud' || isOwner eq false}">

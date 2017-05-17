@@ -251,7 +251,7 @@ app.controller('announcementsCtrl', function ($scope, $http, $state, global, htt
             }
         }).error(function(response){
             console.log(response);
-        })
+        });
     };
 
     /*DELETES AN ANNOUNCEMENT*/
