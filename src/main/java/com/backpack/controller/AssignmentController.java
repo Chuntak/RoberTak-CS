@@ -17,27 +17,39 @@ import java.util.ArrayList;
 
 @Controller
 public class AssignmentController {
-    /*for datastore*/
+    /**
+     * For database
+     */
     BackpackServiceImplementation BackpackService;
     @Autowired
     public AssignmentController(BackpackServiceImplementation BackpackService){
         this.BackpackService = BackpackService;
     }
 
-    /*assignment model*/
+    /**
+     * assignmentModel - java class with getters and setters of fields
+     * @return the assignment model
+     */
     @ModelAttribute("assignment")
     public AssignmentModel getAssignmentModel(){
         return new AssignmentModel();
     }
 
-    /*assignment model*/
+    /**
+     * getHWFileModel - get hw model
+     * @return the hw model
+     */
     @ModelAttribute("hwfile")
     public HWFileModel getHWFileModel(){
         return new HWFileModel();
     }
 
 
-    /*returns the right assignment page*/
+    /**
+     * loadAssigments - loads the tab for assignment
+     * @param session
+     * @return returns the right assignment page
+     */
     @RequestMapping(value="/assignments", method = RequestMethod.GET)
     public String loadAssignments(HttpSession session) {
         return "tabs/assignments";
@@ -80,12 +92,25 @@ public class AssignmentController {
         return am;
     }
 
+    /**
+     * getAssignment - gets an arraylist of all related description/information to a assignment
+     * @param crsId - course Id that was selected to view
+     * @param gradableType - type: homework
+     * @param session - current session of user
+     * @return an arraylist of information
+     */
     @RequestMapping(value="/getAssignments", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<AssignmentModel> getAssignments(Integer crsId, String gradableType, HttpSession session) {
         return new AssignmentDAO().getAssignments(crsId, gradableType, (int)session.getAttribute("id"));
     }
 
+    /**
+     * deleteAssignment - deletes a selected assignment
+     * @param assignment - the selected assignment to be deleted
+     * @param session - current session of user
+     * @return number of rows affected
+     */
     @RequestMapping(value="/deleteAssignment", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
     int deleteAssignment(@ModelAttribute("assignment") AssignmentModel assignment, HttpSession session) {

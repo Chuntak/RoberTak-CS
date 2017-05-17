@@ -34,7 +34,11 @@ public class DocumentController {
     }
 
 
-    /*returns the co rrent document page*/
+    /**
+     * uploadDocument - gets all fields and information load to the right tab
+     * @param session - current session of user
+     * @return the document tab
+     */
     @RequestMapping(value="/documents", method = RequestMethod.GET)
     public String loadDocuments(HttpSession session) {
         return "tabs/documents";
@@ -52,7 +56,12 @@ public class DocumentController {
         return new DocumentDAO().uploadDocument(document);
     }
 
-    /*update DOCUMENT*/
+    /**
+     * updateDocument - adds or edit a document
+     * @param document - document model fields
+     * @param session - current session of user
+     * @return document model with all fields updates and added
+     */
     @RequestMapping(value="/updateDocument", method = RequestMethod.GET , produces="application/json")
     public @ResponseBody
     boolean updateDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
@@ -60,14 +69,24 @@ public class DocumentController {
         return dm != null;
     }
 
-    /*Delete DOCUMENT*/
+    /**
+     * deleteDocument - delete a specific document
+     * @param document - selected document to be deleted
+     * @param session - current session of user
+     * @return the number of rows affected
+     */
     @RequestMapping(value="/deleteDocument", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
     boolean deleteDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {
         return new DocumentDAO().deleteDocument(document);
     }
 
-    /*GET DOCUMENT*/
+    /**
+     * getDocument - gets the fields of all documents
+     * @param document document model to obtain fields for document
+     * @param session - current session of user
+     * @return an arraylist of all docuemnts with fields
+     */
     @RequestMapping(value="/getDocument", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<DocumentModel> getDocument(@ModelAttribute("document") DocumentModel document, HttpSession session) {

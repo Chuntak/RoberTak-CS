@@ -32,6 +32,12 @@ public class CourseController {
         return new CourseModel();
     }
 
+    /**
+     * updateIsOwner - check if owner
+     * @param isOwner - boolean value
+     * @param session - current session of user
+     * @return true or false if owner
+     */
     @RequestMapping(value="/updateIsOwner", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody boolean updateIsOwner(@RequestParam(value = "isOwner") boolean isOwner, HttpSession session){
         session.setAttribute("isOwner", isOwner);
@@ -55,25 +61,47 @@ public class CourseController {
         return tmp;
     }
 
-    /*gets the course returns the arraylist course can return professor names/email*/
+    /**
+     * getCourse - get the course fields
+     * @param session - current session of user
+     * @return an arraylist of all courses fields
+     */
     @RequestMapping(value="/getCourse", method = RequestMethod.GET)
     public @ResponseBody ArrayList<CourseModel> getCourse(HttpSession session) {
         return new CourseDAO().getCourse((Integer)session.getAttribute("id"));
     }
 
-    /*removes the course*/
+    /**
+     * deleteCourse - deletes a selected course
+     * @param course - course to be deleted
+     * @param session - current session of user
+     * @return number of rows affected
+     */
     @RequestMapping(value="/deleteCourse", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody boolean deleteCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
         return new CourseDAO().deleteCourse(course);
     }
 
-    /*enroll in course*/
+
+    /**
+     * enrollCourse - enroll to a course
+     * @param course - courseModel with getters and setters
+     * @param session - current session of user
+     * @return the courseModel with fields
+     */
     @RequestMapping(value="/enrollCourse", method = RequestMethod.GET)
     public @ResponseBody CourseModel enrollCourse(@ModelAttribute("course") CourseModel course, HttpSession session) {
         return new CourseDAO().enrollCourse((Integer)session.getAttribute("id"),course);
     }
 
 
+    /**
+     * searchCourse - user can search a specific course by any fields thats within the model
+     * @param course - courseModel with getters and setters
+     * @param tagNames - arraylist of all tags
+     * @param session - current session of user
+     * @return the search result in arraylist
+     */
     @RequestMapping(value="/searchCourse", method = RequestMethod.GET)
     public @ResponseBody ArrayList<CourseModel> searchCourse(@ModelAttribute("course") CourseModel course,
                                  @RequestParam(value = "tagNames", required = false) ArrayList<String> tagNames,HttpSession session) {

@@ -30,25 +30,41 @@ public class GradeController {
         this.BackpackService = BackpackService;
     }
 
-    /*model*/
+    /**
+     * getAnnouncementModel - announcement model
+     * @return model with fields
+     */
     @ModelAttribute("announcement")
     public GradeModel getAnnouncementModel(){
         return new GradeModel();
     }
 
-    /*model*/
+
+    /**
+     * getGradabable - gradable model
+     * @return model with fields
+     */
     @ModelAttribute("gradable")
     public GradableModel getGradableModel(){
         return new GradableModel();
     }
 
-    /*returns the cUrrent grades page*/
+    /**
+     * loadGrades - get the current tab to be loaded
+     * @param session - current session of user
+     * @return the current tab
+     */
     @RequestMapping(value="/grades", method = RequestMethod.GET)
     public String loadGrades(HttpSession session) {
         return "tabs/grades";
     }
 
-    /*gets the grades returns the arraylist grades of that gradable*/
+    /**
+     * getGrade - gets the model fields
+     * @param grade - get the grade model
+     * @param session - current session of user
+     * @return grade model with fields
+     */
     @RequestMapping(value="/getGrade", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<GradeModel> getGrade(@ModelAttribute("grade") GradeModel grade, HttpSession session) {
@@ -59,7 +75,12 @@ public class GradeController {
     }
 
 
-    /*Updates GRADE*/
+    /**
+     * updateGrade - add/edit grades
+     * @param grade - grade fields to be edit or add
+     * @param session - current session of user
+     * @return the model with field
+     */
     @RequestMapping(value="/updateGrade", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
     GradeModel updateGrade(@ModelAttribute("grade") GradeModel grade, HttpSession session){
@@ -74,13 +95,23 @@ public class GradeController {
 
     /*********************  GRADABLE  ********************/
 
-    /*returns the current grades page*/
+    /**
+     * loadGradable - get the current tab
+     * @param session - current session of user
+     * @return the current tab to be loaded
+     */
     @RequestMapping(value="/gradable", method = RequestMethod.GET)
     public String loadGradable(HttpSession session) {
         return "tabs/grades";
     }
 
-    /*gets the course returns the arraylist course can return professor names/email*/
+
+    /**
+     * getGradable - get the fields of the gradable model
+     * @param gradable - gradable model with fields
+     * @param session - current session of user
+     * @return the model with fields
+     */
     @RequestMapping(value="/getGradable", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<GradableModel> getGradable(@ModelAttribute("gradable") GradableModel gradable, HttpSession session) {
@@ -88,6 +119,13 @@ public class GradeController {
     }
 
     /*update GRADABLE*/
+
+    /**
+     * updateGradable - add/edit new gradables
+     * @param gradable - fields of the gradable
+     * @param session - current session of user
+     * @return the model with fields
+     */
     @RequestMapping(value="/updateGradable", method = RequestMethod.GET , produces="application/json")
     public @ResponseBody
     GradableModel updateGradable(@ModelAttribute("gradable") GradableModel gradable, HttpSession session) {
@@ -96,6 +134,13 @@ public class GradeController {
     }
 
     /*Delete GRADABLE*/
+
+    /**
+     * deleteGradable - deletes selected gradable
+     * @param gradable - selected gradable to be deleted
+     * @param session - current session of user
+     * @return the number of rows affected
+     */
     @RequestMapping(value="/deleteGradable", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody
     boolean deleteGradable(@ModelAttribute("gradable") GradableModel gradable, HttpSession session) {
