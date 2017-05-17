@@ -140,7 +140,7 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
                 "difficulty" : "hard",
                 "hwBlobName" : response.hwBlobName,
                 "hwDownloadLink" : response.hwDownloadLink,
-                "hwFileName" : "",
+                "hwFileName" : response.hwFileName,
                 "submittable" : response.submittable,
                 "date" : newAsgmt.date,
                 "time" : newAsgmt.time
@@ -215,5 +215,10 @@ app.controller('assignmentsCtrl', function ($scope, $http, global, httpAssignmen
         /*PUT BACK THE DISPLAY ON*/
         document.getElementById("asgmtViewer" + index).style.display = 'initial';
     };
+
+    $scope.cancelAdd = function(){
+        $scope.newAsgmt = {};
+        $('#createAsgmt').attr("disabled", false);
+    }
 });
 

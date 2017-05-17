@@ -204,4 +204,10 @@ angular.module('homeApp').controller('docCtrl', function ($scope, $http, global)
         /*PUT BACK THE DISPLAY ON*/
         document.getElementById("documentViewer" + index).style.display = 'initial';
     };
+
+    $scope.cancelAdd = function(){
+        $scope.document = {};
+        $('#createDocument').attr("disabled", false);
+        // $('#documentForm').fadeToggle('fast');
+    }
 });

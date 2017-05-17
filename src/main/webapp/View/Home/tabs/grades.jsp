@@ -94,7 +94,7 @@
                         <%-- SUBMIT FORM & CANCEL BTNS --%>
                     <div class="col-xs-12 gradable-btns">
                         <p><input type="submit" class="btn btn-default" ng-click="updateGradable(gradable)"/>
-                            <button class="btn btn-default" data-toggle="collapse" data-target="#gradableForm">Cancel</button></p>
+                            <button class="btn btn-default" data-toggle="collapse" data-target="#gradableForm" ng-click="cancelAdd(gradable)">Cancel</button></p>
                     </div>
                 </div>
             </div>
@@ -177,12 +177,12 @@
                             <%-- TYPE SELECTOR --%>
                             <div class="col-xs-4">
                                 <form class="form-inline select-type">
-                                    <label class="mr-sm-2" for="inlineFormCustomSelect1">Choose Type:  </label>
-                                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect1" id="type{{$index}}" ng-value="gradable.gradableType">
-                                        <option selected value="att">Attendance</option>
-                                        <option value="exam">Exam</option>
-                                        <option value="ec" >Extra Credit</option>
-                                        <option value="other">Other</option>
+                                    <label class="mr-sm-2">Choose Type:  </label>
+                                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="type{{$index}}" ng-value="gradable.gradableType">
+                                        <option selected value="att" ng-select="gradable.gradableType">Attendance</option>
+                                        <option value="exam" ng-select="gradable.gradableType">Exam</option>
+                                        <option value="ec" ng-select="gradable.gradableType">Extra Credit</option>
+                                        <option value="other" ng-select="gradable.gradableType">Other</option>
                                     </select>
                                 </form>
                             </div>

@@ -25,28 +25,30 @@
                     </h4>
                 </div>
                 <div class="collapse" id="assignmentForm">
-                        <%-- FORM FOR NEW ASSIGNMENT --%>
+
+                    <%-- FORM FOR NEW ASSIGNMENT --%>
                     <form ng-submit="updateAssignment(newAsgmt)">
                         <div class="form-group asgmt-form">
-                                <%-- ASSIGNMENT TITLE --%>
+
+                            <%-- ASSIGNMENT TITLE --%>
                             <div class="col-xs-6">
                                 <label>Title: </label>
                                 <input type="text" class="form-control" ng-model="newAsgmt.title" placeholder="Title" required />
                             </div>
 
-                                <%-- MAX GRADE POSSIBLE --%>
+                            <%-- MAX GRADE POSSIBLE --%>
                             <div class="col-xs-6">
                                 <label>Maximum Grade: </label>
                                 <input placeholder="Maximum Grade" id="max-grade" required type="number" ng-model="newAsgmt.maxGrade" class="form-control">
                             </div>
 
-                                <%-- ASSIGNMENT DESCRIPTION --%>
+                            <%-- ASSIGNMENT DESCRIPTION --%>
                             <div class="col-xs-12">
                                 <label class="label-padding">Description: </label>
                                 <textarea required class="asgmt-form form-control" rows="5" ng-model="newAsgmt.description" placeholder="Write description here"></textarea>
                             </div>
 
-                                <%-- DATE PICKER --%>
+                            <%-- DATE PICKER --%>
                             <div class="col-xs-6">
                                 <label class="label-padding">Due Date: </label>
                                 <div class="input-group date asgmt-form" id="datepicker" data-provide="datepicker">
@@ -58,7 +60,7 @@
                                 </div>
                             </div>
 
-                                <%-- TIME PICKER --%>
+                            <%-- TIME PICKER --%>
                             <div class="col-xs-6">
                                 <label class="label-padding">Due Time: </label>
                                 <div class="input-group bootstrap-timepicker timepicker asgmt-form">
@@ -70,10 +72,14 @@
 
                                 <%-- FILE CHOOSER (NOT REQUIRED) --%>
                             <div class="col-xs-4 label-padding">
+                                <%-- OPTION TO UPLOAD A FILE --%>
                                 <label class="asgmt-form btn btn-default btn-file">Browse
+                                    <%-- CHANGE TO UPLOADED FILENAME--%>
                                     <input type="file" class="hidden" file-model="newAsgmt.file" onchange="$('#upload-file-info').html($(this).val());">
                                 </label>
+                                <%-- DISPLAY WHEN NO FILES ARE UPLOADED --%>
                                 <span class='label label-info' id="upload-file-info">No files uploaded</span>
+                                <%-- REMOVE FILE UPLOADED --%>
                                 <span class="btn btn-danger btn-sm glyphicon glyphicon-remove" ng-if="newAsgmt.file"  ng-click="newAsgmt.file = null;" onclick="$('#upload-file-info').html('No files uploaded');"></span>
                             </div>
 
@@ -86,7 +92,7 @@
                                 <%-- SUBMIT FORM & CANCEL BTNS --%>
                             <div class="asgmt-btns">
                                 <button type="submit" class="btn btn-default asgmt-btn">Submit</button>
-                                <button class="btn btn-default asgmt-btn" data-toggle="collapse" data-target="#assignmentForm">Cancel</button>
+                                <button class="btn btn-default asgmt-btn" data-toggle="collapse" data-target="#assignmentForm" ng-click="cancelAdd(newAsgmt)">Cancel</button>
                             </div>
                         </div>
                     </form>
@@ -107,7 +113,13 @@
         <%-- DISPLAY DESCRIPTION FOR ASSIGNMENT--%>
         <h3 ng-bind="asgmt.title"></h3>
         <h6 ng-bind="'Due ' + asgmt.dueDate"></h6>
-        <label>Download Link: </label> <a href="{{asgmt.hwDownloadLink}}" ng-bind="asgmt.hwFileName"></a>
+
+        <%-- IF FILE EXIST --%>
+        <div ng-if="asgmt.hwFileName!=null">
+            <label>Download Link: </label> <a href="{{asgmt.hwDownloadLink}}" ng-bind="asgmt.hwFileName"></a>
+        </div>
+        <%-- IF FILE DOES NOT EXIST --%>
+        <div ng-if="asgmt.hwFileName==null"><label>Download Link: </label> No file uploaded</div>
         <p ng-bind="asgmt.description" class="descr-padding"></p>
 
         <c:choose>
@@ -170,17 +182,32 @@
 
                 <%-- FILE CHOOSER (NOT REQUIRED) --%>
                 <div class="col-xs-4 label-padding">
-                    <label class="asgmt-form btn btn-default btn-file">
-                        Browse <input type="file" class="hidden" file-model="asgmt.file" onchange="$('#upload-file-info1').html($(this).val());">
-                    </label>
-                    <span class='label label-info' id="upload-file-info1">No files uploaded</span>
+                    <%-- IF FILE EXIST --%>
+                    <div ng-if="asgmt.hwFileName!=null">
+                        <%-- OPTION TO UPLOAD FILE --%>
+                        <label class="asgmt-form btn btn-default btn-file">
+                            Browse <input type="file" class="hidden" file-model="asgmt.file" onchange="$('#upload-file-info1').html($(this).val());">
+                        </label>
+                        <span class='label label-info' id="upload-file-info1" ng-model="asgmt.hwFileName">{{asgmt.hwFileName}}</span>
+                    </div>
+                    <%-- IF FILE DOES NOT EXIST --%>
+                    <div ng-if="asgmt.hwFileName==null">
+                        <%-- OPTION TO UPLOAD FILE --%>
+                        <label class="asgmt-form btn btn-default btn-file">
+                            Browse <input type="file" class="hidden" file-model="asgmt.file" onchange="$('#upload-file-info1').html($(this).val());">
+                        </label>
+                        <span class='label label-info' id="upload-file-info1">No files uploaded</span>
+                    </div>
+
+                    <%-- REMOVE BUTTON --%>
                     <span class="btn btn-danger btn-sm glyphicon glyphicon-remove" ng-if="asgmt.file"  ng-click="newAsgmt.file = null;" onclick="$('#upload-file-info1').html('No files uploaded');"></span>
                 </div>
 
                 <%-- CHECKBOX FOR SUBMITTABLE --%>
                 <div class="col-xs-2 label-padding">
                     <span class="checkbox">
-                        <label class="checkbox" ng-model="asgmt.submittable" type="checkbox"><input type="checkbox" id="checkSub{{$index}}" ng-checked="asgmt.submittable">Submittable</label>
+                        <label class="checkbox" ng-model="asgmt.submittable" type="checkbox">
+                            <input type="checkbox" id="checkSub{{$index}}" ng-checked="asgmt.submittable">Submittable</label>
                     </span>
                 </div>
 

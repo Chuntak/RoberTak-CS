@@ -39,13 +39,14 @@
                                 <label class="label-padding">Description: </label>
                                 <textarea placeholder="Description" ng-model="document.description" class="doc-edit"></textarea>
                             </div>
-                                <%--FILE UPLOAD--%>
+
+                            <%--FILE UPLOAD--%>
                             <input type="file" file-model="document.file" class="pickFileBtn"/>
 
                                 <%-- SUBMIT FORM AND CANCEL BTNS--%>
                             <div class="document-btns">
-                                <button id="docSubmit" type="button" class="btn btn-default">Upload Document</button>
-                                <input type="button" value="Cancel" data-toggle="collapse" data-target="#DocumentForm" class="btn btn-default"/>
+                                <button id="docSubmit" type="submit" class="btn btn-default">Upload Document</button>
+                                <input type="button" value="Cancel" data-toggle="collapse" data-target="#documentForm" class="btn btn-default" ng-click="cancelAdd()"/>
                             </div>
                         </div>
                     </form>
@@ -63,9 +64,9 @@
                 <%--<&-- IF PROFESSOR, APPLY THIS FUNCTIONALITY --&>--%>
                 <c:when test="${userType eq 'prof' && isOwner eq true}">
                             <%--<!-- DELETE DOCUMENT BUTTON-->--%>
-                        <btn class="badge btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show" ng-click="deleteDocument(document)"></btn>
+                        <btn class="badge btn-md col-sm-1 glyphicon glyphicon-trash clickable on-show funcBtn" ng-click="deleteDocument(document)"></btn>
                             <%--<!-- EDIT DOCUMENT BUTTON-->--%>
-                        <btn class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show" data-toggle="collapse" data-target="#editDocument{{$index}}" ng-click="editDocument(document,$index)"></btn>
+                        <btn class="badge btn-md col-sm-1 glyphicon glyphicon-pencil clickable on-show funcBtn" data-toggle="collapse" data-target="#editDocument{{$index}}" ng-click="editDocument(document,$index)"></btn>
                 </c:when>
             </c:choose>
 

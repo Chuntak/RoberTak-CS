@@ -301,6 +301,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         document.getElementById("description" + index).value = gradable.description;
         document.getElementById("date" + index).value = gradable.date;
         document.getElementById("timepicker1" + index).value = gradable.time;
+        document.getElementById("type" + index).value = gradable.gradableType;
     };
 
     /* EDIT GRADE DESCRIPTION/INFORMATION */
@@ -311,6 +312,7 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         gradable.description = document.getElementById("description" + index).value;
         gradable.date = document.getElementById("date" + index).value;
         gradable.time = document.getElementById("timepicker1" + index).value;
+        gradable.gradableType = document.getElementById("type" + index).value;
 
         var y = $http.get("/updateGradable",{
             transformRequest: angular.identity,
@@ -468,4 +470,8 @@ app.controller('gradesCtrl', function ($scope, $http, $state, global, httpGradeF
         document.getElementById("gradableViewer" + index).style.display = 'initial';
     };
 
+    $scope.cancelAdd = function(){
+        $scope.gradable = {};
+        $('#createGradable').attr("disabled", false);
+    }
 });
