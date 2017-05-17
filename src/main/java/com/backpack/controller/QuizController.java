@@ -53,7 +53,13 @@ public class QuizController {
 
     @RequestMapping(value="/getQuiz", method = RequestMethod.GET)
     public @ResponseBody ArrayList<QuizModel> getQuiz(@ModelAttribute("quiz") QuizModel quiz, HttpSession session){
-        ArrayList<QuizModel> qml = new QuizDAO().getQuiz(quiz);
+        ArrayList<QuizModel> qml = new QuizDAO().getAllQuiz(quiz);
+        return qml;
+    }
+
+    @RequestMapping(value="/getStudQuiz", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<QuizModel> getStudQuiz(@ModelAttribute("quiz") QuizModel quiz, HttpSession session){
+        ArrayList<QuizModel> qml = new QuizDAO().getStudQuiz(quiz, (int) session.getAttribute("id"));
         return qml;
     }
 

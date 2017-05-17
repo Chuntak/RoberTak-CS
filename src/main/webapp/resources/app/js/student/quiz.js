@@ -28,7 +28,7 @@ app.factory('httpQuizFactory', function($http, global) {
     /*GET ALL QUIZ FOR THE COURSE*/
     properties.getQuiz = function() {
         var parameters = {"courseId" : global.getCourseId()};
-        return $http.get("/getQuiz", { params : parameters });
+        return $http.get("/getStudQuiz", { params : parameters });
     };
 
     /*GET QUIZ CONTENT, GIVES THE TAGS AND QUESTIONS*/
@@ -39,7 +39,12 @@ app.factory('httpQuizFactory', function($http, global) {
 
     /*SAVES THE ANSWER TO A PROBLEM*/
     properties.saveAnswer = function(problem) {
-        var parameters = { problemId : problem.problemId, quizId : global.getQuizId(), answer : problem.answer };
+        /*IF PROBLEM IS SOMETHING*/
+        if(problem) {
+            var parameters = {problemId: problem.problemId, quizId: global.getQuizId(), answer: problem.answer};
+        } else {
+            return;
+        }
         return $http.get("/updateStudentAnsForProbInQuiz", { params : parameters });
     };
 
@@ -93,11 +98,23 @@ app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFa
     $scope.problemList = [];
     $scope.problemPage = 1;
     var lastProblemPage = $scope.problemPage;
-    $scope.itemsPerPage = 1;
+    $scope.quizNotAvaliable = false;
+    $scope.studentGrade = -1;
+    $scope.modalMessage = "";
     httpQuizFactory.getQuizProblem(global.getQuizId()).success(function(response){
-        $scope.problemList = response;
+        if(response === "") {
+            $scope.quizNotAvaliable = true;
+        } else {
+            $scope.problemList = response;
+        }
     }).error(function(response) {
         console.log("getQuizProblem");
+    });
+
+    /*CATCH ON MODAL EXIT*/
+    $("#confirmationModal").on("hidden.bs.modal", function () {
+        /*FORCE MOVE TO QUIZ PAGE*/
+        $("#modalFinishId").click();
     });
 
     /*SAVE ANSWER*/
@@ -121,16 +138,17 @@ app.controller('quizTakCtrl',function ($scope, $http, $state, global, httpQuizFa
                     modalMessage = modalMessage + (uncompletedQuestions[x] + 1) + ", ";
                 }
             }
-            $scope.confirmationModalMessage = modalMessage;
+            $scope.modalMessage = modalMessage;
         } else {
-            $scope.confirmationModalMessage = "All questions have been completed";
+            $scope.modalMessage = "All questions have been completed";
         }
         $('#confirmationModal').modal('show');
     };
 
     $scope.submitQuiz = function() {
         httpQuizFactory.submitQuiz($scope.problemList[lastProblemPage-1]).success(function(response){
-            lastProblemPage = $scope.problemPage;
+            $scope.studentGrade = response;
+            $scope.modalMessage = "You got " + response + "/100 on this quiz!";
         }).error(function(response) {
             console.log("save answer error");
         });

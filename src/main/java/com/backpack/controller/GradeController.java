@@ -52,6 +52,9 @@ public class GradeController {
     @RequestMapping(value="/getGrade", method = RequestMethod.GET)
     public @ResponseBody
     ArrayList<GradeModel> getGrade(@ModelAttribute("grade") GradeModel grade, HttpSession session) {
+        if(grade.getGradableId() == 0){
+            grade.setId((int) session.getAttribute("id"));
+        }
         return new GradeDAO().getGrade(grade);
     }
 

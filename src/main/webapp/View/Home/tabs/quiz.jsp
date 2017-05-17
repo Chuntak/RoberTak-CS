@@ -129,7 +129,7 @@
                                         </div><br>
 
                                         <%-- PROFESSOR SELECTS THE ANSWER FROM THE CHOICES INPUTTED --%>
-                                        <label>Selected answer is:</label> {{question.answer.answerChoice}}
+                                        <label>Selected answer is :</label> {{question.answer.answerChoice}}
                                     </form>
 
                                     <%-- PROFESSOR ENTER POINT VALUE FOR THIS QUESTION --%>
@@ -272,7 +272,7 @@
                                                 <br>
 
                                                 <%-- PROFESSOR SELECTS THE ANSWER FROM THE CHOICES INPUTTED --%>
-                                                <label ng-bind="'Selected Answer is' + question.answer.answerChoice"></label>
+                                                <label ng-bind="'Selected Answer is ' + question.answer.answerChoice"></label>
                                             </form>
 
                                                 <%-- PROFESSOR ENTER POINT VALUE FOR THIS QUESTION --%>

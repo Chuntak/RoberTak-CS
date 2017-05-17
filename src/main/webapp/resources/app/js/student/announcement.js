@@ -30,6 +30,17 @@ app.factory('httpAnnouncementFactory', function($http, global) {
 /* ANNOUNCEMENT CONTROLLER */
 app.controller('announcementsCtrl', function ($scope, $http, $state, global, httpAnnouncementFactory) {
 
+    $scope.$watch(function(){
+        return global.getCourseId();
+    }, function(newValue, oldValue){
+        /* check if courseId has really changed */
+        if(newValue !== undefined && newValue !== 0 && newValue !== oldValue){
+            reloadData();
+        }
+    });
+    var reloadData = function(){
+        $state.reload();
+    };
     /* INIT ANNOUNCEMENT LIST */
     $scope.announcementList = [];
 

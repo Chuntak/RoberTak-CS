@@ -27,9 +27,23 @@ public class QuizDAO extends AssignmentDAO {
      * @param qm quiz model that contains the courseId
      * @return a list of quiz models for a course
      */
-    public ArrayList<QuizModel> getQuiz(QuizModel qm) {
+    public ArrayList<QuizModel> getAllQuiz(QuizModel qm) {
         String query = "call get_gradable(?,?,?)";
         ArrayList<QuizModel> qml = dbs.getJdbcTemplate().query(query, new Object[] {qm.getCourseId(), "quiz", 0}, new QuizModelExtractor());
+        return qml;
+    }
+
+    /**
+     * This gets the quizes from the database that
+     * are related to the course that the student
+     * did not submit
+     * @param qm quiz model that contains the courseId
+     * @param studentId the student id
+     * @return a list of quiz models for a course
+     */
+    public ArrayList<QuizModel> getStudQuiz(QuizModel qm, int studentId) {
+        String query = "call get_quiz(?,?)";
+        ArrayList<QuizModel> qml = dbs.getJdbcTemplate().query(query, new Object[] {qm.getCourseId(), studentId}, new QuizModelExtractor());
         return qml;
     }
 
@@ -189,6 +203,7 @@ public class QuizDAO extends AssignmentDAO {
      *  Gets the multiple choices for the problems in the problem list
      */
     private ArrayList<ProblemModel> getMultipleChoices(ArrayList<ProblemModel> pml, int quizId) {
+        if(pml == null) return null;
    /*PUT ALL IN HASHMAP FOR PUTTING QUIZ CHOICES FASTER*/
         HashMap<Integer, ProblemModel> pmh = new HashMap<Integer, ProblemModel>();
         for(ProblemModel pm : pml){
