@@ -16,7 +16,7 @@
     <meta name="author" content="">
     <%--Google Logout--%>
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="1035281966309-b4borhbj8b2i8vljn1q1sndtqg3rpvnq.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="549270371532-7hnbnbau4mrddu52vmvinh8adj900e4v.apps.googleusercontent.com">
     <%--Google Logout End--%>
     <%--Google Logout--%>
 
